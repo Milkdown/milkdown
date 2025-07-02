@@ -63,7 +63,7 @@ export const CopyButton = defineComponent<CopyButtonProps>({
       required: true,
     },
     copyIcon: {
-      type: Function,
+      type: String,
       required: true,
     },
     onCopy: {
