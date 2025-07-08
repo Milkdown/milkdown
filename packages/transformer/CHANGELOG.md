@@ -1,5 +1,19 @@
 # @milkdown/transformer
 
+## 7.15.1
+
+### Patch Changes
+
+- 547cb65: Milkdown patch version release.
+
+  ## Fix
+  - fix: 🐛 CJK heading id (#2012)
+  - fix: 🐛 prop copyIcon type error (#2010)
+
+- Updated dependencies [547cb65]
+  - @milkdown/exception@7.15.1
+  - @milkdown/prose@7.15.1
+
 ## 7.15.0
 
 ### Minor Changes

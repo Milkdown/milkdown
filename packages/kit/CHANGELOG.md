@@ -1,5 +1,35 @@
 # @milkdown/kit
 
+## 7.15.1
+
+### Patch Changes
+
+- 547cb65: Milkdown patch version release.
+
+  ## Fix
+  - fix: 🐛 CJK heading id (#2012)
+  - fix: 🐛 prop copyIcon type error (#2010)
+
+- Updated dependencies [547cb65]
+  - @milkdown/components@7.15.1
+  - @milkdown/core@7.15.1
+  - @milkdown/ctx@7.15.1
+  - @milkdown/plugin-block@7.15.1
+  - @milkdown/plugin-clipboard@7.15.1
+  - @milkdown/plugin-cursor@7.15.1
+  - @milkdown/plugin-history@7.15.1
+  - @milkdown/plugin-indent@7.15.1
+  - @milkdown/plugin-listener@7.15.1
+  - @milkdown/plugin-slash@7.15.1
+  - @milkdown/plugin-tooltip@7.15.1
+  - @milkdown/plugin-trailing@7.15.1
+  - @milkdown/plugin-upload@7.15.1
+  - @milkdown/preset-commonmark@7.15.1
+  - @milkdown/preset-gfm@7.15.1
+  - @milkdown/prose@7.15.1
+  - @milkdown/transformer@7.15.1
+  - @milkdown/utils@7.15.1
+
 ## 7.15.0
 
 ### Minor Changes

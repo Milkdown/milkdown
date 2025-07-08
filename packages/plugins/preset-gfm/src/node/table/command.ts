@@ -112,11 +112,20 @@ export const moveRowCommand = $command(
     ({ from, to, pos }: { from?: number; to?: number; pos?: number } = {}) =>
     (state, dispatch) => {
       const { tr } = state
-      const result = dispatch?.(
-        moveRow({ tr, origin: from ?? 0, target: to ?? 0, pos, select: true })
-      )
+      if (
+        moveRow({
+          tr,
+          origin: from ?? 0,
+          target: to ?? 0,
+          pos: pos ?? state.selection.from,
+          select: true,
+        })
+      ) {
+        dispatch?.(tr)
+        return true
+      }
 
-      return Boolean(result)
+      return false
     }
 )
 
@@ -133,11 +142,20 @@ export const moveColCommand = $command(
     ({ from, to, pos }: { from?: number; to?: number; pos?: number } = {}) =>
     (state, dispatch) => {
       const { tr } = state
-      const result = dispatch?.(
-        moveCol({ tr, origin: from ?? 0, target: to ?? 0, pos, select: true })
-      )
+      if (
+        moveCol({
+          tr,
+          origin: from ?? 0,
+          target: to ?? 0,
+          pos: pos ?? state.selection.from,
+          select: true,
+        })
+      ) {
+        dispatch?.(tr)
+        return true
+      }
 
-      return Boolean(result)
+      return false
     }
 )
 
