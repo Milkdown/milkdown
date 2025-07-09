@@ -2,7 +2,7 @@
   "name": "@milkdown/monorepo",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@10.12.4",
+  "packageManager": "pnpm@10.13.1",
   "engines": {
     "node": ">=17"
   },
