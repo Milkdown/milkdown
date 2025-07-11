@@ -54,11 +54,16 @@ test('should be able to drag and drop a column', async ({ page }) => {
   const colPicker = pom.colPicker()
   await expect(colPicker).toBeVisible()
 
-  const { x: originX, y: originY } = await colPicker.evaluate((el) => {
+  const {
+    x: originX,
+    y: originY,
+    height,
+  } = await colPicker.evaluate((el) => {
     const rect = el.getBoundingClientRect()
     return {
       x: rect.x + rect.width / 2,
-      y: rect.y,
+      y: rect.y + rect.height / 2,
+      height: rect.height,
     }
   })
 
@@ -69,7 +74,8 @@ test('should be able to drag and drop a column', async ({ page }) => {
 
   await page.mouse.move(originX, originY)
   await page.mouse.down()
-  await page.mouse.move(targetX, originY, { steps: 10 })
+  // try to move the mouse out of the table to make sure it works
+  await page.mouse.move(targetX, originY - height, { steps: 10 })
   await waitNextFrame(page)
 
   const previewTable = pom.previewTable()
