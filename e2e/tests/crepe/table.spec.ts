@@ -70,6 +70,7 @@ test('should be able to drag and drop a column', async ({ page }) => {
   await page.mouse.move(originX, originY)
   await page.mouse.down()
   await page.mouse.move(targetX, originY, { steps: 10 })
+  await waitNextFrame(page)
 
   const previewTable = pom.previewTable()
   await expect(previewTable).toHaveAttribute('data-direction', 'horizontal')
