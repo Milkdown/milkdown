@@ -24,6 +24,15 @@ test('italic with *', async ({ page }) => {
   expect(markdown).toBe('The lunatic is *on the grass*\n')
 })
 
+test('italics with intra-word _', async ({ page }) => {
+  const editor = page.locator('.editor')
+  await focusEditor(page)
+  await page.keyboard.type('the_lunatic_is_on_the_grass')
+  await expect(editor.locator('em')).toHaveCount(0)
+  const markdown = await getMarkdown(page)
+  expect(markdown).toBe('the\\_lunatic\\_is\\_on\\_the\\_grass\n')
+})
+
 test('italic with a single character', async ({ page }) => {
   const editor = page.locator('.editor')
   await focusEditor(page)
