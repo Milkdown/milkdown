@@ -23,6 +23,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: git-town/action@v1.2.1
+      - uses: git-town/action@v1.3.0
         with:
           history-limit: 50
