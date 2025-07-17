@@ -8,6 +8,7 @@
     "preview": "vite preview",
     "serve": "serve lib --listen 4173 -L",
     "test": "playwright test",
+    "test:debug": "playwright test --ui",
     "test:install": "playwright install --with-deps"
   },
   "dependencies": {
