@@ -91,7 +91,7 @@ withMeta(emphasisStarInputRule, {
 
 /// Input rule for use `_` to create emphasis mark.
 export const emphasisUnderscoreInputRule = $inputRule((ctx) => {
-  return markRule(/(?:^|[^_])_([^_]+)_$/, emphasisSchema.type(ctx), {
+  return markRule(/\b_(?![_\s])(.*?[^_\s])_\b/, emphasisSchema.type(ctx), {
     getAttr: () => ({
       marker: '_',
     }),
