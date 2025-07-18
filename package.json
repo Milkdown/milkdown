@@ -13,6 +13,7 @@
     "test:lint": "oxlint -c .oxlintrc.json",
     "test:eslint": "eslint . --cache",
     "test:e2e": "pnpm --filter=@milkdown/e2e test",
+    "test:e2e:debug": "pnpm --filter=@milkdown/e2e run test:debug",
     "test:e2e:build": "pnpm --filter=@milkdown/e2e run build",
     "format": "lint-staged",
     "fix": "prettier . --write",
