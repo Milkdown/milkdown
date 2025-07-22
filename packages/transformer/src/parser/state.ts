@@ -47,7 +47,7 @@ export class ParserState extends Stack<Node, ParserStackElement> {
   }
 
   /// @internal
-  protected constructor(schema: Schema) {
+  constructor(schema: Schema) {
     super()
     this.schema = schema
   }
