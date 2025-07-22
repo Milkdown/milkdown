@@ -156,4 +156,35 @@ describe('serializer-state', () => {
       ],
     })
   })
+
+  it('trim spaces around marks', () => {
+    const state = new SerializerState(schema)
+
+    state.openNode('doc')
+    state.openNode('paragraph')
+    // Open a bold mark, add a text node with surrounding spaces, then close the mark
+    state.withMark(boldMark, 'bold')
+    state.addNode('text', [], ' hello ')
+    state.closeMark(boldMark)
+    state.closeNode() // close paragraph
+
+    // Expect SerializerState to move the spaces outside of the mark node.
+    expect(state.top()).toMatchObject({
+      type: 'doc',
+      children: [
+        {
+          type: 'paragraph',
+          children: [
+            { type: 'text', value: ' ' },
+            {
+              type: 'bold',
+              isMark: true,
+              children: [{ type: 'text', value: 'hello' }],
+            },
+            { type: 'text', value: ' ' },
+          ],
+        },
+      ],
+    })
+  })
 })
