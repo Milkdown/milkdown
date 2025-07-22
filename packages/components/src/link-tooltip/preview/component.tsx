@@ -60,8 +60,12 @@ export const PreviewLink = defineComponent<PreviewLinkProps>({
 
     return () => {
       return (
-        <div class="link-preview" onPointerdown={onClickPreview}>
-          <Icon class="link-icon" icon={config.value.linkIcon} />
+        <div class="link-preview">
+          <Icon
+            class="button link-icon"
+            icon={config.value.linkIcon}
+            onClick={onClickPreview}
+          />
           <a href={src.value} target="_blank" class="link-display">
             {src.value}
           </a>
