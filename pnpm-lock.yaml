@@ -275,7 +275,7 @@ importers:
         specifier: workspace:*
         version: link:../packages/utils
       '@playwright/test':
-        specifier: ^1.53.0
+        specifier: ^1.54.1
         version: 1.54.1
       '@types/node':
         specifier: ^22.0.0
