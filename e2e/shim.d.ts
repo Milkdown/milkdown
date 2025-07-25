@@ -1,3 +1,4 @@
+/* oxlint-disable no-var */
 /// <reference types="vite/client" />
 
 import type { Editor, commandsCtx } from '@milkdown/core'
