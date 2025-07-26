@@ -71,10 +71,7 @@ export const ListItem = defineComponent<ListItemProps>({
     const contentWrapperRef: VNodeRef = (div) => {
       if (div == null) return
       if (div instanceof Element) {
-        // Wait for the DOM to be updated on safari
-        setTimeout(() => {
-          onMount(div)
-        }, 0)
+        onMount(div)
       }
     }
 

@@ -44,13 +44,15 @@ export const listItemBlockView = $view(
           dom.classList.remove('selected')
         }
       })
+      let raf = 0
       const onMount = (div: HTMLElement) => {
         const { anchor, head } = view.state.selection
         div.appendChild(contentDOM)
         // put the cursor to the new created list item
-        requestAnimationFrame(() => {
-          const anchorPos = view.state.doc.resolve(anchor)
-          const headPos = view.state.doc.resolve(head)
+        const anchorPos = view.state.doc.resolve(anchor)
+        const headPos = view.state.doc.resolve(head)
+        raf = requestAnimationFrame(() => {
+          cancelAnimationFrame(raf)
           view.dispatch(
             view.state.tr.setSelection(new TextSelection(anchorPos, headPos))
           )
