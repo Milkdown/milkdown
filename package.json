@@ -51,7 +51,7 @@
     "@vitejs/plugin-vue-jsx": "^5.0.0",
     "autoprefixer": "^10.2.5",
     "concurrently": "^9.0.0",
-    "cross-env": "^7.0.3",
+    "cross-env": "^10.0.0",
     "esbuild": "^0.25.0",
     "eslint": "^9.24.0",
     "eslint-plugin-perfectionist": "^4.11.0",
