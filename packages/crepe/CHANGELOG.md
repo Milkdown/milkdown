@@ -1,5 +1,29 @@
 # @milkdown/crepe
 
+## 7.15.2
+
+### Patch Changes
+
+- c8fcf84: Milkdown patch version release.
+
+  ## Fix
+  - fix: 🐛 list component mount logic on safari (#2042)
+  - fix: 🐛 html in blockquote error (#2041)
+  - fix: 🐛 improve input rule of strong mark (#2036)
+  - fix: 🐛 trikethrough matching on intra-word tilde (#2031)
+  - fix: 🐛 emphasis matching on intra-word underscores (#2029)
+  - fix: 🐛 copy link event binding error (#2019)
+
+  ## Refactor
+  - refactor: 💡 improve implementation of table dnd (#2017)
+
+  ## Test
+  - test: 💍 add test case for trim spaces (#2035)
+  - test: 💍 add e2e for table (#2023)
+
+- Updated dependencies [c8fcf84]
+  - @milkdown/kit@7.15.2
+
 ## 7.15.1
 
 ### Patch Changes
