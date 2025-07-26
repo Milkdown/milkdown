@@ -38,6 +38,10 @@ function flatMapWithDepth(
   }
 }
 
+// List of container node types that can contain block-level content
+// and thus may need HTML content to be wrapped in paragraphs
+const BLOCK_CONTAINER_TYPES = ['root', 'blockquote', 'listItem']
+
 /// @internal
 /// This plugin should be deprecated after we support HTML.
 export const remarkHtmlTransformer = $remark(
@@ -46,7 +50,9 @@ export const remarkHtmlTransformer = $remark(
     flatMapWithDepth(tree, (node, _index, parent) => {
       if (!isHTML(node)) return [node]
 
-      if (parent?.type === 'root') {
+      // If the parent is a block container that expects block content,
+      // wrap the HTML in a paragraph node
+      if (parent && BLOCK_CONTAINER_TYPES.includes(parent.type)) {
         node.children = [{ ...node }]
         delete node.value
         ;(node as { type: string }).type = 'paragraph'
