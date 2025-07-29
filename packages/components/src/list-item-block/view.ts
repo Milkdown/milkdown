@@ -53,9 +53,9 @@ export const listItemBlockView = $view(
         const headPos = view.state.doc.resolve(head)
         raf = requestAnimationFrame(() => {
           cancelAnimationFrame(raf)
-          view.dispatch(
-            view.state.tr.setSelection(new TextSelection(anchorPos, headPos))
-          )
+          if (!anchorPos.doc.eq(view.state.doc)) return
+          const selection = new TextSelection(anchorPos, headPos)
+          view.dispatch(view.state.tr.setSelection(selection))
         })
       }
 
