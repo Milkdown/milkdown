@@ -5,7 +5,7 @@ import type { EditorView } from '@milkdown/prose/view'
 import { editorViewCtx } from '@milkdown/core'
 import { browser } from '@milkdown/prose'
 import { NodeSelection } from '@milkdown/prose/state'
-import throttle from 'lodash.throttle'
+import { throttle } from 'lodash-es'
 
 import type { FilterNodes } from './block-config'
 import type { ActiveNode } from './types'

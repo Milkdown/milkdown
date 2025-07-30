@@ -43,8 +43,8 @@
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
-    "@types/lodash.debounce": "^4.0.7",
-    "lodash.debounce": "^4.0.8",
+    "@types/lodash-es": "^4.17.12",
+    "lodash-es": "^4.17.21",
     "tslib": "^2.8.1"
   }
 }

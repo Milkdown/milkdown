@@ -11,7 +11,7 @@ import type { EditorView } from '@milkdown/prose/view'
 import { computePosition, flip, offset } from '@floating-ui/dom'
 import { findParentNode, posToDOMRect } from '@milkdown/prose'
 import { TextSelection } from '@milkdown/prose/state'
-import debounce from 'lodash.debounce'
+import { debounce } from 'lodash-es'
 
 /// Options for slash provider.
 export interface SlashProviderOptions {

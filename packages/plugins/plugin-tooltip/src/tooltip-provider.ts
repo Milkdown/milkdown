@@ -11,7 +11,7 @@ import type { EditorView } from '@milkdown/prose/view'
 import { computePosition, flip, offset, shift } from '@floating-ui/dom'
 import { posToDOMRect } from '@milkdown/prose'
 import { TextSelection } from '@milkdown/prose/state'
-import throttle from 'lodash.throttle'
+import { throttle } from 'lodash-es'
 
 /// Options for tooltip provider.
 export interface TooltipProviderOptions {
