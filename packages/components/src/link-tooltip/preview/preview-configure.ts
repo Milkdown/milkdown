@@ -2,7 +2,7 @@ import type { Ctx } from '@milkdown/ctx'
 import type { EditorView } from '@milkdown/prose/view'
 
 import { posToDOMRect } from '@milkdown/prose'
-import debounce from 'lodash.debounce'
+import { debounce } from 'lodash-es'
 
 import { linkTooltipState } from '../slices'
 import { linkPreviewTooltip } from '../tooltips'

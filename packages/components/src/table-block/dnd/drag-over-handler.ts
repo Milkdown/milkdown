@@ -1,5 +1,5 @@
 import { computePosition, offset } from '@floating-ui/dom'
-import throttle from 'lodash.throttle'
+import { throttle } from 'lodash-es'
 
 import type { Refs } from '../view/types'
 

@@ -43,8 +43,8 @@
     "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/utils": "workspace:*",
-    "@types/lodash.throttle": "^4.1.9",
-    "lodash.throttle": "^4.1.1",
+    "@types/lodash-es": "^4.17.12",
+    "lodash-es": "^4.17.21",
     "tslib": "^2.8.1"
   }
 }

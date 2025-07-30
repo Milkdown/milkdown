@@ -1,7 +1,7 @@
 import type { EditorView } from '@milkdown/prose/view'
 
 import { computePosition, offset } from '@floating-ui/dom'
-import throttle from 'lodash.throttle'
+import { throttle } from 'lodash-es'
 
 import type { Refs } from './types'
 

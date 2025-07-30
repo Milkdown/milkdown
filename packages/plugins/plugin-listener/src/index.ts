@@ -11,7 +11,7 @@ import {
 } from '@milkdown/core'
 import { createSlice } from '@milkdown/ctx'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
-import debounce from 'lodash.debounce'
+import { debounce } from 'lodash-es'
 
 /// The dictionary of subscribers of each event.
 export interface Subscribers {
