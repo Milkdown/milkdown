@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@10.14.0",
   "engines": {
-    "node": ">=17"
+    "node": ">=22"
   },
   "scripts": {
     "test": "pnpm test:lint && pnpm test:unit",
