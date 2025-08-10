@@ -7,7 +7,7 @@ if (!document.elementFromPoint) {
 
 // Mock getClientRects for all elements
 Object.defineProperty(Element.prototype, 'getClientRects', {
-  value: function() {
+  value: function () {
     return {
       length: 0,
       item: () => null,
@@ -17,7 +17,7 @@ Object.defineProperty(Element.prototype, 'getClientRects', {
 })
 
 Object.defineProperty(Element.prototype, 'getBoundingClientRect', {
-  value: function() {
+  value: function () {
     return {
       x: 0,
       y: 0,
@@ -34,7 +34,7 @@ Object.defineProperty(Element.prototype, 'getBoundingClientRect', {
 
 // Mock Range methods
 Object.defineProperty(Range.prototype, 'getClientRects', {
-  value: function() {
+  value: function () {
     return {
       length: 0,
       item: () => null,
@@ -44,7 +44,7 @@ Object.defineProperty(Range.prototype, 'getClientRects', {
 })
 
 Object.defineProperty(Range.prototype, 'getBoundingClientRect', {
-  value: function() {
+  value: function () {
     return {
       x: 0,
       y: 0,
@@ -61,5 +61,5 @@ Object.defineProperty(Range.prototype, 'getBoundingClientRect', {
 
 // Mock scrollIntoView
 Object.defineProperty(Element.prototype, 'scrollIntoView', {
-  value: function() {},
+  value: function () {},
 })
