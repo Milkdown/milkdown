@@ -73,6 +73,9 @@ importers:
       '@testing-library/jest-dom':
         specifier: ^6.6.3
         version: 6.6.4
+      '@testing-library/user-event':
+        specifier: ^14.6.1
+        version: 14.6.1(@testing-library/dom@10.4.1)
       '@types/node':
         specifier: ^22.0.0
         version: 22.17.0

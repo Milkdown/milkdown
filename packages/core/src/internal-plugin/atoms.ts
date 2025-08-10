@@ -63,6 +63,7 @@ export const remarkCtx: SliceType<RemarkParser, 'remark'> = createSlice(
 export const remarkStringifyOptionsCtx = createSlice(
   {
     handlers: remarkHandlers,
+    encode: [],
   } as Options,
   'remarkStringifyOptions'
 )
