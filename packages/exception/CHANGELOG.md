@@ -1,5 +1,17 @@
 # @milkdown/exception
 
+## 7.15.3
+
+### Patch Changes
+
+- 23f6a20: Milkdown patch version release.
+
+  ## Fix
+  - fix: 🐛 doc mismatch when mounting doc with list item (#2048)
+
+  ## Refactor
+  - refactor: 💡 replace all lodash libraries with lodash-es (#2050)
+
 ## 7.15.2
 
 ### Patch Changes
