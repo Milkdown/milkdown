@@ -1,5 +1,37 @@
 # @milkdown/kit
 
+## 7.15.3
+
+### Patch Changes
+
+- 23f6a20: Milkdown patch version release.
+
+  ## Fix
+  - fix: 🐛 doc mismatch when mounting doc with list item (#2048)
+
+  ## Refactor
+  - refactor: 💡 replace all lodash libraries with lodash-es (#2050)
+
+- Updated dependencies [23f6a20]
+  - @milkdown/components@7.15.3
+  - @milkdown/core@7.15.3
+  - @milkdown/ctx@7.15.3
+  - @milkdown/plugin-block@7.15.3
+  - @milkdown/plugin-clipboard@7.15.3
+  - @milkdown/plugin-cursor@7.15.3
+  - @milkdown/plugin-history@7.15.3
+  - @milkdown/plugin-indent@7.15.3
+  - @milkdown/plugin-listener@7.15.3
+  - @milkdown/plugin-slash@7.15.3
+  - @milkdown/plugin-tooltip@7.15.3
+  - @milkdown/plugin-trailing@7.15.3
+  - @milkdown/plugin-upload@7.15.3
+  - @milkdown/preset-commonmark@7.15.3
+  - @milkdown/preset-gfm@7.15.3
+  - @milkdown/prose@7.15.3
+  - @milkdown/transformer@7.15.3
+  - @milkdown/utils@7.15.3
+
 ## 7.15.2
 
 ### Patch Changes

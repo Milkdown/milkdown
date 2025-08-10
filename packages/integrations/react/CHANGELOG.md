@@ -1,5 +1,21 @@
 # @milkdown/react
 
+## 7.15.3
+
+### Patch Changes
+
+- 23f6a20: Milkdown patch version release.
+
+  ## Fix
+  - fix: 🐛 doc mismatch when mounting doc with list item (#2048)
+
+  ## Refactor
+  - refactor: 💡 replace all lodash libraries with lodash-es (#2050)
+
+- Updated dependencies [23f6a20]
+  - @milkdown/crepe@7.15.3
+  - @milkdown/kit@7.15.3
+
 ## 7.15.2
 
 ### Patch Changes
