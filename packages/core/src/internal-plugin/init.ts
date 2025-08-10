@@ -2,7 +2,7 @@ import type { MilkdownPlugin } from '@milkdown/ctx'
 
 import { createTimer } from '@milkdown/ctx'
 import remarkParse from 'remark-parse'
-import remarkStringify from 'remark-stringify'
+import remarkStringify, { type Options } from 'remark-stringify'
 import { unified } from 'unified'
 
 import type { Editor } from '../editor'
@@ -39,7 +39,8 @@ export function init(editor: Editor): MilkdownPlugin {
       .inject(markViewCtx, [])
       .inject(remarkStringifyOptionsCtx, {
         handlers: remarkHandlers,
-      })
+        encode: [],
+      } as Options)
       .inject(remarkCtx, unified().use(remarkParse).use(remarkStringify))
       .inject(initTimerCtx, [ConfigReady])
       .record(InitReady)
