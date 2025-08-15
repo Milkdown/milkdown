@@ -19,6 +19,7 @@
     { "path": "./packages/plugins/plugin-collab" },
     { "path": "./packages/plugins/plugin-cursor" },
     { "path": "./packages/plugins/plugin-emoji" },
+    { "path": "./packages/plugins/plugin-highlight" },
     { "path": "./packages/plugins/plugin-history" },
     { "path": "./packages/plugins/plugin-indent" },
     { "path": "./packages/plugins/plugin-listener" },
