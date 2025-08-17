@@ -1,4 +1,4 @@
-import type { Node } from '@milkdown/prose/model'
+import type { Node as ProsemirrorNode } from '@milkdown/prose/model'
 
 import {
   editorViewOptionsCtx,
@@ -78,7 +78,7 @@ export const clipboard = $prose((ctx) => {
         if (html.length === 0 && text.length === 0) return false
 
         const domParser = DOMParser.fromSchema(schema)
-        let dom
+        let dom: Node
         if (html.length === 0) {
           const slice = parser(text)
           if (!slice || typeof slice === 'string') return false
@@ -107,7 +107,7 @@ export const clipboard = $prose((ctx) => {
         const serializer = ctx.get(serializerCtx)
         const isText = isPureText(slice.content.toJSON())
         if (isText)
-          return (slice.content as unknown as Node).textBetween(
+          return (slice.content as unknown as ProsemirrorNode).textBetween(
             0,
             slice.content.size,
             '\n\n'
