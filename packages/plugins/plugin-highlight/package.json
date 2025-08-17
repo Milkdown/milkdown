@@ -16,6 +16,18 @@
   "exports": {
     ".": {
       "import": "./src/index.ts"
+    },
+    "./lowlight": {
+      "import": "./src/lowlight.ts"
+    },
+    "./refractor": {
+      "import": "./src/refractor.ts"
+    },
+    "./shiki": {
+      "import": "./src/shiki.ts"
+    },
+    "./sugar-high": {
+      "import": "./src/sugar-high.ts"
     }
   },
   "main": "./src/index.ts",
@@ -26,6 +38,22 @@
       ".": {
         "import": "./lib/index.js",
         "types": "./lib/index.d.ts"
+      },
+      "./lowlight": {
+        "import": "./lib/lowlight.js",
+        "types": "./lib/lowlight.d.ts"
+      },
+      "./refractor": {
+        "import": "./lib/refractor.js",
+        "types": "./lib/refractor.d.ts"
+      },
+      "./shiki": {
+        "import": "./lib/shiki.js",
+        "types": "./lib/shiki.d.ts"
+      },
+      "./sugar-high": {
+        "import": "./lib/sugar-high.js",
+        "types": "./lib/sugar-high.d.ts"
       }
     }
   },
@@ -43,5 +71,8 @@
     "@milkdown/utils": "workspace:*",
     "prosemirror-highlight": "^0.13.0",
     "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "sugar-high": "^0.9.3"
   }
 }

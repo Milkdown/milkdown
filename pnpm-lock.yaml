@@ -755,10 +755,14 @@ importers:
         version: link:../../utils
       prosemirror-highlight:
         specifier: ^0.13.0
-        version: 0.13.0(@shikijs/types@3.9.2)(@types/hast@3.0.4)(prosemirror-model@1.25.3)(prosemirror-state@1.4.3)(prosemirror-transform@1.10.4)(prosemirror-view@1.40.1)(refractor@5.0.0)
+        version: 0.13.0(@shikijs/types@3.9.2)(@types/hast@3.0.4)(prosemirror-model@1.25.3)(prosemirror-state@1.4.3)(prosemirror-transform@1.10.4)(prosemirror-view@1.40.1)(refractor@5.0.0)(sugar-high@0.9.3)
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
+    devDependencies:
+      sugar-high:
+        specifier: ^0.9.3
+        version: 0.9.3
 
   packages/plugins/plugin-history:
     dependencies:
@@ -5372,6 +5376,9 @@ packages:
     engines: {node: ^10 || ^12 || >=14.0}
     peerDependencies:
       postcss: ^8.2.15
+
+  sugar-high@0.9.3:
+    resolution: {integrity: sha512-sjJH8J76D1dRMU3QINnsYr1wfQyXbyEVQQvdgzJvIer6mkgM8ahB9fNrb+FDWzRKsLuITiBOR0ZbbhDZDUbqjg==}
 
   supports-color@7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
@@ -10100,7 +10107,7 @@ snapshots:
       prosemirror-state: 1.4.3
       prosemirror-view: 1.40.1
 
-  prosemirror-highlight@0.13.0(@shikijs/types@3.9.2)(@types/hast@3.0.4)(prosemirror-model@1.25.3)(prosemirror-state@1.4.3)(prosemirror-transform@1.10.4)(prosemirror-view@1.40.1)(refractor@5.0.0):
+  prosemirror-highlight@0.13.0(@shikijs/types@3.9.2)(@types/hast@3.0.4)(prosemirror-model@1.25.3)(prosemirror-state@1.4.3)(prosemirror-transform@1.10.4)(prosemirror-view@1.40.1)(refractor@5.0.0)(sugar-high@0.9.3):
     optionalDependencies:
       '@shikijs/types': 3.9.2
       '@types/hast': 3.0.4
@@ -10109,6 +10116,7 @@ snapshots:
       prosemirror-transform: 1.10.4
       prosemirror-view: 1.40.1
       refractor: 5.0.0
+      sugar-high: 0.9.3
 
   prosemirror-history@1.4.1:
     dependencies:
@@ -10674,6 +10682,8 @@ snapshots:
       browserslist: 4.25.3
       postcss: 8.5.6
       postcss-selector-parser: 6.1.2
+
+  sugar-high@0.9.3: {}
 
   supports-color@7.2.0:
     dependencies:

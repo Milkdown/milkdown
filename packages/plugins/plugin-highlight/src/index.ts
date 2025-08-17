@@ -3,6 +3,7 @@ import { createHighlightPlugin } from 'prosemirror-highlight'
 
 type HighlightPluginOptions = Parameters<typeof createHighlightPlugin>[0]
 
+/// Config for the highlight plugin.
 export const highlightPluginConfig = $ctx<
   HighlightPluginOptions,
   'highlightPluginConfig'
@@ -13,7 +14,7 @@ highlightPluginConfig.meta = {
   displayName: 'Ctx<highlightPluginConfig>',
 }
 
-/// Config for the highlight plugin.
+/// Highlight plugin.
 export const highlightPlugin = $prose((ctx) => {
   const config = ctx.get(highlightPluginConfig.key)
   if (!config.parser) {
