@@ -31,7 +31,11 @@ function mergeDeep<T>(target: T, ...sources: T[]): T {
   return mergeDeep(target, ...sources)
 }
 
-function viteBuild(path: string, options: BuildOptions = {}): BuildOptions {
+function viteBuild(
+  path: string,
+  options: BuildOptions = {},
+  userExternal: CustomOptions['external'] = []
+): BuildOptions {
   const dir = dirname(fileURLToPath(path))
   const packageDirName = basename(dir)
 
@@ -44,20 +48,52 @@ function viteBuild(path: string, options: BuildOptions = {}): BuildOptions {
     ...packageJson.peerDependencies,
     ...globalPackageJson.devDependencies,
   }
+
+  // Auto-detect multiple entry points from package.json exports
+  const exports = packageJson.exports || {}
+  const entries: Record<string, string> = {}
+
+  for (const [key, value] of Object.entries(exports)) {
+    if (typeof value === 'object' && value !== null && 'import' in value) {
+      const importPath = (value as any).import as string
+      if (importPath.startsWith('./src/')) {
+        const entryName = key === '.' ? 'index' : key.replace('./', '')
+        entries[entryName] = resolve(dir, importPath.replace('./', ''))
+      }
+    }
+  }
+
+  // If no entries found from exports, fall back to default index.ts
+  if (Object.keys(entries).length === 0) {
+    entries.index = resolve(dir, 'src', 'index.ts')
+  }
+
+  const isMultiEntry = Object.keys(entries).length > 1
+
   return mergeDeep<BuildOptions>(
     {
       sourcemap: true,
       emptyOutDir: false,
-      lib: {
-        entry: resolve(dir, 'src', 'index.ts'),
-        name: `milkdown_${packageDirName}`,
-        fileName: 'index',
-        formats: ['es'],
-      },
+      lib: isMultiEntry
+        ? {
+            entry: entries,
+            formats: ['es'],
+          }
+        : {
+            entry: entries.index as string,
+            name: `milkdown_${packageDirName}`,
+            fileName: 'index',
+            formats: ['es'],
+          },
       rollupOptions: {
-        external: Array.from(new Set([...Object.keys(deps), ...external])),
+        external: Array.from(
+          new Set([...Object.keys(deps), ...external, ...userExternal])
+        ),
         output: {
           dir: resolve(dir, 'lib'),
+          ...(isMultiEntry && {
+            entryFileNames: '[name].js',
+          }),
         },
       },
       minify: false,
@@ -65,6 +101,10 @@ function viteBuild(path: string, options: BuildOptions = {}): BuildOptions {
     },
     options
   )
+}
+
+type CustomOptions = {
+  external?: (string | RegExp)[]
 }
 
 /**
@@ -76,10 +116,10 @@ function viteBuild(path: string, options: BuildOptions = {}): BuildOptions {
  */
 export function pluginViteConfig(
   packageDirName: string,
-  options: UserConfig = {}
+  options: UserConfig & CustomOptions = {}
 ) {
   return defineConfig({
     ...options,
-    build: viteBuild(packageDirName, options.build),
+    build: viteBuild(packageDirName, options.build, options.external),
   })
 }
