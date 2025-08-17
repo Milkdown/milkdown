@@ -47,6 +47,9 @@ export const clipboard = $prose((ctx) => {
         const { clipboardData } = event
         if (!editable || !clipboardData) return false
 
+        const html = clipboardData.getData('text/html')
+        if (html.length > 0) return false
+
         const currentNode = view.state.selection.$from.node()
         if (currentNode.type.spec.code) return false
 
@@ -74,24 +77,15 @@ export const clipboard = $prose((ctx) => {
           }
         }
 
-        const html = clipboardData.getData('text/html')
-        if (html.length === 0 && text.length === 0) return false
+        if (text.length === 0) return false
 
         const domParser = DOMParser.fromSchema(schema)
-        let dom
-        if (html.length === 0) {
-          const slice = parser(text)
-          if (!slice || typeof slice === 'string') return false
+        const markdownSlice = parser(text)
+        if (!markdownSlice || typeof markdownSlice === 'string') return false
 
-          dom = DOMSerializer.fromSchema(schema).serializeFragment(
-            slice.content
-          )
-        } else {
-          const template = document.createElement('template')
-          template.innerHTML = html
-          dom = template.content.cloneNode(true)
-          template.remove()
-        }
+        const dom = DOMSerializer.fromSchema(schema).serializeFragment(
+          markdownSlice.content
+        )
 
         const slice = domParser.parseSlice(dom)
         const node = isTextOnlySlice(slice)
