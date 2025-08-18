@@ -73,6 +73,7 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
+    "@milkdown/preset-commonmark": "workspace:*",
     "sugar-high": "^0.9.3"
   }
 }

@@ -760,6 +760,9 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
+      '@milkdown/preset-commonmark':
+        specifier: workspace:*
+        version: link:../preset-commonmark
       sugar-high:
         specifier: ^0.9.3
         version: 0.9.3
