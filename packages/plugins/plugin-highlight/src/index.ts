@@ -1,3 +1,5 @@
+import type { MilkdownPlugin } from '@milkdown/ctx'
+
 import { $ctx, $prose } from '@milkdown/utils'
 import { createHighlightPlugin } from 'prosemirror-highlight'
 
@@ -29,3 +31,9 @@ highlightPlugin.meta = {
   package: '@milkdown/plugin-highlight',
   displayName: 'Highlight Plugin',
 }
+
+/// The milkdown highlight plugin.
+export const highlight: MilkdownPlugin[] = [
+  highlightPluginConfig,
+  highlightPlugin,
+].flat()
