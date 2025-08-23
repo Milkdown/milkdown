@@ -1,5 +1,18 @@
 # @milkdown/exception
 
+## 7.15.4
+
+### Patch Changes
+
+- d5057e1: Milkdown patch version release.
+
+  ## Fix
+  - fix: 🐛 config merge should not merge array in crepe (#2066)
+  - fix: 🐛 encode entity for trailing space (#2058)
+
+  ## Refactor
+  - refactor: 💡 improve type of clipboard plugin
+
 ## 7.15.3
 
 ### Patch Changes

@@ -1,5 +1,38 @@
 # @milkdown/kit
 
+## 7.15.4
+
+### Patch Changes
+
+- d5057e1: Milkdown patch version release.
+
+  ## Fix
+  - fix: 🐛 config merge should not merge array in crepe (#2066)
+  - fix: 🐛 encode entity for trailing space (#2058)
+
+  ## Refactor
+  - refactor: 💡 improve type of clipboard plugin
+
+- Updated dependencies [d5057e1]
+  - @milkdown/components@7.15.4
+  - @milkdown/core@7.15.4
+  - @milkdown/ctx@7.15.4
+  - @milkdown/plugin-block@7.15.4
+  - @milkdown/plugin-clipboard@7.15.4
+  - @milkdown/plugin-cursor@7.15.4
+  - @milkdown/plugin-history@7.15.4
+  - @milkdown/plugin-indent@7.15.4
+  - @milkdown/plugin-listener@7.15.4
+  - @milkdown/plugin-slash@7.15.4
+  - @milkdown/plugin-tooltip@7.15.4
+  - @milkdown/plugin-trailing@7.15.4
+  - @milkdown/plugin-upload@7.15.4
+  - @milkdown/preset-commonmark@7.15.4
+  - @milkdown/preset-gfm@7.15.4
+  - @milkdown/prose@7.15.4
+  - @milkdown/transformer@7.15.4
+  - @milkdown/utils@7.15.4
+
 ## 7.15.3
 
 ### Patch Changes
