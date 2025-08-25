@@ -123,7 +123,7 @@
     "nanoid": "^5.0.9",
     "tslib": "^2.8.1",
     "unist-util-visit": "^5.0.0",
-    "vue": "3.5.20"
+    "vue": "^3.5.20"
   },
   "devDependencies": {
     "@codemirror/language": "^6.10.1",

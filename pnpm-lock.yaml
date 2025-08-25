@@ -293,7 +293,7 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
       vue:
-        specifier: 3.5.20
+        specifier: ^3.5.20
         version: 3.5.20(typescript@5.9.2)
 
   packages/components:
@@ -350,7 +350,7 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0
       vue:
-        specifier: 3.5.20
+        specifier: ^3.5.20
         version: 3.5.20(typescript@5.9.2)
     devDependencies:
       '@codemirror/language':
@@ -447,7 +447,7 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0
       vue:
-        specifier: 3.5.20
+        specifier: ^3.5.20
         version: 3.5.20(typescript@5.9.2)
 
   packages/ctx:

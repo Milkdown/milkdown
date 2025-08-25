@@ -13,10 +13,6 @@
       "groupName": "prosemirror"
     },
     {
-      "matchDepNames": ["vue"],
-      "groupName": "vue"
-    },
-    {
       "groupName": "all non-major dependencies",
       "groupSlug": "all-minor-patch",
       "matchUpdateTypes": ["minor", "patch"],
