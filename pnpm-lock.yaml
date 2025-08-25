@@ -755,7 +755,7 @@ importers:
         version: link:../../utils
       prosemirror-highlight:
         specifier: ^0.13.0
-        version: 0.13.0(@shikijs/types@3.9.2)(@types/hast@3.0.4)(prosemirror-model@1.25.3)(prosemirror-state@1.4.3)(prosemirror-transform@1.10.4)(prosemirror-view@1.40.1)(refractor@5.0.0)(sugar-high@0.9.3)
+        version: 0.13.0(@shikijs/types@3.11.0)(@types/hast@3.0.4)(prosemirror-model@1.25.3)(prosemirror-state@1.4.3)(prosemirror-transform@1.10.4)(prosemirror-view@1.40.1)(refractor@5.0.0)(sugar-high@0.9.3)
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -10110,9 +10110,9 @@ snapshots:
       prosemirror-state: 1.4.3
       prosemirror-view: 1.40.1
 
-  prosemirror-highlight@0.13.0(@shikijs/types@3.9.2)(@types/hast@3.0.4)(prosemirror-model@1.25.3)(prosemirror-state@1.4.3)(prosemirror-transform@1.10.4)(prosemirror-view@1.40.1)(refractor@5.0.0)(sugar-high@0.9.3):
+  prosemirror-highlight@0.13.0(@shikijs/types@3.11.0)(@types/hast@3.0.4)(prosemirror-model@1.25.3)(prosemirror-state@1.4.3)(prosemirror-transform@1.10.4)(prosemirror-view@1.40.1)(refractor@5.0.0)(sugar-high@0.9.3):
     optionalDependencies:
-      '@shikijs/types': 3.9.2
+      '@shikijs/types': 3.11.0
       '@types/hast': 3.0.4
       prosemirror-model: 1.25.3
       prosemirror-state: 1.4.3
