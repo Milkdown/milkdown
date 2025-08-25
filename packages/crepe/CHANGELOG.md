@@ -1,5 +1,17 @@
 # @milkdown/crepe
 
+## 7.15.5
+
+### Patch Changes
+
+- 331415a: Milkdown patch release version.
+
+  ## Fix
+  - fix: temporary fix for vue bug (#2075)
+
+- Updated dependencies [331415a]
+  - @milkdown/kit@7.15.5
+
 ## 7.15.4
 
 ### Patch Changes

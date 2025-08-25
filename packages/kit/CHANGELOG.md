@@ -1,5 +1,34 @@
 # @milkdown/kit
 
+## 7.15.5
+
+### Patch Changes
+
+- 331415a: Milkdown patch release version.
+
+  ## Fix
+  - fix: temporary fix for vue bug (#2075)
+
+- Updated dependencies [331415a]
+  - @milkdown/components@7.15.5
+  - @milkdown/core@7.15.5
+  - @milkdown/ctx@7.15.5
+  - @milkdown/plugin-block@7.15.5
+  - @milkdown/plugin-clipboard@7.15.5
+  - @milkdown/plugin-cursor@7.15.5
+  - @milkdown/plugin-history@7.15.5
+  - @milkdown/plugin-indent@7.15.5
+  - @milkdown/plugin-listener@7.15.5
+  - @milkdown/plugin-slash@7.15.5
+  - @milkdown/plugin-tooltip@7.15.5
+  - @milkdown/plugin-trailing@7.15.5
+  - @milkdown/plugin-upload@7.15.5
+  - @milkdown/preset-commonmark@7.15.5
+  - @milkdown/preset-gfm@7.15.5
+  - @milkdown/prose@7.15.5
+  - @milkdown/transformer@7.15.5
+  - @milkdown/utils@7.15.5
+
 ## 7.15.4
 
 ### Patch Changes
