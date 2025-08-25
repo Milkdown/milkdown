@@ -2,6 +2,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import resolve from '@rollup/plugin-node-resolve'
 import esbuild from 'rollup-plugin-esbuild'
+import replace from '@rollup/plugin-replace'
 import pkg from './package.json' with { type: 'json' }
 
 const external = [
@@ -31,6 +32,11 @@ export default () => {
     json(),
     commonjs(),
     esbuild({ target: 'es2018' }),
+    replace({
+      __VUE_OPTIONS_API__: 'true',
+      __VUE_PROD_DEVTOOLS__: 'false',
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false'
+    })
   ]
   return [
     ...entry.flatMap((name) => {
