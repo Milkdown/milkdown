@@ -3,9 +3,8 @@ import type { EditorView } from '@milkdown/prose/view'
 import type { Ref } from 'vue'
 
 import { computePosition } from '@floating-ui/dom'
-import { findTable } from '@milkdown/preset-gfm'
 import { findParent } from '@milkdown/prose'
-import { CellSelection } from '@milkdown/prose/tables'
+import { CellSelection, findTable } from '@milkdown/prose/tables'
 
 import type { CellIndex, Refs } from './types'
 
