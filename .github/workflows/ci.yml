@@ -71,6 +71,22 @@ jobs:
       - name: Build packages
         run: pnpm build
 
+      - name: Publish snapshot
+        if: ${{ github.event_name == 'pull_request' }}
+        run: >
+          ./node_modules/.bin/pkg-pr-new publish --pnpm
+          ./packages/plugins/*
+          ./packages/integrations/*
+          ./packages/core
+          ./packages/ctx
+          ./packages/exception
+          ./packages/components
+          ./packages/transformer
+          ./packages/prose
+          ./packages/utils
+          ./packages/kit
+          ./packages/crepe
+
   e2e:
     runs-on: ubuntu-latest
     needs: install-deps
