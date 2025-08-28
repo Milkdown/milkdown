@@ -73,7 +73,7 @@ jobs:
 
       - name: Publish snapshot
         if: ${{ github.event_name == 'pull_request' }}
-        run: ./node_modules/.bin/pkg-pr-new publish --pnpm
+        run: pnpm exec pkg-pr-new publish --pnpm
 
   e2e:
     runs-on: ubuntu-latest
