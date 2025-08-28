@@ -1,10 +1,8 @@
 import type { Selection } from '@milkdown/prose/state'
 
-import { TableMap } from '@milkdown/prose/tables'
+import { findTable, TableMap } from '@milkdown/prose/tables'
 
 import type { CellPos } from './types'
-
-import { findTable } from './find-table'
 
 /// Get cells in a column of a table.
 export function getCellsInCol(

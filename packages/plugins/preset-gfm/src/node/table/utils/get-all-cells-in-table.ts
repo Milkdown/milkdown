@@ -1,8 +1,6 @@
 import type { Selection } from '@milkdown/prose/state'
 
-import { TableMap } from '@milkdown/prose/tables'
-
-import { findTable } from './find-table'
+import { findTable, TableMap } from '@milkdown/prose/tables'
 
 /// Get all cells in a table.
 export function getAllCellsInTable(selection: Selection) {

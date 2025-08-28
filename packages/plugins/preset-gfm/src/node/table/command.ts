@@ -12,6 +12,8 @@ import {
   isInTable,
   selectedRect,
   setCellAttr,
+  moveTableRow,
+  moveTableColumn,
 } from '@milkdown/prose/tables'
 import { $command } from '@milkdown/utils'
 
@@ -20,8 +22,6 @@ import { tableSchema } from './schema'
 import {
   addRowWithAlignment,
   createTable,
-  moveCol,
-  moveRow,
   selectCol,
   selectRow,
   selectTable,
@@ -110,23 +110,11 @@ export const moveRowCommand = $command(
   'MoveRow',
   () =>
     ({ from, to, pos }: { from?: number; to?: number; pos?: number } = {}) =>
-    (state, dispatch) => {
-      const { tr } = state
-      if (
-        moveRow({
-          tr,
-          origin: from ?? 0,
-          target: to ?? 0,
-          pos: pos ?? state.selection.from,
-          select: true,
-        })
-      ) {
-        dispatch?.(tr)
-        return true
-      }
-
-      return false
-    }
+      moveTableRow({
+        from: from ?? 0,
+        to: to ?? 0,
+        pos,
+      })
 )
 
 withMeta(moveRowCommand, {
@@ -140,23 +128,11 @@ export const moveColCommand = $command(
   'MoveCol',
   () =>
     ({ from, to, pos }: { from?: number; to?: number; pos?: number } = {}) =>
-    (state, dispatch) => {
-      const { tr } = state
-      if (
-        moveCol({
-          tr,
-          origin: from ?? 0,
-          target: to ?? 0,
-          pos: pos ?? state.selection.from,
-          select: true,
-        })
-      ) {
-        dispatch?.(tr)
-        return true
-      }
-
-      return false
-    }
+      moveTableColumn({
+        from: from ?? 0,
+        to: to ?? 0,
+        pos,
+      })
 )
 
 withMeta(moveColCommand, {

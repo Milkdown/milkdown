@@ -47,18 +47,12 @@ Editor.make().use(commonmark).use(gfm).create()
 
 ## Table Utils
 
-@findTable
 @getCellsInCol
 @getCellsInRow
 @getAllCellsInTable
 @selectCol
 @selectRow
 @selectTable
-@moveCol
-@moveRow
-
-@MoveColParams
-@MoveRowParams
 
 ## Prosemirror Plugins
 
