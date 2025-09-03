@@ -62,7 +62,7 @@
     "lint-staged": "^16.0.0",
     "oxlint": "^1.8.0",
     "pathe": "^2.0.0",
-    "pkg-pr-new": "^0.0.58",
+    "pkg-pr-new": "^0.0.59",
     "postcss": "^8.4.38",
     "postcss-cli": "^11.0.0",
     "postcss-nested": "^7.0.0",
