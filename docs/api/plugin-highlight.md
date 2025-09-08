@@ -10,6 +10,7 @@ Supports:
 - [Refractor](https://github.com/wooorm/refractor) (based on [Prism.js](https://github.com/PrismJS/prism))
 - [Sugar high](https://github.com/huozhi/sugar-high)
 
+@highlight
 @highlightPluginConfig
 @highlightPlugin
 
