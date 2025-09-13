@@ -13,25 +13,21 @@ import type { DragEventHandler, ShowHandler, ViewDragging } from './types'
 
 import { buildGetTarget, type GetTarget } from './drop-target'
 
-/**
- * @internal
- */
 interface DropIndicatorPluginOptions {
   onDrag: DragEventHandler
   onShow: ShowHandler
   onHide: VoidFunction
 }
 
-/**
- * @internal
- */
+const key = new PluginKey('MILKDOWN_DROP_INDICATOR')
+
 export function createDropIndicatorPlugin(
   options: DropIndicatorPluginOptions
 ): Plugin {
   let getTarget: GetTarget | undefined
 
   return new Plugin({
-    key: new PluginKey('MILKDOWN_DROP_INDICATOR'),
+    key,
     view: (view) => {
       getTarget = buildGetTarget(view, options.onDrag)
       return createDropIndicatorView(view, getTarget, options)
