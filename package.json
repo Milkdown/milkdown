@@ -58,7 +58,7 @@
     "eslint-plugin-perfectionist": "^4.11.0",
     "git-cz": "^4.7.6",
     "husky": "^9.0.10",
-    "jsdom": "^26.0.0",
+    "jsdom": "^27.0.0",
     "lint-staged": "^16.0.0",
     "oxlint": "^1.8.0",
     "pathe": "^2.0.0",
