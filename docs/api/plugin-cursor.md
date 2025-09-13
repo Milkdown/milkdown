@@ -16,9 +16,17 @@ Editor.make().use(nord).use(commonmark).use(cursor).create()
 
 @cursor
 
+## Ctx
+
+@dropIndicatorConfig
+@dropIndicatorState
+
 ## Plugins
 
-@dropCursorConfig
-@dropCursorPlugin
-
+@dropIndicatorDOMPlugin
+@dropIndicatorPlugin
 @gapCursorPlugin
+
+## Deprecated
+
+@dropCursorConfig

@@ -1,6 +1,6 @@
 import {
   cursor as cursorPlugin,
-  dropCursorConfig,
+  dropIndicatorConfig,
 } from '@milkdown/kit/plugin/cursor'
 import { $prose } from '@milkdown/kit/utils'
 import { createVirtualCursor } from 'prosemirror-virtual-cursor'
@@ -21,7 +21,7 @@ export const cursor: DefineFeature<CursorFeatureConfig> = (editor, config) => {
   editor
     .config(crepeFeatureConfig(CrepeFeature.Cursor))
     .config((ctx) => {
-      ctx.update(dropCursorConfig.key, () => ({
+      ctx.update(dropIndicatorConfig.key, () => ({
         class: 'crepe-drop-cursor',
         width: config?.width ?? 4,
         color: config?.color ?? false,
