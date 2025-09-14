@@ -2,8 +2,7 @@
   "name": "@milkdown/docs",
   "private": true,
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Auto generated docs for Milkdown",
   "scripts": {
     "build": "tsx -C import ./src/index.ts"
   },

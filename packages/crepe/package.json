@@ -144,7 +144,6 @@
     "build:theme": "postcss src/theme --base src/theme --dir lib/theme"
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.5.1",
     "@codemirror/commands": "^6.2.4",
     "@codemirror/language": "^6.10.1",
     "@codemirror/language-data": "^6.3.1",
@@ -157,10 +156,8 @@
     "codemirror": "^6.0.1",
     "katex": "^0.16.0",
     "lodash-es": "^4.17.21",
-    "nanoid": "^5.0.9",
     "prosemirror-virtual-cursor": "^0.4.2",
     "remark-math": "^6.0.0",
-    "tslib": "^2.8.1",
     "unist-util-visit": "^5.0.0",
     "vue": "^3.5.20"
   }

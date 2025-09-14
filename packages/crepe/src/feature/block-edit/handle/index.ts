@@ -19,7 +19,7 @@ import { menuIcon, plusIcon } from '../../../icons'
 import { menuAPI } from '../menu'
 import { BlockHandle } from './component'
 
-export class BlockHandleView implements PluginView {
+class BlockHandleView implements PluginView {
   #content: HTMLElement
   #provider: BlockProvider
   #app: App

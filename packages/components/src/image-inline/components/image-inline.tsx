@@ -13,7 +13,7 @@ type Attrs = {
   title: string
 }
 
-export type MilkdownImageInlineProps = {
+type MilkdownImageInlineProps = {
   selected: Ref<boolean>
   readonly: Ref<boolean>
   setAttr: <T extends keyof Attrs>(attr: T, value: Attrs[T]) => void

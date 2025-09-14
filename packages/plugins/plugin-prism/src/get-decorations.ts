@@ -5,7 +5,7 @@ import type { Refractor } from 'refractor/core'
 import { findChildren } from '@milkdown/prose'
 import { Decoration, DecorationSet } from '@milkdown/prose/view'
 
-export interface FlattedNode {
+interface FlattedNode {
   text: string
   className: string[]
 }

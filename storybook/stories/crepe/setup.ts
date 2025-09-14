@@ -14,7 +14,7 @@ export interface Args {
   language: 'EN' | 'JA'
 }
 
-export interface setupConfig {
+interface setupConfig {
   args: Args
   style: string
   theme: Extension

@@ -14,7 +14,7 @@ import {
   replacePunctuation,
 } from './utils'
 
-export interface InlineSyncContext {
+interface InlineSyncContext {
   text: string
   prevNode: Node
   nextNode: Node

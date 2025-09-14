@@ -33,7 +33,7 @@ export function wrapInShadow(styles: string[]) {
   }
 }
 
-export function wrapInShadowWithNord(styles: string[]) {
+function wrapInShadowWithNord(styles: string[]) {
   return wrapInShadow([nordStyle, pmStyle, commonStyle, ...styles])
 }
 

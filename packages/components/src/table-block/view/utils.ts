@@ -8,7 +8,7 @@ import { CellSelection, findTable } from '@milkdown/prose/tables'
 
 import type { CellIndex, Refs } from './types'
 
-export function findNodeIndex(parent: Node, child: Node) {
+function findNodeIndex(parent: Node, child: Node) {
   for (let i = 0; i < parent.childCount; i++) {
     if (parent.child(i) === child) return i
   }

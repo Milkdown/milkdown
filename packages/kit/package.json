@@ -364,7 +364,6 @@
     "@milkdown/preset-gfm": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/transformer": "workspace:*",
-    "@milkdown/utils": "workspace:*",
-    "tslib": "^2.8.1"
+    "@milkdown/utils": "workspace:*"
   }
 }

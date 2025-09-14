@@ -19,13 +19,9 @@
     "@uiw/codemirror-theme-basic": "^4.22.1",
     "@uiw/codemirror-theme-nord": "^4.22.1",
     "codemirror": "^6.0.1",
-    "katex": "^0.16.0",
-    "shiki": "^3.0.0",
-    "tslib": "^2.8.1"
+    "shiki": "^3.0.0"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^9.0.0",
-    "@storybook/builder-vite": "^9.0.0",
     "@storybook/html": "^9.0.0",
     "@storybook/html-vite": "^9.0.0",
     "serve": "^14.2.3",

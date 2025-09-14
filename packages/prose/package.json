@@ -186,7 +186,6 @@
     "prosemirror-state": "^1.4.3",
     "prosemirror-tables": "^1.8.1",
     "prosemirror-transform": "^1.10.2",
-    "prosemirror-view": "^1.37.1",
-    "tslib": "^2.8.1"
+    "prosemirror-view": "^1.37.1"
   }
 }

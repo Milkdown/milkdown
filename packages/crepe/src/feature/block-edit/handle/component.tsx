@@ -4,7 +4,7 @@ import { defineComponent, ref, h, Fragment } from 'vue'
 h
 Fragment
 
-export interface BlockHandleProps {
+interface BlockHandleProps {
   onAdd: () => void
   addIcon: string
   handleIcon: string

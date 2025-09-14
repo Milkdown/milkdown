@@ -7,7 +7,7 @@ export function punctuationRegexp(holePlaceholder: string) {
   return new RegExp(`\\\\(?=[^\\w\\s${holePlaceholder}\\\\]|_)`, 'g')
 }
 
-export const ZERO_WIDTH_SPACE = '\u200B'
+const ZERO_WIDTH_SPACE = '\u200B'
 
 export const asterisk = `${ZERO_WIDTH_SPACE}*`
 export const asteriskHolder = `${ZERO_WIDTH_SPACE}＊`

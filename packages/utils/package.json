@@ -38,7 +38,6 @@
     "@milkdown/prose": "workspace:*",
     "@milkdown/transformer": "workspace:*",
     "@milkdown/exception": "workspace:*",
-    "nanoid": "^5.0.9",
-    "tslib": "^2.8.1"
+    "nanoid": "^5.0.9"
   }
 }
