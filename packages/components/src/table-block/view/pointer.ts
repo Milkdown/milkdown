@@ -12,7 +12,7 @@ import {
   getRelatedDOM,
 } from './utils'
 
-export function createPointerMoveHandler(
+function createPointerMoveHandler(
   refs: Refs,
   view?: EditorView
 ): (e: PointerEvent) => void {
@@ -133,7 +133,7 @@ export function createPointerMoveHandler(
   }, 20)
 }
 
-export function createPointerLeaveHandler(refs: Refs): () => void {
+function createPointerLeaveHandler(refs: Refs): () => void {
   return () => {
     const { rowHandleRef, colHandleRef, yLineHandleRef, xLineHandleRef } = refs
     setTimeout(() => {

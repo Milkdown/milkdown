@@ -41,7 +41,6 @@
     "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/exception": "workspace:*",
-    "@milkdown/utils": "workspace:*",
-    "tslib": "^2.8.1"
+    "@milkdown/utils": "workspace:*"
   }
 }

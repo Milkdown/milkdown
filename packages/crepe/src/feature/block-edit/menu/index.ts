@@ -17,7 +17,7 @@ import { Menu } from './component'
 
 export const menu = slashFactory('CREPE_MENU')
 
-export interface MenuAPI {
+interface MenuAPI {
   show: (pos: number) => void
   hide: () => void
 }

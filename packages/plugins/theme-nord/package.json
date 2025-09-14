@@ -38,7 +38,6 @@
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
-    "clsx": "^2.0.0",
-    "tslib": "^2.8.1"
+    "clsx": "^2.0.0"
   }
 }

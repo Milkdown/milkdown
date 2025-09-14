@@ -1,6 +1,6 @@
 import type { Ctx } from '@milkdown/kit/ctx'
 
-export type MenuItem<T> = {
+type MenuItem<T> = {
   index: number
   key: string
   onRun: (ctx: Ctx) => void

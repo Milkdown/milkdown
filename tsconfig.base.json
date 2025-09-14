@@ -22,7 +22,6 @@
     "declaration": true,
     "declarationMap": true,
 
-    "importHelpers": true,
     "noEmitOnError": true,
     "sourceMap": true,
     "esModuleInterop": true,

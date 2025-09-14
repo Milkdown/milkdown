@@ -42,7 +42,6 @@
     "src"
   ],
   "dependencies": {
-    "@milkdown/exception": "workspace:*",
-    "tslib": "^2.8.1"
+    "@milkdown/exception": "workspace:*"
   }
 }

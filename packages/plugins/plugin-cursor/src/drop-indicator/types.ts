@@ -8,7 +8,7 @@ import type { EditorView } from '@milkdown/prose/view'
 export type DragEventHandler = (options: DragEventHandlerOptions) => boolean
 
 /// Options for `DragEventHandler`.
-export interface DragEventHandlerOptions {
+interface DragEventHandlerOptions {
   /// The editor's view.
   view: EditorView
   /// The drop position in current document.
@@ -32,12 +32,12 @@ export interface ShowHandlerOptions {
   line: Line
 }
 
-export interface Point {
+interface Point {
   readonly x: number
   readonly y: number
 }
 
-export interface Line {
+interface Line {
   readonly p1: Point
   readonly p2: Point
 }

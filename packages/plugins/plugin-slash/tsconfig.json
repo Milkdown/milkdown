@@ -8,9 +8,7 @@
   },
   "include": ["src"],
   "references": [
-    { "path": "../../exception" },
     { "path": "../../utils" },
-    { "path": "../../core" },
     { "path": "../../ctx" },
     { "path": "../../prose" }
   ]

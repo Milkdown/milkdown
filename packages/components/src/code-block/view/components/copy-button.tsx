@@ -5,7 +5,7 @@ import { Icon } from '../../../__internal__/components/icon'
 h
 Fragment
 
-export type CopyButtonProps = {
+type CopyButtonProps = {
   copyText: string
   copyIcon: string
   onCopy: (text: string) => void

@@ -37,10 +37,8 @@
     "src"
   ],
   "dependencies": {
-    "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
-    "@milkdown/utils": "workspace:*",
-    "tslib": "^2.8.1"
+    "@milkdown/utils": "workspace:*"
   }
 }

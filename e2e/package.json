@@ -12,21 +12,13 @@
     "test:install": "playwright install --with-deps"
   },
   "dependencies": {
-    "@codemirror/commands": "^6.3.3",
-    "@codemirror/language-data": "^6.4.1",
-    "@codemirror/state": "^6.4.1",
-    "@codemirror/theme-one-dark": "^6.1.2",
-    "@codemirror/view": "^6.26.0",
     "@milkdown/core": "workspace:*",
     "@milkdown/crepe": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/plugin-automd": "workspace:*",
     "@milkdown/plugin-clipboard": "workspace:*",
-    "@milkdown/plugin-cursor": "workspace:*",
-    "@milkdown/plugin-emoji": "workspace:*",
     "@milkdown/plugin-history": "workspace:*",
     "@milkdown/plugin-listener": "workspace:*",
-    "@milkdown/plugin-tooltip": "workspace:*",
     "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/preset-gfm": "workspace:*",
     "@milkdown/prose": "workspace:*",
@@ -34,9 +26,7 @@
     "@milkdown/utils": "workspace:*",
     "@playwright/test": "^1.54.1",
     "@types/node": "^22.0.0",
-    "katex": "^0.16.0",
     "serve": "^14.2.3",
-    "tslib": "^2.8.1",
     "vue": "^3.5.20"
   }
 }

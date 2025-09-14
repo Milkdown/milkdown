@@ -121,7 +121,6 @@
     "dompurify": "^3.2.5",
     "lodash-es": "^4.17.21",
     "nanoid": "^5.0.9",
-    "tslib": "^2.8.1",
     "unist-util-visit": "^5.0.0",
     "vue": "^3.5.20"
   },

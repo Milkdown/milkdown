@@ -47,7 +47,6 @@
     "@milkdown/exception": "workspace:*",
     "@milkdown/utils": "workspace:*",
     "prosemirror-safari-ime-span": "^1.0.1",
-    "remark-gfm": "^4.0.1",
-    "tslib": "^2.8.1"
+    "remark-gfm": "^4.0.1"
   }
 }
