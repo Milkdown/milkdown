@@ -9,7 +9,6 @@
   "include": ["src"],
   "references": [
     { "path": "../../core" },
-    { "path": "../../ctx" },
     { "path": "../../prose" },
     { "path": "../../utils" }
   ]

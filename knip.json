@@ -2,14 +2,10 @@
   "$schema": "https://unpkg.com/knip@5/schema-jsonc.json",
   "workspaces": {
     "e2e": {
-      "entry": [
-        "src/**/main.ts"
-      ]
+      "entry": ["src/**/main.ts"]
     },
     "packages/plugins/theme-nord": {
-      "ignoreDependencies": [
-        "@milkdown/prose"
-      ]
+      "ignoreDependencies": ["@milkdown/prose"]
     }
   }
 }
