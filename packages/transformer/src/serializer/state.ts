@@ -16,10 +16,16 @@ import type {
   NodeSchema,
   RemarkParser,
   Root,
+  MarkOptimizationConfig,
+  OptimalOrdering,
 } from '../utility'
 import type { Serializer } from './types'
 
-import { Stack } from '../utility'
+import {
+  Stack,
+  collectStyleSequence,
+  calculateOptimalNesting,
+} from '../utility'
 import { SerializerStackElement } from './stack-element'
 
 const isFragment = (x: Node | Fragment): x is Fragment =>
@@ -35,6 +41,10 @@ export class SerializerState extends Stack<
   #marks: readonly Mark[] = Mark.none
   /// Get the schema of state.
   readonly schema: Schema
+  /// Mark optimization configuration
+  #markOptimization: MarkOptimizationConfig = {
+    maxSequenceLength: 1000,
+  }
 
   /// Create a serializer from schema and remark instance.
   ///
@@ -87,13 +97,75 @@ export class SerializerState extends Stack<
 
   /// @internal
   #runNode = (node: Node) => {
+    // Always process text nodes immediately with their marks
+    // The optimization will handle sequences within the same parent context
+    this.#runNodeGreedy(node)
+  }
+
+  /// @internal
+  #runNodeGreedy = (node: Node) => {
     const { marks } = node
+
     const getPriority = (x: Mark) => x.type.spec.priority ?? 50
-    const tmp = [...marks].sort((a, b) => getPriority(a) - getPriority(b))
-    const unPreventNext = tmp.every((mark) => !this.#runProseMark(mark, node))
+    const orderedMarks = [...marks].sort(
+      (a, b) => getPriority(a) - getPriority(b)
+    )
+
+    const unPreventNext = orderedMarks.every(
+      (mark) => !this.#runProseMark(mark, node)
+    )
     if (unPreventNext) this.#runProseNode(node)
 
-    marks.forEach((mark) => this.#closeMark(mark))
+    orderedMarks.forEach((mark) => this.#closeMark(mark))
+  }
+
+  /// @internal
+  #runOptimizedTextSequence = (textNodes: Node[]) => {
+    // Create a fake fragment for the text sequence
+    const fakeFragment = {
+      forEach: (callback: (node: Node) => void) => {
+        textNodes.forEach(callback)
+      },
+    }
+
+    const styleSequence = collectStyleSequence(fakeFragment)
+
+    const optimalOrderings = calculateOptimalNesting(
+      styleSequence,
+      this.#markOptimization,
+      this.schema
+    )
+
+    for (let i = 0; i < textNodes.length; i++) {
+      const node = textNodes[i]
+      const optimalOrdering = optimalOrderings[i]
+
+      if (node && optimalOrdering) {
+        this.#processNodeWithOptimalOrdering(node, optimalOrdering)
+      } else if (node) {
+        // fallback
+        this.#runNodeGreedy(node)
+      }
+    }
+  }
+
+  /// @internal
+  #processNodeWithOptimalOrdering = (node: Node, ordering: OptimalOrdering) => {
+    const { marks } = node
+    const markMap = new Map(marks.map((mark) => [mark.type.name, mark]))
+
+    const orderedMarks = ordering.orderedMarks
+      .map((markName) => markMap.get(markName))
+      .filter((mark): mark is Mark => mark !== undefined)
+
+    const unPreventNext = orderedMarks.every(
+      (mark) => !this.#runProseMark(mark, node)
+    )
+    if (unPreventNext) this.#runProseNode(node)
+
+    for (const mark of [...orderedMarks].reverse()) {
+      this.#closeMark(mark)
+    }
   }
 
   /// @internal
@@ -333,13 +405,47 @@ export class SerializerState extends Stack<
   /// the state will find a proper runner (by `match` method in serializer spec) to handle it.
   next = (nodes: Node | Fragment) => {
     if (isFragment(nodes)) {
-      nodes.forEach((node) => {
-        this.#runNode(node)
-      })
+      this.#processFragment(nodes)
       return this
     }
     this.#runNode(nodes)
     return this
+  }
+
+  /// @internal
+  #processFragment = (fragment: Fragment) => {
+    const nodeArray: Node[] = []
+    fragment.forEach((node) => nodeArray.push(node))
+
+    let i = 0
+    while (i < nodeArray.length) {
+      const node = nodeArray[i]!
+
+      if (node.isText && node.marks.length > 0) {
+        const textSequence: Node[] = [node]
+        let j = i + 1
+
+        while (
+          j < nodeArray.length &&
+          nodeArray[j]!.isText &&
+          nodeArray[j]!.marks.length > 0
+        ) {
+          textSequence.push(nodeArray[j]!)
+          j++
+        }
+
+        if (textSequence.length > 1) {
+          this.#runOptimizedTextSequence(textSequence)
+        } else {
+          this.#runNode(node)
+        }
+
+        i = j
+      } else {
+        this.#runNode(node)
+        i++
+      }
+    }
   }
 
   /// Use a remark parser to serialize current AST stored.
@@ -349,7 +455,6 @@ export class SerializerState extends Stack<
   /// Transform a prosemirror node tree into remark AST.
   run = (tree: Node) => {
     this.next(tree)
-
     return this
   }
 }

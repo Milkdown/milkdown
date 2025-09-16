@@ -7,6 +7,5 @@
     "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo"
   },
   "include": ["src"],
-  "exclude": ["src/**/*.spec.ts"],
   "references": [{ "path": "../exception" }, { "path": "../prose" }]
 }

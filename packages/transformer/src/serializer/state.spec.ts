@@ -5,10 +5,18 @@ import { describe, expect, it } from 'vitest'
 import { SerializerState } from './state'
 
 const boldMark = {
-  isInSet: (arr) => arr.includes('bold'),
-  addToSet: (arr) => arr.concat('bold'),
+  isInSet: (arr: string[]) => arr.includes('bold'),
+  addToSet: (arr: string[]) => arr.concat('bold'),
   type: {
-    removeFromSet: (arr) => arr.filter((x) => x !== 'bold'),
+    removeFromSet: (arr: string[]) => arr.filter((x) => x !== 'bold'),
+  },
+} as unknown as Mark
+
+const italicMark = {
+  isInSet: (arr: string[]) => arr.includes('italic'),
+  addToSet: (arr: string[]) => arr.concat('italic'),
+  type: {
+    removeFromSet: (arr: string[]) => arr.filter((x) => x !== 'italic'),
   },
 } as unknown as Mark
 
@@ -17,8 +25,8 @@ const schema = {
     paragraph: {
       spec: {
         toMarkdown: {
-          match: (node) => node.type === 'paragraph',
-          runner: (state, node) => {
+          match: (node: { type: string }) => node.type === 'paragraph',
+          runner: (state: SerializerState, node: { value: string }) => {
             state.addNode('text', [], node.value)
           },
         },
@@ -27,8 +35,8 @@ const schema = {
     blockquote: {
       spec: {
         toMarkdown: {
-          match: (node) => node.type === 'blockquote',
-          runner: (state, node) => {
+          match: (node: { type: string }) => node.type === 'blockquote',
+          runner: (state: SerializerState, node: { content: never }) => {
             state.openNode('blockquote')
             state.next(node.content)
             state.closeNode()
@@ -38,7 +46,7 @@ const schema = {
     },
   },
   marks: {},
-  text: (text, marks) => ({ text, marks, isText: true }),
+  text: (text: string, marks: string[]) => ({ text, marks, isText: true }),
 } as unknown as Schema
 
 describe('serializer-state', () => {
@@ -182,6 +190,43 @@ describe('serializer-state', () => {
               children: [{ type: 'text', value: 'hello' }],
             },
             { type: 'text', value: ' ' },
+          ],
+        },
+      ],
+    })
+  })
+
+  it('try to merge marks', () => {
+    const state = new SerializerState(schema)
+
+    state.openNode('doc')
+    state.openNode('paragraph')
+    state.withMark(boldMark, 'bold')
+    state.withMark(italicMark, 'italic')
+    state.addNode('text', [], 'hello')
+    state.closeMark(italicMark)
+    state.addNode('text', [], 'world')
+    state.closeMark(boldMark)
+    state.closeNode()
+
+    expect(state.top()).toMatchObject({
+      type: 'doc',
+      children: [
+        {
+          type: 'paragraph',
+          children: [
+            {
+              type: 'bold',
+              isMark: true,
+              children: [
+                {
+                  type: 'italic',
+                  isMark: true,
+                  children: [{ type: 'text', value: 'hello' }],
+                },
+                { type: 'text', value: 'world' },
+              ],
+            },
           ],
         },
       ],
