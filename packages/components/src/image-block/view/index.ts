@@ -43,7 +43,6 @@ export const imageBlockView = $view(
       })
       const dom = document.createElement('div')
       dom.className = 'milkdown-image-block'
-      app.mount(dom)
       const disposeSelectedWatcher = watchEffect(() => {
         const isSelected = selected.value
         if (isSelected) {
@@ -75,6 +74,8 @@ export const imageBlockView = $view(
       }
 
       bindAttrs(initialNode)
+      app.mount(dom)
+
       return {
         dom,
         update: (updatedNode) => {
