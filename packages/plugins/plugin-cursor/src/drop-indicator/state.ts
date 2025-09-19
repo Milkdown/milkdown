@@ -1,6 +1,6 @@
-import { $ctx } from '@milkdown/utils'
+import type { ShowHandlerOptions } from 'prosemirror-drop-indicator'
 
-import type { ShowHandlerOptions } from './types'
+import { $ctx } from '@milkdown/utils'
 
 import { withMeta } from '../__internal__/with-meta'
 

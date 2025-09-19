@@ -1,9 +1,10 @@
 import { $prose } from '@milkdown/utils'
-
-import type { ShowHandler } from './types'
+import {
+  createDropIndicatorPlugin,
+  type ShowHandler,
+} from 'prosemirror-drop-indicator'
 
 import { withMeta } from '../__internal__/with-meta'
-import { createDropIndicatorPlugin } from './drop-indicator-plugin'
 import { dropIndicatorState } from './state'
 
 /// Drop indicator plugin to update the drop indicator state.

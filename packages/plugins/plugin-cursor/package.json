@@ -39,6 +39,7 @@
   "dependencies": {
     "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
-    "@milkdown/utils": "workspace:*"
+    "@milkdown/utils": "workspace:*",
+    "prosemirror-drop-indicator": "^0.1.0"
   }
 }
