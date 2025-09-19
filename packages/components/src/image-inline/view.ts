@@ -44,7 +44,6 @@ export const inlineImageView = $view(
       })
       const dom = document.createElement('span')
       dom.className = 'milkdown-image-inline'
-      app.mount(dom)
       const disposeSelectedWatcher = watchEffect(() => {
         const isSelected = selected.value
         if (isSelected) {
@@ -73,6 +72,8 @@ export const inlineImageView = $view(
         title.value = node.attrs.title
       }
       bindAttrs(initialNode)
+      app.mount(dom)
+
       return {
         dom,
         update: (updatedNode) => {
