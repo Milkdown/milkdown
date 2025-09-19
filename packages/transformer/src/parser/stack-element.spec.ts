@@ -1,10 +1,12 @@
+import type { Node, NodeType } from '@milkdown/prose/model'
+
 import { expect, it } from 'vitest'
 
 import { ParserStackElement } from './stack-element'
 
 it('parser-stack-element', () => {
-  const type: any = {}
-  const content = []
+  const type = {} as NodeType
+  const content: Node[] = []
 
   const parserStackElement = ParserStackElement.create(type, content)
 

@@ -2,6 +2,8 @@ import type { MarkType, NodeType, Schema } from '@milkdown/prose/model'
 
 import { describe, expect, it, vi } from 'vitest'
 
+import type { MarkdownNode } from '../utility'
+
 import { ParserState } from './state'
 
 const docNodeType = {
@@ -32,11 +34,11 @@ const boldType = {
   create: vi.fn().mockImplementation((attrs) => ({
     name: 'boldMark',
     attrs,
-    addToSet: (arr) => arr.concat('bold'),
-    removeFromSet: (arr) => arr.filter((x) => x !== 'bold'),
+    addToSet: (arr: string[]) => arr.concat('bold'),
+    removeFromSet: (arr: string[]) => arr.filter((x) => x !== 'bold'),
   })),
-  addToSet: (arr) => arr.concat('bold'),
-  removeFromSet: (arr) => arr.filter((x) => x !== 'bold'),
+  addToSet: (arr: string[]) => arr.concat('bold'),
+  removeFromSet: (arr: string[]) => arr.filter((x) => x !== 'bold'),
 } as unknown as MarkType
 
 const schema = {
@@ -44,8 +46,8 @@ const schema = {
     paragraph: {
       spec: {
         parseMarkdown: {
-          match: (node) => node.type === 'paragraphNode',
-          runner: (state, node) => {
+          match: (node: { type: string }) => node.type === 'paragraphNode',
+          runner: (state: ParserState, node: { value: string }) => {
             state.addText(node.value)
           },
         },
@@ -54,8 +56,8 @@ const schema = {
     blockquote: {
       spec: {
         parseMarkdown: {
-          match: (node) => node.type === 'blockquoteNode',
-          runner: (state, node) => {
+          match: (node: { type: string }) => node.type === 'blockquoteNode',
+          runner: (state: ParserState, node: { children: MarkdownNode[] }) => {
             state.openNode(blockquoteNodeType)
             state.next(node.children)
             state.closeNode()
@@ -64,7 +66,7 @@ const schema = {
       },
     },
   },
-  text: (text, marks) => ({ text, marks, isText: true }),
+  text: (text: string, marks: string[]) => ({ text, marks, isText: true }),
 } as unknown as Schema
 
 describe('parser-state', () => {
