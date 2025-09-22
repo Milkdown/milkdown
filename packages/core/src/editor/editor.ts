@@ -75,7 +75,9 @@ export class Editor {
   /// @internal
   readonly #loadInternal = () => {
     const configPlugin = config(async (ctx) => {
-      await Promise.all(this.#configureList.map((fn) => fn(ctx)))
+      await Promise.all(
+        this.#configureList.map((fn) => Promise.resolve(fn(ctx)))
+      )
     })
     const internalPlugins = [
       schema,
@@ -105,7 +107,7 @@ export class Editor {
   /// @internal
   readonly #cleanup = (plugins: MilkdownPlugin[], remove = false) => {
     return Promise.all(
-      [plugins].flat().map((plugin) => {
+      [plugins].flat().map(async (plugin) => {
         const loader = this.#usrPluginStore.get(plugin)
         const cleanup = loader?.cleanup
         if (remove) this.#usrPluginStore.delete(plugin)
@@ -126,7 +128,7 @@ export class Editor {
   /// @internal
   readonly #cleanupInternal = async () => {
     await Promise.all(
-      [...this.#sysPluginStore.entries()].map(([_, { cleanup }]) => {
+      [...this.#sysPluginStore.entries()].map(async ([_, { cleanup }]) => {
         if (typeof cleanup === 'function') return cleanup()
 
         return cleanup
