@@ -1,13 +1,6 @@
 import clsx from 'clsx'
 import DOMPurify from 'dompurify'
-import {
-  defineComponent,
-  ref,
-  watchEffect,
-  type Ref,
-  h,
-  Fragment,
-} from 'vue'
+import { defineComponent, ref, watchEffect, type Ref, h, Fragment } from 'vue'
 
 import type { CodeBlockProps } from './code-block'
 

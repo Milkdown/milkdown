@@ -79,7 +79,8 @@ export const Preview: StoryObj<CommonArgs> = {
               // no preview
               return null
             },
-            previewToggleButton: (previewOnlyMode) => (previewOnlyMode ? '|🪖Show' : '|🫥Hide'),
+            previewToggleButton: (previewOnlyMode) =>
+              previewOnlyMode ? '|🪖Show' : '|🫥Hide',
             previewLoading: 'Preview Rendering...',
           }))
         })

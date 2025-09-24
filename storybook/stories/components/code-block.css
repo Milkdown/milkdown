@@ -24,7 +24,8 @@
       align-items: center;
     }
 
-    .copy-button, .preview-toggle-button {
+    .copy-button,
+    .preview-toggle-button {
       opacity: 0;
       transition: opacity 0.2s ease-in-out;
     }

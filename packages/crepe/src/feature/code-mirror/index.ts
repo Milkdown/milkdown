@@ -5,7 +5,7 @@ import { keymap } from '@codemirror/view'
 import {
   codeBlockComponent,
   codeBlockConfig,
-  type CodeBlockConfig
+  type CodeBlockConfig,
 } from '@milkdown/kit/component/code-block'
 import { basicSetup } from 'codemirror'
 
@@ -22,7 +22,7 @@ import {
 } from '../../icons'
 import { CrepeFeature } from '../index'
 
-interface CodeMirrorConfig extends CodeBlockConfig{
+interface CodeMirrorConfig extends CodeBlockConfig {
   theme: Extension
   previewToggleIcon: (previewOnlyMode: boolean) => string
   previewToggleText: (previewOnlyMode: boolean) => string
@@ -74,7 +74,8 @@ export const codeMirror: DefineFeature<CodeMirrorFeatureConfig> = (
         },
         previewLabel: config.previewLabel || defaultConfig.previewLabel,
         previewLoading: config.previewLoading || defaultConfig.previewLoading,
-        previewOnlyByDefault: config.previewOnlyByDefault ?? defaultConfig.previewOnlyByDefault,
+        previewOnlyByDefault:
+          config.previewOnlyByDefault ?? defaultConfig.previewOnlyByDefault,
       }))
     })
     .use(codeBlockComponent)
