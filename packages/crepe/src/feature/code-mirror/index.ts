@@ -1,4 +1,3 @@
-import type { LanguageDescription } from '@codemirror/language'
 import type { Extension } from '@codemirror/state'
 
 import { defaultKeymap, indentWithTab } from '@codemirror/commands'
@@ -6,6 +5,7 @@ import { keymap } from '@codemirror/view'
 import {
   codeBlockComponent,
   codeBlockConfig,
+  type CodeBlockConfig
 } from '@milkdown/kit/component/code-block'
 import { basicSetup } from 'codemirror'
 
@@ -22,32 +22,12 @@ import {
 } from '../../icons'
 import { CrepeFeature } from '../index'
 
-interface CodeMirrorConfig {
-  extensions: Extension[]
-  languages: LanguageDescription[]
+interface CodeMirrorConfig extends CodeBlockConfig{
   theme: Extension
-
-  expandIcon: string
-  searchIcon: string
-  clearSearchIcon: string
-
-  searchPlaceholder: string
-  copyText: string
-  copyIcon: string
-  onCopy: (text: string) => void
-  noResultText: string
-
-  renderLanguage: (language: string, selected: boolean) => string
-
-  renderPreview: (
-    language: string,
-    content: string
-  ) => string | HTMLElement | null
-
   previewToggleIcon: (previewOnlyMode: boolean) => string
   previewToggleText: (previewOnlyMode: boolean) => string
-  previewLabel: string
 }
+
 export type CodeMirrorFeatureConfig = Partial<CodeMirrorConfig>
 
 export const codeMirror: DefineFeature<CodeMirrorFeatureConfig> = (
@@ -93,6 +73,8 @@ export const codeMirror: DefineFeature<CodeMirrorFeatureConfig> = (
           return [icon, text].map((v) => v.trim()).join(' ')
         },
         previewLabel: config.previewLabel || defaultConfig.previewLabel,
+        previewLoading: config.previewLoading || defaultConfig.previewLoading,
+        previewOnlyByDefault: config.previewOnlyByDefault ?? defaultConfig.previewOnlyByDefault,
       }))
     })
     .use(codeBlockComponent)

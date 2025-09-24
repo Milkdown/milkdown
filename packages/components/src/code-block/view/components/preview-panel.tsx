@@ -7,7 +7,6 @@ import {
   type Ref,
   h,
   Fragment,
-  type ComputedRef,
 } from 'vue'
 
 import type { CodeBlockProps } from './code-block'
@@ -20,7 +19,7 @@ type PreviewPanelProps = Pick<
   'text' | 'language' | 'config'
 > & {
   previewOnlyMode: Ref<boolean>
-  preview: ComputedRef<string | HTMLElement | null>
+  preview: Ref<string | HTMLElement | null>
 }
 
 export const PreviewPanel = defineComponent<PreviewPanelProps>({

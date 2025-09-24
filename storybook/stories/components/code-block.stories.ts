@@ -50,3 +50,58 @@ export const Javascript: StoryObj<CommonArgs> = {
     readonly: false,
   },
 }
+
+export const Preview: StoryObj<CommonArgs> = {
+  render: (args) => {
+    return setupMilkdown([style], args, (editor) => {
+      editor
+        .config((ctx) => {
+          ctx.update(codeBlockConfig.key, (defaultConfig) => ({
+            ...defaultConfig,
+            languages,
+            extensions: [basicSetup, oneDark, keymap.of(defaultKeymap)],
+            renderLanguage: (language, selected) =>
+              `${selected ? '✓' : '   '} ${language}`,
+            renderPreview: (language, content, setPreview) => {
+              // async rendering
+              if (language === 'JavaScript') {
+                setTimeout(() => {
+                  setPreview(`<div>Preview: ${content}</div>`)
+                }, 1000)
+                return
+              }
+
+              // sync rendering
+              if (language === 'TypeScript') {
+                return `<div>Preview: ${content}</div>`
+              }
+
+              // no preview
+              return null
+            },
+            previewToggleButton: (previewOnlyMode) => (previewOnlyMode ? '|🪖Show' : '|🫥Hide'),
+            previewLoading: 'Preview Rendering...',
+          }))
+        })
+        .use(codeBlockComponent)
+    })
+  },
+  args: {
+    defaultValue: `
+# Code Block
+
+\`\`\`JavaScript
+const a = 1;
+\`\`\`
+
+\`\`\`TypeScript
+function () {}
+\`\`\`
+
+\`\`\`css
+h {}
+\`\`\`
+`,
+    readonly: true,
+  },
+}

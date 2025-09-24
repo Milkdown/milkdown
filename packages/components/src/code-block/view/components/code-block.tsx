@@ -7,8 +7,8 @@ import {
   type Ref,
   h,
   Fragment,
-  computed,
   onMounted,
+  watch
 } from 'vue'
 
 import type { CodeBlockConfig } from '../../config'
@@ -69,8 +69,10 @@ export const CodeBlock = defineComponent<CodeBlockProps>({
     },
   },
   setup(props) {
-    const previewOnlyMode = ref(false)
+    const previewOnlyByDefault = props.config.previewOnlyByDefault ?? props.getReadOnly()
+    const previewOnlyMode = ref(previewOnlyByDefault)
     const codemirrorHostRef = ref<HTMLDivElement>()
+    const preview = ref< null | string | HTMLElement>(null)
 
     onMounted(() => {
       while (codemirrorHostRef.value?.firstChild) {
@@ -82,12 +84,22 @@ export const CodeBlock = defineComponent<CodeBlockProps>({
       }
     })
 
-    const preview = computed(() => {
-      const text = props.text.value
-      const language = props.language.value
+    watch(() => [props.text.value, props.language.value], () => {
+      const result = props.config.renderPreview(props.language.value, props.text.value, (value) => preview.value = value)
+      if (result) {
+        preview.value = result
+      }
 
-      return props.config.renderPreview(language, text)
-    })
+      // set default value for async renderPreview
+      const isAsyncPreview = result === undefined
+      if (isAsyncPreview && !preview.value) {
+        preview.value = props.config.previewLoading
+      }
+
+      if (result === null) {
+        preview.value = null
+      }
+    }, { immediate: true })
 
     const empty = () => {}
 
