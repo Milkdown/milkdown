@@ -1,6 +1,7 @@
 import type { EditorView as CodeMirror } from '@codemirror/view'
 
 import clsx from 'clsx'
+import DOMPurify from 'dompurify'
 import {
   defineComponent,
   ref,
@@ -100,7 +101,7 @@ export const CodeBlock = defineComponent<CodeBlockProps>({
         // set default value for async renderPreview
         const isAsyncPreview = result === undefined
         if (isAsyncPreview && !preview.value) {
-          preview.value = props.config.previewLoading
+          preview.value = DOMPurify.sanitize(props.config.previewLoading)
         }
 
         if (result === null) {

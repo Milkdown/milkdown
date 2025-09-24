@@ -62,11 +62,11 @@ export const Preview: StoryObj<CommonArgs> = {
             extensions: [basicSetup, oneDark, keymap.of(defaultKeymap)],
             renderLanguage: (language, selected) =>
               `${selected ? '✓' : '   '} ${language}`,
-            renderPreview: (language, content, setPreview) => {
+            renderPreview: (language, content, applyPreview) => {
               // async rendering
               if (language === 'JavaScript') {
                 setTimeout(() => {
-                  setPreview(`<div>Preview: ${content}</div>`)
+                  applyPreview(`<div>Preview: ${content}</div>`)
                 }, 1000)
                 return
               }

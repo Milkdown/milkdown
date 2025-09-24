@@ -20,7 +20,7 @@ export interface CodeBlockConfig {
   renderPreview: (
     language: string,
     content: string,
-    setPreview: (value: null | string | HTMLElement) => void
+    applyPreview: (value: null | string | HTMLElement) => void
   ) => void | null | string | HTMLElement
   previewToggleButton: (previewOnlyMode: boolean) => string
   previewLabel: string

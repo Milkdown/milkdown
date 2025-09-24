@@ -35,12 +35,12 @@ export const latex: DefineFeature<LatexFeatureConfig> = (editor, config) => {
 
       ctx.update(codeBlockConfig.key, (prev) => ({
         ...prev,
-        renderPreview: (language, content, setPreview) => {
+        renderPreview: (language, content, applyPreview) => {
           if (language.toLowerCase() === 'latex' && content.length > 0) {
             return renderLatex(content, config?.katexOptions)
           }
           const renderPreview = prev.renderPreview
-          return renderPreview(language, content, setPreview)
+          return renderPreview(language, content, applyPreview)
         },
       }))
 
