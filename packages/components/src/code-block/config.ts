@@ -19,10 +19,13 @@ export interface CodeBlockConfig {
   renderLanguage: (language: string, selected: boolean) => string
   renderPreview: (
     language: string,
-    content: string
-  ) => null | string | HTMLElement
+    content: string,
+    applyPreview: (value: null | string | HTMLElement) => void
+  ) => void | null | string | HTMLElement
   previewToggleButton: (previewOnlyMode: boolean) => string
   previewLabel: string
+  previewOnlyByDefault?: boolean
+  previewLoading: string | HTMLElement
 }
 
 export const defaultConfig: CodeBlockConfig = {
@@ -40,6 +43,7 @@ export const defaultConfig: CodeBlockConfig = {
   renderPreview: () => null,
   previewToggleButton: (previewOnlyMode) => (previewOnlyMode ? 'Edit' : 'Hide'),
   previewLabel: 'Preview',
+  previewLoading: 'Loading...',
 }
 
 export const codeBlockConfig = $ctx(defaultConfig, 'codeBlockConfigCtx')

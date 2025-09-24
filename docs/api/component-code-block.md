@@ -54,22 +54,24 @@ You can configure the component by updating the `codeBlockConfig` ctx in `editor
 
 ## Configuration Options
 
-| Option                | Type                                                                   | Default                            | Description                                                         |
-| --------------------- | ---------------------------------------------------------------------- | ---------------------------------- | ------------------------------------------------------------------- |
-| `extensions`          | `Extension[]`                                                          | `[]`                               | Codemirror extensions                                               |
-| `languages`           | `LanguageDescription[]`                                                | `[]`                               | Codemirror language data                                            |
-| `expandIcon`          | `string`                                                               | `'⬇'`                             | Icon for expanding the language picker                              |
-| `searchIcon`          | `string`                                                               | `'🔍'`                             | Icon for search                                                     |
-| `clearSearchIcon`     | `string`                                                               | `'⌫'`                              | Icon for clearing the search input                                  |
-| `searchPlaceholder`   | `string`                                                               | `'Search language'`                | Placeholder for the search input                                    |
-| `noResultText`        | `string`                                                               | `'No result'`                      | Text when no language matches                                       |
-| `copyText`            | `string`                                                               | `'Copy'`                           | Text for the copy button                                            |
-| `copyIcon`            | `string`                                                               | `'📋'`                             | Icon for the copy button                                            |
-| `onCopy`              | `(text: string) => void` (optional)                                    | `() => {}`                         | Callback when code is copied                                        |
-| `renderLanguage`      | `(language: string, selected: boolean) => string`                      | `(language) => language`           | Function to render a language in the picker (must return a string)  |
-| `renderPreview`       | `(language: string, content: string) => null \| string \| HTMLElement` | `() => null`                       | Function to render a preview (return null to hide)                  |
-| `previewToggleButton` | `(previewOnlyMode: boolean) => string`                                 | `(mode) => mode ? 'Edit' : 'Hide'` | Function to render the preview toggle button (must return a string) |
-| `previewLabel`        | `string`                                                               | `'Preview'`                        | Label for the preview panel                                         |
+| Option                 | Type                                                                                                                                                        | Default                            | Description                                                                              |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------- |
+| `extensions`           | `Extension[]`                                                                                                                                               | `[]`                               | Codemirror extensions                                                                    |
+| `languages`            | `LanguageDescription[]`                                                                                                                                     | `[]`                               | Codemirror language data                                                                 |
+| `expandIcon`           | `string`                                                                                                                                                    | `'⬇'`                             | Icon for expanding the language picker                                                   |
+| `searchIcon`           | `string`                                                                                                                                                    | `'🔍'`                             | Icon for search                                                                          |
+| `clearSearchIcon`      | `string`                                                                                                                                                    | `'⌫'`                              | Icon for clearing the search input                                                       |
+| `searchPlaceholder`    | `string`                                                                                                                                                    | `'Search language'`                | Placeholder for the search input                                                         |
+| `noResultText`         | `string`                                                                                                                                                    | `'No result'`                      | Text when no language matches                                                            |
+| `copyText`             | `string`                                                                                                                                                    | `'Copy'`                           | Text for the copy button                                                                 |
+| `copyIcon`             | `string`                                                                                                                                                    | `'📋'`                             | Icon for the copy button                                                                 |
+| `onCopy`               | `(text: string) => void` (optional)                                                                                                                         | `() => {}`                         | Callback when code is copied                                                             |
+| `renderLanguage`       | `(language: string, selected: boolean) => string`                                                                                                           | `(language) => language`           | Function to render a language in the picker (must return a string)                       |
+| `renderPreview`        | `renderPreview: (language: string, content: string, applyPreview: (value: null \| string \| HTMLElement) => void) => void \| null \| string \| HTMLElement` | `() => null`                       | Function to render a preview (return null to hide, reutrn undefined for async rendering) |
+| `previewToggleButton`  | `(previewOnlyMode: boolean) => string`                                                                                                                      | `(mode) => mode ? 'Edit' : 'Hide'` | Function to render the preview toggle button (must return a string)                      |
+| `previewLabel`         | `string`                                                                                                                                                    | `'Preview'`                        | Label for the preview panel                                                              |
+| `previewOnlyByDefault` | `boolean`                                                                                                                                                   | `true` for `readonly`              | Whether to show the preview only by default                                              |
+| `previewLoading`       | `string \| HTMLElement`                                                                                                                                     | `'Loading...'`                     | Content for the async preview loading                                                    |
 
 ---
 
@@ -178,17 +180,26 @@ ctx.update(codeBlockConfig.key, (defaultConfig) => ({
 
 ## `renderPreview`
 
-A function to render the preview of the code block. Can return a string, HTMLElement, or null (to hide the preview).
+A function to render the preview of the code block. Can return a string, HTMLElement, null (to hide the preview), or undefined (to show `previewLoading` and asyncly render the preview).
 
 ```typescript
 import { codeBlockConfig } from '@milkdown/components/code-block'
 
 ctx.update(codeBlockConfig.key, (defaultConfig) => ({
   ...defaultConfig,
-  renderPreview: (language, content) => {
+  renderPreview: (language, content, applyPreview) => {
+    // sync
     if (language === 'latex' && content.length > 0) {
       return renderLatexToDOM(content)
     }
+
+    // async
+    if (language === 'JavaScript') {
+      compileJs(content).then((res) => applyPreview(res))
+      return
+    }
+
+    // hide the preview
     return null
   },
 }))
@@ -205,5 +216,31 @@ ctx.update(codeBlockConfig.key, (defaultConfig) => ({
   ...defaultConfig,
   previewToggleButton: (previewOnlyMode) =>
     previewOnlyMode ? 'Show code' : 'Hide code',
+}))
+```
+
+## `previewOnlyByDefault`
+
+Whether to show the preview only by default.
+
+```typescript
+import { codeBlockConfig } from '@milkdown/components/code-block'
+
+ctx.update(codeBlockConfig.key, (defaultConfig) => ({
+  ...defaultConfig,
+  previewOnlyByDefault: false,
+}))
+```
+
+## `previewLoading`
+
+Content for the async preview loading.
+
+```typescript
+import { codeBlockConfig } from '@milkdown/components/code-block'
+
+ctx.update(codeBlockConfig.key, (defaultConfig) => ({
+  ...defaultConfig,
+  previewLoading: '<div>Loading...</div>',
 }))
 ```

@@ -24,12 +24,14 @@
       align-items: center;
     }
 
-    .copy-button {
+    .copy-button,
+    .preview-toggle-button {
       opacity: 0;
       transition: opacity 0.2s ease-in-out;
     }
 
     &:hover .copy-button,
+    &:hover .preview-toggle-button,
     .copy-button--copied {
       opacity: 1;
     }
