@@ -1,5 +1,5 @@
 ---
-"@milkdown/plugin-clipboard": patch
+'@milkdown/plugin-clipboard': patch
 ---
 
 fix: clipboard - clamp slice on paste to keep table header
