@@ -11,21 +11,8 @@ import { DOMParser, DOMSerializer } from '@milkdown/prose/model'
 import { Plugin, PluginKey, TextSelection } from '@milkdown/prose/state'
 import { $prose } from '@milkdown/utils'
 
-type UnknownRecord = Record<string, unknown>
-function isPureText(
-  content: UnknownRecord | UnknownRecord[] | undefined | null
-): boolean {
-  if (!content) return false
-  if (Array.isArray(content)) {
-    if (content.length > 1) return false
-    return isPureText(content[0])
-  }
-
-  const child = content.content
-  if (child) return isPureText(child as UnknownRecord[])
-
-  return content.type === 'text'
-}
+import { isPureText } from './__internal__/is-pure-text'
+import { withMeta } from './__internal__/with-meta'
 
 /// The prosemirror plugin for clipboard.
 export const clipboard = $prose((ctx) => {
@@ -124,7 +111,4 @@ export const clipboard = $prose((ctx) => {
   return plugin
 })
 
-clipboard.meta = {
-  displayName: 'Prose<clipboard>',
-  package: '@milkdown/plugin-clipboard',
-}
+withMeta(clipboard, { displayName: 'Prose<clipboard>' })

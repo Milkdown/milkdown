@@ -534,6 +534,9 @@ importers:
       '@milkdown/core':
         specifier: workspace:*
         version: link:../../core
+      '@milkdown/ctx':
+        specifier: workspace:*
+        version: link:../../ctx
       '@milkdown/prose':
         specifier: workspace:*
         version: link:../../prose

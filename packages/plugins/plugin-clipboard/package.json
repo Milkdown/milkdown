@@ -38,6 +38,7 @@
   ],
   "dependencies": {
     "@milkdown/core": "workspace:*",
+    "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/utils": "workspace:*"
   }
