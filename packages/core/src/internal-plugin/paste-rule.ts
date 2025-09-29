@@ -23,6 +23,10 @@ export const pasteRuleTimerCtx = createSlice([SchemaReady], 'pasteRuleTimer')
 /// The timer which will be resolved when the paste rule plugin is ready.
 export const PasteRuleReady = createTimer('PasteRuleReady')
 
+/// The paste rule plugin.
+/// This plugin will collect the paste rules to the editor view.
+///
+/// This plugin will wait for the schema plugin.
 export const pasteRule: MilkdownPlugin = (ctx) => {
   ctx
     .inject(pasteRuleCtx, [])
