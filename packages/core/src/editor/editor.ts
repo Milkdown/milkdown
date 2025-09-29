@@ -12,6 +12,7 @@ import {
   init,
   keymap,
   parser,
+  pasteRule,
   schema,
   serializer,
 } from '../internal-plugin'
@@ -85,6 +86,7 @@ export class Editor {
       serializer,
       commands,
       keymap,
+      pasteRule,
       editorState,
       editorView,
       init(this),

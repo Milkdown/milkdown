@@ -15,7 +15,7 @@ export type PasteRule = {
 }
 
 /// A slice which contains the paste rules.
-export const pasteRuleCtx = createSlice([] as PasteRule[], 'pasteRule')
+export const pasteRulesCtx = createSlice([] as PasteRule[], 'pasteRule')
 
 /// A slice which stores timers that need to be waited for before starting to run the paste rule plugin.
 /// By default, it's `[SchemaReady]`.
@@ -30,7 +30,7 @@ export const PasteRuleReady = createTimer('PasteRuleReady')
 /// This plugin will wait for the schema plugin.
 export const pasteRule: MilkdownPlugin = (ctx) => {
   ctx
-    .inject(pasteRuleCtx, [])
+    .inject(pasteRulesCtx, [])
     .inject(pasteRuleTimerCtx, [SchemaReady])
     .record(PasteRuleReady)
 
@@ -41,7 +41,7 @@ export const pasteRule: MilkdownPlugin = (ctx) => {
 
     return () => {
       ctx
-        .remove(pasteRuleCtx)
+        .remove(pasteRulesCtx)
         .remove(pasteRuleTimerCtx)
         .clearTimer(PasteRuleReady)
     }

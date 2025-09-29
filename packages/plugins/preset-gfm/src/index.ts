@@ -3,6 +3,7 @@ import {
   inputRules,
   keymap,
   markInputRules,
+  pasteRules,
   plugins,
   schema,
 } from './composed'
@@ -16,6 +17,7 @@ export * from './composed'
 export const gfm = [
   schema,
   inputRules,
+  pasteRules,
   markInputRules,
   keymap,
   commands,

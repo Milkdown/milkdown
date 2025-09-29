@@ -87,8 +87,12 @@ export const clipboard = $prose((ctx) => {
           return true
         }
 
-        view.dispatch(view.state.tr.replaceSelection(slice))
-        return true
+        try {
+          view.dispatch(view.state.tr.replaceSelection(slice))
+          return true
+        } catch {
+          return false
+        }
       },
       clipboardTextSerializer: (slice) => {
         const serializer = ctx.get(serializerCtx)
