@@ -3,6 +3,7 @@ import type { EditorView } from '@milkdown/prose/view'
 
 import { createSlice, createTimer, type MilkdownPlugin } from '@milkdown/ctx'
 
+import { withMeta } from '../__internal__'
 import { SchemaReady } from './schema'
 
 /// A paste rule function which takes a slice and returns a new slice.
@@ -46,3 +47,7 @@ export const pasteRule: MilkdownPlugin = (ctx) => {
     }
   }
 }
+
+withMeta(pasteRule, {
+  displayName: 'PasteRule',
+})
