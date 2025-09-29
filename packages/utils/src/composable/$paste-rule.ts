@@ -2,7 +2,7 @@ import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
 
 import {
   pasteRulesCtx,
-  pasteRuleTimerCtx,
+  pasteRulesTimerCtx,
   SchemaReady,
   type PasteRule,
 } from '@milkdown/core'
@@ -53,7 +53,7 @@ export function $pasteRuleAsync(
         ctx.update(pasteRulesCtx, (prs) => prs.filter((x) => x !== pr))
       }
     },
-    pasteRuleTimerCtx,
+    pasteRulesTimerCtx,
     timerName
   )
 }

@@ -25,6 +25,7 @@ Editor.make().use(commonmark).use(gfm).create()
 @tableCellSchema
 
 @insertTableInputRule
+@tablePasteRule
 @tableKeymap
 
 ## Commands
