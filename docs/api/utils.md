@@ -20,6 +20,9 @@
 @$inputRule
 @$inputRuleAsync
 
+@$pasteRule
+@$pasteRuleAsync
+
 @$shortcut
 @$shortcutAsync
 

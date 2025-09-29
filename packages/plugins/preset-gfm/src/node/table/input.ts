@@ -1,7 +1,9 @@
 import { commandsCtx } from '@milkdown/core'
+import { paragraphSchema } from '@milkdown/preset-commonmark'
 import { InputRule } from '@milkdown/prose/inputrules'
+import { Fragment, Slice } from '@milkdown/prose/model'
 import { TextSelection } from '@milkdown/prose/state'
-import { $inputRule, $useKeymap } from '@milkdown/utils'
+import { $inputRule, $pasteRule, $useKeymap } from '@milkdown/utils'
 
 import { withMeta } from '../../__internal__'
 import {
@@ -9,7 +11,7 @@ import {
   goToNextTableCellCommand,
   goToPrevTableCellCommand,
 } from './command'
-import { tableSchema } from './schema'
+import { tableHeaderSchema, tableSchema } from './schema'
 import { createTable } from './utils'
 
 /// A input rule for creating table.
@@ -44,6 +46,62 @@ export const insertTableInputRule = $inputRule(
 
 withMeta(insertTableInputRule, {
   displayName: 'InputRule<insertTableInputRule>',
+  group: 'Table',
+})
+
+/// A paste rule for fixing tables without header cells.
+/// This is a workaround for some editors (e.g. Google Docs) which allow creating tables without header cells,
+/// which is not supported by Markdown schema.
+/// This paste rule will add header cells to the first row if it's missing.
+export const tablePasteRule = $pasteRule((ctx) => ({
+  run: (slice, _view, isPlainText) => {
+    if (isPlainText) {
+      return slice
+    }
+    let fragment = slice.content
+
+    slice.content.forEach((node, _offset, index) => {
+      if (node?.type !== tableSchema.type(ctx)) {
+        return
+      }
+      const rowsCount = node.childCount
+      const colsCount = node.lastChild?.childCount ?? 0
+      if (rowsCount === 0 || colsCount === 0) {
+        fragment = fragment.replaceChild(
+          index,
+          paragraphSchema.type(ctx).create()
+        )
+        return
+      }
+
+      const headerRow = node.firstChild
+      const needToFixHeaderRow =
+        colsCount > 0 && headerRow && headerRow.childCount === 0
+      if (!needToFixHeaderRow) {
+        return
+      }
+      // Fix for tables with rows but no cells in the first row
+      const headerCells = Array(colsCount)
+        .fill(0)
+        .map(() => tableHeaderSchema.type(ctx).createAndFill()!)
+
+      const tableCells = new Slice(Fragment.from(headerCells), 0, 0)
+
+      const newHeaderRow = headerRow.replace(0, 0, tableCells)
+      const newTable = node.replace(
+        0,
+        headerRow.nodeSize,
+        new Slice(Fragment.from(newHeaderRow), 0, 0)
+      )
+      fragment = fragment.replaceChild(index, newTable)
+    })
+
+    return new Slice(Fragment.from(fragment), slice.openStart, slice.openEnd)
+  },
+}))
+
+withMeta(tablePasteRule, {
+  displayName: 'PasteRule<table>',
   group: 'Table',
 })
 

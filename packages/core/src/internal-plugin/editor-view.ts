@@ -15,6 +15,7 @@ import {
 } from './atoms'
 import { EditorStateReady } from './editor-state'
 import { InitReady } from './init'
+import { pasteRulesCtx, PasteRulesReady } from './paste-rule'
 
 type EditorOptions = Omit<DirectEditorProps, 'state'>
 
@@ -83,7 +84,7 @@ export const editorView: MilkdownPlugin = (ctx) => {
     .inject(editorViewOptionsCtx, {})
     .inject(rootDOMCtx, null as unknown as HTMLElement)
     .inject(rootAttrsCtx, {})
-    .inject(editorViewTimerCtx, [EditorStateReady])
+    .inject(editorViewTimerCtx, [EditorStateReady, PasteRulesReady])
     .record(EditorViewReady)
 
   return async () => {
@@ -129,6 +130,17 @@ export const editorView: MilkdownPlugin = (ctx) => {
       state,
       nodeViews,
       markViews,
+      transformPasted: (slice, view, isPlainText) => {
+        ctx
+          .get(pasteRulesCtx)
+          .sort((a, b) => (b.priority ?? 50) - (a.priority ?? 50))
+          .map((rule) => rule.run)
+          .forEach((runner) => {
+            slice = runner(slice, view, isPlainText)
+          })
+
+        return slice
+      },
       ...options,
     })
     prepareViewDom(view.dom)

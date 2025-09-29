@@ -1,5 +1,6 @@
 export * from './$command'
 export * from './$input-rule'
+export * from './$paste-rule'
 export * from './$mark'
 export * from './$node'
 export * from './$prose'

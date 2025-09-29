@@ -120,6 +120,21 @@ The core module for milkdown.
 
 @keymapCtx
 
+## Paste Rules
+
+@pasteRule
+
+### Timer
+
+@PasteRulesReady
+
+### Slice
+
+@pasteRulesTimerCtx
+
+@pasteRulesCtx
+@PasteRule
+
 ## EditorState
 
 @editorState
