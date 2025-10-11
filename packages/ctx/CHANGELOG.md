@@ -1,5 +1,20 @@
 # @milkdown/ctx
 
+## 7.17.0
+
+### Minor Changes
+
+- 4ced9da: Milkdown minor release.
+
+  ## Feat
+  - feat: 🎸 add paste rule (#2126)
+  - feat: support to render async preview in code block (#2117)
+
+### Patch Changes
+
+- Updated dependencies [4ced9da]
+  - @milkdown/exception@7.17.0
+
 ## 7.16.0
 
 ### Minor Changes
