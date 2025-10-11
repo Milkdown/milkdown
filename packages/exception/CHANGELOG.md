@@ -1,5 +1,17 @@
 # @milkdown/exception
 
+## 7.17.1
+
+### Patch Changes
+
+- bf8b561: Milkdown patch version release
+
+  ## Ci
+  - ci: 🎡 release with OIDC
+
+  This version does not contain any user-facing changes.
+  We've migrated our release workflow to use OpenID Connect (OIDC) for authentication. This change enhances security by eliminating the need for long-lived personal access tokens, thereby reducing the risk of token leakage. The new setup allows GitHub Actions to securely authenticate with our package registry using short-lived tokens, ensuring a more robust and secure release process.
+
 ## 7.17.0
 
 ### Minor Changes

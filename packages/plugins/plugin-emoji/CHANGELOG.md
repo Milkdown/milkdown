@@ -1,5 +1,25 @@
 # @milkdown/plugin-emoji
 
+## 7.17.1
+
+### Patch Changes
+
+- bf8b561: Milkdown patch version release
+
+  ## Ci
+  - ci: 🎡 release with OIDC
+
+  This version does not contain any user-facing changes.
+  We've migrated our release workflow to use OpenID Connect (OIDC) for authentication. This change enhances security by eliminating the need for long-lived personal access tokens, thereby reducing the risk of token leakage. The new setup allows GitHub Actions to securely authenticate with our package registry using short-lived tokens, ensuring a more robust and secure release process.
+
+- Updated dependencies [bf8b561]
+  - @milkdown/core@7.17.1
+  - @milkdown/ctx@7.17.1
+  - @milkdown/exception@7.17.1
+  - @milkdown/prose@7.17.1
+  - @milkdown/transformer@7.17.1
+  - @milkdown/utils@7.17.1
+
 ## 7.17.0
 
 ### Minor Changes
