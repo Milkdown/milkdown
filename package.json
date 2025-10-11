@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@10.18.2",
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   },
   "scripts": {
     "test": "pnpm test:lint && pnpm test:unit",
@@ -45,7 +45,7 @@
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/user-event": "^14.6.1",
-    "@types/node": "^22.18.1",
+    "@types/node": "^24.7.1",
     "@typescript-eslint/parser": "^8.29.1",
     "@vitejs/plugin-vue-jsx": "^5.0.0",
     "autoprefixer": "^10.2.5",
