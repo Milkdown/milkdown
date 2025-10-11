@@ -1,12 +1,6 @@
 name: Setup
 description: Setup the environment
 
-inputs:
-  node-version:
-    description: The version of node.js
-    required: false
-    default: '20'
-
 runs:
   using: composite
   steps:
@@ -17,7 +11,7 @@ runs:
     - name: Setup node
       uses: actions/setup-node@v5
       with:
-        node-version: ${{ inputs.node-version }}
+        node-version-file: '.nvmrc'
         cache: pnpm
         registry-url: 'https://registry.npmjs.org'
 
