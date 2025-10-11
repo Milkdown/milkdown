@@ -1,5 +1,37 @@
 # @milkdown/kit
 
+## 7.17.0
+
+### Minor Changes
+
+- 4ced9da: Milkdown minor release.
+
+  ## Feat
+  - feat: 🎸 add paste rule (#2126)
+  - feat: support to render async preview in code block (#2117)
+
+### Patch Changes
+
+- Updated dependencies [4ced9da]
+  - @milkdown/components@7.17.0
+  - @milkdown/core@7.17.0
+  - @milkdown/ctx@7.17.0
+  - @milkdown/plugin-block@7.17.0
+  - @milkdown/plugin-clipboard@7.17.0
+  - @milkdown/plugin-cursor@7.17.0
+  - @milkdown/plugin-history@7.17.0
+  - @milkdown/plugin-indent@7.17.0
+  - @milkdown/plugin-listener@7.17.0
+  - @milkdown/plugin-slash@7.17.0
+  - @milkdown/plugin-tooltip@7.17.0
+  - @milkdown/plugin-trailing@7.17.0
+  - @milkdown/plugin-upload@7.17.0
+  - @milkdown/preset-commonmark@7.17.0
+  - @milkdown/preset-gfm@7.17.0
+  - @milkdown/prose@7.17.0
+  - @milkdown/transformer@7.17.0
+  - @milkdown/utils@7.17.0
+
 ## 7.16.0
 
 ### Minor Changes
