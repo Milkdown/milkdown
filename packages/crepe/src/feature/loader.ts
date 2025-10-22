@@ -8,6 +8,7 @@ import { CrepeFeature } from './index'
 import { latex } from './latex'
 import { linkTooltip } from './link-tooltip'
 import { listItem } from './list-item'
+import { mermaid1 } from './mermaid'
 import { placeholder } from './placeholder'
 import { table } from './table'
 import { toolbar } from './toolbar'
@@ -47,6 +48,9 @@ export function loadFeature(
     }
     case CrepeFeature.Latex: {
       return latex(editor, config)
+    }
+    case CrepeFeature.Mermaid: {
+      return mermaid1(editor, config)
     }
   }
 }

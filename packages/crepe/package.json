@@ -156,6 +156,7 @@
     "codemirror": "^6.0.1",
     "katex": "^0.16.0",
     "lodash-es": "^4.17.21",
+    "mermaid": "^11.12.0",
     "prosemirror-virtual-cursor": "^0.4.2",
     "remark-math": "^6.0.0",
     "unist-util-visit": "^5.0.0",

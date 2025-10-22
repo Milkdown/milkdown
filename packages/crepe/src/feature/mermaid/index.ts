@@ -1,24 +1,21 @@
+import type { MermaidConfig } from 'mermaid'
+
 import { codeBlockConfig } from '@milkdown/kit/component/code-block'
+import mermaid from 'mermaid'
+
 import type { DefineFeature } from '../shared'
 
-import { CrepeFeature } from '../..'
-import { FeaturesCtx } from '../../core/slice'
+import { crepeFeatureConfig, FeaturesCtx } from '../../core/slice'
+import { downloadIcon } from '../../icons/download'
+import { fitViewportIcon } from '../../icons/fit-viewport'
+import { fullscreenIcon } from '../../icons/fullscreen'
+import { zoomInIcon } from '../../icons/zoomin'
+import { zoomOutIcon } from '../../icons/zoomout'
+import { PanZoom } from '../../utils/panzoom'
+import { CrepeFeature } from '../index'
 import { blockMermaidSchema } from './block-mermaid'
 import { mermaidBlockInputRule } from './input-rule'
 import { remarkMermaidBlockPlugin } from './remark'
-
-import type { MermaidConfig } from 'mermaid'
-import mermaid from 'mermaid'
-
-import {
-  zoomInIcon,
-  zoomOutIcon,
-  fullscreenIcon,
-  fitViewportIcon,
-  downloadIcon,
-} from '../../icons'
-
-import { PanZoom } from '../../utils/panzoom'
 
 
 function uuid() {
@@ -62,16 +59,16 @@ export const defineFeature: DefineFeature<MermaidFeatureConfig> = (
         ...config
       });
       // 关闭全局错误解析
-      mermaid.parseError = () => {};
+      mermaid.parseError = () => { };
 
       ctx.update(codeBlockConfig.key, (prev) => ({
         ...prev,
-        renderPreview: (language, content) => {
+        renderPreview: (language, content, applyPreview) => {
           if (language.toLowerCase() === 'mermaid' && content.length > 0) {
             return renderMermaid(content);
           }
           const renderPreview0 = prev.renderPreview;
-          return renderPreview0 ? renderPreview0(language, content) : null;
+          return renderPreview0 ? renderPreview0(language, content, applyPreview) : null;
         },
       }))
 
@@ -82,18 +79,18 @@ export const defineFeature: DefineFeature<MermaidFeatureConfig> = (
 }
 
 function renderMermaid(content: string) {
-  const graphId = 'mermaid-'+ uuid();
+  const graphId = 'mermaid-' + uuid();
   let dom = document.createElement('div');
   dom.className = 'milkdown-mermaid-preview-panel';
   dom.id = graphId;
-  
-  (function(divId) {
+
+  (function (divId) {
     try {
       // 先验证语法,提前抛出错误, 为了增量渲染正确的部分
       // 配置了 suppressErrors = false, 当语法无效时抛出错误异常
-      mermaid.parse(content, {suppressErrors: false})
-        .then(() => {
-          renderSvg(divId, content);
+      mermaid.parse(content, { suppressErrors: false })
+        .then(async () => {
+          await renderSvg(divId, content);
         })
         .catch((err) => {
           const previewDiv = document.getElementById(divId);
@@ -106,7 +103,7 @@ function renderMermaid(content: string) {
             console.error('>>>>> 渲染错误:', err);
           }
         });
-      
+
     } catch (e) {
       console.error(e);
     }
@@ -116,9 +113,9 @@ function renderMermaid(content: string) {
   return dom;
 }
 
-function renderSvg(divId: string, svgContent: string) {
-  const svgId = 'mermaid-svg-'+ divId;
-  mermaid.render(svgId, svgContent).then((output: any) => {
+async function renderSvg(divId: string, svgContent: string) {
+  const svgId = 'mermaid-svg-' + divId;
+  await mermaid.render(svgId, svgContent).then((output: any) => {
     let stime = Date.now();
     let previewPanel: HTMLElement | null;
     while (!(previewPanel = document.getElementById(divId))) {
@@ -127,7 +124,7 @@ function renderSvg(divId: string, svgContent: string) {
       }
     }
     if (!previewPanel) {
-      console.error('Mermaid渲染失败，没有找到渲染节点: div#'+ divId);
+      console.error('Mermaid渲染失败，没有找到渲染节点: div#' + divId);
       return;
     }
 
@@ -147,7 +144,7 @@ function renderSvg(divId: string, svgContent: string) {
       <button class="toolbar-item" title="切换全屏模式" data-action="fullscreen">${fullscreenIcon}</button>
     </div>
     `;
-  
+
     const svgCode = output.svg;
     const svgPanel = previewPanel.querySelector('.milkdown-mermaid-svg') as HTMLElement;
     if (!svgPanel) {
@@ -155,7 +152,7 @@ function renderSvg(divId: string, svgContent: string) {
       return;
     }
     svgPanel.innerHTML = svgCode;
-    const svgImg = document.querySelector('#'+ svgId);
+    const svgImg = document.querySelector('#' + svgId);
     if (!svgImg) {
       return;
     }
@@ -173,9 +170,9 @@ function renderSvg(divId: string, svgContent: string) {
       width: svgWidth,
       height: svgHeight,
       fitOnInit: true,
-      beforeWheel: (e) => {
+      beforeWheel: (e: any) => {
         // Ctrl + 滚轮缩放
-        return !e.ctrlKey && !e.metaKey; 
+        return !e.ctrlKey && !e.metaKey;
       }
     });
 
@@ -231,7 +228,7 @@ function downloadSvg(svgCode: string, format: string) {
     let svgEle;
     try {
       svgEle = new DOMParser().parseFromString(svgCode, "text/xml").querySelector("svg");
-    } catch(e) {
+    } catch (e) {
       console.error('DOMParser failed to parse mermaid-svg-code: ', e);
       return;
     }
@@ -240,14 +237,14 @@ function downloadSvg(svgCode: string, format: string) {
       return;
     }
 
-    const svgW = svgEle.viewBox.baseVal.width, 
-          svgH = svgEle.viewBox.baseVal.height;
-    
+    const svgW = svgEle.viewBox.baseVal.width,
+      svgH = svgEle.viewBox.baseVal.height;
+
     const canvas = document.createElement("canvas");
     canvas.width = 3 * svgW,
-    canvas.height = 3 * svgH,
-    canvas.style.width = svgW + 'px',
-    canvas.style.height = svgH + 'px';
+      canvas.height = 3 * svgH,
+      canvas.style.width = svgW + 'px',
+      canvas.style.height = svgH + 'px';
     const ctx = canvas.getContext("2d");
     if (!ctx) {
       console.error('no svg-convas-context2d');
@@ -288,4 +285,11 @@ function downloadSvg(svgCode: string, format: string) {
     URL.revokeObjectURL(url);
   }
 
+}
+
+// 新增：将 mermaid 注册为 crepe feature，并调用已有的 defineFeature 实现
+// 注意：保持与其他 feature 文件一致的特性标记注册顺序
+export const mermaid1: DefineFeature<MermaidFeatureConfig> = (editor, config) => {
+  editor.config(crepeFeatureConfig(CrepeFeature.Mermaid));
+  defineFeature(editor, config);
 }
