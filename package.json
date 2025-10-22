@@ -74,7 +74,7 @@
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.29.1",
     "vite": "^7.0.0",
-    "vitest": "^3.0.0"
+    "vitest": "^4.0.0"
   },
   "pnpm": {
     "peerDependencyRules": {
