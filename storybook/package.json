@@ -22,9 +22,9 @@
     "shiki": "^3.0.0"
   },
   "devDependencies": {
-    "@storybook/html": "^9.0.0",
-    "@storybook/html-vite": "^9.0.0",
+    "@storybook/html": "^10.0.0",
+    "@storybook/html-vite": "^10.0.0",
     "serve": "^14.2.3",
-    "storybook": "^9.0.0"
+    "storybook": "^10.0.0"
   }
 }
