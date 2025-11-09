@@ -26,6 +26,8 @@ type ToolbarProps = {
   show: Ref<boolean>
   selection: ShallowRef<Selection>
   config?: ToolbarFeatureConfig
+  markdownView?: Ref<boolean>
+  toggleMarkdownView?: () => void
 }
 
 export const Toolbar = defineComponent<ToolbarProps>({
@@ -50,16 +52,33 @@ export const Toolbar = defineComponent<ToolbarProps>({
       type: Object,
       required: false,
     },
+    markdownView: {
+      type: Object,
+      required: false,
+    },
+    toggleMarkdownView: {
+      type: Function,
+      required: false,
+    },
   },
   setup(props) {
     const { ctx, config } = props
 
-    const onClick = (fn: (ctx: Ctx) => void) => (e: MouseEvent) => {
+    const onClick = (fn: (ctx: Ctx) => void, itemId?: string) => (e: MouseEvent) => {
       e.preventDefault()
-      ctx && fn(ctx)
+      if (itemId === 'markdown-view' && props.toggleMarkdownView) {
+        props.toggleMarkdownView()
+      } else if (ctx && fn) {
+        fn(ctx)
+      }
     }
 
-    function checkActive(checker: ToolbarItem['active']) {
+    function checkActive(checker: ToolbarItem['active'], itemId?: string) {
+      // Special handling for markdown view toggle
+      if (itemId === 'markdown-view' && props.markdownView) {
+        return props.markdownView.value
+      }
+      
       // make sure the function subscribed to vue reactive
       props.selection.value
       // Check if the edtior is ready
@@ -77,14 +96,15 @@ export const Toolbar = defineComponent<ToolbarProps>({
           {groupInfo.value
             .map((group) => {
               return group.items.map((item) => {
+                const itemId = typeof item === 'object' && 'id' in item ? item.id : undefined
                 return (
                   <button
                     type="button"
                     class={clsx(
                       'toolbar-item',
-                      ctx && checkActive(item.active) && 'active'
+                      ctx && checkActive(item.active, itemId) && 'active'
                     )}
-                    onPointerdown={onClick(item.onRun)}
+                    onPointerdown={onClick(item.onRun, itemId)}
                   >
                     <Icon icon={item.icon} />
                   </button>

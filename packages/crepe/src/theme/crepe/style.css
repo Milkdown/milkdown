@@ -17,8 +17,8 @@
   --crepe-color-selected: #ede0d4;
   --crepe-color-inline-area: #e4d8cc;
 
-  --crepe-font-title: Georgia, Cambria, 'Times New Roman', Times, serif;
-  --crepe-font-default: 'Open Sans', Arial, Helvetica, sans-serif;
+  --crepe-font-title: 'Nunito', Arial, Helvetica, sans-serif;
+  --crepe-font-default: 'Nunito', Arial, Helvetica, sans-serif;
   --crepe-font-code:
     Fira Code, Menlo, Monaco, 'Courier New', Courier, monospace;
 
@@ -26,4 +26,7 @@
     0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
   --crepe-shadow-2:
     0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
+
+  /* Editor side margins - adjust this to change the left/right padding of the document */
+  --crepe-editor-side-margin: 40px;
 }

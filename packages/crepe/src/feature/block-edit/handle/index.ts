@@ -41,7 +41,20 @@ class BlockHandleView implements PluginView {
     this.#provider = new BlockProvider({
       ctx,
       content,
-      getOffset: () => 16,
+      getOffset: ({ editorDom, active }) => {
+        // Calculate offset based on ProseMirror padding to ensure handle fits
+        // The ProseMirror element is the one with the padding
+        const proseMirror = editorDom.querySelector('.ProseMirror')
+        const targetElement = proseMirror || editorDom
+        const style = window.getComputedStyle(targetElement)
+        const paddingLeft = Number.parseInt(style.paddingLeft, 10) || 40
+        // Scale offset proportionally with padding
+        // Original: 120px padding used 16px offset
+        // Use positive offset to position handle to the right (closer to text edge)
+        // Reduced minimum to create less space
+        const baseOffset = Math.max(4, Math.round((paddingLeft / 120) * 16))
+        return baseOffset
+      },
       getPlacement: ({ active, blockDom }) => {
         if (active.node.type.name === 'heading') return 'left'
 

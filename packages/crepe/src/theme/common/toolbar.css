@@ -1,6 +1,6 @@
 .milkdown {
-  &:has(.milkdown-link-preview[data-show='true']) .milkdown-toolbar,
-  &:has(.milkdown-link-edit[data-show='true']) .milkdown-toolbar {
+  &:has(.milkdown-link-preview[data-show='true']) .milkdown-toolbar:not([data-mode='top']),
+  &:has(.milkdown-link-edit[data-show='true']) .milkdown-toolbar:not([data-mode='top']) {
     display: none;
   }
   .milkdown-toolbar {
@@ -8,12 +8,14 @@
       display: none;
     }
     z-index: 10;
-    position: absolute;
     display: flex;
     background: var(--crepe-color-surface);
     box-shadow: var(--crepe-shadow-1);
     border-radius: 8px;
     overflow: hidden;
+
+    /* Floating mode (default) */
+    position: absolute;
 
     .divider {
       width: 1px;
@@ -33,6 +35,9 @@
       padding: 4px;
       cursor: pointer;
       border-radius: 4px;
+      background: transparent;
+      border: none;
+      transition: background 0.15s ease;
 
       &:hover {
         background: var(--crepe-color-hover);
@@ -43,10 +48,18 @@
       }
 
       svg {
-        height: 24px;
-        width: 24px;
+        height: 24px !important;
+        width: 24px !important;
+        max-height: 24px !important;
+        max-width: 24px !important;
+        min-height: 24px;
+        min-width: 24px;
         color: var(--crepe-color-outline);
         fill: var(--crepe-color-outline);
+        display: block;
+        flex-shrink: 0;
+        vertical-align: middle;
+        box-sizing: border-box;
       }
 
       &.active {
@@ -54,6 +67,130 @@
           color: var(--crepe-color-primary);
           fill: var(--crepe-color-primary);
         }
+      }
+    }
+  }
+
+  .milkdown-markdown-view {
+    display: none;
+    padding: 40px;
+    font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+    white-space: pre-wrap;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: var(--crepe-color-background, #fffdfb);
+    color: var(--crepe-color-on-background, #1f1b16);
+    border: none;
+    border-radius: 0;
+    min-height: calc(100vh - 48px);
+    height: auto;
+    max-height: none;
+    width: 100%;
+    box-sizing: border-box;
+    line-height: 1.6;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+    margin: 0;
+    position: relative;
+  }
+}
+
+/* Top mode toolbar - needs to be outside .milkdown scope since it's inserted as sibling */
+.milkdown-toolbar[data-mode='top'] {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border-bottom: 2px solid color-mix(
+    in srgb,
+    var(--crepe-color-outline, #e0e0e0),
+    transparent 50%
+  ) !important;
+  padding: 0 !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  height: 48px !important;
+  background: var(--crepe-color-background, #fffdfb) !important;
+  z-index: 10 !important;
+  display: flex !important;
+  overflow: visible !important;
+  gap: 0 !important;
+
+  .divider {
+    height: 24px !important;
+    margin: 0 2px !important;
+    background: color-mix(
+      in srgb,
+      var(--crepe-color-outline, #e0e0e0),
+      transparent 85%
+    ) !important;
+  }
+
+  .toolbar-item {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    width: 40px !important;
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    cursor: pointer !important;
+    transition: background-color 0.15s ease !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    font: inherit !important;
+    color: inherit !important;
+    
+    &::-moz-focus-inner {
+      border: 0 !important;
+      padding: 0 !important;
+    }
+    
+    svg {
+      opacity: 0.6;
+      transition: opacity 0.15s ease;
+      pointer-events: none;
+      vertical-align: middle !important;
+      display: block !important;
+    }
+    
+    &:hover {
+      background: color-mix(
+        in srgb,
+        var(--crepe-color-outline, #e0e0e0),
+        transparent 95%
+      ) !important;
+      
+      svg {
+        opacity: 1;
+      }
+    }
+
+    &:active,
+    &:focus {
+      background: color-mix(
+        in srgb,
+        var(--crepe-color-outline, #e0e0e0),
+        transparent 90%
+      ) !important;
+      outline: none !important;
+    }
+
+    &.active {
+      svg {
+        opacity: 1;
+        color: var(--crepe-color-primary, #1976d2) !important;
+        fill: var(--crepe-color-primary, #1976d2) !important;
       }
     }
   }

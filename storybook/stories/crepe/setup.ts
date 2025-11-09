@@ -12,6 +12,7 @@ export interface Args {
   defaultValue: string
   enableCodemirror: boolean
   language: 'EN' | 'JA'
+  toolbarMode?: 'floating' | 'top'
 }
 
 interface setupConfig {
@@ -133,6 +134,9 @@ export function setup({ args, style, theme }: setupConfig) {
               ? 'Edit'
               : 'Hide',
       },
+      [Crepe.Feature.Toolbar]: {
+        mode: args.toolbarMode ?? 'floating',
+      },
     },
   })
 
@@ -140,10 +144,17 @@ export function setup({ args, style, theme }: setupConfig) {
     injectMarkdown(args.defaultValue, markdownContainer)
   }
 
+  // Hide markdown container by default (document mode)
+  // The toolbar has its own markdown view container, so we hide this one
+  markdownContainer.style.display = 'none'
+
   crepe
     .on((listener) => {
       listener.markdownUpdated((_, markdown) => {
-        injectMarkdown(markdown, markdownContainer)
+        // Only update the bottom panel if it's visible (which it won't be in document mode)
+        if (markdownContainer.style.display !== 'none') {
+          injectMarkdown(markdown, markdownContainer)
+        }
       })
     })
     .setReadonly(args.readonly)

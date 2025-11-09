@@ -36,7 +36,7 @@
   }
 
   .ProseMirror {
-    padding: 60px 120px;
+    padding: 0px var(--crepe-editor-side-margin, 40px) 40px;
 
     *::selection {
       background: var(--crepe-color-selected);
@@ -101,7 +101,7 @@
     h5,
     h6 {
       font-family: var(--crepe-font-title);
-      font-weight: 400;
+      font-weight: 600;
       padding: 2px 0;
     }
 

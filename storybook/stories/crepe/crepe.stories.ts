@@ -14,6 +14,11 @@ const meta: Meta = {
       options: ['EN', 'JA'],
       control: { type: 'radio' },
     },
+    toolbarMode: {
+      options: ['floating', 'top'],
+      control: { type: 'radio' },
+      description: 'Toolbar display mode: floating (appears on selection) or top (fixed at top)',
+    },
   },
 }
 
@@ -26,6 +31,7 @@ const defaultArgs: Omit<Args, 'instance'> = {
   defaultValue: '',
   enableCodemirror: true,
   language: 'EN',
+  toolbarMode: 'floating',
 }
 
 export const Empty: Story = {
@@ -54,5 +60,14 @@ export const WikiValue: Story = {
   args: {
     ...defaultArgs,
     defaultValue: wikiContent,
+  },
+}
+
+export const WithTopToolbar: Story = {
+  ...Empty,
+  args: {
+    ...defaultArgs,
+    toolbarMode: 'top',
+    defaultValue: longContent,
   },
 }

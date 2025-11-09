@@ -4,3 +4,9 @@
   padding: 10px;
   overflow: auto;
 }
+
+/* Adjust side margins of the editor */
+/* You can override this CSS variable to change the left/right padding */
+.milkdown {
+  --crepe-editor-side-margin: 40px; /* Default: 40px, adjust as needed */
+}

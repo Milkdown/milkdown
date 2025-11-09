@@ -14,13 +14,13 @@
 
     .operation-item {
       border-radius: 4px;
-      width: 32px;
-      height: 32px;
-      padding: 4px;
+      width: 24px;
+      height: 24px;
+      padding: 3px;
 
       svg {
-        width: 24px;
-        height: 24px;
+        width: 20px;
+        height: 20px;
         fill: var(--crepe-color-outline);
       }
 
