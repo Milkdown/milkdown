@@ -1,5 +1,17 @@
 # @milkdown/exception
 
+## 7.17.2
+
+### Patch Changes
+
+- 998d472: Milkdown patch version release.
+
+  ## Feat
+  - feat: upgrade prosemirror packages versions (#2177)
+
+  ## Fix
+  - fix: 🐛 Submit button on the inline edit confirm button (#2163)
+
 ## 7.17.1
 
 ### Patch Changes
