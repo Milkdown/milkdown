@@ -199,7 +199,11 @@ export const listener: MilkdownPlugin = (ctx) => {
             prevSelection = currentSelection
           }
 
-          if (!tr.docChanged || tr.getMeta('addToHistory') === false) return
+          if (
+            !(tr.docChanged || tr.storedMarksSet) ||
+            tr.getMeta('addToHistory') === false
+          )
+            return
 
           const handler = debounce(() => {
             const { doc } = tr
