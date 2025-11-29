@@ -58,7 +58,7 @@
     "knip": "^5.63.1",
     "lint-staged": "^16.0.0",
     "oxlint": "^1.8.0",
-    "pkg-pr-new": "^0.0.60",
+    "pkg-pr-new": "^0.0.61",
     "postcss": "^8.4.38",
     "postcss-cli": "^11.0.0",
     "postcss-nested": "^7.0.0",
