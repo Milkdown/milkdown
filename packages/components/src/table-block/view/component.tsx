@@ -119,8 +119,7 @@ export const TableBlock = defineComponent<TableBlockProps>({
           onPointermove={pointerMove}
           onPointerleave={pointerLeave}
         >
-          <button
-            type="button"
+          <div
             data-show="false"
             contenteditable="false"
             draggable="true"
@@ -151,9 +150,8 @@ export const TableBlock = defineComponent<TableBlockProps>({
                 <Icon icon={config.renderButton('delete_col')} />
               </button>
             </div>
-          </button>
-          <button
-            type="button"
+          </div>
+          <div
             data-show="false"
             contenteditable="false"
             draggable="true"
@@ -175,7 +173,7 @@ export const TableBlock = defineComponent<TableBlockProps>({
                 <Icon icon={config.renderButton('delete_row')} />
               </button>
             </div>
-          </button>
+          </div>
           <div class="table-wrapper" ref={tableWrapperRef}>
             <div
               data-show="false"
