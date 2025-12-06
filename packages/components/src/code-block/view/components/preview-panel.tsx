@@ -67,9 +67,7 @@ export const PreviewPanel = defineComponent<PreviewPanelProps>({
           {!previewOnlyMode.value && (
             <>
               <div class="preview-divider" />
-              <div class="preview-label" >
-                {config.previewLabel}
-              </div>
+              <div class="preview-label">{config.previewLabel}</div>
             </>
           )}
           <div ref={previewRef} class="preview" />
