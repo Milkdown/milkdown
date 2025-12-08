@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import DOMPurify from 'dompurify'
 import { defineComponent, ref, watchEffect, type Ref, h, Fragment } from 'vue'
 
@@ -68,9 +67,7 @@ export const PreviewPanel = defineComponent<PreviewPanelProps>({
           {!previewOnlyMode.value && (
             <>
               <div class="preview-divider" />
-              <div class={clsx('preview-label', previewOnlyMode && 'hidden')}>
-                {config.previewLabel}
-              </div>
+              <div class="preview-label">{config.previewLabel}</div>
             </>
           )}
           <div ref={previewRef} class="preview" />
