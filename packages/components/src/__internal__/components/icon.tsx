@@ -2,8 +2,6 @@ import clsx from 'clsx'
 import DOMPurify from 'dompurify'
 import { h } from 'vue'
 
-h
-
 type IconProps = {
   icon?: string | null
   class?: string
@@ -15,11 +13,7 @@ export function Icon({ icon, class: className, onClick }: IconProps) {
     <span
       class={clsx('milkdown-icon', className)}
       onPointerdown={onClick}
-      ref={(el) => {
-        if (el && icon) {
-          ;(el as HTMLElement).innerHTML = DOMPurify.sanitize(icon.trim())
-        }
-      }}
+      innerHTML={icon ? DOMPurify.sanitize(icon.trim()): undefined}
     />
   )
 }
