@@ -1,5 +1,24 @@
 # @milkdown/plugin-tooltip
 
+## 7.17.3
+
+### Patch Changes
+
+- 1b7dcbc: Milkdown patch version release.
+
+  ## Feat
+  - feat: add extra params & config for uploader (#2184)
+
+  ## Fix
+  - fix: previewLabel was always hidden (#2192)
+  - fix: use divs instead of nested buttons (#2189)
+  - fix: listener triggered when stored marks set (#2181)
+
+- Updated dependencies [1b7dcbc]
+  - @milkdown/ctx@7.17.3
+  - @milkdown/prose@7.17.3
+  - @milkdown/utils@7.17.3
+
 ## 7.17.2
 
 ### Patch Changes

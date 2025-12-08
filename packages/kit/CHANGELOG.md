@@ -1,5 +1,39 @@
 # @milkdown/kit
 
+## 7.17.3
+
+### Patch Changes
+
+- 1b7dcbc: Milkdown patch version release.
+
+  ## Feat
+  - feat: add extra params & config for uploader (#2184)
+
+  ## Fix
+  - fix: previewLabel was always hidden (#2192)
+  - fix: use divs instead of nested buttons (#2189)
+  - fix: listener triggered when stored marks set (#2181)
+
+- Updated dependencies [1b7dcbc]
+  - @milkdown/components@7.17.3
+  - @milkdown/core@7.17.3
+  - @milkdown/ctx@7.17.3
+  - @milkdown/plugin-block@7.17.3
+  - @milkdown/plugin-clipboard@7.17.3
+  - @milkdown/plugin-cursor@7.17.3
+  - @milkdown/plugin-history@7.17.3
+  - @milkdown/plugin-indent@7.17.3
+  - @milkdown/plugin-listener@7.17.3
+  - @milkdown/plugin-slash@7.17.3
+  - @milkdown/plugin-tooltip@7.17.3
+  - @milkdown/plugin-trailing@7.17.3
+  - @milkdown/plugin-upload@7.17.3
+  - @milkdown/preset-commonmark@7.17.3
+  - @milkdown/preset-gfm@7.17.3
+  - @milkdown/prose@7.17.3
+  - @milkdown/transformer@7.17.3
+  - @milkdown/utils@7.17.3
+
 ## 7.17.2
 
 ### Patch Changes
