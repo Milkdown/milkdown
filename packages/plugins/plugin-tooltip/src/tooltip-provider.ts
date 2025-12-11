@@ -96,6 +96,32 @@ export class TooltipProvider {
     this.#updater = throttle(this.#onUpdate, this.#debounce)
   }
 
+  /// @internel
+  #updatePosition = (reference: VirtualElement) => {
+    computePosition(reference, this.element, {
+      placement: this.#floatingUIOptions.placement ?? 'top',
+      middleware: [
+        flip(),
+        offset(this.#offset),
+        shift(this.#shift),
+        ...this.#middleware,
+      ],
+      ...this.#floatingUIOptions,
+    })
+      .then(({ x, y }) => {
+        Object.assign(this.element.style, {
+          left: `${x}px`,
+          top: `${y}px`,
+        })
+      })
+      .catch(console.error)
+  }
+
+  /// @internal
+  #shouldAutoUpdate = (editorView: EditorView) => {
+    return this.#root !== editorView.dom.parentElement
+  }
+
   /// @internal
   #onUpdate = (view: EditorView, prevState?: EditorState): void => {
     const { state, composing } = view
@@ -115,6 +141,7 @@ export class TooltipProvider {
     if (composing || isSame) return
 
     this.#cleanupAutoUpdate?.()
+    this.#cleanupAutoUpdate = void 0
 
     if (!this.#shouldShow(view, prevState)) {
       this.hide()
@@ -126,24 +153,13 @@ export class TooltipProvider {
       contextElement: view.dom,
     }
 
-    this.#cleanupAutoUpdate = autoUpdate(virtualEl, this.element, () => {
-      computePosition(virtualEl, this.element, {
-        placement: this.#floatingUIOptions.placement ?? 'top',
-        middleware: [
-          flip(),
-          offset(this.#offset),
-          shift(this.#shift),
-          ...this.#middleware,
-        ],
-      })
-        .then(({ x, y }) => {
-          Object.assign(this.element.style, {
-            left: `${x}px`,
-            top: `${y}px`,
-          })
-        })
-        .catch(console.error)
-    })
+    if (this.#shouldAutoUpdate(view)) {
+      this.#cleanupAutoUpdate = autoUpdate(virtualEl, this.element, () =>
+        this.#updatePosition(virtualEl)
+      )
+    } else {
+      this.#updatePosition(virtualEl)
+    }
 
     this.show()
   }
@@ -180,30 +196,22 @@ export class TooltipProvider {
   }
 
   /// Show the tooltip.
-  show = (virtualElement?: VirtualElement) => {
+  show = (virtualElement?: VirtualElement, editorView?: EditorView) => {
     this.element.dataset.show = 'true'
 
     if (virtualElement) {
       this.#cleanupAutoUpdate?.()
-      this.#cleanupAutoUpdate = autoUpdate(virtualElement, this.element, () => {
-        computePosition(virtualElement, this.element, {
-          placement: 'top',
-          middleware: [
-            flip(),
-            offset(this.#offset),
-            shift(this.#shift),
-            ...this.#middleware,
-          ],
-          ...this.#floatingUIOptions,
-        })
-          .then(({ x, y }) => {
-            Object.assign(this.element.style, {
-              left: `${x}px`,
-              top: `${y}px`,
-            })
-          })
-          .catch(console.error)
-      })
+      this.#cleanupAutoUpdate = void 0
+
+      const reference = { ...virtualElement, contextElement: editorView?.dom }
+
+      if (editorView && this.#shouldAutoUpdate(editorView)) {
+        this.#cleanupAutoUpdate = autoUpdate(reference, this.element, () =>
+          this.#updatePosition(reference)
+        )
+      } else {
+        this.#updatePosition(reference)
+      }
     }
 
     this.onShow()

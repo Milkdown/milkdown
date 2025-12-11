@@ -79,10 +79,7 @@ export class LinkPreviewTooltip implements PluginView {
       this.#hide()
     }
 
-    this.#provider.show({
-      getBoundingClientRect: () => rect,
-      contextElement: this.#editorView.dom,
-    })
+    this.#provider.show({ getBoundingClientRect: () => rect }, this.#editorView)
     this.#provider.element.addEventListener('mouseenter', this.#onMouseEnter)
     this.#provider.element.addEventListener('mouseleave', this.#onMouseLeave)
   }
