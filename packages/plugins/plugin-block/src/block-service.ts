@@ -108,6 +108,7 @@ export class BlockService {
     dom.addEventListener('mousedown', this.#handleMouseDown)
     dom.addEventListener('mouseup', this.#handleMouseUp)
     dom.addEventListener('dragstart', this.#handleDragStart)
+    dom.addEventListener('dragend', this.#handleDragEnd)
   }
 
   /// Remove mouse event to the dom.
@@ -115,6 +116,7 @@ export class BlockService {
     dom.removeEventListener('mousedown', this.#handleMouseDown)
     dom.removeEventListener('mouseup', this.#handleMouseUp)
     dom.removeEventListener('dragstart', this.#handleDragStart)
+    dom.removeEventListener('dragend', this.#handleDragEnd)
   }
 
   /// Unbind the notify function.
@@ -168,6 +170,13 @@ export class BlockService {
         slice,
         move: true,
       }
+    }
+  }
+
+  /// @internal
+  #handleDragEnd = () => {
+    if (this.#view) {
+      this.#dragEnd(this.#view)
     }
   }
 
