@@ -8,7 +8,13 @@ import type {
 import type { EditorState } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 
-import { computePosition, flip, offset, shift } from '@floating-ui/dom'
+import {
+  autoUpdate,
+  computePosition,
+  flip,
+  offset,
+  shift,
+} from '@floating-ui/dom'
 import { posToDOMRect } from '@milkdown/prose'
 import { TextSelection } from '@milkdown/prose/state'
 import { throttle } from 'lodash-es'
@@ -52,6 +58,9 @@ export class TooltipProvider {
 
   /// @internal
   #initialized = false
+
+  /// @internal
+  #cleanupAutoUpdate?: () => void
 
   /// @internal
   readonly #offset?: OffsetOptions
@@ -105,6 +114,8 @@ export class TooltipProvider {
 
     if (composing || isSame) return
 
+    this.#cleanupAutoUpdate?.()
+
     if (!this.#shouldShow(view, prevState)) {
       this.hide()
       return
@@ -112,23 +123,27 @@ export class TooltipProvider {
 
     const virtualEl: VirtualElement = {
       getBoundingClientRect: () => posToDOMRect(view, from, to),
+      contextElement: view.dom,
     }
-    computePosition(virtualEl, this.element, {
-      placement: this.#floatingUIOptions.placement ?? 'top',
-      middleware: [
-        flip(),
-        offset(this.#offset),
-        shift(this.#shift),
-        ...this.#middleware,
-      ],
-    })
-      .then(({ x, y }) => {
-        Object.assign(this.element.style, {
-          left: `${x}px`,
-          top: `${y}px`,
-        })
+
+    this.#cleanupAutoUpdate = autoUpdate(virtualEl, this.element, () => {
+      computePosition(virtualEl, this.element, {
+        placement: this.#floatingUIOptions.placement ?? 'top',
+        middleware: [
+          flip(),
+          offset(this.#offset),
+          shift(this.#shift),
+          ...this.#middleware,
+        ],
       })
-      .catch(console.error)
+        .then(({ x, y }) => {
+          Object.assign(this.element.style, {
+            left: `${x}px`,
+            top: `${y}px`,
+          })
+        })
+        .catch(console.error)
+    })
 
     this.show()
   }
@@ -160,6 +175,7 @@ export class TooltipProvider {
 
   /// Destroy the tooltip.
   destroy = () => {
+    this.#cleanupAutoUpdate?.()
     this.#updater.cancel()
   }
 
@@ -168,23 +184,26 @@ export class TooltipProvider {
     this.element.dataset.show = 'true'
 
     if (virtualElement) {
-      computePosition(virtualElement, this.element, {
-        placement: 'top',
-        middleware: [
-          flip(),
-          offset(this.#offset),
-          shift(this.#shift),
-          ...this.#middleware,
-        ],
-        ...this.#floatingUIOptions,
-      })
-        .then(({ x, y }) => {
-          Object.assign(this.element.style, {
-            left: `${x}px`,
-            top: `${y}px`,
-          })
+      this.#cleanupAutoUpdate?.()
+      this.#cleanupAutoUpdate = autoUpdate(virtualElement, this.element, () => {
+        computePosition(virtualElement, this.element, {
+          placement: 'top',
+          middleware: [
+            flip(),
+            offset(this.#offset),
+            shift(this.#shift),
+            ...this.#middleware,
+          ],
+          ...this.#floatingUIOptions,
         })
-        .catch(console.error)
+          .then(({ x, y }) => {
+            Object.assign(this.element.style, {
+              left: `${x}px`,
+              top: `${y}px`,
+            })
+          })
+          .catch(console.error)
+      })
     }
 
     this.onShow()
