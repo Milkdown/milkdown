@@ -112,6 +112,7 @@ export class LinkEditTooltip implements PluginView {
     )
     this.#provider.show({
       getBoundingClientRect: () => posToDOMRect(view, from, to),
+      contextElement: view.dom,
     })
     requestAnimationFrame(() => {
       this.#content.querySelector('input')?.focus()

@@ -20,6 +20,7 @@ export class LinkPreviewTooltip implements PluginView {
   #onEdit = ref(() => {})
   #onRemove = ref(() => {})
   #app: App
+  #editorView: EditorView
 
   #hovering = false
 
@@ -27,6 +28,7 @@ export class LinkPreviewTooltip implements PluginView {
     readonly ctx: Ctx,
     view: EditorView
   ) {
+    this.#editorView = view
     this.#config = ref(this.ctx.get(linkTooltipConfig.key))
     this.#app = createApp(PreviewLink, {
       config: this.#config,
@@ -79,6 +81,7 @@ export class LinkPreviewTooltip implements PluginView {
 
     this.#provider.show({
       getBoundingClientRect: () => rect,
+      contextElement: this.#editorView.dom,
     })
     this.#provider.element.addEventListener('mouseenter', this.#onMouseEnter)
     this.#provider.element.addEventListener('mouseleave', this.#onMouseLeave)
