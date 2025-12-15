@@ -71,7 +71,19 @@ export const tableHeaderRowSchema = $nodeSchema('table_header_row', () => ({
   ...originalSchema.table_row,
   disableDropCursor: true,
   content: '(table_header)*',
-  parseDOM: [{ tag: 'tr[data-is-header]' }],
+  parseDOM: [
+    { tag: 'tr[data-is-header]' },
+    {
+      tag: 'tr',
+      getAttrs: (dom: HTMLElement) => {
+        if (dom instanceof HTMLElement) {
+          const hasHeader = dom.querySelector('th')
+          return hasHeader ? {} : false
+        }
+        return false
+      },
+    },
+  ],
   toDOM() {
     return ['tr', { 'data-is-header': true }, 0]
   },
