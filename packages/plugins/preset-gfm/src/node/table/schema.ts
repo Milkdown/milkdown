@@ -21,7 +21,7 @@ const originalSchema = tableNodes({
 })
 
 /// Schema for table node.
-export const tableSpec = () => ({
+export const tableSchema = $nodeSchema('table', () => ({
   ...originalSchema.table,
   content: 'table_header_row table_row+',
   disableDropCursor: true,
@@ -54,8 +54,7 @@ export const tableSpec = () => ({
       state.closeNode()
     },
   },
-})
-export const tableSchema = $nodeSchema('table', tableSpec)
+}))
 
 withMeta(tableSchema.node, {
   displayName: 'NodeSchema<table>',
@@ -68,7 +67,7 @@ withMeta(tableSchema.ctx, {
 })
 
 /// Schema for table header row node.
-export const tableHeaderRowSpec = () => ({
+export const tableHeaderRowSchema = $nodeSchema('table_header_row', () => ({
   ...originalSchema.table_row,
   disableDropCursor: true,
   content: '(table_header)*',
@@ -86,7 +85,7 @@ export const tableHeaderRowSpec = () => ({
     },
   ],
   toDOM() {
-    return ['tr', { 'data-is-header': true }, 0] as const
+    return ['tr', { 'data-is-header': true }, 0]
   },
   parseMarkdown: {
     match: (node) => Boolean(node.type === 'tableRow' && node.isHeader),
@@ -110,10 +109,7 @@ export const tableHeaderRowSpec = () => ({
       state.closeNode()
     },
   },
-})
-
-export const tableHeaderRowSchema = $nodeSchema('table_header_row', tableHeaderRowSpec)
-
+}))
 
 withMeta(tableHeaderRowSchema.node, {
   displayName: 'NodeSchema<tableHeaderRow>',
@@ -126,7 +122,7 @@ withMeta(tableHeaderRowSchema.ctx, {
 })
 
 /// Schema for table row node.
-export const tableRowSpec = () => ({
+export const tableRowSchema = $nodeSchema('table_row', () => ({
   ...originalSchema.table_row,
   disableDropCursor: true,
   content: '(table_cell)*',
@@ -137,7 +133,6 @@ export const tableRowSpec = () => ({
       const children = (node.children as MarkdownNode[]).map((x, i) => ({
         ...x,
         align: align[i],
-        isHeader: false,
       }))
       state.openNode(type)
       state.next(children)
@@ -157,8 +152,7 @@ export const tableRowSpec = () => ({
       state.closeNode()
     },
   },
-})
-export const tableRowSchema = $nodeSchema('table_row', tableRowSpec)
+}))
 
 withMeta(tableRowSchema.node, {
   displayName: 'NodeSchema<tableRow>',
@@ -171,7 +165,7 @@ withMeta(tableRowSchema.ctx, {
 })
 
 /// Schema for table cell node.
-export const tableCellSpec = () => ({
+export const tableCellSchema = $nodeSchema('table_cell', () => ({
   ...originalSchema.table_cell,
   disableDropCursor: true,
   parseMarkdown: {
@@ -192,8 +186,7 @@ export const tableCellSpec = () => ({
       state.openNode('tableCell').next(node.content).closeNode()
     },
   },
-})
-export const tableCellSchema = $nodeSchema('table_cell', tableCellSpec)
+}))
 
 withMeta(tableCellSchema.node, {
   displayName: 'NodeSchema<tableCell>',
@@ -206,7 +199,7 @@ withMeta(tableCellSchema.ctx, {
 })
 
 /// Schema for table header node.
-export const tableHeaderSpec = () => ({
+export const tableHeaderSchema = $nodeSchema('table_header', () => ({
   ...originalSchema.table_header,
   disableDropCursor: true,
   parseMarkdown: {
@@ -228,8 +221,7 @@ export const tableHeaderSpec = () => ({
       state.closeNode()
     },
   },
-})
-export const tableHeaderSchema = $nodeSchema('table_header', tableHeaderSpec)
+}))
 
 withMeta(tableHeaderSchema.node, {
   displayName: 'NodeSchema<tableHeader>',
