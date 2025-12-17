@@ -51,7 +51,7 @@
     "autoprefixer": "^10.2.5",
     "esbuild": "^0.27.0",
     "eslint": "^9.24.0",
-    "eslint-plugin-perfectionist": "^4.11.0",
+    "eslint-plugin-perfectionist": "^5.0.0",
     "git-cz": "^4.7.6",
     "husky": "^9.0.10",
     "jsdom": "^27.0.0",
