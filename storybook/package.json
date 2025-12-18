@@ -25,6 +25,6 @@
     "@storybook/html": "^10.0.0",
     "@storybook/html-vite": "^10.0.0",
     "serve": "^14.2.3",
-    "storybook": "^10.0.0"
+    "storybook": "^10.1.10"
   }
 }
