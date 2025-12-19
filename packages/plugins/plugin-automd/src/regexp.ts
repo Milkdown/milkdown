@@ -1,5 +1,10 @@
 export const linkRegexp = /\[([^\]]+)]\([^\s\]]+\)/
 
+export const emailCandidateRegexp =
+  /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]+$/
+
+export const trailingPunctuationRegexp = /[.,:;!?\s\u2042\u2234\u2205]+$/
+
 export const keepLinkRegexp =
   /\[(?<span>((www|https:\/\/|http:\/\/)[^\s\]]+))]\((?<url>[^\s\]]+)\)/
 
