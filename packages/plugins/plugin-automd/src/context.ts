@@ -1,6 +1,8 @@
 import type { Ctx } from '@milkdown/ctx'
-import { Fragment, type Node } from '@milkdown/prose/model'
+import type { Node } from '@milkdown/prose/model'
 import type { EditorState } from '@milkdown/prose/state'
+
+import { Fragment } from '@milkdown/prose/model'
 
 import { parserCtx, serializerCtx } from '@milkdown/core'
 import { pipe } from '@milkdown/utils'
