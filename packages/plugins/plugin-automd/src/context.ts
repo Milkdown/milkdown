@@ -2,9 +2,8 @@ import type { Ctx } from '@milkdown/ctx'
 import type { Node } from '@milkdown/prose/model'
 import type { EditorState } from '@milkdown/prose/state'
 
-import { Fragment } from '@milkdown/prose/model'
-
 import { parserCtx, serializerCtx } from '@milkdown/core'
+import { Fragment } from '@milkdown/prose/model'
 import { pipe } from '@milkdown/utils'
 
 import { inlineSyncConfig } from './config'
