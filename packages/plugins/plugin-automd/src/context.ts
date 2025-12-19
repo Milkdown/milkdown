@@ -136,11 +136,15 @@ export function getContextByState(
       const prev = mergedNodes[mergedNodes.length - 1]
 
       const prevIsLink = prev && prev.marks.some((m) => m.type.name === 'link')
-      const currIsText = curr.isText && !curr.marks.some((m) => m.type.name === 'link')
+      const currIsText =
+        curr.isText && !curr.marks.some((m) => m.type.name === 'link')
 
       if (prevIsLink && currIsText && prev.text && curr.text) {
         const combined = prev.text + curr.text
-        mergedNodes[mergedNodes.length - 1] = state.schema.text(combined, prev.marks)
+        mergedNodes[mergedNodes.length - 1] = state.schema.text(
+          combined,
+          prev.marks
+        )
       } else {
         mergedNodes.push(curr)
       }
@@ -190,11 +194,19 @@ export function getContextByState(
         const possibleEmail = splitMatch[1]
         const rest = splitMatch[2]
 
-        if (possibleEmail && rest && emailCandidateRegexp.test(possibleEmail) && rest.length > 0) {
+        if (
+          possibleEmail &&
+          rest &&
+          emailCandidateRegexp.test(possibleEmail) &&
+          rest.length > 0
+        ) {
           modified = true
           const newMarks = child.marks.map((m) => {
             if (m.type.name === 'link') {
-              return m.type.create({ ...m.attrs, href: `mailto:${possibleEmail}` })
+              return m.type.create({
+                ...m.attrs,
+                href: `mailto:${possibleEmail}`,
+              })
             }
             return m
           })
@@ -211,9 +223,18 @@ export function getContextByState(
 
       // Fallback: If it's a mailto link and looks like an autolink (href contains text),
       const href = linkMark.attrs.href
-      if (typeof href === 'string' && href.startsWith('mailto:') && href.includes(text)) {
+      if (
+        typeof href === 'string' &&
+        href.startsWith('mailto:') &&
+        href.includes(text)
+      ) {
         modified = true
-        children.push(state.schema.text(text, child.marks.filter((m) => m.type.name !== 'link')))
+        children.push(
+          state.schema.text(
+            text,
+            child.marks.filter((m) => m.type.name !== 'link')
+          )
+        )
         return
       }
 
