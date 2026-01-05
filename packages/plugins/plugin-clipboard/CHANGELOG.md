@@ -1,5 +1,29 @@
 # @milkdown/plugin-clipboard
 
+## 7.18.0
+
+### Minor Changes
+
+- 3abf96e: Milkdown minor release.
+
+  ## Feat
+  - feat: implement robust email autolinking with new regexps and comprehensive E2E tests (#2217)
+  - feat: tooltip auto update (#2204)
+
+  ## Fix
+  - fix: handle dom tables properly when copy pasting (#2206)
+  - fix(plugin-block): add dragend event listener to block handle element (#2199)
+  - fix: simplify icon rendering by removing unnecessary ref and using innerHTML directly (#2200)
+  - fix: storybook vite config (#2198)
+
+### Patch Changes
+
+- Updated dependencies [3abf96e]
+  - @milkdown/core@7.18.0
+  - @milkdown/ctx@7.18.0
+  - @milkdown/prose@7.18.0
+  - @milkdown/utils@7.18.0
+
 ## 7.17.3
 
 ### Patch Changes
