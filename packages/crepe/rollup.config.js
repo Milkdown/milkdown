@@ -23,6 +23,7 @@ const featureEntry = [
   'placeholder',
   'table',
   'toolbar',
+  'mermaid',
 ]
 
 export default () => {
