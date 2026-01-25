@@ -1,6 +1,5 @@
 import DOMPurify from 'dompurify'
 import { defineComponent, ref, watchEffect, type Ref, h, Fragment } from 'vue'
-
 import type { CodeBlockProps } from './code-block'
 
 h
@@ -52,11 +51,16 @@ export const PreviewPanel = defineComponent<PreviewPanelProps>({
       const previewContent = preview.value
 
       if (
-        typeof previewContent === 'string' ||
         previewContent instanceof Element
+      ) {
+        // support custom element
+        previewContainer.appendChild(previewContent)
+      } else if (
+        typeof previewContent === 'string'
       ) {
         previewContainer.innerHTML = DOMPurify.sanitize(previewContent)
       }
+
     })
 
     return () => {

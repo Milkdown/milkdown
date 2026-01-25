@@ -101,7 +101,7 @@ export const CodeBlock = defineComponent<CodeBlockProps>({
         // set default value for async renderPreview
         const isAsyncPreview = result === undefined
         if (isAsyncPreview && !preview.value) {
-          preview.value = DOMPurify.sanitize(props.config.previewLoading)
+          preview.value = props.config.previewLoading
         }
 
         if (result === null) {

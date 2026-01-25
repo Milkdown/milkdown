@@ -43,7 +43,7 @@ export const defaultConfig: CodeBlockConfig = {
   renderPreview: () => null,
   previewToggleButton: (previewOnlyMode) => (previewOnlyMode ? 'Edit' : 'Hide'),
   previewLabel: 'Preview',
-  previewLoading: 'Loading...',
+  previewLoading: 'Loading...'
 }
 
 export const codeBlockConfig = $ctx(defaultConfig, 'codeBlockConfigCtx')
