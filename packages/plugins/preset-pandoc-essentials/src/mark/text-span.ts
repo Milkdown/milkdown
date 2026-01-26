@@ -14,6 +14,10 @@ withMeta(textSpanAttr, {
 /// Text span mark schema.
 /// Pandoc syntax: [text]{#id .class key=value}
 /// This enables inline styling, small caps via .smallcaps, and other custom formatting.
+///
+/// Supports two input syntaxes:
+/// 1. Pandoc native: [text]{.class #id key=value}
+/// 2. Directive syntax: :span[text]{.class #id}
 export const textSpanSchema = $markSchema('text_span', (ctx) => ({
   attrs: {
     id: { default: null },
@@ -45,12 +49,36 @@ export const textSpanSchema = $markSchema('text_span', (ctx) => ({
     return ['span', attrs]
   },
   parseMarkdown: {
-    match: (node) => node.type === 'textDirective' && node.name === 'span',
+    match: (node) =>
+      // Match Pandoc native syntax: textSpan nodes from remark-span-plugin
+      node.type === 'textSpan' ||
+      // Match directive syntax: :span[text]{attrs}
+      (node.type === 'textDirective' && node.name === 'span'),
     runner: (state, node, markType) => {
-      const attrs = node.attributes as Record<string, string> | undefined
-      const id = attrs?.id || null
-      const className = attrs?.class || null
-      const style = attrs?.style || null
+      let id: string | null = null
+      let className: string | null = null
+      let style: string | null = null
+
+      if (node.type === 'textSpan') {
+        // Pandoc native syntax - attributes are in node.data.hProperties
+        const hProps = (node.data as { hProperties?: Record<string, unknown> })
+          ?.hProperties
+        if (hProps) {
+          id = (hProps.id as string) || null
+          if (Array.isArray(hProps.className)) {
+            className = hProps.className.join(' ')
+          } else if (typeof hProps.className === 'string') {
+            className = hProps.className
+          }
+          style = (hProps.style as string) || null
+        }
+      } else {
+        // Directive syntax - attributes are in node.attributes
+        const attrs = node.attributes as Record<string, string> | undefined
+        id = attrs?.id || null
+        className = attrs?.class || null
+        style = attrs?.style || null
+      }
 
       state.openMark(markType, { id, class: className, style })
       state.next(node.children)
@@ -60,14 +88,15 @@ export const textSpanSchema = $markSchema('text_span', (ctx) => ({
   toMarkdown: {
     match: (mark) => mark.type.name === 'text_span',
     runner: (state, mark) => {
-      const attrs: Record<string, string> = {}
-      if (mark.attrs.id) attrs.id = mark.attrs.id
-      if (mark.attrs.class) attrs.class = mark.attrs.class
-      if (mark.attrs.style) attrs.style = mark.attrs.style
+      // Output Pandoc native syntax: [text]{#id .class}
+      // We use a custom textSpan node type
+      const hProperties: Record<string, unknown> = {}
+      if (mark.attrs.id) hProperties.id = mark.attrs.id
+      if (mark.attrs.class) hProperties.className = mark.attrs.class
+      if (mark.attrs.style) hProperties.style = mark.attrs.style
 
-      state.withMark(mark, 'textDirective', undefined, {
-        name: 'span',
-        attributes: attrs,
+      state.withMark(mark, 'textSpan', undefined, {
+        data: { hProperties },
       })
     },
   },

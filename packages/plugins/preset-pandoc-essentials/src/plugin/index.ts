@@ -1,3 +1,5 @@
 export * from './remark-pandoc-plugin'
 export * from './remark-superscript-plugin'
 export * from './remark-heading-attrs-plugin'
+export * from './remark-span-plugin'
+export * from './remark-span-stringify-plugin'
