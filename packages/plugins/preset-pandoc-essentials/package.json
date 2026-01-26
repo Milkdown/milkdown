@@ -1,0 +1,54 @@
+{
+  "name": "@milkdown/preset-pandoc-essentials",
+  "type": "module",
+  "version": "7.18.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Milkdown/milkdown.git",
+    "directory": "packages/plugins/preset-pandoc-essentials"
+  },
+  "keywords": [
+    "milkdown",
+    "milkdown plugin",
+    "markdown",
+    "pandoc"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./src/index.ts"
+    }
+  },
+  "main": "./src/index.ts",
+  "publishConfig": {
+    "main": "./lib/index.js",
+    "types": "./lib/index.d.ts",
+    "exports": {
+      ".": {
+        "import": "./lib/index.js",
+        "types": "./lib/index.d.ts"
+      }
+    }
+  },
+  "scripts": {
+    "build": "vite build"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "dependencies": {
+    "@milkdown/core": "workspace:*",
+    "@milkdown/ctx": "workspace:*",
+    "@milkdown/prose": "workspace:*",
+    "@milkdown/preset-commonmark": "workspace:*",
+    "@milkdown/transformer": "workspace:*",
+    "@milkdown/exception": "workspace:*",
+    "@milkdown/utils": "workspace:*",
+    "remark-directive": "^3.0.0",
+    "mdast-util-directive": "^3.0.0",
+    "unist-util-visit": "^5.0.0",
+    "unified": "^11.0.0"
+  }
+}
