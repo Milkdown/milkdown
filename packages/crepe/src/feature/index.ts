@@ -5,6 +5,7 @@ import type { ImageBlockFeatureConfig } from './image-block'
 import type { LatexFeatureConfig } from './latex'
 import type { LinkTooltipFeatureConfig } from './link-tooltip'
 import type { ListItemFeatureConfig } from './list-item'
+import type { MermaidFeatureConfig } from './mermaid'
 import type { PlaceholderFeatureConfig } from './placeholder'
 import type { TableFeatureConfig } from './table'
 import type { ToolbarFeatureConfig } from './toolbar'
@@ -42,6 +43,9 @@ export enum CrepeFeature {
 
   /// Mathematical formula support with both inline and block math rendering using KaTeX.
   Latex = 'latex',
+
+  /// Mermaid Supported for CodeMirror
+  Mermaid = 'mermaid'
 }
 
 export interface CrepeFeatureConfig {
@@ -55,6 +59,7 @@ export interface CrepeFeatureConfig {
   [CrepeFeature.CodeMirror]?: CodeMirrorFeatureConfig
   [CrepeFeature.Table]?: TableFeatureConfig
   [CrepeFeature.Latex]?: LatexFeatureConfig
+  [CrepeFeature.Mermaid]?: MermaidFeatureConfig
 }
 
 export const defaultFeatures: Record<CrepeFeature, boolean> = {
@@ -68,4 +73,5 @@ export const defaultFeatures: Record<CrepeFeature, boolean> = {
   [CrepeFeature.CodeMirror]: true,
   [CrepeFeature.Table]: true,
   [CrepeFeature.Latex]: true,
+  [CrepeFeature.Mermaid]: true,
 }
