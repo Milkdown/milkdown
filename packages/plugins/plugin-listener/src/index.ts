@@ -1,6 +1,6 @@
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
 import type { Node as ProseNode } from '@milkdown/prose/model'
-import type { Selection } from '@milkdown/prose/state'
+import type { Selection, Transaction } from '@milkdown/prose/state'
 
 import {
   EditorViewReady,
@@ -160,6 +160,33 @@ export const listener: MilkdownPlugin = (ctx) => {
     let prevDoc: ProseNode | null = null
     let prevMarkdown: string | null = null
     let prevSelection: Selection | null = null
+    let latestTr: Transaction | null = null
+
+    const debouncedHandler = debounce(() => {
+      if (!latestTr) return
+      const { doc } = latestTr
+
+      if (listeners.updated.length > 0 && prevDoc && !prevDoc.eq(doc)) {
+        listeners.updated.forEach((fn) => {
+          fn(ctx, doc, prevDoc!)
+        })
+      }
+
+      if (
+        listeners.markdownUpdated.length > 0 &&
+        prevDoc &&
+        !prevDoc.eq(doc)
+      ) {
+        const markdown = serializer(doc)
+        listeners.markdownUpdated.forEach((fn) => {
+          fn(ctx, markdown, prevMarkdown!)
+        })
+        prevMarkdown = markdown
+      }
+
+      prevDoc = doc
+      latestTr = null
+    }, 200)
 
     const plugin = new Plugin({
       key,
@@ -205,30 +232,8 @@ export const listener: MilkdownPlugin = (ctx) => {
           )
             return
 
-          const handler = debounce(() => {
-            const { doc } = tr
-            if (listeners.updated.length > 0 && prevDoc && !prevDoc.eq(doc)) {
-              listeners.updated.forEach((fn) => {
-                fn(ctx, doc, prevDoc!)
-              })
-            }
-
-            if (
-              listeners.markdownUpdated.length > 0 &&
-              prevDoc &&
-              !prevDoc.eq(doc)
-            ) {
-              const markdown = serializer(doc)
-              listeners.markdownUpdated.forEach((fn) => {
-                fn(ctx, markdown, prevMarkdown!)
-              })
-              prevMarkdown = markdown
-            }
-
-            prevDoc = doc
-          }, 200)
-
-          return handler()
+          latestTr = tr
+          debouncedHandler()
         },
       },
     })

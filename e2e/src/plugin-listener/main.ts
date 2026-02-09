@@ -31,6 +31,14 @@ setup(() => {
           console.log(before, after)
         })
       }
+      if (type === 'debounce') {
+        let callCount = 0
+        listener.markdownUpdated((_ctx, _markdown, _prevMarkdown) => {
+          callCount++
+          // oxlint-disable-next-line no-console
+          console.log(`[debounce-test] callCount=${callCount}`)
+        })
+      }
     })
     .config(nord)
     .use(commonmark)
