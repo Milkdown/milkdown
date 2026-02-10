@@ -63,6 +63,11 @@ const dirs = fs.readdirSync(path.resolve(dirname, './src'))
 
 export default () =>
   dirs
-    .filter((x) => x !== '__internal__' && !x.includes('index'))
+    .filter(
+      (x) =>
+        x !== '__internal__' &&
+        x !== '__tests__' &&
+        !x.includes('index')
+    )
     .flatMap(componentModule)
     .concat(main)
