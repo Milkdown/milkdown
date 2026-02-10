@@ -80,6 +80,11 @@ export class BlockService {
   #dragging = false
 
   /// @internal
+  #lastMouseY = -1
+  /// @internal
+  #rafId: number | null = null
+
+  /// @internal
   get #filterNodes(): FilterNodes | undefined {
     try {
       return this.#ctx?.get(blockConfig.key).filterNodes
@@ -112,6 +117,8 @@ export class BlockService {
   bind = (ctx: Ctx, notify: BlockServiceMessage) => {
     this.#ctx = ctx
     this.#notify = notify
+    const delay = ctx.get(blockConfig.key).mousemoveThrottle
+    this.#mousemoveCallback = throttle(this.#mousemoveHandler, delay)
   }
 
   /// Add mouse event to the dom.
@@ -132,6 +139,10 @@ export class BlockService {
 
   /// Unbind the notify function.
   unBind = () => {
+    if (this.#rafId !== null) {
+      cancelAnimationFrame(this.#rafId)
+      this.#rafId = null
+    }
     this.#notify = undefined
   }
 
@@ -218,32 +229,65 @@ export class BlockService {
   }
 
   /// @internal
-  #mousemoveCallback = throttle((view: EditorView, event: MouseEvent) => {
+  #mousemoveCallback: (view: EditorView, event: MouseEvent) => void = () => {}
+
+  /// @internal
+  #mousemoveHandler = (view: EditorView, event: MouseEvent) => {
     if (!view.editable) return
 
-    const rect = view.dom.getBoundingClientRect()
-    const x = rect.left + rect.width / 2
-    const dom = view.root.elementFromPoint(x, event.clientY)
-    if (!(dom instanceof Element)) {
-      this.#hide()
+    // Early exit if mouse Y hasn't changed significantly (reduces work for horizontal movement)
+    const mouseY = event.clientY
+    if (Math.abs(mouseY - this.#lastMouseY) < 5 && this.#active) {
       return
     }
+    this.#lastMouseY = mouseY
 
-    const filterNodes = this.#filterNodes
-    if (!filterNodes) return
-
-    const result = selectRootNodeByDom(
-      view,
-      { x, y: event.clientY },
-      filterNodes
-    )
-
-    if (!result) {
-      this.#hide()
-      return
+    // Cancel pending RAF if new event arrives
+    if (this.#rafId !== null) {
+      cancelAnimationFrame(this.#rafId)
     }
-    this.#show(result)
-  }, 200)
+
+    // Batch expensive work in RAF to align with paint cycles
+    this.#rafId = requestAnimationFrame(() => {
+      this.#rafId = null
+
+      const rect = view.dom.getBoundingClientRect()
+      const x = rect.left + rect.width / 2
+      const dom = view.root.elementFromPoint(x, mouseY)
+      if (!(dom instanceof Element)) {
+        if (this.#active) {
+          this.#hide()
+        }
+        return
+      }
+
+      // Early exit if still over the same element
+      if (this.#active && this.#active.el === dom) {
+        return
+      }
+
+      const filterNodes = this.#filterNodes
+      if (!filterNodes) return
+
+      const result = selectRootNodeByDom(view, { x, y: mouseY }, filterNodes)
+
+      if (!result) {
+        if (this.#active) {
+          this.#hide()
+        }
+        return
+      }
+
+      // Only update if result changed (different element or position)
+      if (
+        !this.#active ||
+        this.#active.el !== result.el ||
+        this.#active.$pos.pos !== result.$pos.pos
+      ) {
+        this.#show(result)
+      }
+    })
+  }
 
   /// @internal
   mousemoveCallback = (view: EditorView, event: MouseEvent) => {

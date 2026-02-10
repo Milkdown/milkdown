@@ -22,7 +22,7 @@ export * from './types'
 /// @internal
 export type BlockPlugin = [
   $Ctx<PluginSpec<any>, 'blockSpec'>,
-  $Ctx<{ filterNodes: FilterNodes }, 'blockConfig'>,
+  $Ctx<{ filterNodes: FilterNodes; mousemoveThrottle: number }, 'blockConfig'>,
   $Ctx<() => BlockService, 'blockService'>,
   $Ctx<BlockService, 'blockServiceInstance'>,
   $Prose,
