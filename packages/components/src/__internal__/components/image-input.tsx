@@ -22,6 +22,7 @@ type ImageInputProps = {
   className?: string
 
   onUpload: (file: File) => Promise<string>
+  onImageLoadError?: (event: Event) => void | Promise<void>
 }
 
 export const ImageInput = defineComponent<ImageInputProps>({
@@ -62,6 +63,10 @@ export const ImageInput = defineComponent<ImageInputProps>({
       type: Function,
       required: true,
     },
+    onImageLoadError: {
+      type: Function,
+      required: false,
+    },
   },
   setup({
     readonly,
@@ -73,6 +78,7 @@ export const ImageInput = defineComponent<ImageInputProps>({
     confirmButton,
     uploadPlaceholderText,
     className,
+    onImageLoadError,
   }) {
     const focusLinkInput = ref(false)
     const linkInputRef = ref<HTMLInputElement>()
@@ -153,9 +159,20 @@ export const ImageInput = defineComponent<ImageInputProps>({
             )}
           </div>
           {currentLink.value && (
-            <div class="confirm" onClick={() => onConfirmLinkInput()}>
-              <Icon icon={confirmButton} />
-            </div>
+            <>
+              <div class="image-preview">
+                <img
+                  src={currentLink.value}
+                  alt=""
+                  onError={(e) =>
+                  Promise.resolve(onImageLoadError?.(e)).catch(() => {})
+                }
+                />
+              </div>
+              <div class="confirm" onClick={() => onConfirmLinkInput()}>
+                <Icon icon={confirmButton} />
+              </div>
+            </>
           )}
         </div>
       )
