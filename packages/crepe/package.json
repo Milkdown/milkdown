@@ -126,8 +126,8 @@
         "types": "./lib/types/feature/toolbar/index.d.ts"
       },
       "./theme/common/*": "./lib/theme/common/*",
-      "./theme/classic.css": "./lib/theme/classic/style.css",
-      "./theme/classic-dark.css": "./lib/theme/classic-dark/style.css",
+      "./theme/classic.css": "./lib/theme/crepe/style.css",
+      "./theme/classic-dark.css": "./lib/theme/crepe-dark/style.css",
       "./theme/nord.css": "./lib/theme/nord/style.css",
       "./theme/nord-dark.css": "./lib/theme/nord-dark/style.css",
       "./theme/frame.css": "./lib/theme/frame/style.css",
