@@ -539,7 +539,7 @@ import '@milkdown/crepe/theme/common/block-edit.css'
 import '@milkdown/crepe/theme/common/toolbar.css'
 
 // And introduce the theme
-import '@milkdown/crepe/theme/crepe.css'
+import '@milkdown/crepe/theme/classic.css'
 
 const builder = new CrepeBuilder({
   root: '#editor',
@@ -581,12 +581,12 @@ Crepe comes with several built-in themes that can be imported:
 
 ```typescript
 // Light themes
-import '@milkdown/crepe/theme/crepe.css'
+import '@milkdown/crepe/theme/classic.css'
 import '@milkdown/crepe/theme/nord.css'
 import '@milkdown/crepe/theme/frame.css'
 
 // Dark themes
-import '@milkdown/crepe/theme/crepe-dark.css'
+import '@milkdown/crepe/theme/classic-dark.css'
 import '@milkdown/crepe/theme/nord-dark.css'
 import '@milkdown/crepe/theme/frame-dark.css'
 ```

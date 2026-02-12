@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html'
 
-import crepe from '@milkdown/crepe/theme/crepe.css?inline'
+import crepe from '@milkdown/crepe/theme/classic.css?inline'
 import { basicLight } from '@uiw/codemirror-theme-basic'
 
 import type { Args } from './setup'
