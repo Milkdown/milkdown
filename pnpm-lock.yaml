@@ -633,8 +633,8 @@ importers:
         specifier: workspace:*
         version: link:../../utils
       prosemirror-highlight:
-        specifier: ^0.13.0
-        version: 0.13.0(@shikijs/types@3.22.0)(@types/hast@3.0.4)(prosemirror-model@1.25.4)(prosemirror-state@1.4.4)(prosemirror-transform@1.11.0)(prosemirror-view@1.41.5)(refractor@5.0.0)(sugar-high@0.9.5)
+        specifier: ^0.15.0
+        version: 0.15.0(@lezer/common@1.5.0)(@lezer/highlight@1.2.3)(@shikijs/types@3.22.0)(@types/hast@3.0.4)(prosemirror-model@1.25.4)(prosemirror-state@1.4.4)(prosemirror-transform@1.11.0)(prosemirror-view@1.41.5)(refractor@5.0.0)(sugar-high@0.9.5)
     devDependencies:
       '@milkdown/preset-commonmark':
         specifier: workspace:*
@@ -4405,9 +4405,11 @@ packages:
   prosemirror-gapcursor@1.4.0:
     resolution: {integrity: sha512-z00qvurSdCEWUIulij/isHaqu4uLS8r/Fi61IbjdIPJEonQgggbJsLnstW7Lgdk4zQ68/yr6B6bf7sJXowIgdQ==}
 
-  prosemirror-highlight@0.13.0:
-    resolution: {integrity: sha512-GIC2VCTUnukNdsEGLQWWOVpYPl/7/KrVp4xs7XMB48/4rhUrHK8hp8TEog4Irmv+2kmjx24RLnaisGOCP6U8jw==}
+  prosemirror-highlight@0.15.0:
+    resolution: {integrity: sha512-cpBW4GqLXPCKHY1XkGJ7v1wWjuAtU3LDoEApEz8TWJgL6xDDo5v6ZCK4t7onuD3N7aT2GWynT+WMKXEqyzeLGA==}
     peerDependencies:
+      '@lezer/common': ^1.0.0
+      '@lezer/highlight': ^1.0.0
       '@shikijs/types': ^1.29.2 || ^2.0.0 || ^3.0.0
       '@types/hast': ^3.0.0
       highlight.js: ^11.9.0
@@ -4419,6 +4421,10 @@ packages:
       refractor: ^5.0.0
       sugar-high: ^0.6.1 || ^0.7.0 || ^0.8.0 || ^0.9.0
     peerDependenciesMeta:
+      '@lezer/common':
+        optional: true
+      '@lezer/highlight':
+        optional: true
       '@shikijs/types':
         optional: true
       '@types/hast':
@@ -9182,8 +9188,10 @@ snapshots:
       prosemirror-state: 1.4.4
       prosemirror-view: 1.41.5
 
-  prosemirror-highlight@0.13.0(@shikijs/types@3.22.0)(@types/hast@3.0.4)(prosemirror-model@1.25.4)(prosemirror-state@1.4.4)(prosemirror-transform@1.11.0)(prosemirror-view@1.41.5)(refractor@5.0.0)(sugar-high@0.9.5):
+  prosemirror-highlight@0.15.0(@lezer/common@1.5.0)(@lezer/highlight@1.2.3)(@shikijs/types@3.22.0)(@types/hast@3.0.4)(prosemirror-model@1.25.4)(prosemirror-state@1.4.4)(prosemirror-transform@1.11.0)(prosemirror-view@1.41.5)(refractor@5.0.0)(sugar-high@0.9.5):
     optionalDependencies:
+      '@lezer/common': 1.5.0
+      '@lezer/highlight': 1.2.3
       '@shikijs/types': 3.22.0
       '@types/hast': 3.0.4
       prosemirror-model: 1.25.4
