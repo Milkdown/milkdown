@@ -70,6 +70,7 @@ export const MilkdownImageBlock = defineComponent<MilkdownImageBlockProps>({
             confirmButton={props.config.confirmButton}
             uploadPlaceholderText={props.config.uploadPlaceholderText}
             onUpload={props.config.onUpload}
+            onImageLoadError={props.config.onImageLoadError}
           />
         )
       }

@@ -98,7 +98,8 @@
     "src"
   ],
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "test": "vitest run"
   },
   "peerDependencies": {
     "@codemirror/language": "^6",
@@ -127,6 +128,9 @@
   "devDependencies": {
     "@codemirror/language": "^6.10.1",
     "@codemirror/state": "^6.4.1",
-    "@codemirror/view": "^6.26.0"
+    "@codemirror/view": "^6.26.0",
+    "@testing-library/vue": "^8.1.0",
+    "jsdom": "^28.0.0",
+    "vitest": "^4.0.0"
   }
 }

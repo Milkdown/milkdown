@@ -47,6 +47,7 @@ You can configure the component by updating the `imageBlockConfig` ctx in `edito
 | `captionPlaceholderText` | `string`                                     | `'Image caption'`                                      | Placeholder text for the caption input                                              |
 | `onUpload`               | `(file: File) => Promise<string>`            | `(file) => Promise.resolve(URL.createObjectURL(file))` | Function called when an image is uploaded; must return a Promise with the image URL |
 | `proxyDomURL`            | `(url: string) => Promise<string> \| string` | `undefined`                                            | Optional function to proxy the image URL                                            |
+| `onImageLoadError`       | `(event: Event) => void \| Promise<void>`    | `undefined`                                            | Optional callback when an image fails to load (e.g. invalid URL or network error)   |
 
 ---
 
@@ -109,6 +110,30 @@ ctx.update(imageBlockConfig.key, (defaultConfig) => ({
     )
     const url = await response.text()
     return url
+  },
+}))
+```
+
+## `onImageLoadError`
+
+Optional callback invoked when an image fails to load (invalid URL, CORS, 404, etc.). Use it to show a message, fallback UI, or report errors. May be sync or async (`Promise<void>`).
+
+```typescript
+import { imageBlockConfig } from '@milkdown/components/image-block'
+
+ctx.update(imageBlockConfig.key, (defaultConfig) => ({
+  ...defaultConfig,
+  onImageLoadError: (event: Event) => {
+    console.error('Image failed to load', event)
+    // e.g. show toast or replace with placeholder
+  },
+}))
+
+// Async is also supported
+ctx.update(imageBlockConfig.key, (defaultConfig) => ({
+  ...defaultConfig,
+  onImageLoadError: async (event: Event) => {
+    await reportToAnalytics('image_load_error', event)
   },
 }))
 ```

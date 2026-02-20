@@ -30,6 +30,7 @@ interface ImageBlockConfig {
   blockCaptionPlaceholderText: string
   blockUploadPlaceholderText: string
   blockOnUpload: (file: File) => Promise<string>
+  onImageLoadError: (event: Event) => void | Promise<void>
 }
 
 export type ImageBlockFeatureConfig = Partial<ImageBlockConfig>
@@ -61,6 +62,7 @@ export const imageBlock: DefineFeature<ImageBlockFeatureConfig> = (
           config?.blockUploadPlaceholderText ?? 'or paste link',
         onUpload: config?.blockOnUpload ?? config?.onUpload ?? value.onUpload,
         proxyDomURL: config?.proxyDomURL,
+        onImageLoadError: config?.onImageLoadError ?? value.onImageLoadError,
       }))
     })
     .use(imageBlockComponent)

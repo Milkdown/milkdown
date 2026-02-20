@@ -143,6 +143,9 @@ export const ImageViewer = defineComponent<MilkdownImageBlockProps>({
               onLoad={onImageLoad}
               src={src.value}
               alt={caption.value}
+              onError={(e) =>
+                Promise.resolve(config.onImageLoadError?.(e)).catch(() => {})
+              }
             />
             <div
               ref={resizeHandle}
