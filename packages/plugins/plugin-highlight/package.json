@@ -68,7 +68,7 @@
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/utils": "workspace:*",
-    "prosemirror-highlight": "^0.13.0"
+    "prosemirror-highlight": "^0.15.0"
   },
   "devDependencies": {
     "@milkdown/preset-commonmark": "workspace:*",
