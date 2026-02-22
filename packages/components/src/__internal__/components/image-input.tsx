@@ -165,8 +165,8 @@ export const ImageInput = defineComponent<ImageInputProps>({
                   src={currentLink.value}
                   alt=""
                   onError={(e) =>
-                  Promise.resolve(onImageLoadError?.(e)).catch(() => {})
-                }
+                    Promise.resolve(onImageLoadError?.(e)).catch(() => {})
+                  }
                 />
               </div>
               <div class="confirm" onClick={() => onConfirmLinkInput()}>
