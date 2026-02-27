@@ -64,7 +64,7 @@
     "postcss-nested": "^7.0.0",
     "prettier": "^3.4.2",
     "rimraf": "^6.0.0",
-    "rollup": "^4.22.4",
+    "rollup": "^4.59.0",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-dts": "^6.0.0",
     "rollup-plugin-esbuild": "^6.0.0",
