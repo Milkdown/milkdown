@@ -19,7 +19,7 @@
     "@uiw/codemirror-theme-basic": "^4.22.1",
     "@uiw/codemirror-theme-nord": "^4.22.1",
     "codemirror": "^6.0.1",
-    "shiki": "^3.0.0"
+    "shiki": "^4.0.0"
   },
   "devDependencies": {
     "@storybook/html": "^10.0.0",
