@@ -1,5 +1,24 @@
 # @milkdown/plugin-cursor
 
+## 7.19.0
+
+### Minor Changes
+
+- cf36326: Milkdown minor version release.
+
+  ## Feat
+  - feat: 🎸 add optional onImageLoadError callback for image-block (#2251)
+
+  ## Fix
+  - fix: exports of crepe package point at incorrect path (#2252)
+
+### Patch Changes
+
+- Updated dependencies [cf36326]
+  - @milkdown/ctx@7.19.0
+  - @milkdown/prose@7.19.0
+  - @milkdown/utils@7.19.0
+
 ## 7.18.0
 
 ### Minor Changes
