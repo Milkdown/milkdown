@@ -36,6 +36,6 @@ Milkdown minor version release.
 
 - feat: 🎸 add optional onImageLoadError callback for image-block (#2251)
 
-## Other
+## Fix
 
-- Exports of crepe package point at incorrect path (#2252)
+- fix: exports of crepe package point at incorrect path (#2252)
