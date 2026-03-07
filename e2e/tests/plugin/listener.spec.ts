@@ -37,7 +37,9 @@ test('on selection updated', async ({ page }) => {
   expect(beforeText).toBe('0-6')
 })
 
-test('markdownUpdated is properly debounced during rapid typing', async ({ page }) => {
+test('markdownUpdated is properly debounced during rapid typing', async ({
+  page,
+}) => {
   await page.goto('/plugin-listener/?type=debounce')
   await focusEditor(page)
   await waitNextFrame(page)

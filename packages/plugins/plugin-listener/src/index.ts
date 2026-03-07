@@ -172,11 +172,7 @@ export const listener: MilkdownPlugin = (ctx) => {
         })
       }
 
-      if (
-        listeners.markdownUpdated.length > 0 &&
-        prevDoc &&
-        !prevDoc.eq(doc)
-      ) {
+      if (listeners.markdownUpdated.length > 0 && prevDoc && !prevDoc.eq(doc)) {
         const markdown = serializer(doc)
         listeners.markdownUpdated.forEach((fn) => {
           fn(ctx, markdown, prevMarkdown!)
