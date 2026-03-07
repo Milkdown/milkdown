@@ -146,12 +146,12 @@ test('with plugin listener', async ({ page }) => {
   const [msg2] = msg.args()
   expect(await msg2?.jsonValue()).toBe('\\*A\n')
 
+  // Typing '*' triggers both a keystroke transaction and an automd italic
+  // conversion transaction. With debouncing, both are coalesced into a
+  // single markdownUpdated callback with the final markdown.
   msgPromise = page.waitForEvent('console')
   await page.keyboard.type('*')
-  await msgPromise
-
-  msgPromise = page.waitForEvent('console')
   msg = await msgPromise
-  const [msg4] = msg.args()
-  expect(await msg4?.jsonValue()).toBe('*A*\n')
+  const [msg3] = msg.args()
+  expect(await msg3?.jsonValue()).toBe('*A*\n')
 })
