@@ -2,7 +2,7 @@
   "name": "@milkdown/monorepo",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@10.32.0",
+  "packageManager": "pnpm@10.32.1",
   "engines": {
     "node": ">=22"
   },
@@ -58,7 +58,7 @@
     "knip": "^5.63.1",
     "lint-staged": "^16.0.0",
     "oxlint": "^1.8.0",
-    "pkg-pr-new": "^0.0.65",
+    "pkg-pr-new": "^0.0.66",
     "postcss": "^8.4.38",
     "postcss-cli": "^11.0.0",
     "postcss-nested": "^7.0.0",
