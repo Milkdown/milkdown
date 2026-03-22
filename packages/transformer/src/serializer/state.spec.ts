@@ -20,6 +20,14 @@ const italicMark = {
   },
 } as unknown as Mark
 
+const inlineCodeMark = {
+  isInSet: (arr: string[]) => arr.includes('inlineCode'),
+  addToSet: (arr: string[]) => arr.concat('inlineCode'),
+  type: {
+    removeFromSet: (arr: string[]) => arr.filter((x) => x !== 'inlineCode'),
+  },
+} as unknown as Mark
+
 const schema = {
   nodes: {
     paragraph: {
@@ -190,6 +198,50 @@ describe('serializer-state', () => {
               children: [{ type: 'text', value: 'hello' }],
             },
             { type: 'text', value: ' ' },
+          ],
+        },
+      ],
+    })
+  })
+
+  it('should not corrupt value-based marks during merge', () => {
+    const state = new SerializerState(schema)
+
+    state.openNode('doc')
+    state.openNode('paragraph')
+    // Simulate: inlineCode("Hello") followed by bold > inlineCode("World")
+    state.withMark(inlineCodeMark, 'inlineCode', 'Hello')
+    state.closeMark(inlineCodeMark)
+    state.withMark(boldMark, 'bold')
+    state.withMark(inlineCodeMark, 'inlineCode', 'World')
+    state.closeMark(inlineCodeMark)
+    state.closeMark(boldMark)
+    state.closeNode()
+
+    // The bold wrapper around inlineCode should be preserved,
+    // not restructured by searchType
+    expect(state.top()).toMatchObject({
+      type: 'doc',
+      children: [
+        {
+          type: 'paragraph',
+          children: [
+            {
+              type: 'inlineCode',
+              isMark: true,
+              value: 'Hello',
+            },
+            {
+              type: 'bold',
+              isMark: true,
+              children: [
+                {
+                  type: 'inlineCode',
+                  isMark: true,
+                  value: 'World',
+                },
+              ],
+            },
           ],
         },
       ],

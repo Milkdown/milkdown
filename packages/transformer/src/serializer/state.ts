@@ -103,7 +103,7 @@ export class SerializerState extends Stack<
     if (child.children?.length !== 1) return child
 
     const searchNode = (node: MarkdownNode): MarkdownNode | null => {
-      if (node.type === type) return node
+      if (node.type === type) return node.value != null ? null : node
 
       if (node.children?.length !== 1) return null
 
