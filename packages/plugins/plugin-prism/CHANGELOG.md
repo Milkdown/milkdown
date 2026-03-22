@@ -1,5 +1,26 @@
 # @milkdown/plugin-prism
 
+## 7.19.1
+
+### Patch Changes
+
+- b22143f: Milkdown patch version release.
+
+  ## Fix
+  - fix(preset-gfm): incorrect table parsing when pasting from Google Docs (#2283)
+  - fix(transformer): inline code with bold/italic marks produces wrong markdown (#2281)
+  - fix(preset-gfm): add empty content guard to table_header_row serializer (#2279)
+  - fix(plugin-listener): listener bug regards to debounce in react (#2268)
+
+  ## Chore
+  - chore: bump up sugar-high version to v1 (#2280)
+  - chore: bump up dompurify version to v3.3.2 [SECURITY] (#2267)
+
+- Updated dependencies [b22143f]
+  - @milkdown/ctx@7.19.1
+  - @milkdown/prose@7.19.1
+  - @milkdown/utils@7.19.1
+
 ## 7.19.0
 
 ### Minor Changes
