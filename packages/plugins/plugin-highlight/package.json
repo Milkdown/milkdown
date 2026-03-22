@@ -72,6 +72,6 @@
   },
   "devDependencies": {
     "@milkdown/preset-commonmark": "workspace:*",
-    "sugar-high": "^0.9.3"
+    "sugar-high": "^1.0.0"
   }
 }
