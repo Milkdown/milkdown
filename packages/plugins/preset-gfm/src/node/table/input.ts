@@ -1,7 +1,12 @@
 import { commandsCtx } from '@milkdown/core'
 import { paragraphSchema } from '@milkdown/preset-commonmark'
 import { InputRule } from '@milkdown/prose/inputrules'
-import { type Fragment as FragmentType, Fragment, type Node as ProsemirrorNode, Slice } from '@milkdown/prose/model'
+import {
+  type Fragment as FragmentType,
+  Fragment,
+  type Node as ProsemirrorNode,
+  Slice,
+} from '@milkdown/prose/model'
 import { TextSelection } from '@milkdown/prose/state'
 import { $inputRule, $pasteRule, $useKeymap } from '@milkdown/utils'
 
@@ -81,7 +86,9 @@ export const tablePasteRule = $pasteRule((ctx) => ({
         for (let i = 0; i < firstDataRow.childCount; i++) {
           const cell = firstDataRow.child(i)
           headerCells.push(
-            tableHeaderSchema.type(ctx).create(cell.attrs, cell.content, cell.marks)
+            tableHeaderSchema
+              .type(ctx)
+              .create(cell.attrs, cell.content, cell.marks)
           )
         }
         const newHeaderRow = headerRow.type.create(headerRow.attrs, headerCells)
