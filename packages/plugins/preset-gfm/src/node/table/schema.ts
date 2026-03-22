@@ -104,6 +104,11 @@ export const tableHeaderRowSchema = $nodeSchema('table_header_row', () => ({
   toMarkdown: {
     match: (node) => node.type.name === 'table_header_row',
     runner: (state, node) => {
+      // if the row is empty, we don't need to create a table row
+      // prevent remark from crashing
+      if (node.content.size === 0) {
+        return
+      }
       state.openNode('tableRow', undefined, { isHeader: true })
       state.next(node.content)
       state.closeNode()
