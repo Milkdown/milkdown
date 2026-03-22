@@ -1,5 +1,41 @@
 # @milkdown/kit
 
+## 7.19.1
+
+### Patch Changes
+
+- b22143f: Milkdown patch version release.
+
+  ## Fix
+  - fix(preset-gfm): incorrect table parsing when pasting from Google Docs (#2283)
+  - fix(transformer): inline code with bold/italic marks produces wrong markdown (#2281)
+  - fix(preset-gfm): add empty content guard to table_header_row serializer (#2279)
+  - fix(plugin-listener): listener bug regards to debounce in react (#2268)
+
+  ## Chore
+  - chore: bump up sugar-high version to v1 (#2280)
+  - chore: bump up dompurify version to v3.3.2 [SECURITY] (#2267)
+
+- Updated dependencies [b22143f]
+  - @milkdown/components@7.19.1
+  - @milkdown/core@7.19.1
+  - @milkdown/ctx@7.19.1
+  - @milkdown/plugin-block@7.19.1
+  - @milkdown/plugin-clipboard@7.19.1
+  - @milkdown/plugin-cursor@7.19.1
+  - @milkdown/plugin-history@7.19.1
+  - @milkdown/plugin-indent@7.19.1
+  - @milkdown/plugin-listener@7.19.1
+  - @milkdown/plugin-slash@7.19.1
+  - @milkdown/plugin-tooltip@7.19.1
+  - @milkdown/plugin-trailing@7.19.1
+  - @milkdown/plugin-upload@7.19.1
+  - @milkdown/preset-commonmark@7.19.1
+  - @milkdown/preset-gfm@7.19.1
+  - @milkdown/prose@7.19.1
+  - @milkdown/transformer@7.19.1
+  - @milkdown/utils@7.19.1
+
 ## 7.19.0
 
 ### Minor Changes
