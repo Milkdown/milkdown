@@ -1,3 +1,5 @@
+import type { EditorView } from '@milkdown/prose/view'
+
 import {
   editorViewOptionsCtx,
   parserCtx,
@@ -12,9 +14,6 @@ import {
   type Slice,
 } from '@milkdown/prose/model'
 import { Plugin, PluginKey, TextSelection } from '@milkdown/prose/state'
-
-import type { EditorView } from '@milkdown/prose/view'
-
 import { $prose } from '@milkdown/utils'
 
 import { isPureText } from './__internal__/is-pure-text'
