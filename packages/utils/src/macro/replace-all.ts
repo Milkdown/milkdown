@@ -31,15 +31,15 @@ export function replaceAll(markdown: string, flush = false) {
     }
 
     const schema = ctx.get(schemaCtx)
-    const options = ctx.get(editorStateOptionsCtx)
+    const overrideOptions = ctx.get(editorStateOptionsCtx)
     const plugins = ctx.get(prosePluginsCtx)
-
-    const state = EditorState.create({
+    const newOptions = overrideOptions({
       schema,
       doc,
       plugins,
-      ...options,
     })
+
+    const state = EditorState.create(newOptions)
 
     view.updateState(state)
   }
