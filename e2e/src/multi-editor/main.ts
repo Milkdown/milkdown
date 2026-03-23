@@ -6,9 +6,7 @@ import { nord } from '@milkdown/theme-nord'
 import { callCommand } from '@milkdown/utils'
 
 import { setup } from '../utils'
-
 import '@milkdown/theme-nord/style.css'
-
 import '../style.css'
 
 setup(() => {

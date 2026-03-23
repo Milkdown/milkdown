@@ -1,43 +1,43 @@
 {
   "name": "@milkdown/transformer",
-  "type": "module",
   "version": "7.19.2",
+  "keywords": [
+    "markdown",
+    "milkdown",
+    "prosemirror",
+    "remark"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Milkdown/milkdown.git",
     "directory": "packages/transformer"
   },
-  "keywords": [
-    "milkdown",
-    "prosemirror",
-    "remark",
-    "markdown"
+  "files": [
+    "lib",
+    "src"
   ],
+  "type": "module",
   "sideEffects": false,
+  "main": "./src/index.ts",
   "exports": {
     ".": {
       "import": "./src/index.ts"
     }
   },
-  "main": "./src/index.ts",
   "publishConfig": {
-    "main": "./lib/index.js",
-    "types": "./lib/index.d.ts",
     "exports": {
       ".": {
         "import": "./lib/index.js",
         "types": "./lib/index.d.ts"
       }
-    }
+    },
+    "main": "./lib/index.js",
+    "types": "./lib/index.d.ts"
   },
   "scripts": {
     "build": "vite build"
   },
-  "files": [
-    "lib",
-    "src"
-  ],
   "dependencies": {
     "@milkdown/exception": "workspace:*",
     "@milkdown/prose": "workspace:*",

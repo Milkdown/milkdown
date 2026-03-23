@@ -1,51 +1,51 @@
 {
   "name": "@milkdown/core",
-  "type": "module",
   "version": "7.19.2",
+  "keywords": [
+    "markdown",
+    "markdown editor",
+    "milkdown",
+    "prosemirror",
+    "remark",
+    "text editor",
+    "wysiwyg"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Milkdown/milkdown.git",
     "directory": "packages/core"
   },
-  "keywords": [
-    "milkdown",
-    "prosemirror",
-    "remark",
-    "markdown",
-    "wysiwyg",
-    "text editor",
-    "markdown editor"
+  "files": [
+    "lib",
+    "src"
   ],
+  "type": "module",
   "sideEffects": false,
+  "main": "./src/index.ts",
   "exports": {
     ".": {
       "import": "./src/index.ts"
     }
   },
-  "main": "./src/index.ts",
   "publishConfig": {
-    "main": "./lib/index.js",
-    "types": "./lib/index.d.ts",
     "exports": {
       ".": {
         "import": "./lib/index.js",
         "types": "./lib/index.d.ts"
       }
-    }
+    },
+    "main": "./lib/index.js",
+    "types": "./lib/index.d.ts"
   },
   "scripts": {
     "build": "vite build"
   },
-  "files": [
-    "lib",
-    "src"
-  ],
   "dependencies": {
     "@milkdown/ctx": "workspace:*",
+    "@milkdown/exception": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/transformer": "workspace:*",
-    "@milkdown/exception": "workspace:*",
     "remark-parse": "^11.0.0",
     "remark-stringify": "^11.0.0",
     "unified": "^11.0.3"

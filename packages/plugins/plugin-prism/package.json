@@ -1,45 +1,45 @@
 {
   "name": "@milkdown/plugin-prism",
-  "type": "module",
   "version": "7.19.2",
+  "keywords": [
+    "milkdown",
+    "milkdown plugin"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Milkdown/milkdown.git",
     "directory": "packages/plugins/plugin-prism"
   },
-  "keywords": [
-    "milkdown",
-    "milkdown plugin"
+  "files": [
+    "lib",
+    "src"
   ],
+  "type": "module",
   "sideEffects": false,
+  "main": "./src/index.ts",
   "exports": {
     ".": {
       "import": "./src/index.ts"
     }
   },
-  "main": "./src/index.ts",
   "publishConfig": {
-    "main": "./lib/index.js",
-    "types": "./lib/index.d.ts",
     "exports": {
       ".": {
         "import": "./lib/index.js",
         "types": "./lib/index.d.ts"
       }
-    }
+    },
+    "main": "./lib/index.js",
+    "types": "./lib/index.d.ts"
   },
   "scripts": {
     "build": "vite build"
   },
-  "files": [
-    "lib",
-    "src"
-  ],
   "dependencies": {
-    "@milkdown/utils": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/prose": "workspace:*",
+    "@milkdown/utils": "workspace:*",
     "@types/hast": "^3.0.4",
     "refractor": "^5.0.0"
   }

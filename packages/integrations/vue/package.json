@@ -1,44 +1,41 @@
 {
   "name": "@milkdown/vue",
-  "type": "module",
   "version": "7.19.2",
+  "keywords": [
+    "milkdown",
+    "milkdown plugin",
+    "vue"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Milkdown/milkdown.git",
     "directory": "packages/integrations/vue"
   },
-  "keywords": [
-    "milkdown",
-    "milkdown plugin",
-    "vue"
+  "files": [
+    "lib",
+    "src"
   ],
+  "type": "module",
   "sideEffects": false,
+  "main": "./src/index.ts",
   "exports": {
     ".": {
       "import": "./src/index.ts"
     }
   },
-  "main": "./src/index.ts",
   "publishConfig": {
-    "main": "./lib/index.js",
-    "types": "./lib/index.d.ts",
     "exports": {
       ".": {
         "import": "./lib/index.js",
         "types": "./lib/index.d.ts"
       }
-    }
+    },
+    "main": "./lib/index.js",
+    "types": "./lib/index.d.ts"
   },
   "scripts": {
     "build": "vite build"
-  },
-  "files": [
-    "lib",
-    "src"
-  ],
-  "peerDependencies": {
-    "vue": "^3.0.0"
   },
   "dependencies": {
     "@milkdown/crepe": "workspace:*",
@@ -46,5 +43,8 @@
   },
   "devDependencies": {
     "@testing-library/vue": "^8.1.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
   }
 }

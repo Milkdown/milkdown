@@ -1,20 +1,25 @@
 {
   "name": "@milkdown/crepe",
-  "type": "module",
   "version": "7.19.2",
+  "keywords": [
+    "crepe",
+    "editor",
+    "milkdown",
+    "milkdown plugin"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Milkdown/milkdown.git",
     "directory": "packages/crepe"
   },
-  "keywords": [
-    "milkdown",
-    "milkdown plugin",
-    "crepe",
-    "editor"
+  "files": [
+    "lib",
+    "src"
   ],
+  "type": "module",
   "sideEffects": false,
+  "main": "./src/index.ts",
   "exports": {
     ".": {
       "import": "./src/index.ts"
@@ -60,10 +65,7 @@
     "./theme/frame.css": "./src/theme/frame/style.css",
     "./theme/frame-dark.css": "./src/theme/frame-dark/style.css"
   },
-  "main": "./src/index.ts",
   "publishConfig": {
-    "main": "./lib/esm/index.js",
-    "types": "./lib/types/index.d.ts",
     "exports": {
       ".": {
         "import": "./lib/esm/index.js",
@@ -132,12 +134,10 @@
       "./theme/nord-dark.css": "./lib/theme/nord-dark/style.css",
       "./theme/frame.css": "./lib/theme/frame/style.css",
       "./theme/frame-dark.css": "./lib/theme/frame-dark/style.css"
-    }
+    },
+    "main": "./lib/esm/index.js",
+    "types": "./lib/types/index.d.ts"
   },
-  "files": [
-    "lib",
-    "src"
-  ],
   "scripts": {
     "build": "pnpm run build:es && pnpm run build:theme && echo",
     "build:es": "rollup -c",

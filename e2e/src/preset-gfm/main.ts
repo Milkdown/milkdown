@@ -5,9 +5,7 @@ import { gfm } from '@milkdown/preset-gfm'
 import { nord } from '@milkdown/theme-nord'
 
 import { setup } from '../utils'
-
 import '@milkdown/theme-nord/style.css'
-
 import '../style.css'
 
 setup(() => {

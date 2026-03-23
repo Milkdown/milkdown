@@ -1,43 +1,43 @@
 {
   "name": "@milkdown/preset-commonmark",
-  "type": "module",
   "version": "7.19.2",
+  "keywords": [
+    "commonmark",
+    "markdown",
+    "milkdown",
+    "milkdown plugin"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Milkdown/milkdown.git",
     "directory": "packages/plugins/preset-commonmark"
   },
-  "keywords": [
-    "milkdown",
-    "milkdown plugin",
-    "markdown",
-    "commonmark"
+  "files": [
+    "lib",
+    "src"
   ],
+  "type": "module",
   "sideEffects": false,
+  "main": "./src/index.ts",
   "exports": {
     ".": {
       "import": "./src/index.ts"
     }
   },
-  "main": "./src/index.ts",
   "publishConfig": {
-    "main": "./lib/index.js",
-    "types": "./lib/index.d.ts",
     "exports": {
       ".": {
         "import": "./lib/index.js",
         "types": "./lib/index.d.ts"
       }
-    }
+    },
+    "main": "./lib/index.js",
+    "types": "./lib/index.d.ts"
   },
   "scripts": {
     "build": "vite build"
   },
-  "files": [
-    "lib",
-    "src"
-  ],
   "dependencies": {
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
