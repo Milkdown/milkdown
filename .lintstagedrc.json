@@ -1,3 +1,4 @@
 {
-  "**/*.{js,ts,tsx,json,yaml,yml,md}": ["oxlint -c .oxlintrc.json --fix"]
+  "**/*.{js,ts,tsx,json,yaml,yml,md}": ["oxlint -c .oxlintrc.json --fix"],
+  "*": "oxfmt --no-error-on-unmatched-pattern"
 }
