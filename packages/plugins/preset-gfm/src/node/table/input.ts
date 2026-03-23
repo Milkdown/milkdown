@@ -16,7 +16,12 @@ import {
   goToNextTableCellCommand,
   goToPrevTableCellCommand,
 } from './command'
-import { tableHeaderSchema, tableSchema } from './schema'
+import {
+  tableHeaderRowSchema,
+  tableHeaderSchema,
+  tableRowSchema,
+  tableSchema,
+} from './schema'
 import { createTable } from './utils'
 
 /// A input rule for creating table.
@@ -119,22 +124,94 @@ export const tablePasteRule = $pasteRule((ctx) => ({
       return newTable
     }
 
+    // Wrap consecutive orphaned table_row nodes (at the top level of a fragment)
+    // into a proper table. This happens when ProseMirror's parseSlice breaks
+    // a table apart (e.g. when pasting multiple tables from Google Docs).
+    function wrapOrphanedRows(fragment: FragmentType): FragmentType {
+      const rowType = tableRowSchema.type(ctx)
+      const nodes: ProsemirrorNode[] = []
+      let pendingRows: ProsemirrorNode[] = []
+      let hasOrphans = false
+
+      function flushPendingRows() {
+        if (pendingRows.length === 0) return
+
+        // Create an empty table_header_row, then fixTable will promote the first data row
+        const emptyHeaderRow = tableHeaderRowSchema.type(ctx).createAndFill()!
+        const table = tableSchema
+          .type(ctx)
+          .create(null, [emptyHeaderRow, ...pendingRows])
+        nodes.push(fixTable(table))
+        pendingRows = []
+      }
+
+      fragment.forEach((node) => {
+        if (node.type === rowType) {
+          hasOrphans = true
+          pendingRows.push(node)
+        } else {
+          flushPendingRows()
+          nodes.push(node)
+        }
+      })
+      flushPendingRows()
+
+      return hasOrphans ? Fragment.from(nodes) : fragment
+    }
+
     function fixFragment(fragment: FragmentType): FragmentType {
-      let result = fragment
-      fragment.forEach((node, _offset, index) => {
+      // First, wrap any orphaned table_row nodes into tables
+      let result = wrapOrphanedRows(fragment)
+
+      // Then fix existing tables and recurse into children
+      let changed = result !== fragment
+      const fixed: ProsemirrorNode[] = []
+      result.forEach((node) => {
         if (node.type === tableSchema.type(ctx)) {
-          result = result.replaceChild(index, fixTable(node))
+          const fixedNode = fixTable(node)
+          if (fixedNode !== node) changed = true
+          fixed.push(fixedNode)
         } else if (node.childCount > 0) {
           const fixedContent = fixFragment(node.content)
           if (fixedContent !== node.content) {
-            result = result.replaceChild(index, node.copy(fixedContent))
+            changed = true
+            fixed.push(node.copy(fixedContent))
+          } else {
+            fixed.push(node)
           }
+        } else {
+          fixed.push(node)
         }
       })
-      return result
+      return changed ? Fragment.from(fixed) : fragment
     }
 
-    const fragment = fixFragment(slice.content)
+    // Remove empty paragraphs that directly precede a table
+    // (artifacts of broken table parsing from Google Docs)
+    function cleanEmptyParagraphs(fragment: FragmentType): FragmentType {
+      const nodes: ProsemirrorNode[] = []
+      const allNodes: ProsemirrorNode[] = []
+      fragment.forEach((node) => allNodes.push(node))
+
+      for (let i = 0; i < allNodes.length; i++) {
+        const node = allNodes[i]!
+        const next = allNodes[i + 1]
+        if (
+          node.type === paragraphSchema.type(ctx) &&
+          node.content.size === 0 &&
+          next &&
+          next.type === tableSchema.type(ctx)
+        ) {
+          continue // skip empty paragraph before table
+        }
+        nodes.push(node)
+      }
+
+      return nodes.length < allNodes.length ? Fragment.from(nodes) : fragment
+    }
+
+    let fragment = fixFragment(slice.content)
+    fragment = cleanEmptyParagraphs(fragment)
     return new Slice(Fragment.from(fragment), slice.openStart, slice.openEnd)
   },
 }))
