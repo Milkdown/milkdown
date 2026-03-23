@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "trailingComma": "es5",
   "tabWidth": 2,
   "semi": false,
