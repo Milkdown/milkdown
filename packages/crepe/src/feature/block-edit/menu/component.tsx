@@ -16,6 +16,7 @@ import type { BlockEditFeatureConfig } from '..'
 
 import { getGroups } from './config'
 
+// oxlint-disable-next-line no-unused-expressions
 h
 
 type MenuProps = {

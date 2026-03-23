@@ -20,8 +20,11 @@ type LanguagePickerProps = Pick<
   'language' | 'config' | 'setLanguage' | 'getAllLanguages' | 'getReadOnly'
 >
 
+// oxlint-disable-next-line no-unused-expressions
 h
+// oxlint-disable-next-line no-unused-expressions
 Fragment
+
 export const LanguagePicker = defineComponent<LanguagePickerProps>({
   props: {
     language: {

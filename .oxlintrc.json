@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "plugins": ["import", "typescript", "unicorn", "promise"],
   "rules": {
     "no-console": ["error", { "allow": ["warn", "error"] }],

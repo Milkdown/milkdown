@@ -29,6 +29,7 @@ type TableBlockProps = {
   node: Ref<Node>
 }
 
+// oxlint-disable-next-line no-unused-expressions
 h
 
 export const TableBlock = defineComponent<TableBlockProps>({

@@ -3,6 +3,7 @@ import { createApp, defineComponent, h } from 'vue'
 import './style.css'
 import { cases } from './data'
 
+// oxlint-disable-next-line no-unused-expressions
 h
 
 const App = defineComponent({

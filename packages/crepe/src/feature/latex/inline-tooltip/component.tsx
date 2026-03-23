@@ -11,6 +11,7 @@ type LatexTooltipProps = {
   updateValue: ShallowRef<() => void>
 }
 
+// oxlint-disable-next-line no-unused-expressions
 h
 
 export const LatexTooltip = defineComponent<LatexTooltipProps>({

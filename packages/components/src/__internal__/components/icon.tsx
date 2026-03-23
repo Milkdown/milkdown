@@ -2,6 +2,7 @@ import clsx from 'clsx'
 import DOMPurify from 'dompurify'
 import { h } from 'vue'
 
+// oxlint-disable-next-line no-unused-expressions
 h
 
 type IconProps = {
