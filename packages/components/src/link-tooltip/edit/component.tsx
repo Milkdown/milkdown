@@ -4,6 +4,7 @@ import type { LinkTooltipConfig } from '../slices'
 
 import { Icon } from '../../__internal__/components/icon'
 
+// oxlint-disable-next-line no-unused-expressions
 h
 
 type EditLinkProps = {

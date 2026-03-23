@@ -5,6 +5,7 @@ import type { ListItemBlockConfig } from './config'
 
 import { Icon } from '../__internal__/components/icon'
 
+// oxlint-disable-next-line no-unused-expressions
 h
 
 interface Attrs {

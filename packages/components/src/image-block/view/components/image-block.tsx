@@ -5,7 +5,9 @@ import type { ImageBlockConfig } from '../../config'
 import { ImageInput } from '../../../__internal__/components/image-input'
 import { ImageViewer } from './image-viewer'
 
+// oxlint-disable-next-line no-unused-expressions
 h
+// oxlint-disable-next-line no-unused-expressions
 Fragment
 
 type Attrs = {

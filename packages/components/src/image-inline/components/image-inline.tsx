@@ -4,7 +4,9 @@ import type { InlineImageConfig } from '../config'
 
 import { ImageInput } from '../../__internal__/components/image-input'
 
+// oxlint-disable-next-line no-unused-expressions
 h
+// oxlint-disable-next-line no-unused-expressions
 Fragment
 
 type Attrs = {

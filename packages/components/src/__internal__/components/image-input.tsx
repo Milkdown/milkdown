@@ -4,6 +4,7 @@ import { defineComponent, ref, h, type Ref } from 'vue'
 
 import { Icon } from './icon'
 
+// oxlint-disable-next-line no-unused-expressions
 h
 
 const nanoid = customAlphabet('abcdefg', 8)

@@ -2,7 +2,9 @@ import { defineComponent, h, Fragment } from 'vue'
 
 import { Icon } from '../../../__internal__/components/icon'
 
+// oxlint-disable-next-line no-unused-expressions
 h
+// oxlint-disable-next-line no-unused-expressions
 Fragment
 
 type CopyButtonProps = {

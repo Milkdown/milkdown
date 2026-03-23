@@ -17,7 +17,9 @@ import type { ToolbarFeatureConfig } from '.'
 
 import { getGroups, type ToolbarItem } from './config'
 
+// oxlint-disable-next-line no-unused-expressions
 h
+// oxlint-disable-next-line no-unused-expressions
 Fragment
 
 type ToolbarProps = {
@@ -56,11 +58,14 @@ export const Toolbar = defineComponent<ToolbarProps>({
 
     const onClick = (fn: (ctx: Ctx) => void) => (e: MouseEvent) => {
       e.preventDefault()
-      ctx && fn(ctx)
+      if (ctx) {
+        fn(ctx)
+      }
     }
 
     function checkActive(checker: ToolbarItem['active']) {
       // make sure the function subscribed to vue reactive
+      // oxlint-disable-next-line no-unused-expressions
       props.selection.value
       // Check if the edtior is ready
       const status = ctx.get(editorCtx).status

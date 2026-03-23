@@ -1,21 +1,26 @@
 {
   "name": "@milkdown/kit",
-  "type": "module",
   "version": "7.19.2",
+  "keywords": [
+    "WYSIWYG",
+    "editor",
+    "markdown",
+    "milkdown",
+    "milkdown plugin"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Milkdown/milkdown.git",
     "directory": "packages/milkdown"
   },
-  "keywords": [
-    "milkdown",
-    "milkdown plugin",
-    "markdown",
-    "WYSIWYG",
-    "editor"
+  "files": [
+    "lib",
+    "src"
   ],
+  "type": "module",
   "sideEffects": false,
+  "main": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
     "./core": "./src/core.ts",
@@ -59,10 +64,7 @@
     "./component/list-item-block": "./src/component/list-item-block.ts",
     "./component/table-block": "./src/component/table-block.ts"
   },
-  "main": "./src/index.ts",
   "publishConfig": {
-    "main": "./lib/index.js",
-    "types": "./lib/index.d.ts",
     "exports": {
       ".": {
         "import": "./lib/index.js",
@@ -220,6 +222,8 @@
         "import": "./lib/component/table-block.js"
       }
     },
+    "main": "./lib/index.js",
+    "types": "./lib/index.d.ts",
     "typesVersions": {
       "*": {
         ".": [
@@ -339,10 +343,6 @@
       }
     }
   },
-  "files": [
-    "lib",
-    "src"
-  ],
   "scripts": {
     "build": "postcss src --base src --dir lib"
   },

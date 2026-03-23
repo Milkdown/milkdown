@@ -3,7 +3,9 @@ import { defineComponent, ref, watchEffect, type Ref, h, Fragment } from 'vue'
 
 import type { CodeBlockProps } from './code-block'
 
+// oxlint-disable-next-line no-unused-expressions
 h
+// oxlint-disable-next-line no-unused-expressions
 Fragment
 
 type PreviewPanelProps = Pick<

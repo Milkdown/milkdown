@@ -5,7 +5,9 @@ import type { MilkdownImageBlockProps } from './image-block'
 import { Icon } from '../../../__internal__/components/icon'
 import { IMAGE_DATA_TYPE } from '../../schema'
 
+// oxlint-disable-next-line no-unused-expressions
 h
+// oxlint-disable-next-line no-unused-expressions
 Fragment
 
 export const ImageViewer = defineComponent<MilkdownImageBlockProps>({

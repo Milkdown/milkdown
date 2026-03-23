@@ -1,18 +1,23 @@
 {
   "name": "@milkdown/components",
-  "type": "module",
   "version": "7.19.2",
+  "keywords": [
+    "milkdown",
+    "milkdown plugin"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Milkdown/milkdown.git",
     "directory": "packages/components"
   },
-  "keywords": [
-    "milkdown",
-    "milkdown plugin"
+  "files": [
+    "lib",
+    "src"
   ],
+  "type": "module",
   "sideEffects": false,
+  "main": "./src/index.ts",
   "exports": {
     ".": {
       "import": "./src/index.ts"
@@ -36,10 +41,7 @@
       "import": "./src/table-block/index.ts"
     }
   },
-  "main": "./src/index.ts",
   "publishConfig": {
-    "main": "./lib/index.js",
-    "types": "./lib/index.d.ts",
     "exports": {
       ".": {
         "types": "./lib/index.d.ts",
@@ -70,6 +72,8 @@
         "import": "./lib/table-block/index.js"
       }
     },
+    "main": "./lib/index.js",
+    "types": "./lib/index.d.ts",
     "typesVersions": {
       "*": {
         "image-block": [
@@ -93,18 +97,9 @@
       }
     }
   },
-  "files": [
-    "lib",
-    "src"
-  ],
   "scripts": {
     "build": "rollup -c",
     "test": "vitest run"
-  },
-  "peerDependencies": {
-    "@codemirror/language": "^6",
-    "@codemirror/state": "^6",
-    "@codemirror/view": "^6"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.5.1",
@@ -132,5 +127,10 @@
     "@testing-library/vue": "^8.1.0",
     "jsdom": "^29.0.0",
     "vitest": "^4.0.0"
+  },
+  "peerDependencies": {
+    "@codemirror/language": "^6",
+    "@codemirror/state": "^6",
+    "@codemirror/view": "^6"
   }
 }

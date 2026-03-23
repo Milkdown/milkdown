@@ -11,6 +11,7 @@ type PreviewLinkProps = {
   onRemove: Ref<() => void>
 }
 
+// oxlint-disable-next-line no-unused-expressions
 h
 
 export const PreviewLink = defineComponent<PreviewLinkProps>({

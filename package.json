@@ -2,21 +2,17 @@
   "name": "@milkdown/monorepo",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@10.32.1",
-  "engines": {
-    "node": ">=22"
-  },
   "scripts": {
     "test": "pnpm test:lint && pnpm test:unit",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
-    "test:lint": "oxlint -c .oxlintrc.json",
+    "test:lint": "oxlint -c .oxlintrc.json --deny-warnings",
     "test:eslint": "eslint . --cache",
     "test:e2e": "pnpm --filter=@milkdown/e2e test",
     "test:e2e:debug": "pnpm --filter=@milkdown/e2e run test:debug",
     "test:e2e:build": "pnpm --filter=@milkdown/e2e run build",
     "format": "lint-staged",
-    "fix": "prettier . --write",
+    "fix": "oxfmt .",
     "start": "pnpm --filter=@milkdown/storybook run start",
     "build:tsc": "tsc -b tsconfig.json --verbose",
     "build:post": "pnpm -r run build",
@@ -52,18 +48,17 @@
     "autoprefixer": "^10.2.5",
     "esbuild": "^0.27.0",
     "eslint": "^10.0.0",
-    "eslint-plugin-perfectionist": "^5.0.0",
     "git-cz": "^4.7.6",
     "husky": "^9.0.10",
     "jsdom": "^29.0.0",
     "knip": "^6.0.0",
     "lint-staged": "^16.0.0",
+    "oxfmt": "^0.41.0",
     "oxlint": "^1.8.0",
     "pkg-pr-new": "^0.0.66",
     "postcss": "^8.4.38",
     "postcss-cli": "^11.0.0",
     "postcss-nested": "^7.0.0",
-    "prettier": "^3.4.2",
     "rimraf": "^6.0.0",
     "rollup": "^4.22.4",
     "rollup-plugin-copy": "^3.4.0",
@@ -77,6 +72,10 @@
     "vite": "^8.0.0",
     "vitest": "^4.0.0"
   },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.32.1",
   "pnpm": {
     "peerDependencyRules": {
       "ignoreMissing": [

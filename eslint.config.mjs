@@ -1,8 +1,7 @@
+import tsParser from '@typescript-eslint/parser'
 import { defineConfig } from 'eslint/config'
 import { readFileSync } from 'node:fs'
 import tseslint from 'typescript-eslint'
-import tsParser from '@typescript-eslint/parser'
-import perfectionist from 'eslint-plugin-perfectionist'
 
 const ignoreList = readFileSync('.prettierignore', 'utf-8')
   .split('\n')
@@ -30,10 +29,8 @@ export default defineConfig(
       files: [...typeScriptExtensions].map((ext) => `**/*${ext}`),
       plugins: {
         '@typescript-eslint': tseslint.plugin,
-        perfectionist,
       },
       rules: {
-        'perfectionist/sort-imports': 'error',
         '@typescript-eslint/no-floating-promises': [
           'error',
           {

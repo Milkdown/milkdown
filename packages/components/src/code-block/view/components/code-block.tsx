@@ -20,7 +20,9 @@ import { CopyButton } from './copy-button'
 import { LanguagePicker } from './language-picker'
 import { PreviewPanel } from './preview-panel'
 
+// oxlint-disable-next-line no-unused-expressions
 h
+// oxlint-disable-next-line no-unused-expressions
 Fragment
 
 export type CodeBlockProps = {
