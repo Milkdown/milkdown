@@ -137,9 +137,7 @@ export const tablePasteRule = $pasteRule((ctx) => ({
         if (pendingRows.length === 0) return
 
         // Create an empty table_header_row, then fixTable will promote the first data row
-        const emptyHeaderRow = tableHeaderRowSchema
-          .type(ctx)
-          .createAndFill()!
+        const emptyHeaderRow = tableHeaderRowSchema.type(ctx).createAndFill()!
         const table = tableSchema
           .type(ctx)
           .create(null, [emptyHeaderRow, ...pendingRows])
@@ -209,9 +207,7 @@ export const tablePasteRule = $pasteRule((ctx) => ({
         nodes.push(node)
       }
 
-      return nodes.length < allNodes.length
-        ? Fragment.from(nodes)
-        : fragment
+      return nodes.length < allNodes.length ? Fragment.from(nodes) : fragment
     }
 
     let fragment = fixFragment(slice.content)

@@ -45,8 +45,7 @@ export const clipboard = $prose((ctx) => {
     editable: prev.editable ?? (() => true),
     transformPastedHTML: (html: string, view: EditorView) => {
       const prevTransform = prev.transformPastedHTML
-      if (prevTransform)
-        html = prevTransform(html, view)
+      if (prevTransform) html = prevTransform(html, view)
 
       // Google Docs wraps pasted content in <b style="font-weight:normal;" id="docs-internal-guid-...">
       // This wrapper causes ProseMirror's parser to fail when parsing multiple tables.
@@ -59,10 +58,7 @@ export const clipboard = $prose((ctx) => {
         // Also unwrap <div> elements that wrap tables.
         // Google Docs wraps each table in <div dir="ltr" ...><table>...</table></div>
         // These wrappers interfere with ProseMirror's parseSlice for multiple tables.
-        html = html.replace(
-          /<div[^>]*>(<table[\s\S]*?<\/table>)<\/div>/g,
-          '$1'
-        )
+        html = html.replace(/<div[^>]*>(<table[\s\S]*?<\/table>)<\/div>/g, '$1')
       }
       return html
     },
