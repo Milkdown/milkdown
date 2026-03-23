@@ -129,7 +129,7 @@ export class SlashProvider {
   }
 
   /// @internal
-  #_shouldShow(view: EditorView): boolean {
+  #_shouldShow = (view: EditorView): boolean => {
     const currentTextBlockContent = this.getContent(view)
 
     if (!currentTextBlockContent) return false

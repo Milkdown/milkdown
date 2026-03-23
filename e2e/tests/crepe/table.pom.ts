@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test'
 
-import { focusEditor } from 'tests/misc'
+import { focusEditor } from '../../tests/misc'
 
 export class TablePageObjectModel {
   constructor(
