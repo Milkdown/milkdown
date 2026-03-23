@@ -1,4 +1,5 @@
 /* oxlint-disable no-var */
+/// <reference types="node" />
 /// <reference types="vite/client" />
 
 import type { Editor, commandsCtx } from '@milkdown/core'
