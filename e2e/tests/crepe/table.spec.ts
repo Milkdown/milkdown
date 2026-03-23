@@ -1,6 +1,11 @@
 import { expect, test } from '@playwright/test'
-import { focusEditor, getMarkdown, paste, waitNextFrame } from 'tests/misc'
 
+import {
+  focusEditor,
+  getMarkdown,
+  paste,
+  waitNextFrame,
+} from '../../tests/misc'
 import { TablePageObjectModel } from './table.pom'
 
 test.beforeEach(async ({ page }) => {
