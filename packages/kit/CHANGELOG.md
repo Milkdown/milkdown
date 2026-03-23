@@ -1,5 +1,34 @@
 # @milkdown/kit
 
+## 7.19.2
+
+### Patch Changes
+
+- 39f9064: Milkdown patch version release.
+
+  ## Fix
+  - fix(plugin-clipboard, preset-gfm): fix pasting multiple tables from Google Docs (#2286)
+
+- Updated dependencies [39f9064]
+  - @milkdown/components@7.19.2
+  - @milkdown/core@7.19.2
+  - @milkdown/ctx@7.19.2
+  - @milkdown/plugin-block@7.19.2
+  - @milkdown/plugin-clipboard@7.19.2
+  - @milkdown/plugin-cursor@7.19.2
+  - @milkdown/plugin-history@7.19.2
+  - @milkdown/plugin-indent@7.19.2
+  - @milkdown/plugin-listener@7.19.2
+  - @milkdown/plugin-slash@7.19.2
+  - @milkdown/plugin-tooltip@7.19.2
+  - @milkdown/plugin-trailing@7.19.2
+  - @milkdown/plugin-upload@7.19.2
+  - @milkdown/preset-commonmark@7.19.2
+  - @milkdown/preset-gfm@7.19.2
+  - @milkdown/prose@7.19.2
+  - @milkdown/transformer@7.19.2
+  - @milkdown/utils@7.19.2
+
 ## 7.19.1
 
 ### Patch Changes

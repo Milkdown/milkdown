@@ -1,5 +1,14 @@
 # @milkdown/exception
 
+## 7.19.2
+
+### Patch Changes
+
+- 39f9064: Milkdown patch version release.
+
+  ## Fix
+  - fix(plugin-clipboard, preset-gfm): fix pasting multiple tables from Google Docs (#2286)
+
 ## 7.19.1
 
 ### Patch Changes
