@@ -25,6 +25,7 @@ const defaultArgs: Omit<Args, 'instance'> = {
   readonly: false,
   defaultValue: '',
   enableCodemirror: true,
+  enableTopBar: false,
   language: 'EN',
 }
 
