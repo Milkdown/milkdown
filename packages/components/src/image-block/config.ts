@@ -12,6 +12,8 @@ export interface ImageBlockConfig {
   onUpload: (file: File) => Promise<string>
   proxyDomURL?: (url: string) => Promise<string> | string
   onImageLoadError?: (event: Event) => void | Promise<void>
+  maxWidth?: number
+  maxHeight?: number
 }
 
 export const defaultImageBlockConfig: ImageBlockConfig = {

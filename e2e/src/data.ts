@@ -1,4 +1,5 @@
 import { crepe } from './crepe'
+import { imageBlock } from './image-block'
 import { multiEditor } from './multi-editor'
 import { automd } from './plugin-automd'
 import { listener } from './plugin-listener'
@@ -12,4 +13,5 @@ export const cases: { title: string; link: string }[] = [
   listener,
   automd,
   crepe,
+  imageBlock,
 ]

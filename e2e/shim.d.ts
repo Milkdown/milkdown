@@ -21,6 +21,9 @@ declare global {
 
   var __beforeCrepeCreate__: (crepe: Crepe) => void
   var __afterCrepeCreated__: (crepe: Crepe) => void
+
+  var __imageBlockMaxWidth__: number | undefined
+  var __imageBlockMaxHeight__: number | undefined
   var __commandsCtx__: typeof commandsCtx
 
   var commands: {
