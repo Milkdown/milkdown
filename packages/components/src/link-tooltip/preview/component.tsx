@@ -3,6 +3,9 @@ import { defineComponent, type Ref, h } from 'vue'
 import type { LinkTooltipConfig } from '../slices'
 
 import { Icon } from '../../__internal__/components/icon'
+import { keepAlive } from '../../__internal__/keep-alive'
+
+keepAlive(h)
 
 type PreviewLinkProps = {
   config: Ref<LinkTooltipConfig>
@@ -10,9 +13,6 @@ type PreviewLinkProps = {
   onEdit: Ref<() => void>
   onRemove: Ref<() => void>
 }
-
-// oxlint-disable-next-line no-unused-expressions
-h
 
 export const PreviewLink = defineComponent<PreviewLinkProps>({
   props: {

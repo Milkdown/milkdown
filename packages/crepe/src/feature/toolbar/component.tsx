@@ -15,12 +15,10 @@ import {
 
 import type { ToolbarFeatureConfig } from '.'
 
+import { keepAlive } from '../../utils/keep-alive'
 import { getGroups, type ToolbarItem } from './config'
 
-// oxlint-disable-next-line no-unused-expressions
-h
-// oxlint-disable-next-line no-unused-expressions
-Fragment
+keepAlive(h, Fragment)
 
 type ToolbarProps = {
   ctx: Ctx
@@ -65,8 +63,7 @@ export const Toolbar = defineComponent<ToolbarProps>({
 
     function checkActive(checker: ToolbarItem['active']) {
       // make sure the function subscribed to vue reactive
-      // oxlint-disable-next-line no-unused-expressions
-      props.selection.value
+      keepAlive(props.selection.value)
       // Check if the edtior is ready
       const status = ctx.get(editorCtx).status
       if (status !== EditorStatus.Created) return false

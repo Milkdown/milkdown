@@ -15,10 +15,13 @@ import type { TableBlockConfig } from '../config'
 import type { CellIndex, DragInfo, Refs } from './types'
 
 import { Icon } from '../../__internal__/components/icon'
+import { keepAlive } from '../../__internal__/keep-alive'
 import { useDragHandlers } from './drag'
 import { useOperation } from './operation'
 import { usePointerHandlers } from './pointer'
 import { recoveryStateBetweenUpdate } from './utils'
+
+keepAlive(h)
 
 type TableBlockProps = {
   view: EditorView
@@ -28,9 +31,6 @@ type TableBlockProps = {
   onMount: (div: Element) => void
   node: Ref<Node>
 }
-
-// oxlint-disable-next-line no-unused-expressions
-h
 
 export const TableBlock = defineComponent<TableBlockProps>({
   props: {

@@ -16,14 +16,12 @@ import type { CodeBlockConfig } from '../../config'
 import type { LanguageInfo } from '../loader'
 
 import { Icon } from '../../../__internal__/components/icon'
+import { keepAlive } from '../../../__internal__/keep-alive'
 import { CopyButton } from './copy-button'
 import { LanguagePicker } from './language-picker'
 import { PreviewPanel } from './preview-panel'
 
-// oxlint-disable-next-line no-unused-expressions
-h
-// oxlint-disable-next-line no-unused-expressions
-Fragment
+keepAlive(h, Fragment)
 
 export type CodeBlockProps = {
   text: Ref<string>

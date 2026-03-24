@@ -1,10 +1,9 @@
 import { Icon } from '@milkdown/kit/component'
 import { defineComponent, ref, h, Fragment } from 'vue'
 
-// oxlint-disable-next-line no-unused-expressions
-h
-// oxlint-disable-next-line no-unused-expressions
-Fragment
+import { keepAlive } from '../../../utils/keep-alive'
+
+keepAlive(h, Fragment)
 
 interface BlockHandleProps {
   onAdd: () => void

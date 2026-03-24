@@ -3,9 +3,9 @@ import { defineComponent, ref, watch, type Ref, h } from 'vue'
 import type { LinkTooltipConfig } from '../slices'
 
 import { Icon } from '../../__internal__/components/icon'
+import { keepAlive } from '../../__internal__/keep-alive'
 
-// oxlint-disable-next-line no-unused-expressions
-h
+keepAlive(h)
 
 type EditLinkProps = {
   config: Ref<LinkTooltipConfig>

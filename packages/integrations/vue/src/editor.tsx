@@ -8,10 +8,8 @@ import type { GetEditor } from './types'
 import { editorInfoCtxKey } from './consts'
 import { useGetEditor } from './use-get-editor'
 
-// oxlint-disable-next-line no-unused-expressions
-h
-// oxlint-disable-next-line no-unused-expressions
-Fragment
+function keepAlive(..._args: unknown[]) {}
+keepAlive(h, Fragment)
 
 export const Milkdown = defineComponent({
   name: 'Milkdown',
