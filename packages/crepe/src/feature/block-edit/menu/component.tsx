@@ -14,10 +14,10 @@ import {
 
 import type { BlockEditFeatureConfig } from '..'
 
+import { keepAlive } from '../../../utils/keep-alive'
 import { getGroups } from './config'
 
-// oxlint-disable-next-line no-unused-expressions
-h
+keepAlive(h)
 
 type MenuProps = {
   ctx: Ctx

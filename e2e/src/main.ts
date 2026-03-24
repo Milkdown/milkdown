@@ -3,8 +3,8 @@ import { createApp, defineComponent, h } from 'vue'
 import './style.css'
 import { cases } from './data'
 
-// oxlint-disable-next-line no-unused-expressions
-h
+function keepAlive(..._args: unknown[]) {}
+keepAlive(h)
 
 const App = defineComponent({
   setup() {

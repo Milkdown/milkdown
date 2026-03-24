@@ -3,12 +3,10 @@ import { defineComponent, ref, h, Fragment } from 'vue'
 import type { MilkdownImageBlockProps } from './image-block'
 
 import { Icon } from '../../../__internal__/components/icon'
+import { keepAlive } from '../../../__internal__/keep-alive'
 import { IMAGE_DATA_TYPE } from '../../schema'
 
-// oxlint-disable-next-line no-unused-expressions
-h
-// oxlint-disable-next-line no-unused-expressions
-Fragment
+keepAlive(h, Fragment)
 
 export const ImageViewer = defineComponent<MilkdownImageBlockProps>({
   props: {

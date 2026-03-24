@@ -2,10 +2,10 @@ import clsx from 'clsx'
 import { customAlphabet } from 'nanoid'
 import { defineComponent, ref, h, type Ref } from 'vue'
 
+import { keepAlive } from '../keep-alive'
 import { Icon } from './icon'
 
-// oxlint-disable-next-line no-unused-expressions
-h
+keepAlive(h)
 
 const nanoid = customAlphabet('abcdefg', 8)
 
