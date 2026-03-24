@@ -48,6 +48,8 @@ You can configure the component by updating the `imageBlockConfig` ctx in `edito
 | `onUpload`               | `(file: File) => Promise<string>`            | `(file) => Promise.resolve(URL.createObjectURL(file))` | Function called when an image is uploaded; must return a Promise with the image URL |
 | `proxyDomURL`            | `(url: string) => Promise<string> \| string` | `undefined`                                            | Optional function to proxy the image URL                                            |
 | `onImageLoadError`       | `(event: Event) => void \| Promise<void>`    | `undefined`                                            | Optional callback when an image fails to load (e.g. invalid URL or network error)   |
+| `maxWidth`               | `number \| undefined`                        | `undefined`                                            | Optional maximum display width in pixels for the image                              |
+| `maxHeight`              | `number \| undefined`                        | `undefined`                                            | Optional maximum display height in pixels for the image                             |
 
 ---
 
@@ -135,5 +137,19 @@ ctx.update(imageBlockConfig.key, (defaultConfig) => ({
   onImageLoadError: async (event: Event) => {
     await reportToAnalytics('image_load_error', event)
   },
+}))
+```
+
+## `maxWidth` and `maxHeight`
+
+Optional maximum dimensions (in pixels) for displayed images. Images exceeding these bounds will be scaled down while maintaining their aspect ratio. These constraints also apply during drag-to-resize.
+
+```typescript
+import { imageBlockConfig } from '@milkdown/components/image-block'
+
+ctx.update(imageBlockConfig.key, (defaultConfig) => ({
+  ...defaultConfig,
+  maxWidth: 800,
+  maxHeight: 600,
 }))
 ```
