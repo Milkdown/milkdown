@@ -3,6 +3,7 @@ import type { EditorState, TextSelection, Transaction } from '../../state'
 import type { EditorView } from '../../view'
 
 import { Plugin, PluginKey } from '../../state'
+import { android, chrome } from '../browser'
 
 function run(
   view: EditorView,
@@ -74,6 +75,28 @@ export function customInputRules({ rules }: { rules: InputRule[] }): Plugin {
             const { $cursor } = view.state.selection as TextSelection
             if ($cursor) run(view, $cursor.pos, $cursor.pos, '', rules, plugin)
           })
+          return false
+        },
+        keydown: (view, event) => {
+          // On Chrome Android, prosemirror-view suppresses Enter keydown events
+          // to avoid input corruption during composition. It then relies on DOM
+          // mutation detection to retroactively handle Enter. However, this
+          // fallback fails with custom node views (e.g. list-item-block) whose
+          // wrapper DOM structure prevents the Enter detection heuristics from
+          // recognizing the mutation. We intercept Enter here — before
+          // prosemirror-view's suppression — and manually route it through
+          // handleKeyDown so that keymaps (splitListItem, etc.) work correctly.
+          if (!(android && chrome && (event as KeyboardEvent).key === 'Enter'))
+            return false
+          if (view.composing) return false
+          if (
+            view.someProp('handleKeyDown', (f) =>
+              f(view, event as KeyboardEvent)
+            )
+          ) {
+            event.preventDefault()
+            return true
+          }
           return false
         },
       },
