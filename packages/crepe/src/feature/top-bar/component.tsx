@@ -15,12 +15,10 @@ import {
 
 import type { TopBarFeatureConfig } from '.'
 
+import { keepAlive } from '../../utils/keep-alive'
 import { getGroups, type TopBarItem, type TopBarSelector } from './config'
 
-// oxlint-disable-next-line no-unused-expressions
-h
-// oxlint-disable-next-line no-unused-expressions
-Fragment
+keepAlive(h, Fragment)
 
 type TopBarProps = {
   ctx: Ctx
