@@ -67,12 +67,9 @@ export class Generator {
       modify(
         prev,
         ['references'],
-        [
-          { path: './tsconfig.legacy.json' },
-          ...this.workspace.packages
-            .filter((p) => p.isTsProject)
-            .map((p) => ({ path: p.path.relativePath })),
-        ],
+        this.workspace.packages
+          .filter((p) => p.isTsProject)
+          .map((p) => ({ path: p.path.relativePath })),
         {}
       )
     )
