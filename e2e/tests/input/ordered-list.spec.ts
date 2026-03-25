@@ -57,12 +57,17 @@ test('ordered list with custom start number', async ({ page }) => {
   await page.keyboard.type('3. First item')
   await expect(editor.locator('ol li')).toHaveText('First item')
   await expect(editor.locator('ol')).toHaveAttribute('start', '3')
+  await expect(editor.locator('ol li')).toHaveAttribute('data-label', '3.')
   let markdown = await getMarkdown(page)
   expect(markdown).toBe('3. First item\n')
 
   await page.keyboard.press('Enter')
   await page.keyboard.type('Second item')
   await expect(editor.locator('ol li:last-child')).toHaveText('Second item')
+  await expect(editor.locator('ol li:last-child')).toHaveAttribute(
+    'data-label',
+    '4.'
+  )
   markdown = await getMarkdown(page)
   expect(markdown).toBe('3. First item\n4. Second item\n')
 })

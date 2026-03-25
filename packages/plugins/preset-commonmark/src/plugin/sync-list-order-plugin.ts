@@ -31,10 +31,11 @@ export const syncListOrderPlugin = $prose((ctx) => {
 
     const handleNodeItem = (
       attrs: Record<string, any>,
-      index: number
+      index: number,
+      order: number = 1
     ): boolean => {
       let changed = false
-      const expectedLabel = `${index + 1}.`
+      const expectedLabel = `${index + order}.`
       if (attrs.label !== expectedLabel) {
         attrs.label = expectedLabel
         changed = true
@@ -85,7 +86,8 @@ export const syncListOrderPlugin = $prose((ctx) => {
           }
 
           const base = parent?.maybeChild(0)
-          if (base) changed = handleNodeItem(attrs, index)
+          if (base)
+            changed = handleNodeItem(attrs, index, parent?.attrs.order ?? 1)
 
           if (changed) {
             tr = tr.setNodeMarkup(pos, undefined, attrs)
