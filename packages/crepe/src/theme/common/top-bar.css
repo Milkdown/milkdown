@@ -6,7 +6,7 @@
     display: flex;
     align-items: center;
     background: var(--crepe-color-surface);
-    padding: 0 40px;
+    padding: 0 12px;
     min-height: 44px;
     border-bottom: 1px solid
       color-mix(in srgb, var(--crepe-color-outline), transparent 80%);

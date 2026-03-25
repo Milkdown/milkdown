@@ -10,7 +10,9 @@ import {
   h,
   Fragment,
   computed,
-  reactive,
+  ref,
+  onMounted,
+  onUnmounted,
 } from 'vue'
 
 import type { TopBarFeatureConfig } from '.'
@@ -43,7 +45,7 @@ export const TopBar = defineComponent<TopBarProps>({
   },
   setup(props) {
     const { ctx, config } = props
-    const openSelectors = reactive(new Map<string, boolean>())
+    const openSelectorKey = ref<string | null>(null)
 
     const onClick = (fn: (ctx: Ctx) => void) => (e: MouseEvent) => {
       e.preventDefault()
@@ -64,7 +66,6 @@ export const TopBar = defineComponent<TopBarProps>({
     }
 
     function checkActive(checker: TopBarItem['active']) {
-      // Subscribe to version changes to re-render on every state update
       // oxlint-disable-next-line no-unused-expressions
       props.version.value
       if (!isReady()) return false
@@ -78,30 +79,38 @@ export const TopBar = defineComponent<TopBarProps>({
       return selector.activeLabel(ctx)
     }
 
-    function toggleSelector(key: string, e: MouseEvent) {
+    function onToggleSelector(key: string, e: Event) {
       e.preventDefault()
-      openSelectors.set(key, !openSelectors.get(key))
+      e.stopPropagation()
+      openSelectorKey.value = openSelectorKey.value === key ? null : key
     }
 
-    function closeSelector(key: string) {
-      openSelectors.set(key, false)
+    const clickOutsideHandler = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      if (target.closest('.top-bar-heading-selector')) return
+      openSelectorKey.value = null
     }
+
+    onMounted(() => {
+      window.addEventListener('click', clickOutsideHandler)
+    })
+
+    onUnmounted(() => {
+      window.removeEventListener('click', clickOutsideHandler)
+    })
 
     const groupInfo = computed(() => getGroups(config, ctx))
 
     function renderSelector(itemKey: string, selector: TopBarSelector): VNode {
-      const isOpen = openSelectors.get(itemKey) ?? false
+      const isOpen = openSelectorKey.value === itemKey
       const activeLabel = getSelectorLabel(selector)
 
       return (
-        <div
-          class="top-bar-heading-selector"
-          onMouseleave={() => closeSelector(itemKey)}
-        >
+        <div class="top-bar-heading-selector">
           <button
             type="button"
             class="top-bar-heading-button"
-            onPointerdown={(e: MouseEvent) => toggleSelector(itemKey, e)}
+            onClick={(e: Event) => onToggleSelector(itemKey, e)}
           >
             <span class="top-bar-heading-label">{activeLabel}</span>
             {selector.chevronIcon && (
@@ -119,9 +128,9 @@ export const TopBar = defineComponent<TopBarProps>({
                     'top-bar-heading-option',
                     activeLabel === option.label && 'active'
                   )}
-                  onPointerdown={(e: MouseEvent) => {
-                    e.preventDefault()
-                    closeSelector(itemKey)
+                  onClick={(e: Event) => {
+                    e.stopPropagation()
+                    openSelectorKey.value = null
                     option.onSelect(ctx)
                     refocusEditor()
                   }}
