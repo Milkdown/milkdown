@@ -211,9 +211,6 @@ importers:
       '@milkdown/plugin-listener':
         specifier: workspace:*
         version: link:../packages/plugins/plugin-listener
-      '@milkdown/plugin-upload':
-        specifier: workspace:*
-        version: link:../packages/plugins/plugin-upload
       '@milkdown/preset-commonmark':
         specifier: workspace:*
         version: link:../packages/plugins/preset-commonmark
