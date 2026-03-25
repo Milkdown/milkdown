@@ -10,8 +10,8 @@
   "exclude": ["src/**/*.spec.ts"],
   "references": [
     { "path": "../ctx" },
+    { "path": "../exception" },
     { "path": "../prose" },
-    { "path": "../transformer" },
-    { "path": "../exception" }
+    { "path": "../transformer" }
   ]
 }

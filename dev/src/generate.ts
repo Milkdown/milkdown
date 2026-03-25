@@ -32,15 +32,8 @@ export class Generator {
   generateWorkspaceFiles = async () => {
     const filesToGenerate: [Path, (prev: string) => string][] = [
       [this.workspace.join('tsconfig.json'), this.genProjectTsConfig, 'json'],
-      [
-        this.workspace.join('tsconfig.legacy.json'),
-        this.genPackageTsConfig.bind(this, this.workspace.getPackage('tvh')),
-        'json',
-      ],
       ...this.workspace.packages
         .filter((p) => p.isTsProject)
-        // This legacy is handled by tvh's tsconfig.legacy.json
-        .filter((p) => p.name !== 'tvh')
         .map(
           (p) =>
             [
@@ -74,13 +67,9 @@ export class Generator {
       modify(
         prev,
         ['references'],
-        [
-          { path: './tsconfig.legacy.json' },
-          ...this.workspace.packages
-            .filter((p) => p.isTsProject)
-            .filter((p) => p.name !== 'tvh')
-            .map((p) => ({ path: p.path.relativePath })),
-        ],
+        this.workspace.packages
+          .filter((p) => p.isTsProject)
+          .map((p) => ({ path: p.path.relativePath })),
         {}
       )
     )
