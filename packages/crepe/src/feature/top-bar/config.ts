@@ -69,7 +69,6 @@ export interface TopBarSelector {
 export type TopBarItem = {
   active: (ctx: Ctx) => boolean
   icon: string
-  disableForSelection?: boolean
   selector?: TopBarSelector
 }
 
@@ -173,7 +172,6 @@ export function getGroups(config?: TopBarFeatureConfig, ctx?: Ctx) {
   // Heading selector group
   groupBuilder.addGroup('heading', 'Heading').addItem('heading-selector', {
     ...buildHeadingSelector(config?.headingOptions, config?.chevronDownIcon),
-    onRun: () => {},
   })
 
   // Formatting group
@@ -232,7 +230,6 @@ export function getGroups(config?: TopBarFeatureConfig, ctx?: Ctx) {
     .addItem('bullet-list', {
       icon: config?.bulletListIcon ?? bulletListIcon,
       active: () => false,
-      disableForSelection: true,
       onRun: (ctx) => {
         const commands = ctx.get(commandsCtx)
         const bulletList = bulletListSchema.type(ctx)
@@ -242,7 +239,6 @@ export function getGroups(config?: TopBarFeatureConfig, ctx?: Ctx) {
     .addItem('ordered-list', {
       icon: config?.orderedListIcon ?? orderedListIcon,
       active: () => false,
-      disableForSelection: true,
       onRun: (ctx) => {
         const commands = ctx.get(commandsCtx)
         const orderedList = orderedListSchema.type(ctx)
@@ -252,7 +248,6 @@ export function getGroups(config?: TopBarFeatureConfig, ctx?: Ctx) {
     .addItem('task-list', {
       icon: config?.taskListIcon ?? todoListIcon,
       active: () => false,
-      disableForSelection: true,
       onRun: (ctx) => {
         const commands = ctx.get(commandsCtx)
         const listItem = listItemSchema.type(ctx)
@@ -289,7 +284,6 @@ export function getGroups(config?: TopBarFeatureConfig, ctx?: Ctx) {
     insertGroup.addItem('image', {
       icon: config?.imageIcon ?? imageIcon,
       active: () => false,
-      disableForSelection: true,
       onRun: (ctx) => {
         const commands = ctx.get(commandsCtx)
         const imageBlock = imageBlockSchema.type(ctx)
@@ -302,7 +296,6 @@ export function getGroups(config?: TopBarFeatureConfig, ctx?: Ctx) {
     insertGroup.addItem('table', {
       icon: config?.tableIcon ?? tableIcon,
       active: () => false,
-      disableForSelection: true,
       onRun: (ctx) => {
         const commands = ctx.get(commandsCtx)
         const view = ctx.get(editorViewCtx)
@@ -320,7 +313,6 @@ export function getGroups(config?: TopBarFeatureConfig, ctx?: Ctx) {
   blockGroup.addItem('code-block', {
     icon: config?.codeBlockIcon ?? codeBlockIcon,
     active: () => false,
-    disableForSelection: true,
     onRun: (ctx) => {
       const commands = ctx.get(commandsCtx)
       const codeBlock = codeBlockSchema.type(ctx)
@@ -332,13 +324,12 @@ export function getGroups(config?: TopBarFeatureConfig, ctx?: Ctx) {
     blockGroup.addItem('math', {
       icon: config?.mathIcon ?? functionsIcon,
       active: () => false,
-      disableForSelection: true,
       onRun: (ctx) => {
         const commands = ctx.get(commandsCtx)
         const codeBlock = codeBlockSchema.type(ctx)
         commands.call(addBlockTypeCommand.key, {
           nodeType: codeBlock,
-          attrs: { language: 'LaTex' },
+          attrs: { language: 'LaTeX' },
         })
       },
     })
@@ -350,7 +341,6 @@ export function getGroups(config?: TopBarFeatureConfig, ctx?: Ctx) {
     .addItem('quote', {
       icon: config?.quoteIcon ?? quoteIcon,
       active: () => false,
-      disableForSelection: true,
       onRun: (ctx) => {
         const commands = ctx.get(commandsCtx)
         const blockquote = blockquoteSchema.type(ctx)
@@ -360,7 +350,6 @@ export function getGroups(config?: TopBarFeatureConfig, ctx?: Ctx) {
     .addItem('hr', {
       icon: config?.hrIcon ?? dividerIcon,
       active: () => false,
-      disableForSelection: true,
       onRun: (ctx) => {
         const commands = ctx.get(commandsCtx)
         const hr = hrSchema.type(ctx)

@@ -92,7 +92,7 @@ export const Menu = defineComponent<MenuProps>({
       const item = groupInfo.value.groups
         .flatMap((group) => group.items)
         .at(index)
-      if (item && ctx) item.onRun(ctx)
+      if (item?.onRun && ctx) item.onRun(ctx)
 
       hide()
     }
