@@ -2,6 +2,7 @@
   "extends": "./tsconfig.base.json",
   "include": [],
   "references": [
+    { "path": "./tsconfig.legacy.json" },
     { "path": "./dev" },
     { "path": "./docs" },
     { "path": "./e2e" },

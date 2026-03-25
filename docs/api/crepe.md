@@ -188,6 +188,11 @@ const config: CrepeConfig = {
 }
 ```
 
+> **Note**: The `onUpload` callback is used for both the click-to-upload button and drag-and-drop file uploads.
+> Crepe has a built-in upload plugin (`@milkdown/plugin-upload`) that handles drag-and-drop and paste image uploads.
+> When the `ImageBlock` feature is enabled, the upload plugin will use the `onUpload` from the image block configuration to process files and create `image-block` nodes.
+> If no custom `onUpload` is provided, files will be converted to local blob URLs by default.
+
 #### BlockEdit Feature
 
 ```typescript
