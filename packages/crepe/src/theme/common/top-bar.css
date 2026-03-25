@@ -59,7 +59,7 @@
         letter-spacing: 0.1px;
         color: var(--crepe-color-on-surface);
         white-space: nowrap;
-        width: 160px;
+        min-width: 80px;
       }
 
       .top-bar-chevron {
@@ -90,7 +90,6 @@
       border-radius: 8px;
       padding: 8px 4px 4px;
       min-width: 160px;
-      margin-top: 4px;
     }
 
     .top-bar-heading-option {

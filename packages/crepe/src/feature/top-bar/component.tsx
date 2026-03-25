@@ -65,16 +65,18 @@ export const TopBar = defineComponent<TopBarProps>({
       return status === EditorStatus.Created
     }
 
+    function subscribeState() {
+      keepAlive(props.version.value)
+    }
+
     function checkActive(checker: TopBarItem['active']) {
-      // oxlint-disable-next-line no-unused-expressions
-      props.version.value
+      subscribeState()
       if (!isReady()) return false
       return checker(ctx)
     }
 
     function getSelectorLabel(selector: TopBarSelector): string {
-      // oxlint-disable-next-line no-unused-expressions
-      props.version.value
+      subscribeState()
       if (!isReady()) return selector.options[0]?.label ?? ''
       return selector.activeLabel(ctx)
     }
@@ -150,10 +152,7 @@ export const TopBar = defineComponent<TopBarProps>({
       return (
         <button
           type="button"
-          class={clsx(
-            'top-bar-item',
-            ctx && checkActive(item.active) && 'active'
-          )}
+          class={clsx('top-bar-item', checkActive(item.active) && 'active')}
           onPointerdown={onClick(item.onRun)}
         >
           <Icon icon={item.icon} />

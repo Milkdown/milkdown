@@ -31,6 +31,7 @@ import {
   toggleStrikethroughCommand,
   createTable,
 } from '@milkdown/kit/preset/gfm'
+import { TextSelection } from '@milkdown/kit/prose/state'
 
 import type { TopBarFeatureConfig } from '.'
 
@@ -106,7 +107,7 @@ export function getCurrentHeading(
 
 export function setHeading(ctx: Ctx, level: number | null) {
   const commands = ctx.get(commandsCtx)
-  if (level == null) {
+  if (level === null || level === undefined) {
     const paragraph = paragraphSchema.type(ctx)
     commands.call(setBlockTypeCommand.key, { nodeType: paragraph })
   } else {
@@ -132,11 +133,11 @@ function isMarkActive(ctx: Ctx, markType: MarkType): boolean {
   }
 
   // Check marks at cursor position (collapsed selection inside marked text)
-  const { $cursor } = state.selection as {
-    $cursor?: { marks: () => readonly { type: MarkType }[] }
-  }
-  if ($cursor) {
-    return $cursor.marks().some((m) => m.type === markType)
+  if (state.selection instanceof TextSelection) {
+    const { $cursor } = state.selection
+    if ($cursor) {
+      return $cursor.marks().some((m) => m.type === markType)
+    }
   }
 
   return false
