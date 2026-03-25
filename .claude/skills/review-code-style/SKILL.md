@@ -3,11 +3,27 @@ name: review-code-style
 description: Review all changed or newly added code in this repository for code style and quality issues. Check both staged and unstaged changes.
 ---
 
-Review all changed or newly added code in this repository for code style and quality issues. Check both staged and unstaged changes. Skip issues already covered by `/review-effect` (Effect-TS specific anti-patterns).
+Review all changed or newly added code in this repository for code style and quality issues. Check both staged and unstaged changes.
 
 ## Rules
 
-Apply all rules from the **"Code Style Rules"** section in `/CLAUDE.md`, plus the extended checklist below:
+### Naming & Structure
+
+- **Meaningful, consistent names** — same concept = same name throughout. Variable names should be pronounceable and searchable.
+- **Single Responsibility** — each module/function has one reason to change.
+- **Depend on abstractions** — use DI tags and interfaces, not concrete implementations directly.
+
+### Code Quality
+
+- **No duplicated code** — similar code in multiple locations with the same calling context should be extracted.
+- **Avoid deep nesting** — max 3 levels of conditional nesting. Refactor with early returns or extraction.
+- **Short parameter lists** — more than 3-4 parameters suggests the need for an options object or restructuring.
+- **Self-documenting code** — comment only what the code cannot express through naming and structure. Remove comments that repeat what the code already says.
+
+### Cleanup
+
+- **No dead code** — remove unused variables, functions, imports, and commented-out code blocks.
+- **Fix typos** — in variable names, comments, and strings.
 
 ### SOLID Principles
 
