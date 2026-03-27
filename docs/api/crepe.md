@@ -18,6 +18,7 @@ const defaultFeatures: Record<CrepeFeature, boolean> = {
   [Crepe.Feature.CodeMirror]: true,
   [Crepe.Feature.Table]: true,
   [Crepe.Feature.Latex]: true,
+  [Crepe.Feature.TopBar]: false,
 }
 ```
 
@@ -394,6 +395,108 @@ const config: CrepeConfig = {
 }
 ```
 
+#### TopBar Feature
+
+A fixed toolbar at the top of the editor with heading selector, formatting buttons, insert actions, and block commands. Unlike the Toolbar feature (which appears as a floating tooltip on text selection), the TopBar is always visible. This feature is **disabled by default**.
+
+```typescript
+interface TopBarFeatureConfig {
+  // Heading selector options
+  headingOptions?: HeadingOption[]
+
+  // Icon overrides
+  boldIcon?: string
+  italicIcon?: string
+  strikethroughIcon?: string
+  codeIcon?: string
+  linkIcon?: string
+  imageIcon?: string
+  tableIcon?: string
+  codeBlockIcon?: string
+  mathIcon?: string
+  quoteIcon?: string
+  hrIcon?: string
+  bulletListIcon?: string
+  orderedListIcon?: string
+  taskListIcon?: string
+  chevronDownIcon?: string
+
+  // Custom toolbar building
+  buildTopBar?: (builder: GroupBuilder<TopBarItem>) => void
+}
+
+// Example:
+const config: CrepeConfig = {
+  features: {
+    [Crepe.Feature.TopBar]: true,
+  },
+  featureConfigs: {
+    [Crepe.Feature.TopBar]: {
+      // Customize heading options
+      headingOptions: [
+        { label: 'Text', level: null },
+        { label: 'H1', level: 1 },
+        { label: 'H2', level: 2 },
+        { label: 'H3', level: 3 },
+      ],
+    },
+  },
+}
+```
+
+The TopBar supports configurable dropdown selectors. The heading selector is built-in, but you can add custom dropdowns via `buildTopBar`:
+
+```typescript
+const config: CrepeConfig = {
+  features: {
+    [Crepe.Feature.TopBar]: true,
+  },
+  featureConfigs: {
+    [Crepe.Feature.TopBar]: {
+      buildTopBar: (builder) => {
+        builder.addGroup('custom', 'Custom').addItem('font-size', {
+          icon: '',
+          active: () => false,
+          selector: {
+            chevronIcon: '<svg>...</svg>',
+            activeLabel: (ctx) => '16px',
+            options: [
+              {
+                label: '12px',
+                onSelect: (ctx) => {
+                  /* set font size */
+                },
+              },
+              {
+                label: '14px',
+                onSelect: (ctx) => {
+                  /* set font size */
+                },
+              },
+              {
+                label: '16px',
+                onSelect: (ctx) => {
+                  /* set font size */
+                },
+              },
+            ],
+          },
+        })
+      },
+    },
+  },
+}
+```
+
+The default toolbar groups are:
+
+1. **Heading** - Dropdown selector for Paragraph/H1-H6
+2. **Formatting** - Bold, Italic, Strikethrough, Inline Code
+3. **List** - Bullet list, Ordered list, Task list
+4. **Insert** - Link, Image, Table
+5. **Block** - Code block, Math (LaTeX)
+6. **More** - Quote, Horizontal rule
+
 #### CodeMirror Feature
 
 ```typescript
@@ -536,12 +639,14 @@ The `CrepeBuilder` class provides a more flexible way to build your editor by ma
 import { CrepeBuilder } from '@milkdown/crepe/builder'
 import { blockEdit } from '@milkdown/crepe/feature/block-edit'
 import { toolbar } from '@milkdown/crepe/feature/toolbar'
+import { topBar } from '@milkdown/crepe/feature/top-bar'
 
 // You may also want to import styles by feature
 import '@milkdown/crepe/theme/common/prosemirror.css'
 import '@milkdown/crepe/theme/common/reset.css'
 import '@milkdown/crepe/theme/common/block-edit.css'
 import '@milkdown/crepe/theme/common/toolbar.css'
+import '@milkdown/crepe/theme/common/top-bar.css'
 
 // And introduce the theme
 import '@milkdown/crepe/theme/classic.css'
@@ -552,7 +657,7 @@ const builder = new CrepeBuilder({
 })
 
 // Add features manually
-builder.addFeature(blockEdit).addFeature(toolbar)
+builder.addFeature(blockEdit).addFeature(toolbar).addFeature(topBar)
 
 // Create the editor
 const editor = builder.create()

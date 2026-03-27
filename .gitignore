@@ -26,3 +26,4 @@ sitemap.xml
 *debug.log
 
 storybook-static
+.playwright-mcp
