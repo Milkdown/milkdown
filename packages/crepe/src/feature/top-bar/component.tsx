@@ -81,18 +81,18 @@ export const TopBar = defineComponent<TopBarProps>({
       openSelectorKey.value = openSelectorKey.value === key ? null : key
     }
 
-    const clickOutsideHandler = (e: MouseEvent) => {
+    const clickOutsideHandler = (e: PointerEvent) => {
       const target = e.target as HTMLElement
       if (target.closest('.top-bar-heading-selector')) return
       openSelectorKey.value = null
     }
 
     onMounted(() => {
-      window.addEventListener('click', clickOutsideHandler)
+      window.addEventListener('pointerdown', clickOutsideHandler)
     })
 
     onUnmounted(() => {
-      window.removeEventListener('click', clickOutsideHandler)
+      window.removeEventListener('pointerdown', clickOutsideHandler)
     })
 
     const groupInfo = computed(() => getGroups(config, ctx))
