@@ -97,12 +97,15 @@ export function getCurrentHeading(
   const { $from } = view.state.selection
   const node = $from.parent
 
+  const paragraphOption =
+    headingOptions.find((o) => o.level === null) ?? headingOptions[0]!
+
   if (node.type === headingSchema.type(ctx)) {
     const level = node.attrs.level as number
-    return headingOptions.find((o) => o.level === level) ?? headingOptions[0]!
+    return headingOptions.find((o) => o.level === level) ?? paragraphOption
   }
 
-  return headingOptions[0]!
+  return paragraphOption
 }
 
 export function setHeading(ctx: Ctx, level: number | null) {

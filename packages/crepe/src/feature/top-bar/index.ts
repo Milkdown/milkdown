@@ -63,6 +63,8 @@ class TopBarView implements PluginView {
     if (editorRoot) {
       editorRoot.insertBefore(container, editorRoot.firstChild)
     }
+
+    this.update(view)
   }
 
   update = (view: EditorView, _prevState?: EditorState) => {
