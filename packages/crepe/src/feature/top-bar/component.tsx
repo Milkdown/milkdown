@@ -117,9 +117,9 @@ export const TopBar = defineComponent<TopBarProps>({
           </button>
           {isOpen && (
             <div class="top-bar-heading-dropdown">
-              {selector.options.map((option) => (
+              {selector.options.map((option, index) => (
                 <button
-                  key={option.label}
+                  key={`${itemKey}-${index}`}
                   type="button"
                   class={clsx(
                     'top-bar-heading-option',

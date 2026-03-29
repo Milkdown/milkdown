@@ -4,7 +4,7 @@ The crepe editor, built on top of milkdown.
 
 ## Features
 
-Crepe provides a rich set of features that can be enabled or disabled through configuration. By default, all features are enabled:
+Crepe provides a rich set of features that can be enabled or disabled through configuration. By default, most features are enabled except for `TopBar`:
 
 ```typescript
 const defaultFeatures: Record<CrepeFeature, boolean> = {
