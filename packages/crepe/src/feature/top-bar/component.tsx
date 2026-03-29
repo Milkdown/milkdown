@@ -51,13 +51,7 @@ export const TopBar = defineComponent<TopBarProps>({
       e.preventDefault()
       if (ctx) {
         fn(ctx)
-        refocusEditor()
       }
-    }
-
-    function refocusEditor() {
-      const view = ctx.get(editorViewCtx)
-      view.focus()
     }
 
     function isReady() {
@@ -108,11 +102,11 @@ export const TopBar = defineComponent<TopBarProps>({
       const activeLabel = getSelectorLabel(selector)
 
       return (
-        <div class="top-bar-heading-selector">
+        <div key={itemKey} class="top-bar-heading-selector">
           <button
             type="button"
             class="top-bar-heading-button"
-            onClick={(e: Event) => onToggleSelector(itemKey, e)}
+            onPointerdown={(e: Event) => onToggleSelector(itemKey, e)}
           >
             <span class="top-bar-heading-label">{activeLabel}</span>
             {selector.chevronIcon && (
@@ -125,16 +119,17 @@ export const TopBar = defineComponent<TopBarProps>({
             <div class="top-bar-heading-dropdown">
               {selector.options.map((option) => (
                 <button
+                  key={option.label}
                   type="button"
                   class={clsx(
                     'top-bar-heading-option',
                     activeLabel === option.label && 'active'
                   )}
-                  onClick={(e: Event) => {
+                  onPointerdown={(e: Event) => {
+                    e.preventDefault()
                     e.stopPropagation()
                     openSelectorKey.value = null
                     option.onSelect(ctx)
-                    refocusEditor()
                   }}
                 >
                   {option.label}
@@ -147,10 +142,11 @@ export const TopBar = defineComponent<TopBarProps>({
     }
 
     function renderButton(
-      item: TopBarItem & { onRun: (ctx: Ctx) => void }
+      item: TopBarItem & { key: string; onRun: (ctx: Ctx) => void }
     ): VNode {
       return (
         <button
+          key={item.key}
           type="button"
           class={clsx('top-bar-item', checkActive(item.active) && 'active')}
           onPointerdown={onClick(item.onRun)}
@@ -176,7 +172,10 @@ export const TopBar = defineComponent<TopBarProps>({
                 }
                 if (!item.onRun) return null
                 return renderButton(
-                  item as TopBarItem & { onRun: (ctx: Ctx) => void }
+                  item as TopBarItem & {
+                    key: string
+                    onRun: (ctx: Ctx) => void
+                  }
                 )
               })
             })
@@ -184,7 +183,11 @@ export const TopBar = defineComponent<TopBarProps>({
               if (index === 0) {
                 acc.push(...curr)
               } else {
-                acc.push(<div class="top-bar-divider" />, ...curr)
+                const groupKey = groupInfo.value[index]?.key ?? index
+                acc.push(
+                  <div key={`divider-${groupKey}`} class="top-bar-divider" />,
+                  ...curr
+                )
               }
               return acc
             }, [] as VNode[])}
