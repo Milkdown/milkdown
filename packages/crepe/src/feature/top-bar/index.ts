@@ -65,7 +65,8 @@ class TopBarView implements PluginView {
     }
   }
 
-  update = (_view: EditorView, _prevState?: EditorState) => {
+  update = (view: EditorView, _prevState?: EditorState) => {
+    this.#container.style.display = view.editable ? '' : 'none'
     this.#version.value++
   }
 

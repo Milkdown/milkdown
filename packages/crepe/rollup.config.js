@@ -24,6 +24,7 @@ const featureEntry = [
   'placeholder',
   'table',
   'toolbar',
+  'top-bar',
 ]
 
 export default () => {

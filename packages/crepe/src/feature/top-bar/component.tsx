@@ -174,6 +174,7 @@ export const TopBar = defineComponent<TopBarProps>({
                 if (item.selector) {
                   return renderSelector(item.key, item.selector)
                 }
+                if (!item.onRun) return null
                 return renderButton(
                   item as TopBarItem & { onRun: (ctx: Ctx) => void }
                 )
