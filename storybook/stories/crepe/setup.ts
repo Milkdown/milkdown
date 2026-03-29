@@ -11,6 +11,7 @@ export interface Args {
   readonly: boolean
   defaultValue: string
   enableCodemirror: boolean
+  enableTopBar: boolean
   language: 'EN' | 'JA'
 }
 
@@ -36,6 +37,7 @@ export function setup({ args, style, theme }: setupConfig) {
     defaultValue: args.defaultValue,
     features: {
       [Crepe.Feature.CodeMirror]: args.enableCodemirror,
+      [Crepe.Feature.TopBar]: args.enableTopBar,
     },
     featureConfigs: {
       [Crepe.Feature.LinkTooltip]: {

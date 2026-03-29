@@ -350,7 +350,7 @@ export function getGroups(
           commands.call(clearTextInCurrentBlockCommand.key)
           commands.call(addBlockTypeCommand.key, {
             nodeType: codeBlock,
-            attrs: { language: 'LaTex' },
+            attrs: { language: 'LaTeX' },
           })
         },
       })

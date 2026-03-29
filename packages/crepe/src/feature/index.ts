@@ -8,6 +8,7 @@ import type { ListItemFeatureConfig } from './list-item'
 import type { PlaceholderFeatureConfig } from './placeholder'
 import type { TableFeatureConfig } from './table'
 import type { ToolbarFeatureConfig } from './toolbar'
+import type { TopBarFeatureConfig } from './top-bar'
 
 /// The crepe editor feature flags.
 /// Every feature is enabled by default.
@@ -42,6 +43,9 @@ export enum CrepeFeature {
 
   /// Mathematical formula support with both inline and block math rendering using KaTeX.
   Latex = 'latex',
+
+  /// Fixed top toolbar with heading selector, formatting buttons, insert actions, and block commands.
+  TopBar = 'top-bar',
 }
 
 export interface CrepeFeatureConfig {
@@ -55,6 +59,7 @@ export interface CrepeFeatureConfig {
   [CrepeFeature.CodeMirror]?: CodeMirrorFeatureConfig
   [CrepeFeature.Table]?: TableFeatureConfig
   [CrepeFeature.Latex]?: LatexFeatureConfig
+  [CrepeFeature.TopBar]?: TopBarFeatureConfig
 }
 
 export const defaultFeatures: Record<CrepeFeature, boolean> = {
@@ -68,4 +73,5 @@ export const defaultFeatures: Record<CrepeFeature, boolean> = {
   [CrepeFeature.CodeMirror]: true,
   [CrepeFeature.Table]: true,
   [CrepeFeature.Latex]: true,
+  [CrepeFeature.TopBar]: false,
 }

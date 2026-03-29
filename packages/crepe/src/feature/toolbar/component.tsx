@@ -54,10 +54,10 @@ export const Toolbar = defineComponent<ToolbarProps>({
   setup(props) {
     const { ctx, config } = props
 
-    const onClick = (fn: (ctx: Ctx) => void) => (e: MouseEvent) => {
+    const onClick = (fn?: (ctx: Ctx) => void) => (e: MouseEvent) => {
       e.preventDefault()
       if (ctx) {
-        fn(ctx)
+        fn?.(ctx)
       }
     }
 
