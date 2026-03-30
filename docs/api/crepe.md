@@ -660,7 +660,7 @@ const builder = new CrepeBuilder({
 builder.addFeature(blockEdit).addFeature(toolbar).addFeature(topBar)
 
 // Create the editor
-const editor = builder.create()
+const editor = await builder.create()
 
 // Get markdown content
 const markdown = builder.getMarkdown()
