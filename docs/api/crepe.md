@@ -129,7 +129,7 @@ interface LinkTooltipFeatureConfig {
   removeButton?: string // Custom remove button icon
   confirmButton?: string // Custom confirm button icon
   inputPlaceholder?: string // Placeholder text for link input
-  onCopyLink?: () => void // Callback when link is copied
+  onCopyLink?: (link: string) => void // Callback when link is copied
 }
 
 // Example:
@@ -151,17 +151,17 @@ const config: CrepeConfig = {
 ```typescript
 interface ImageBlockFeatureConfig {
   // Inline image configuration
-  inlineUploadButton?: () => string
-  inlineImageIcon?: Icon
-  inlineConfirmButton?: Icon
+  inlineUploadButton?: string
+  inlineImageIcon?: string
+  inlineConfirmButton?: string
   inlineUploadPlaceholderText?: string
   inlineOnUpload?: (file: File) => Promise<string>
 
   // Block image configuration
-  blockUploadButton?: () => string
-  blockImageIcon?: Icon
-  blockCaptionIcon?: Icon
-  blockConfirmButton?: () => string
+  blockUploadButton?: string
+  blockImageIcon?: string
+  blockCaptionIcon?: string
+  blockConfirmButton?: string
   blockCaptionPlaceholderText?: string
   blockUploadPlaceholderText?: string
   blockOnUpload?: (file: File) => Promise<string>
@@ -178,7 +178,7 @@ const config: CrepeConfig = {
   },
   featureConfigs: {
     [Crepe.Feature.ImageBlock]: {
-      inlineUploadButton: () => 'Upload Image',
+      inlineUploadButton: 'Upload Image',
       blockCaptionPlaceholderText: 'Add image caption...',
       onUpload: async (file) => {
         // Handle file upload
@@ -506,11 +506,16 @@ interface CodeMirrorFeatureConfig {
   theme?: Extension // CodeMirror theme
 
   // UI customization
-  expandIcon?: Icon
-  searchIcon?: Icon
-  clearSearchIcon?: Icon
+  expandIcon?: string
+  searchIcon?: string
+  clearSearchIcon?: string
   searchPlaceholder?: string
   noResultText?: string
+
+  // Copy button customization
+  copyIcon?: string // Custom copy button icon
+  copyText?: string // Custom copy button text
+  onCopy?: (content: string) => void // Callback when code is copied
 
   // Rendering customization
   renderLanguage?: (language: string, selected: boolean) => string
@@ -518,7 +523,7 @@ interface CodeMirrorFeatureConfig {
     language: string,
     content: string
   ) => string | HTMLElement | null
-  previewToggleIcon?: (previewOnlyMode: boolean) => Icon
+  previewToggleIcon?: (previewOnlyMode: boolean) => string
   previewToggleText?: (previewOnlyMode: boolean) => string
   previewLabel?: () => string
 }
@@ -574,7 +579,7 @@ To learn which languages are available, you can refer to the [CodeMirror languag
 ```typescript
 interface LatexFeatureConfig {
   katexOptions?: KatexOptions // KaTeX rendering options
-  inlineEditConfirm?: Icon // Custom confirm icon for inline math
+  inlineEditConfirm?: string // Custom confirm icon for inline math
 }
 
 // Example:
@@ -624,8 +629,8 @@ const markdown = editor.getMarkdown()
 editor.setReadonly(true)
 
 // Listen to editor events
-editor.on((api) => {
-  api.listen('update', (ctx) => {
+editor.on((listener) => {
+  listener.markdownUpdated((ctx, markdown, prevMarkdown) => {
     // Handle updates
   })
 })
@@ -649,7 +654,7 @@ import '@milkdown/crepe/theme/common/toolbar.css'
 import '@milkdown/crepe/theme/common/top-bar.css'
 
 // And introduce the theme
-import '@milkdown/crepe/theme/classic.css'
+import '@milkdown/crepe/theme/crepe.css'
 
 const builder = new CrepeBuilder({
   root: '#editor',
@@ -669,8 +674,8 @@ const markdown = builder.getMarkdown()
 builder.setReadonly(true)
 
 // Listen to editor events
-builder.on((api) => {
-  api.listen('update', (ctx) => {
+builder.on((listener) => {
+  listener.markdownUpdated((ctx, markdown, prevMarkdown) => {
     // Handle updates
   })
 })
@@ -691,12 +696,12 @@ Crepe comes with several built-in themes that can be imported:
 
 ```typescript
 // Light themes
-import '@milkdown/crepe/theme/classic.css'
+import '@milkdown/crepe/theme/crepe.css'
 import '@milkdown/crepe/theme/nord.css'
 import '@milkdown/crepe/theme/frame.css'
 
 // Dark themes
-import '@milkdown/crepe/theme/classic-dark.css'
+import '@milkdown/crepe/theme/crepe-dark.css'
 import '@milkdown/crepe/theme/nord-dark.css'
 import '@milkdown/crepe/theme/frame-dark.css'
 ```
