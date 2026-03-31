@@ -16,6 +16,7 @@
     { "path": "../core" },
     { "path": "../ctx" },
     { "path": "../exception" },
+    { "path": "../plugins/plugin-diff" },
     { "path": "../plugins/plugin-tooltip" },
     { "path": "../plugins/preset-commonmark" },
     { "path": "../plugins/preset-gfm" },

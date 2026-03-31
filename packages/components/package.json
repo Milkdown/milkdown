@@ -39,6 +39,9 @@
     },
     "./table-block": {
       "import": "./src/table-block/index.ts"
+    },
+    "./diff": {
+      "import": "./src/diff/index.ts"
     }
   },
   "publishConfig": {
@@ -70,6 +73,10 @@
       "./table-block": {
         "types": "./lib/table-block/index.d.ts",
         "import": "./lib/table-block/index.js"
+      },
+      "./diff": {
+        "types": "./lib/diff/index.d.ts",
+        "import": "./lib/diff/index.js"
       }
     },
     "main": "./lib/index.js",
@@ -93,6 +100,9 @@
         ],
         "table-block": [
           "./lib/table-block/index.d.ts"
+        ],
+        "diff": [
+          "./lib/diff/index.d.ts"
         ]
       }
     }
@@ -106,6 +116,7 @@
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
     "@milkdown/exception": "workspace:*",
+    "@milkdown/plugin-diff": "workspace:*",
     "@milkdown/plugin-tooltip": "workspace:*",
     "@milkdown/preset-commonmark": "workspace:*",
     "@milkdown/preset-gfm": "workspace:*",

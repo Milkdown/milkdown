@@ -250,6 +250,9 @@ importers:
       '@milkdown/exception':
         specifier: workspace:*
         version: link:../exception
+      '@milkdown/plugin-diff':
+        specifier: workspace:*
+        version: link:../plugins/plugin-diff
       '@milkdown/plugin-tooltip':
         specifier: workspace:*
         version: link:../plugins/plugin-tooltip
@@ -453,6 +456,9 @@ importers:
       '@milkdown/plugin-cursor':
         specifier: workspace:*
         version: link:../plugins/plugin-cursor
+      '@milkdown/plugin-diff':
+        specifier: workspace:*
+        version: link:../plugins/plugin-diff
       '@milkdown/plugin-history':
         specifier: workspace:*
         version: link:../plugins/plugin-history
@@ -583,6 +589,24 @@ importers:
       prosemirror-drop-indicator:
         specifier: ^0.1.0
         version: 0.1.3
+
+  packages/plugins/plugin-diff:
+    dependencies:
+      '@milkdown/core':
+        specifier: workspace:*
+        version: link:../../core
+      '@milkdown/ctx':
+        specifier: workspace:*
+        version: link:../../ctx
+      '@milkdown/prose':
+        specifier: workspace:*
+        version: link:../../prose
+      '@milkdown/transformer':
+        specifier: workspace:*
+        version: link:../../transformer
+      '@milkdown/utils':
+        specifier: workspace:*
+        version: link:../../utils
 
   packages/plugins/plugin-emoji:
     dependencies:

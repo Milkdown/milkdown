@@ -62,7 +62,9 @@
     "./component/image-inline": "./src/component/image-inline.ts",
     "./component/link-tooltip": "./src/component/link-tooltip.ts",
     "./component/list-item-block": "./src/component/list-item-block.ts",
-    "./component/table-block": "./src/component/table-block.ts"
+    "./component/table-block": "./src/component/table-block.ts",
+    "./plugin/diff": "./src/plugin/diff.ts",
+    "./component/diff": "./src/component/diff.ts"
   },
   "publishConfig": {
     "exports": {
@@ -220,6 +222,14 @@
       "./component/table-block": {
         "types": "./lib/component/table-block.d.ts",
         "import": "./lib/component/table-block.js"
+      },
+      "./plugin/diff": {
+        "types": "./lib/plugin/diff.d.ts",
+        "import": "./lib/plugin/diff.js"
+      },
+      "./component/diff": {
+        "types": "./lib/component/diff.d.ts",
+        "import": "./lib/component/diff.js"
       }
     },
     "main": "./lib/index.js",
@@ -339,6 +349,12 @@
         ],
         "component/table-block": [
           "lib/component/table-block.d.ts"
+        ],
+        "plugin/diff": [
+          "lib/plugin/diff.d.ts"
+        ],
+        "component/diff": [
+          "lib/component/diff.d.ts"
         ]
       }
     }
@@ -353,6 +369,7 @@
     "@milkdown/plugin-block": "workspace:*",
     "@milkdown/plugin-clipboard": "workspace:*",
     "@milkdown/plugin-cursor": "workspace:*",
+    "@milkdown/plugin-diff": "workspace:*",
     "@milkdown/plugin-history": "workspace:*",
     "@milkdown/plugin-indent": "workspace:*",
     "@milkdown/plugin-listener": "workspace:*",

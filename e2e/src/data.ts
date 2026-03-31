@@ -1,4 +1,5 @@
 import { crepe } from './crepe'
+import { crepeDiff } from './crepe-diff'
 import { crepeTopBar } from './crepe-top-bar'
 import { imageBlock } from './image-block'
 import { multiEditor } from './multi-editor'
@@ -14,6 +15,7 @@ export const cases: { title: string; link: string }[] = [
   listener,
   automd,
   crepe,
+  crepeDiff,
   crepeTopBar,
   imageBlock,
 ]

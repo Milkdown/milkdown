@@ -1,0 +1,111 @@
+@import 'tailwindcss';
+
+/* === Deletion (strikethrough) === */
+.milkdown-diff-removed {
+  text-decoration: line-through;
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
+}
+
+/* === Insertion: inline (text within a paragraph) === */
+.milkdown-diff-added {
+  background-color: rgba(34, 197, 94, 0.18);
+  color: #15803d;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+/* === Insertion: block (new paragraphs, sections, list items) === */
+.milkdown-diff-added-block {
+  display: block;
+  background-color: rgba(34, 197, 94, 0.08);
+  border-left: 3px solid #22c55e;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin: 8px 0;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #15803d;
+    margin: 4px 0;
+  }
+
+  p {
+    color: #166534;
+    margin: 4px 0;
+  }
+
+  ul,
+  ol {
+    color: #166534;
+    margin: 4px 0;
+    padding-left: 20px;
+  }
+
+  li {
+    margin: 2px 0;
+  }
+}
+
+/* === Controls: inline (next to text changes) === */
+.milkdown-diff-controls {
+  display: inline-flex;
+  gap: 3px;
+  margin: 0 4px;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  button {
+    font-size: 11px;
+    line-height: 1;
+    padding: 2px 6px;
+    border-radius: 3px;
+    cursor: pointer;
+    border: 1px solid;
+    font-weight: 500;
+  }
+}
+
+/* === Controls: block (between blocks) === */
+.milkdown-diff-controls-block {
+  display: flex;
+  gap: 4px;
+  margin: 4px 0;
+}
+
+.milkdown-diff-accept {
+  @apply bg-green-50 text-green-700 border-green-300 hover:bg-green-100;
+}
+
+.milkdown-diff-reject {
+  @apply bg-red-50 text-red-700 border-red-300 hover:bg-red-100;
+}
+
+/* === Toolbar === */
+.diff-toolbar {
+  @apply flex gap-2 mb-4;
+
+  button {
+    @apply text-sm px-3 py-1.5 rounded cursor-pointer border font-medium;
+  }
+}
+
+.diff-toolbar-apply {
+  @apply bg-blue-500 text-white border-blue-600 hover:bg-blue-600;
+}
+
+.diff-toolbar-accept-all {
+  @apply bg-green-500 text-white border-green-600 hover:bg-green-600;
+}
+
+.diff-toolbar-reject-all {
+  @apply bg-red-500 text-white border-red-600 hover:bg-red-600;
+}
+
+.diff-toolbar-clear {
+  @apply bg-gray-200 text-gray-700 border-gray-300 hover:bg-gray-300;
+}

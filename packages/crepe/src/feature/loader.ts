@@ -3,6 +3,7 @@ import type { Editor } from '@milkdown/kit/core'
 import { blockEdit } from './block-edit'
 import { codeMirror } from './code-mirror'
 import { cursor } from './cursor'
+import { diffFeature } from './diff'
 import { imageBlock } from './image-block'
 import { CrepeFeature } from './index'
 import { latex } from './latex'
@@ -51,6 +52,9 @@ export function loadFeature(
     }
     case CrepeFeature.TopBar: {
       return topBar(editor, config)
+    }
+    case CrepeFeature.Diff: {
+      return diffFeature(editor, config)
     }
   }
 }
