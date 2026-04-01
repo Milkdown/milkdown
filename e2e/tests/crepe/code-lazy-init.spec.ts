@@ -126,4 +126,124 @@ test.describe('code block lazy initialization', () => {
     const cmEditorCount = await page.locator('.cm-editor').count()
     expect(cmEditorCount).toBeLessThan(15)
   })
+
+  test('should tear down CodeMirror when scrolled away', async ({ page }) => {
+    const markdown = await loadFixture('many-code-blocks.md')
+    await focusEditor(page)
+    await setMarkdown(page, markdown)
+
+    // Use a short teardown delay for testing
+    await page.evaluate(() => {
+      const mod = window.__CodeMirrorBlock__
+      if (mod) mod.TEARDOWN_DELAY = 300
+    })
+
+    const codeBlocks = page.locator('.milkdown-code-block')
+    const firstBlock = codeBlocks.nth(0)
+
+    // First block should be initialized
+    await expect(firstBlock.locator('.cm-editor')).toBeVisible()
+
+    // Scroll to the bottom so first block is off-screen
+    const lastBlock = codeBlocks.nth(24)
+    await lastBlock.scrollIntoViewIfNeeded()
+    await expect(lastBlock.locator('.cm-editor')).toBeVisible()
+
+    // Wait for teardown delay + buffer
+    await page.waitForTimeout(800)
+
+    // First block should now have placeholder instead of CodeMirror
+    await expect(firstBlock.locator('.cm-editor')).toHaveCount(0)
+    await expect(
+      firstBlock.locator('.milkdown-code-block-placeholder')
+    ).toHaveCount(1)
+  })
+
+  test('should re-initialize CodeMirror when scrolled back', async ({
+    page,
+  }) => {
+    const markdown = await loadFixture('many-code-blocks.md')
+    await focusEditor(page)
+    await setMarkdown(page, markdown)
+
+    await page.evaluate(() => {
+      const mod = window.__CodeMirrorBlock__
+      if (mod) mod.TEARDOWN_DELAY = 300
+    })
+
+    const codeBlocks = page.locator('.milkdown-code-block')
+    const firstBlock = codeBlocks.nth(0)
+
+    // First block starts initialized
+    await expect(firstBlock.locator('.cm-editor')).toBeVisible()
+
+    // Scroll away
+    await codeBlocks.nth(24).scrollIntoViewIfNeeded()
+    await page.waitForTimeout(800)
+    await expect(firstBlock.locator('.cm-editor')).toHaveCount(0)
+
+    // Scroll back
+    await firstBlock.scrollIntoViewIfNeeded()
+    await expect(firstBlock.locator('.cm-editor')).toBeVisible()
+    await expect(
+      firstBlock.locator('.milkdown-code-block-placeholder')
+    ).toHaveCount(0)
+
+    // Content should be preserved
+    const cmContent = firstBlock.locator('.cm-content')
+    await expect(cmContent).toContainText("const block1 = 'first'")
+  })
+
+  test('should not tear down focused code block', async ({ page }) => {
+    const markdown = await loadFixture('many-code-blocks.md')
+    await focusEditor(page)
+    await setMarkdown(page, markdown)
+
+    await page.evaluate(() => {
+      const mod = window.__CodeMirrorBlock__
+      if (mod) mod.TEARDOWN_DELAY = 300
+    })
+
+    const codeBlocks = page.locator('.milkdown-code-block')
+    const firstBlock = codeBlocks.nth(0)
+
+    // Focus the first code block's CodeMirror editor
+    await firstBlock.locator('.cm-content').click()
+
+    // Scroll away while it's focused
+    await page.evaluate(() => {
+      window.scrollBy(0, 99999)
+    })
+    await page.waitForTimeout(800)
+
+    // Should NOT be torn down because it has focus
+    await expect(firstBlock.locator('.cm-editor')).toHaveCount(1)
+  })
+
+  test('should cancel teardown if scrolled back quickly', async ({ page }) => {
+    const markdown = await loadFixture('many-code-blocks.md')
+    await focusEditor(page)
+    await setMarkdown(page, markdown)
+
+    await page.evaluate(() => {
+      const mod = window.__CodeMirrorBlock__
+      if (mod) mod.TEARDOWN_DELAY = 2000
+    })
+
+    const codeBlocks = page.locator('.milkdown-code-block')
+    const firstBlock = codeBlocks.nth(0)
+
+    await expect(firstBlock.locator('.cm-editor')).toBeVisible()
+
+    // Scroll away briefly
+    await codeBlocks.nth(24).scrollIntoViewIfNeeded()
+    await page.waitForTimeout(200) // well within teardown delay
+
+    // Scroll back before teardown fires
+    await firstBlock.scrollIntoViewIfNeeded()
+    await page.waitForTimeout(2500)
+
+    // Should still be initialized (teardown was cancelled)
+    await expect(firstBlock.locator('.cm-editor')).toBeVisible()
+  })
 })

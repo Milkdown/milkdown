@@ -12,6 +12,7 @@
     "test:install": "playwright install --with-deps"
   },
   "dependencies": {
+    "@milkdown/components": "workspace:*",
     "@milkdown/core": "workspace:*",
     "@milkdown/crepe": "workspace:*",
     "@milkdown/ctx": "workspace:*",

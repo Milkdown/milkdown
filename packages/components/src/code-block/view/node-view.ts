@@ -21,6 +21,9 @@ import type { LanguageLoader } from './loader'
 import { CodeBlock } from './components/code-block'
 
 export class CodeMirrorBlock implements NodeView {
+  /** Delay before tearing down an off-screen CodeMirror instance. */
+  static TEARDOWN_DELAY = 5000
+
   dom: HTMLElement
   cm!: CodeMirror
   app!: App
@@ -34,6 +37,7 @@ export class CodeMirrorBlock implements NodeView {
   private languageName: string = ''
   private disposeSelectedWatcher: WatchHandle
   private observer: IntersectionObserver | null = null
+  private teardownTimer: ReturnType<typeof setTimeout> | null = null
 
   private readonly languageConf: Compartment
   private readonly readOnlyConf: Compartment
@@ -66,11 +70,16 @@ export class CodeMirrorBlock implements NodeView {
     // Show placeholder text before CodeMirror is initialized
     this.renderPlaceholder()
 
-    // Lazily initialize CodeMirror when visible
     this.observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0]?.isIntersecting) {
+        const entry = entries[0]
+        if (!entry) return
+
+        if (entry.isIntersecting) {
+          this.cancelTeardown()
           this.initializeCodeMirror()
+        } else if (this.initialized) {
+          this.scheduleTeardown()
         }
       },
       { rootMargin: '200px' }
@@ -90,10 +99,6 @@ export class CodeMirrorBlock implements NodeView {
   private initializeCodeMirror() {
     if (this.initialized) return
     this.initialized = true
-
-    // Stop observing
-    this.observer?.disconnect()
-    this.observer = null
 
     this.cm = new CodeMirror({
       doc: this.node.textContent,
@@ -121,6 +126,38 @@ export class CodeMirrorBlock implements NodeView {
     this.app.mount(this.dom)
 
     this.updateLanguage()
+  }
+
+  private teardownCodeMirror() {
+    if (!this.initialized) return
+    // Don't tear down if the user is focused on this block
+    if (this.cm.hasFocus || this.selected.value) return
+
+    this.app.unmount()
+    this.cm.destroy()
+    this.initialized = false
+    this.languageName = ''
+
+    // Clear DOM and show placeholder again
+    while (this.dom.firstChild) {
+      this.dom.removeChild(this.dom.firstChild)
+    }
+    this.renderPlaceholder()
+  }
+
+  private scheduleTeardown() {
+    this.cancelTeardown()
+    this.teardownTimer = setTimeout(
+      () => this.teardownCodeMirror(),
+      CodeMirrorBlock.TEARDOWN_DELAY
+    )
+  }
+
+  private cancelTeardown() {
+    if (this.teardownTimer != null) {
+      clearTimeout(this.teardownTimer)
+      this.teardownTimer = null
+    }
   }
 
   private forwardUpdate = (update: ViewUpdate) => {
@@ -320,6 +357,7 @@ export class CodeMirrorBlock implements NodeView {
   }
 
   destroy() {
+    this.cancelTeardown()
     this.observer?.disconnect()
     if (this.initialized) {
       this.app.unmount()
