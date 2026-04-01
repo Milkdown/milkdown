@@ -91,12 +91,16 @@ export const rejectDiffChunkCmd = $command('RejectDiffChunk', () => {
     if (!diffState) return false
 
     const pending = getPendingChanges(diffState)
-    if (!pending[changeIndex]) return false
+    const change = pending[changeIndex]
+    if (!change) return false
 
     if (dispatch) {
+      // Send fromB/toB directly instead of index, because pending
+      // indices shift as changes are rejected.
       const tr = state.tr.setMeta(diffPluginKey, {
         type: 'reject',
-        changeIndex,
+        fromB: change.fromB,
+        toB: change.toB,
       } satisfies DiffAction)
       dispatch(tr)
     }

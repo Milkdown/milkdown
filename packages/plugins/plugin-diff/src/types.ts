@@ -28,7 +28,7 @@ export interface DiffRange {
 export type DiffAction =
   | { type: 'start'; newDoc: Node }
   | { type: 'accept'; changeIndex: number }
-  | { type: 'reject'; changeIndex: number }
+  | { type: 'reject'; fromB: number; toB: number }
   | { type: 'acceptRange'; range: DiffRange }
   | { type: 'rejectRange'; range: DiffRange }
   | { type: 'acceptAll' }

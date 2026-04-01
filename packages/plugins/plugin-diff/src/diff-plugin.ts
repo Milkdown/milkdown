@@ -81,19 +81,15 @@ export const diffPlugin = $prose((ctx) => {
             result = state
             break
 
-          case 'reject': {
-            const change = state.changes[action.changeIndex]
-            if (!change) return state
-
+          case 'reject':
             result = {
               ...state,
               rejectedRanges: [
                 ...state.rejectedRanges,
-                { fromB: change.fromB, toB: change.toB },
+                { fromB: action.fromB, toB: action.toB },
               ],
             }
             break
-          }
 
           case 'rejectRange':
             result = {
