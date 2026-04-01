@@ -56,6 +56,7 @@
     "./plugin/tooltip": "./src/plugin/tooltip.ts",
     "./plugin/trailing": "./src/plugin/trailing.ts",
     "./plugin/upload": "./src/plugin/upload.ts",
+    "./plugin/diff": "./src/plugin/diff.ts",
     "./component": "./src/component/index.ts",
     "./component/code-block": "./src/component/code-block.ts",
     "./component/image-block": "./src/component/image-block.ts",
@@ -63,7 +64,6 @@
     "./component/link-tooltip": "./src/component/link-tooltip.ts",
     "./component/list-item-block": "./src/component/list-item-block.ts",
     "./component/table-block": "./src/component/table-block.ts",
-    "./plugin/diff": "./src/plugin/diff.ts",
     "./component/diff": "./src/component/diff.ts"
   },
   "publishConfig": {
