@@ -33,6 +33,7 @@ export const startDiffReviewCmd = $command('StartDiffReview', (ctx) => {
 
     const parser = ctx.get(parserCtx)
     const newDoc = parser(modifiedMarkdown)
+    if (!newDoc) return false
 
     if (dispatch) {
       const tr = state.tr.setMeta(diffPluginKey, {
