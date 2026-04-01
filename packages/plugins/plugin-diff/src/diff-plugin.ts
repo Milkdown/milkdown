@@ -104,11 +104,7 @@ export const diffPlugin = $prose((ctx) => {
             break
 
           case 'acceptAll':
-            return { ...state, active: false }
-
           case 'rejectAll':
-            return { ...state, active: false }
-
           case 'clear':
             return null
 
@@ -117,8 +113,7 @@ export const diffPlugin = $prose((ctx) => {
         }
 
         // Auto-deactivate when all changes have been resolved
-        if (result.active && getPendingChanges(result).length === 0)
-          return { ...result, active: false }
+        if (result.active && getPendingChanges(result).length === 0) return null
         return result
       },
     },

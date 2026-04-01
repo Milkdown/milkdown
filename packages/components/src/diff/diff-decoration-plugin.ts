@@ -315,12 +315,12 @@ function mergeBlockChanges(
       // Use exclusive end boundary to avoid absorbing changes that start right after the block
       const overlapA =
         blockRangeA &&
-        ((other.fromA >= blockRangeA.from && other.fromA < blockRangeA.to) ||
-          (other.toA > blockRangeA.from && other.toA <= blockRangeA.to))
+        other.fromA < blockRangeA.to &&
+        other.toA > blockRangeA.from
       const overlapB =
         blockRangeB &&
-        ((other.fromB >= blockRangeB.from && other.fromB < blockRangeB.to) ||
-          (other.toB > blockRangeB.from && other.toB <= blockRangeB.to))
+        other.fromB < blockRangeB.to &&
+        other.toB > blockRangeB.from
 
       if (overlapA || overlapB) {
         consumed.add(j)
