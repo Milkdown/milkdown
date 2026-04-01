@@ -195,6 +195,10 @@
         "types": "./lib/plugin/upload.d.ts",
         "import": "./lib/plugin/upload.js"
       },
+      "./plugin/diff": {
+        "types": "./lib/plugin/diff.d.ts",
+        "import": "./lib/plugin/diff.js"
+      },
       "./component": {
         "types": "./lib/component/index.d.ts",
         "import": "./lib/component/index.js"
@@ -222,10 +226,6 @@
       "./component/table-block": {
         "types": "./lib/component/table-block.d.ts",
         "import": "./lib/component/table-block.js"
-      },
-      "./plugin/diff": {
-        "types": "./lib/plugin/diff.d.ts",
-        "import": "./lib/plugin/diff.js"
       },
       "./component/diff": {
         "types": "./lib/component/diff.d.ts",
