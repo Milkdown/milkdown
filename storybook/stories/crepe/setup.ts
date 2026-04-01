@@ -2,6 +2,13 @@ import type { Extension } from '@codemirror/state'
 
 import { Crepe } from '@milkdown/crepe'
 import all from '@milkdown/crepe/theme/common/style.css?inline'
+import {
+  acceptAllDiffsCmd,
+  clearDiffReviewCmd,
+  rejectAllDiffsCmd,
+  startDiffReviewCmd,
+} from '@milkdown/kit/plugin/diff'
+import { callCommand } from '@milkdown/kit/utils'
 
 import { injectMarkdown, wrapInShadow } from '../utils/shadow'
 import localStyle from './style.css?inline'
@@ -10,9 +17,16 @@ export interface Args {
   instance: Crepe
   readonly: boolean
   defaultValue: string
+  modifiedValue: string
   enableCodemirror: boolean
   enableTopBar: boolean
+  enableDiff: boolean
   language: 'EN' | 'JA'
+}
+
+export const hideDiffArgs = {
+  modifiedValue: { table: { disable: true } },
+  enableDiff: { table: { disable: true } },
 }
 
 interface setupConfig {
@@ -38,6 +52,7 @@ export function setup({ args, style, theme }: setupConfig) {
     features: {
       [Crepe.Feature.CodeMirror]: args.enableCodemirror,
       [Crepe.Feature.TopBar]: args.enableTopBar,
+      [Crepe.Feature.Diff]: args.enableDiff,
     },
     featureConfigs: {
       [Crepe.Feature.LinkTooltip]: {
@@ -157,6 +172,106 @@ export function setup({ args, style, theme }: setupConfig) {
   return root
 }
 
+const diffToolbarStyle = `
+.diff-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.diff-toolbar button {
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid;
+  font-weight: 500;
+}
+.diff-toolbar-apply { background: #3b82f6; color: white; border-color: #2563eb; }
+.diff-toolbar-apply:hover { background: #2563eb; }
+.diff-toolbar-accept-all { background: #22c55e; color: white; border-color: #16a34a; }
+.diff-toolbar-accept-all:hover { background: #16a34a; }
+.diff-toolbar-reject-all { background: #ef4444; color: white; border-color: #dc2626; }
+.diff-toolbar-reject-all:hover { background: #dc2626; }
+.diff-toolbar-clear { background: #e5e7eb; color: #374151; border-color: #d1d5db; }
+.diff-toolbar-clear:hover { background: #d1d5db; }
+`
+
+export function setupDiffReview(config: setupConfig) {
+  const root = setup(config)
+  const shadow = root.shadowRoot!
+
+  const styleEl = document.createElement('style')
+  styleEl.textContent = diffToolbarStyle
+  shadow.appendChild(styleEl)
+
+  const toolbar = document.createElement('div')
+  toolbar.classList.add('diff-toolbar')
+
+  const buttons = [
+    { text: 'Apply Diff', cls: 'diff-toolbar-apply' },
+    { text: 'Accept All', cls: 'diff-toolbar-accept-all' },
+    { text: 'Reject All', cls: 'diff-toolbar-reject-all' },
+    { text: 'Clear', cls: 'diff-toolbar-clear' },
+  ]
+  const btnElements = buttons.map(({ text, cls }) => {
+    const btn = document.createElement('button')
+    btn.textContent = text
+    btn.classList.add(cls)
+    toolbar.appendChild(btn)
+    return btn
+  })
+  const [applyBtn, acceptAllBtn, rejectAllBtn, clearBtn] = btnElements
+
+  waitForInstance(config.args, 5000)
+    .then((crepe) => {
+      const crepeWrapper = shadow.querySelector('.milkdown') as HTMLElement
+      if (crepeWrapper) {
+        crepeWrapper.parentElement!.insertBefore(toolbar, crepeWrapper)
+      } else {
+        shadow.insertBefore(toolbar, shadow.firstChild)
+      }
+
+      applyBtn!.addEventListener('click', () => {
+        crepe.editor.action(
+          callCommand(startDiffReviewCmd.key, config.args.modifiedValue)
+        )
+      })
+      acceptAllBtn!.addEventListener('click', () => {
+        crepe.editor.action(callCommand(acceptAllDiffsCmd.key))
+      })
+      rejectAllBtn!.addEventListener('click', () => {
+        crepe.editor.action(callCommand(rejectAllDiffsCmd.key))
+      })
+      clearBtn!.addEventListener('click', () => {
+        crepe.editor.action(callCommand(clearDiffReviewCmd.key))
+      })
+    })
+    .catch(console.error)
+
+  return root
+}
+
+function waitForInstance(args: Args, timeoutMs: number): Promise<Crepe> {
+  return new Promise((resolve, reject) => {
+    let cancelled = false
+    const timeoutId = setTimeout(() => {
+      cancelled = true
+      reject(new Error(`Crepe instance not ready after ${timeoutMs}ms`))
+    }, timeoutMs)
+
+    const check = () => {
+      if (cancelled) return
+      if (args.instance) {
+        clearTimeout(timeoutId)
+        resolve(args.instance)
+      } else {
+        requestAnimationFrame(check)
+      }
+    }
+    requestAnimationFrame(check)
+  })
+}
+
 export const longContent = `
 # Heading 1
 ## Heading 2
@@ -201,6 +316,12 @@ const crepe = new Crepe({
 > Caught in a \`landslide\`,
 >
 > No escape from [reality](https://en.wikipedia.org/wiki/Bohemian_Rhapsody).
+
+The equation $E=mc^2$ describes mass-energy equivalence.
+
+$$
+\\sum_{i=1}^{n} i = \\frac{n(n+1)}{2}
+$$
 
 Open your eyes, look up to the skies and see.
 
@@ -248,4 +369,75 @@ Pink Floyd were founded in 1965 by [Syd Barrett](https://en.wikipedia.org/wiki/
 * *[A Momentary Lapse of Reason](https://en.wikipedia.org/wiki/A_Momentary_Lapse_of_Reason "A Momentary Lapse of Reason")* (1987)
 * *[The Division Bell](https://en.wikipedia.org/wiki/The_Division_Bell "The Division Bell")* (1994)
 * *[The Endless River](https://en.wikipedia.org/wiki/The_Endless_River "The Endless River")* (2014)
+`
+
+export const modifiedLongContent = `
+# Heading 1 Modified
+## Heading 2
+### Heading 3 Updated
+#### Heading 4
+##### Heading 5
+
+![1.0](https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png)
+
+![0.5](/milkdown-logo.png)
+
+\`\`\`typescript
+const crepe = new Crepe({
+  root: '#editor',
+  defaultValue: 'Hello World',
+})
+crepe.create()
+\`\`\`
+
+* List Item 1
+* List Item 2 Updated
+    * List Item 3
+    * List Item 4
+    * List Item 5 (new)
+* List Item 5
+* List Item 6
+
+1. List Item 1
+2. List Item 2
+    1. List Item 1
+    2. List Item 2
+    3. List Item 3 (new)
+3. List Item 3
+
+* [ ] List Item 1
+* [x] List Item 2 (completed)
+    * [x] List Item 1
+    * [x] List Item 2
+* [ ] List Item 3
+* [ ] List Item 4 (new task)
+
+> Is this the **real life**?
+>
+> Is this just *fantasy*?
+>
+> Caught in a \`landslide\`,
+>
+> No escape from [reality](https://en.wikipedia.org/wiki/Bohemian_Rhapsody).
+>
+> Any way the **wind** blows.
+
+The equation $E=mc^3$ describes mass-energy equivalence with a twist.
+
+$$
+\\sum_{i=1}^{n} i^2 = \\frac{n(n+1)(2n+1)}{6}
+$$
+
+Open your eyes, look up to the skies and see. You are not alone in this world.
+
+| Fruit | Animal | Vegetable | Color |
+| ----- | :----: | --------: | ----- |
+|   🍎 | 🐱  | 🥕 | Red |
+|   🍌 | 🐶  | 🥦 | Yellow |
+|   🍒 | 🐎  | 🎃 | Red |
+|   🍇 | 🐰  | 🥬 | Purple |
+
+## New Section
+
+This is a brand new section added at the end of the document.
 `

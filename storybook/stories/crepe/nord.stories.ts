@@ -5,7 +5,14 @@ import { basicLight } from '@uiw/codemirror-theme-basic'
 
 import type { Args } from './setup'
 
-import { longContent, setup, wikiContent } from './setup'
+import {
+  hideDiffArgs,
+  longContent,
+  modifiedLongContent,
+  setup,
+  setupDiffReview,
+  wikiContent,
+} from './setup'
 
 const meta: Meta = {
   title: 'Crepe/Nord',
@@ -27,6 +34,8 @@ const defaultArgs: Omit<Args, 'instance'> = {
   enableCodemirror: true,
   enableTopBar: false,
   language: 'EN',
+  modifiedValue: '',
+  enableDiff: false,
 }
 
 export const Empty: Story = {
@@ -37,6 +46,7 @@ export const Empty: Story = {
       theme: basicLight,
     })
   },
+  argTypes: hideDiffArgs,
   args: {
     ...defaultArgs,
   },
@@ -55,5 +65,17 @@ export const WikiValue: Story = {
   args: {
     ...defaultArgs,
     defaultValue: wikiContent,
+  },
+}
+
+export const DiffReview: Story = {
+  render: (args) => {
+    return setupDiffReview({ args, style: nord, theme: basicLight })
+  },
+  args: {
+    ...defaultArgs,
+    defaultValue: longContent,
+    modifiedValue: modifiedLongContent,
+    enableDiff: true,
   },
 }
