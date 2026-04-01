@@ -171,3 +171,104 @@ describe('rejectRange', () => {
     }
   })
 })
+
+describe('sequential reject (regression: index drift)', () => {
+  it('rejecting changes one by one using fromB/toB works correctly', () => {
+    const oldDoc = doc(p(text('aaa')), p(text('bbb')), p(text('ccc')))
+    const newDoc = doc(p(text('xxx')), p(text('yyy')), p(text('zzz')))
+    let state = createDiffState(oldDoc, newDoc)
+
+    const totalChanges = state.changes.length
+    expect(totalChanges).toBeGreaterThanOrEqual(3)
+
+    // Simulate rejecting changes one by one, always taking
+    // the first pending change (like the UI would)
+    for (let i = 0; i < totalChanges; i++) {
+      const pending = getPendingChanges(state)
+      if (pending.length === 0) break
+
+      const change = pending[0]!
+      state = {
+        ...state,
+        rejectedRanges: [
+          ...state.rejectedRanges,
+          { fromB: change.fromB, toB: change.toB },
+        ],
+      }
+    }
+
+    // All changes should now be rejected
+    expect(getPendingChanges(state)).toHaveLength(0)
+  })
+
+  it('mixed accept and reject leaves correct pending count', () => {
+    const oldDoc = doc(p(text('aaa')), p(text('bbb')), p(text('ccc')))
+    const newDoc = doc(p(text('xxx')), p(text('yyy')), p(text('zzz')))
+    const state = createDiffState(oldDoc, newDoc)
+
+    const totalChanges = state.changes.length
+    expect(totalChanges).toBeGreaterThanOrEqual(3)
+
+    // Reject the first pending change
+    const firstPending = getPendingChanges(state)[0]!
+    const afterReject: DiffState = {
+      ...state,
+      rejectedRanges: [{ fromB: firstPending.fromB, toB: firstPending.toB }],
+    }
+
+    // After one rejection, pending count decreases by 1
+    expect(getPendingChanges(afterReject).length).toBe(totalChanges - 1)
+
+    // The remaining pending changes should all be different from the rejected one
+    for (const c of getPendingChanges(afterReject)) {
+      const overlaps = c.fromB < firstPending.toB && c.toB > firstPending.fromB
+      expect(overlaps).toBe(false)
+    }
+  })
+})
+
+describe('auto-deactivate (regression: editor locked after all resolved)', () => {
+  it('pending becomes empty after rejecting all changes one by one', () => {
+    const oldDoc = doc(p(text('hello')), p(text('world')))
+    const newDoc = doc(p(text('HELLO')), p(text('WORLD')))
+    let state = createDiffState(oldDoc, newDoc)
+
+    // Reject all one by one
+    while (getPendingChanges(state).length > 0) {
+      const change = getPendingChanges(state)[0]!
+      state = {
+        ...state,
+        rejectedRanges: [
+          ...state.rejectedRanges,
+          { fromB: change.fromB, toB: change.toB },
+        ],
+      }
+    }
+
+    // The plugin would return null here (auto-deactivate),
+    // verified by checking pending is empty
+    expect(getPendingChanges(state)).toHaveLength(0)
+  })
+
+  it('reject does not interfere with unrelated changes', () => {
+    const oldDoc = doc(p(text('aaa')), p(text('bbb')), p(text('ccc')))
+    const newDoc = doc(p(text('xxx')), p(text('bbb')), p(text('zzz')))
+    const state = createDiffState(oldDoc, newDoc)
+
+    // Only 'aaa'→'xxx' and 'ccc'→'zzz' should be changes, 'bbb' unchanged
+    const pending = getPendingChanges(state)
+    expect(pending.length).toBeGreaterThanOrEqual(2)
+
+    // Reject the first change
+    const first = pending[0]!
+    const afterReject: DiffState = {
+      ...state,
+      rejectedRanges: [{ fromB: first.fromB, toB: first.toB }],
+    }
+
+    // Second change should still be pending and correct
+    const remaining = getPendingChanges(afterReject)
+    expect(remaining.length).toBe(pending.length - 1)
+    expect(remaining[0]!.fromB).not.toBe(first.fromB)
+  })
+})

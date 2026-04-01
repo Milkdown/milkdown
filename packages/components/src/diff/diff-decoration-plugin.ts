@@ -455,6 +455,7 @@ function createInsertedWidget(
 ): HTMLElement {
   const dom = document.createElement(isBlockLevel ? 'div' : 'span')
   dom.className = `${classPrefix}-added`
+  dom.contentEditable = 'false'
   if (isBlockLevel) dom.classList.add(`${classPrefix}-added-block`)
 
   const serializer = DOMSerializer.fromSchema(newDoc.type.schema)
@@ -505,6 +506,7 @@ function createControlsWidget(
 ): HTMLElement {
   const dom = document.createElement(isBlockLevel ? 'div' : 'span')
   dom.className = `${classPrefix}-controls`
+  dom.contentEditable = 'false'
   if (isBlockLevel) dom.classList.add(`${classPrefix}-controls-block`)
 
   const handler = (action: 'accept' | 'reject') => (e: Event) => {

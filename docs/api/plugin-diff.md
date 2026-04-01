@@ -49,6 +49,7 @@ editor.action(
 Users can click the Accept/Reject buttons on each change in the UI. You can also control this programmatically:
 
 ```typescript
+import { callCommand } from '@milkdown/kit/utils'
 import {
   acceptAllDiffsCmd,
   rejectAllDiffsCmd,

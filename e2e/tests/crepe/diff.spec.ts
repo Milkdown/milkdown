@@ -258,3 +258,103 @@ test.describe('table diff', () => {
     expect(markdown).toContain('3')
   })
 })
+
+test.describe('regression: sequential operations', () => {
+  test('editor unlocks after accepting all changes one by one', async ({
+    page,
+  }) => {
+    await applyDiff(page, '# Hello\n\nFirst.', '# World\n\nSecond.')
+
+    const editor = page.locator('.editor')
+
+    // Accept changes one by one until none remain
+    let controls = await editor
+      .locator('.milkdown-diff-controls, .milkdown-diff-controls-block')
+      .count()
+    while (controls > 0) {
+      await page.evaluate(() => window.__acceptChunk__(0))
+      await waitNextFrame(page)
+      controls = await editor
+        .locator('.milkdown-diff-controls, .milkdown-diff-controls-block')
+        .count()
+    }
+
+    // Editor should be unlocked — typing should work
+    await editor.click()
+    await page.keyboard.type('UNLOCKED')
+    await waitNextFrame(page)
+
+    const markdown = await getMarkdown(page)
+    expect(markdown).toContain('UNLOCKED')
+  })
+
+  test('editor unlocks after rejecting all changes one by one', async ({
+    page,
+  }) => {
+    await applyDiff(page, '# Hello\n\nFirst.', '# World\n\nSecond.')
+
+    const editor = page.locator('.editor')
+
+    // Reject changes one by one until none remain
+    let controls = await editor
+      .locator('.milkdown-diff-controls, .milkdown-diff-controls-block')
+      .count()
+    while (controls > 0) {
+      await page.evaluate(() => window.__rejectChunk__(0))
+      await waitNextFrame(page)
+      controls = await editor
+        .locator('.milkdown-diff-controls, .milkdown-diff-controls-block')
+        .count()
+    }
+
+    // Editor should be unlocked
+    await editor.click()
+    await page.keyboard.type('UNLOCKED')
+    await waitNextFrame(page)
+
+    const markdown = await getMarkdown(page)
+    expect(markdown).toContain('UNLOCKED')
+  })
+
+  test('sequential reject works for all changes (no index drift)', async ({
+    page,
+  }) => {
+    await applyDiff(
+      page,
+      '- Item 1\n- Item 2\n- Item 3',
+      '- Item A\n- Item B\n- Item C\n- Item D'
+    )
+
+    const editor = page.locator('.editor')
+    const initialControls = await editor
+      .locator('.milkdown-diff-controls, .milkdown-diff-controls-block')
+      .count()
+    expect(initialControls).toBeGreaterThan(0)
+
+    // Reject all one by one — each should succeed
+    for (let i = 0; i < initialControls; i++) {
+      const before = await editor
+        .locator('.milkdown-diff-controls, .milkdown-diff-controls-block')
+        .count()
+      if (before === 0) break
+
+      await page.evaluate(() => window.__rejectChunk__(0))
+      await waitNextFrame(page)
+
+      const after = await editor
+        .locator('.milkdown-diff-controls, .milkdown-diff-controls-block')
+        .count()
+      expect(after).toBeLessThan(before)
+    }
+
+    // All should be resolved
+    await expect(
+      editor.locator('.milkdown-diff-controls, .milkdown-diff-controls-block')
+    ).toHaveCount(0)
+
+    // Original content preserved
+    const markdown = await getMarkdown(page)
+    expect(markdown).toContain('Item 1')
+    expect(markdown).not.toContain('Item A')
+  })
+})
