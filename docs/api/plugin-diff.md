@@ -90,8 +90,6 @@ Editor.make()
   .create()
 ```
 
-@diffConfig
-
 ## Component Configuration
 
 The diff component handles the visual rendering of changes. It can be configured through `diffComponentConfig`:
@@ -125,8 +123,6 @@ ProseMirror's inline decorations cannot penetrate custom node views. The `custom
 
 When using Crepe, this is pre-configured with `['table', 'image-block', 'code_block']`.
 
-@diffComponentConfig
-
 ## Styling
 
 The diff component uses CSS classes that you need to style. When using Crepe, styles are included in the theme CSS automatically.
@@ -149,6 +145,7 @@ For standalone usage, the main CSS classes are:
 @diff
 @diffPlugin
 @diffPluginKey
+@diffConfig
 
 ## Commands
 
@@ -166,3 +163,10 @@ For standalone usage, the main CSS classes are:
 @computeDocDiff
 @getPendingChanges
 @isChangeRejected
+
+## Types
+
+@DiffState
+@DiffConfig
+@DiffRange
+@DiffAction

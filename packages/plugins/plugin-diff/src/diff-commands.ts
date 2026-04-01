@@ -26,6 +26,7 @@ function applyPendingChanges(
   return tr
 }
 
+/// Start a diff review with modified markdown.
 export const startDiffReviewCmd = $command('StartDiffReview', (ctx) => {
   return (modifiedMarkdown?: string) => (state, dispatch) => {
     if (modifiedMarkdown == null) return false
@@ -49,6 +50,7 @@ withMeta(startDiffReviewCmd, {
   group: 'Diff',
 })
 
+/// Accept a single pending change by index.
 export const acceptDiffChunkCmd = $command('AcceptDiffChunk', () => {
   return (changeIndex?: number) => (state, dispatch) => {
     if (changeIndex == null) return false
@@ -83,6 +85,7 @@ withMeta(acceptDiffChunkCmd, {
   group: 'Diff',
 })
 
+/// Reject a single pending change by index.
 export const rejectDiffChunkCmd = $command('RejectDiffChunk', () => {
   return (changeIndex?: number) => (state, dispatch) => {
     if (changeIndex == null) return false
@@ -167,6 +170,7 @@ withMeta(rejectDiffRangeCmd, {
   group: 'Diff',
 })
 
+/// Accept all remaining pending changes.
 export const acceptAllDiffsCmd = $command('AcceptAllDiffs', () => {
   return () => (state, dispatch) => {
     const diffState = diffPluginKey.getState(state)
@@ -199,6 +203,7 @@ withMeta(acceptAllDiffsCmd, {
   group: 'Diff',
 })
 
+/// Reject all remaining pending changes.
 export const rejectAllDiffsCmd = $command('RejectAllDiffs', () => {
   return () => (state, dispatch) => {
     const diffState = diffPluginKey.getState(state)
@@ -219,6 +224,7 @@ withMeta(rejectAllDiffsCmd, {
   group: 'Diff',
 })
 
+/// Clear the diff review and unlock the editor.
 export const clearDiffReviewCmd = $command('ClearDiffReview', () => {
   return () => (state, dispatch) => {
     const diffState = diffPluginKey.getState(state)

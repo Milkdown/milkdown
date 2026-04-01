@@ -34,14 +34,7 @@ const diffEncoder = {
   compareTokens: (a: unknown, b: unknown) => a === b,
 }
 
-/**
- * Compute fine-grained changes between two ProseMirror documents
- * using prosemirror-changeset's Myers diff algorithm.
- *
- * Returns Change objects with dual coordinates:
- * - fromA/toA: positions in oldDoc
- * - fromB/toB: positions in newDoc
- */
+/// Compute fine-grained changes between two ProseMirror documents.
 export function computeDocDiff(oldDoc: Node, newDoc: Node): readonly Change[] {
   // Create a ReplaceStep that transforms oldDoc into newDoc
   const step = new ReplaceStep(

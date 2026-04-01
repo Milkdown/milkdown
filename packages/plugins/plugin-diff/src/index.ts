@@ -33,6 +33,7 @@ export {
   startDiffReviewCmd,
 } from './diff-commands'
 
+/// The milkdown diff plugin.
 export const diff: MilkdownPlugin[] = [
   diffConfig,
   diffPlugin,

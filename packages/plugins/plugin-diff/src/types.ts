@@ -1,6 +1,7 @@
 import type { Change } from '@milkdown/prose/changeset'
 import type { Node } from '@milkdown/prose/model'
 
+/// The diff plugin state.
 export interface DiffState {
   /** The target (new) document that we're diffing toward */
   newDoc: Node
@@ -13,11 +14,13 @@ export interface DiffState {
   active: boolean
 }
 
+/// Configuration options for the diff plugin.
 export interface DiffConfig {
   /** Lock document editing during diff review (default: true) */
   lockOnReview: boolean
 }
 
+/// A position range in both old and new documents.
 export interface DiffRange {
   fromA: number
   toA: number
@@ -25,6 +28,7 @@ export interface DiffRange {
   toB: number
 }
 
+/// Actions that can be dispatched to the diff plugin.
 export type DiffAction =
   | { type: 'start'; newDoc: Node }
   | { type: 'accept'; changeIndex: number }

@@ -9,6 +9,7 @@ import { withMeta } from './__internal__/with-meta'
 import { computeDocDiff } from './diff-compute'
 import { diffConfig } from './diff-config'
 
+/// The plugin key for accessing diff state.
 export const diffPluginKey = new PluginKey<DiffState | null>('MILKDOWN_DIFF')
 
 function recomputeChanges(doc: Node, state: DiffState): DiffState {
@@ -16,7 +17,7 @@ function recomputeChanges(doc: Node, state: DiffState): DiffState {
   return { ...state, changes }
 }
 
-/** Check if a change overlaps with any rejected range in newDoc */
+/// Check if a change overlaps with any rejected range in newDoc.
 export function isChangeRejected(
   change: { fromB: number; toB: number },
   rejectedRanges: Array<{ fromB: number; toB: number }>
@@ -26,11 +27,12 @@ export function isChangeRejected(
   )
 }
 
-/** Get only the pending (non-rejected) changes */
+/// Get only the pending (non-rejected) changes.
 export function getPendingChanges(state: DiffState) {
   return state.changes.filter((c) => !isChangeRejected(c, state.rejectedRanges))
 }
 
+/// The ProseMirror plugin that manages diff state.
 export const diffPlugin = $prose((ctx) => {
   const config = ctx.get(diffConfig.key)
 
