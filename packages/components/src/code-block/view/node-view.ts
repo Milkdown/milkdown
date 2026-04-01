@@ -67,7 +67,6 @@ export class CodeMirrorBlock implements NodeView {
       }
     })
 
-    // Show placeholder text before CodeMirror is initialized
     this.renderPlaceholder()
 
     this.observer = new IntersectionObserver(
@@ -114,7 +113,6 @@ export class CodeMirrorBlock implements NodeView {
       ],
     })
 
-    // Remove placeholder
     const placeholder = this.dom.querySelector(
       '.milkdown-code-block-placeholder'
     )
@@ -138,7 +136,6 @@ export class CodeMirrorBlock implements NodeView {
     this.initialized = false
     this.languageName = ''
 
-    // Clear DOM and show placeholder again
     while (this.dom.firstChild) {
       this.dom.removeChild(this.dom.firstChild)
     }
