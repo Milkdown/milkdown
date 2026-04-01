@@ -22,16 +22,18 @@ import { CodeBlock } from './components/code-block'
 
 export class CodeMirrorBlock implements NodeView {
   dom: HTMLElement
-  cm: CodeMirror
-  app: App
+  cm!: CodeMirror
+  app!: App
 
   selected = ref(false)
   language = ref('')
   text = ref('')
 
+  private initialized = false
   private updating = false
   private languageName: string = ''
   private disposeSelectedWatcher: WatchHandle
+  private observer: IntersectionObserver | null = null
 
   private readonly languageConf: Compartment
   private readonly readOnlyConf: Compartment
@@ -46,23 +48,11 @@ export class CodeMirrorBlock implements NodeView {
     this.languageConf = new Compartment()
     this.readOnlyConf = new Compartment()
 
-    this.cm = new CodeMirror({
-      doc: this.node.textContent,
-      root: this.view.root,
-      extensions: [
-        this.readOnlyConf.of(EditorState.readOnly.of(!this.view.editable)),
-        drawSelection(),
-        cmKeymap.of(this.codeMirrorKeymap()),
-        this.languageConf.of([]),
-        EditorState.changeFilter.of(() => this.view.editable),
-        ...config.extensions,
-        CodeMirror.updateListener.of(this.forwardUpdate),
-      ],
-    })
+    this.text.value = this.node.textContent
+    this.language.value = this.node.attrs.language ?? ''
 
-    this.app = this.createApp()
-
-    this.dom = this.createDom(this.app)
+    this.dom = document.createElement('div')
+    this.dom.className = 'milkdown-code-block'
 
     this.disposeSelectedWatcher = watchEffect(() => {
       const isSelected = this.selected.value
@@ -72,6 +62,63 @@ export class CodeMirrorBlock implements NodeView {
         this.dom.classList.remove('selected')
       }
     })
+
+    // Show placeholder text before CodeMirror is initialized
+    this.renderPlaceholder()
+
+    // Lazily initialize CodeMirror when visible
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          this.initializeCodeMirror()
+        }
+      },
+      { rootMargin: '200px' }
+    )
+    this.observer.observe(this.dom)
+  }
+
+  private renderPlaceholder() {
+    const pre = document.createElement('pre')
+    pre.className = 'milkdown-code-block-placeholder'
+    const code = document.createElement('code')
+    code.textContent = this.node.textContent
+    pre.appendChild(code)
+    this.dom.appendChild(pre)
+  }
+
+  private initializeCodeMirror() {
+    if (this.initialized) return
+    this.initialized = true
+
+    // Stop observing
+    this.observer?.disconnect()
+    this.observer = null
+
+    this.cm = new CodeMirror({
+      doc: this.node.textContent,
+      root: this.view.root,
+      extensions: [
+        this.readOnlyConf.of(EditorState.readOnly.of(!this.view.editable)),
+        drawSelection(),
+        cmKeymap.of(this.codeMirrorKeymap()),
+        this.languageConf.of([]),
+        EditorState.changeFilter.of(() => this.view.editable),
+        ...this.config.extensions,
+        CodeMirror.updateListener.of(this.forwardUpdate),
+      ],
+    })
+
+    // Remove placeholder
+    const placeholder = this.dom.querySelector(
+      '.milkdown-code-block-placeholder'
+    )
+    if (placeholder) {
+      this.dom.removeChild(placeholder)
+    }
+
+    this.app = this.createApp()
+    this.app.mount(this.dom)
 
     this.updateLanguage()
   }
@@ -111,14 +158,6 @@ export class CodeMirrorBlock implements NodeView {
       setLanguage: this.setLanguage,
       config: this.config,
     })
-  }
-
-  private createDom(app: App) {
-    const dom = document.createElement('div')
-    dom.className = 'milkdown-code-block'
-    this.text.value = this.node.textContent
-    app.mount(dom)
-    return dom
   }
 
   private updateLanguage() {
@@ -211,6 +250,10 @@ export class CodeMirrorBlock implements NodeView {
   }
 
   setSelection(anchor: number, head: number) {
+    if (!this.initialized) {
+      this.initializeCodeMirror()
+    }
+
     if (!this.cm.dom.isConnected) return
 
     this.cm.focus()
@@ -226,6 +269,19 @@ export class CodeMirrorBlock implements NodeView {
 
     this.node = node
     this.text.value = node.textContent
+    this.language.value = node.attrs.language ?? ''
+
+    if (!this.initialized) {
+      // Update the placeholder text
+      const code = this.dom.querySelector(
+        '.milkdown-code-block-placeholder code'
+      )
+      if (code) {
+        code.textContent = node.textContent
+      }
+      return true
+    }
+
     this.updateLanguage()
     if (this.view.editable === this.cm.state.readOnly) {
       this.cm.dispatch({
@@ -248,6 +304,9 @@ export class CodeMirrorBlock implements NodeView {
   }
 
   selectNode() {
+    if (!this.initialized) {
+      this.initializeCodeMirror()
+    }
     this.selected.value = true
     this.cm.focus()
   }
@@ -261,8 +320,11 @@ export class CodeMirrorBlock implements NodeView {
   }
 
   destroy() {
-    this.app.unmount()
-    this.cm.destroy()
+    this.observer?.disconnect()
+    if (this.initialized) {
+      this.app.unmount()
+      this.cm.destroy()
+    }
     this.disposeSelectedWatcher()
   }
 
