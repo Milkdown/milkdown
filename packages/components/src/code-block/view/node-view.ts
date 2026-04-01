@@ -20,6 +20,28 @@ import type { LanguageLoader } from './loader'
 
 import { CodeBlock } from './components/code-block'
 
+const visibilityCallbacks = new WeakMap<
+  Element,
+  (isIntersecting: boolean) => void
+>()
+
+let sharedObserver: IntersectionObserver | null = null
+
+function getSharedObserver(): IntersectionObserver {
+  if (!sharedObserver) {
+    sharedObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const callback = visibilityCallbacks.get(entry.target)
+          callback?.(entry.isIntersecting)
+        }
+      },
+      { rootMargin: '200px' }
+    )
+  }
+  return sharedObserver
+}
+
 export class CodeMirrorBlock implements NodeView {
   /** Delay before tearing down an off-screen CodeMirror instance. */
   static TEARDOWN_DELAY = 5000
@@ -36,7 +58,6 @@ export class CodeMirrorBlock implements NodeView {
   private updating = false
   private languageName: string = ''
   private disposeSelectedWatcher: WatchHandle
-  private observer: IntersectionObserver | null = null
   private teardownTimer: ReturnType<typeof setTimeout> | null = null
 
   private readonly languageConf: Compartment
@@ -69,21 +90,15 @@ export class CodeMirrorBlock implements NodeView {
 
     this.renderPlaceholder()
 
-    this.observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0]
-        if (!entry) return
-
-        if (entry.isIntersecting) {
-          this.cancelTeardown()
-          this.initializeCodeMirror()
-        } else if (this.initialized) {
-          this.scheduleTeardown()
-        }
-      },
-      { rootMargin: '200px' }
-    )
-    this.observer.observe(this.dom)
+    visibilityCallbacks.set(this.dom, (isIntersecting) => {
+      if (isIntersecting) {
+        this.cancelTeardown()
+        this.initializeCodeMirror()
+      } else if (this.initialized) {
+        this.scheduleTeardown()
+      }
+    })
+    getSharedObserver().observe(this.dom)
   }
 
   private renderPlaceholder() {
@@ -355,7 +370,8 @@ export class CodeMirrorBlock implements NodeView {
 
   destroy() {
     this.cancelTeardown()
-    this.observer?.disconnect()
+    getSharedObserver().unobserve(this.dom)
+    visibilityCallbacks.delete(this.dom)
     if (this.initialized) {
       this.app.unmount()
       this.cm.destroy()
