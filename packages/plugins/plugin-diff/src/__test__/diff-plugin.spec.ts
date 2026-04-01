@@ -1,15 +1,10 @@
 import { Schema } from '@milkdown/prose/model'
-import { EditorState } from '@milkdown/prose/state'
 import { describe, expect, it } from 'vitest'
 
 import type { DiffState } from '../types'
 
 import { computeDocDiff } from '../diff-compute'
-import {
-  diffPluginKey,
-  getPendingChanges,
-  isChangeRejected,
-} from '../diff-plugin'
+import { getPendingChanges, isChangeRejected } from '../diff-plugin'
 
 const schema = new Schema({
   nodes: {
