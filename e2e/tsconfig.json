@@ -18,6 +18,7 @@
     }
   },
   "references": [
+    { "path": "../packages/components" },
     { "path": "../packages/core" },
     { "path": "../packages/crepe" },
     { "path": "../packages/ctx" },
