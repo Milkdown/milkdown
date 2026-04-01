@@ -19,6 +19,7 @@ const defaultFeatures: Record<CrepeFeature, boolean> = {
   [Crepe.Feature.Table]: true,
   [Crepe.Feature.Latex]: true,
   [Crepe.Feature.TopBar]: false,
+  [Crepe.Feature.Diff]: false,
 }
 ```
 
