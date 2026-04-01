@@ -63,6 +63,7 @@ export const diffPlugin = $prose((ctx) => {
 
         if (!action) return state
 
+        let result: DiffState
         switch (action.type) {
           case 'start': {
             const changes = computeDocDiff(newEditorState.doc, action.newDoc)
@@ -77,29 +78,32 @@ export const diffPlugin = $prose((ctx) => {
           case 'accept':
           case 'acceptRange':
             // The document change is handled above via tr.docChanged
-            return state
+            result = state
+            break
 
           case 'reject': {
             const change = state.changes[action.changeIndex]
             if (!change) return state
 
-            return {
+            result = {
               ...state,
               rejectedRanges: [
                 ...state.rejectedRanges,
                 { fromB: change.fromB, toB: change.toB },
               ],
             }
+            break
           }
 
           case 'rejectRange':
-            return {
+            result = {
               ...state,
               rejectedRanges: [
                 ...state.rejectedRanges,
                 { fromB: action.range.fromB, toB: action.range.toB },
               ],
             }
+            break
 
           case 'acceptAll':
             return { ...state, active: false }
@@ -113,6 +117,11 @@ export const diffPlugin = $prose((ctx) => {
           default:
             return state
         }
+
+        // Auto-deactivate when all changes have been resolved
+        if (result.active && getPendingChanges(result).length === 0)
+          return { ...result, active: false }
+        return result
       },
     },
     filterTransaction(tr, editorState) {

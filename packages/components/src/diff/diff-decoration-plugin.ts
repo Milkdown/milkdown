@@ -89,16 +89,41 @@ function hasBlockContent(doc: Node, from: number, to: number): boolean {
 }
 
 /**
- * For block-level widgets, find a position that sits between top-level
- * blocks rather than inside a block node. This prevents widgets from
- * being rendered inside headings, paragraphs, etc.
+ * Check if a range in a doc covers only trailing empty paragraphs at the end.
+ */
+function coversOnlyTrailingEmptyParagraphs(
+  doc: Node,
+  from: number,
+  to: number
+): boolean {
+  if (to !== doc.content.size) return false
+
+  const $from = doc.resolve(from)
+  if ($from.depth !== 0) return false
+
+  // Check all nodes from `from` to end are empty paragraphs
+  for (let i = $from.index(0); i < doc.childCount; i++) {
+    const child = doc.child(i)
+    if (child.type.name !== 'paragraph' || child.content.size > 0) return false
+  }
+  return true
+}
+
+/**
+ * For block-level widgets, find a position between blocks rather than
+ * inside an inline-content node (paragraph, heading). Walks up the
+ * tree until it finds a node that can contain block children, then
+ * snaps to the boundary at that depth.
  */
 function snapToBlockBoundary(doc: Node, pos: number): number {
   const $pos = doc.resolve(pos)
-  // If inside a top-level block (depth >= 1), move to before that block
-  // so the widget renders between blocks, not inside one
-  if ($pos.depth >= 1) {
-    return $pos.before(1)
+  for (let d = $pos.depth; d >= 1; d--) {
+    const parent = $pos.node(d)
+    // If this node only allows inline content, snap to before it
+    // so the widget renders between sibling blocks.
+    if (parent.isTextblock) {
+      return $pos.before(d)
+    }
   }
   return pos
 }
@@ -138,7 +163,15 @@ function addBlockDeletionDecorations(
   classPrefix: string,
   decorations: Decoration[]
 ): void {
-  forEachTopLevelNodeInRange(doc, from, to, (_node, start, end) => {
+  forEachTopLevelNodeInRange(doc, from, to, (node, start, end) => {
+    // Skip trailing empty paragraphs (editor placeholders)
+    if (
+      end === doc.content.size &&
+      node.type.name === 'paragraph' &&
+      node.content.size === 0
+    )
+      return
+
     decorations.push(
       Decoration.node(start, end, {
         class: `${classPrefix}-removed-block`,
@@ -333,6 +366,15 @@ function buildDecorations(
     const change = mergedChanges[i]!
     const isDeletion = change.fromA < change.toA
     const isInsertion = change.fromB < change.toB
+
+    // Skip deletion-only changes that are just trailing empty paragraphs.
+    // Editors like Crepe always keep an empty paragraph at the end.
+    if (
+      isDeletion &&
+      !isInsertion &&
+      coversOnlyTrailingEmptyParagraphs(doc, change.fromA, change.toA)
+    )
+      continue
 
     const deletionSpansBlocks =
       isDeletion && isBlockSpanning(doc, change.fromA, change.toA)
