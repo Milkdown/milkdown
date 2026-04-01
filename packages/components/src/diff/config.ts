@@ -6,8 +6,6 @@ export interface DiffComponentConfig {
   classPrefix: string
   acceptLabel: string
   rejectLabel: string
-  acceptAllLabel: string
-  rejectAllLabel: string
   /// Node type names that use custom node views where inline decorations
   /// cannot penetrate. Changes inside these nodes will be merged into
   /// block-level replacements with node-level deletion styling.
@@ -18,8 +16,6 @@ const defaultConfig: DiffComponentConfig = {
   classPrefix: 'milkdown-diff',
   acceptLabel: 'Accept',
   rejectLabel: 'Reject',
-  acceptAllLabel: 'Accept All',
-  rejectAllLabel: 'Reject All',
   customBlockTypes: [],
 }
 

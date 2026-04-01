@@ -28,7 +28,7 @@ function applyPendingChanges(
 
 export const startDiffReviewCmd = $command('StartDiffReview', (ctx) => {
   return (modifiedMarkdown?: string) => (state, dispatch) => {
-    if (!modifiedMarkdown) return false
+    if (modifiedMarkdown == null) return false
 
     const parser = ctx.get(parserCtx)
     const newDoc = parser(modifiedMarkdown)

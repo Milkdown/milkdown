@@ -17,8 +17,6 @@ interface DiffFeatureConfigOptions {
   classPrefix: string
   acceptLabel: string
   rejectLabel: string
-  acceptAllLabel: string
-  rejectAllLabel: string
   customBlockTypes: string[]
 }
 

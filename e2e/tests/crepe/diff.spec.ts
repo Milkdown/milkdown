@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 
 import { getMarkdown, setMarkdown, waitNextFrame } from '../misc'
 
@@ -6,7 +6,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/crepe-diff/')
 })
 
-async function applyDiff(page: any, original: string, modified: string) {
+async function applyDiff(page: Page, original: string, modified: string) {
   await setMarkdown(page, original)
   await waitNextFrame(page)
   await page.evaluate((md: string) => window.__applyDiff__(md), modified)

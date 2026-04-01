@@ -57,7 +57,7 @@ export const diffPlugin = $prose((ctx) => {
         // If document changed (from accept), recompute diff
         // The accepted change naturally disappears from the new diff
         let state = value
-        if (tr.docChanged) {
+        if (tr.docChanged && state.active) {
           state = recomputeChanges(newEditorState.doc, state)
         }
 

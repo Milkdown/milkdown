@@ -253,12 +253,14 @@ export function setupDiffReview(config: setupConfig) {
 
 function waitForInstance(args: Args, timeoutMs: number): Promise<Crepe> {
   return new Promise((resolve, reject) => {
-    const timeoutId = setTimeout(
-      () => reject(new Error(`Crepe instance not ready after ${timeoutMs}ms`)),
-      timeoutMs
-    )
+    let cancelled = false
+    const timeoutId = setTimeout(() => {
+      cancelled = true
+      reject(new Error(`Crepe instance not ready after ${timeoutMs}ms`))
+    }, timeoutMs)
 
     const check = () => {
+      if (cancelled) return
       if (args.instance) {
         clearTimeout(timeoutId)
         resolve(args.instance)
