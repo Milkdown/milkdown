@@ -190,6 +190,9 @@ importers:
 
   e2e:
     dependencies:
+      '@milkdown/components':
+        specifier: workspace:*
+        version: link:../packages/components
       '@milkdown/core':
         specifier: workspace:*
         version: link:../packages/core

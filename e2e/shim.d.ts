@@ -2,6 +2,7 @@
 /// <reference types="node" />
 /// <reference types="vite/client" />
 
+import type { CodeMirrorBlock } from '@milkdown/components/code-block'
 import type { Editor, commandsCtx } from '@milkdown/core'
 import type { Crepe } from '@milkdown/crepe'
 import type { Telemetry } from '@milkdown/ctx'
@@ -36,6 +37,8 @@ declare global {
   var __macros__: {
     insert: typeof insert
   }
+
+  var __CodeMirrorBlock__: typeof CodeMirrorBlock
 
   var __applyDiff__: (markdown: string) => boolean
   var __acceptAll__: () => boolean
