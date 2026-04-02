@@ -171,7 +171,7 @@ importers:
         version: 3.3.1
       lodash-es:
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.18.1
 
   docs:
     devDependencies:
@@ -285,7 +285,7 @@ importers:
         version: 3.3.3
       lodash-es:
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.18.1
       nanoid:
         specifier: ^5.0.9
         version: 5.1.7
@@ -376,7 +376,7 @@ importers:
         version: 0.16.44
       lodash-es:
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.18.1
       prosemirror-virtual-cursor:
         specifier: ^0.4.2
         version: 0.4.2(prosemirror-model@1.25.4)(prosemirror-state@1.4.4)(prosemirror-view@1.41.7)
@@ -536,7 +536,7 @@ importers:
         version: 4.17.12
       lodash-es:
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.18.1
 
   packages/plugins/plugin-clipboard:
     dependencies:
@@ -716,7 +716,7 @@ importers:
         version: 4.17.12
       lodash-es:
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.18.1
 
   packages/plugins/plugin-prism:
     dependencies:
@@ -755,7 +755,7 @@ importers:
         version: 4.17.12
       lodash-es:
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.18.1
 
   packages/plugins/plugin-tooltip:
     dependencies:
@@ -776,7 +776,7 @@ importers:
         version: 4.17.12
       lodash-es:
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.18.1
 
   packages/plugins/plugin-trailing:
     dependencies:
@@ -4109,8 +4109,8 @@ packages:
     resolution: {integrity: sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==}
     engines: {node: '>=8'}
 
-  lodash-es@4.17.23:
-    resolution: {integrity: sha512-kVI48u3PZr38HdYz98UmfPnXl2DXrpdctLrFLCd3kOx1xUkOmpFPx7gCWWM5MPkL/fD8zb+Ph0QzjGFs4+hHWg==}
+  lodash-es@4.18.1:
+    resolution: {integrity: sha512-J8xewKD/Gk22OZbhpOVSwcs60zhd95ESDwezOFuA3/099925PdHJ7OFHNTGtajL3AlZkykD32HykiMo+BIBI8A==}
 
   lodash.camelcase@4.3.0:
     resolution: {integrity: sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==}
@@ -8628,7 +8628,7 @@ snapshots:
     dependencies:
       p-locate: 4.1.0
 
-  lodash-es@4.17.23: {}
+  lodash-es@4.18.1: {}
 
   lodash.camelcase@4.3.0: {}
 
