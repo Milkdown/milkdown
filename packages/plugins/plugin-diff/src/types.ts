@@ -18,6 +18,8 @@ export interface DiffState {
 export interface DiffConfig {
   /** Lock document editing during diff review (default: true) */
   lockOnReview: boolean
+  /** Map of node type names to attribute keys to ignore when diffing */
+  ignoreAttrs: Record<string, string[]>
 }
 
 /// A position range in both old and new documents.

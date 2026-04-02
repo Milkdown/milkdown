@@ -16,6 +16,7 @@ import { diffPlugin } from './diff-plugin'
 export * from './types'
 export { diffConfig } from './diff-config'
 export { computeDocDiff } from './diff-compute'
+export type { DiffIgnoreAttrs } from './diff-compute'
 export {
   diffPlugin,
   diffPluginKey,

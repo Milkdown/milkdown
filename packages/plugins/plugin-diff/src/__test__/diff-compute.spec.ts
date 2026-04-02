@@ -167,13 +167,13 @@ describe('computeDocDiff', () => {
     expect(hasDeletion).toBe(true)
   })
 
-  it('does not detect heading level-only change (known limitation)', () => {
+  it('detects heading level-only change', () => {
     const oldDoc = doc(heading(1, text('Title')))
     const newDoc = doc(heading(2, text('Title')))
     const changes = computeDocDiff(oldDoc, newDoc)
-    // Heading attrs are not encoded to avoid false positives from
-    // runtime-generated attrs like id. Level-only changes are not detected.
-    expect(changes).toHaveLength(0)
+    // Without ignoreAttrs, all non-default attrs are encoded, so the
+    // level change is detected.
+    expect(changes.length).toBeGreaterThan(0)
   })
 
   it('detects atom node attribute changes', () => {
@@ -341,5 +341,65 @@ describe('computeDocDiff - list', () => {
     const newDoc = doc(ul(li(p(text('A'))), li(p(text('B')))))
     const changes = computeDocDiff(oldDoc, newDoc)
     expect(changes).toHaveLength(0)
+  })
+})
+
+describe('computeDocDiff - ignoreAttrs', () => {
+  const schemaWithId = new Schema({
+    nodes: {
+      doc: { content: 'block+' },
+      paragraph: { group: 'block', content: 'inline*', toDOM: () => ['p', 0] },
+      heading: {
+        group: 'block',
+        content: 'inline*',
+        attrs: { level: { default: 1 }, id: { default: '' } },
+        toDOM: (node) => [`h${node.attrs.level}`, 0],
+      },
+      text: { group: 'inline' },
+    },
+  })
+
+  function docId(...children: any[]) {
+    return schemaWithId.node('doc', null, children)
+  }
+
+  function headingId(level: number, id: string, ...content: any[]) {
+    return schemaWithId.node('heading', { level, id }, content)
+  }
+
+  function textId(str: string) {
+    return schemaWithId.text(str)
+  }
+
+  it('ignores specific attrs via ignoreAttrs config', () => {
+    // Without ignoreAttrs, an id change on heading produces a diff
+    const oldDoc = docId(headingId(1, 'old-id', textId('Title')))
+    const newDoc = docId(headingId(1, 'new-id', textId('Title')))
+
+    const changesWithoutIgnore = computeDocDiff(oldDoc, newDoc)
+    expect(changesWithoutIgnore.length).toBeGreaterThan(0)
+
+    // With ignoreAttrs: { heading: ['id'] }, the id change is ignored
+    const changesWithIgnore = computeDocDiff(oldDoc, newDoc, {
+      heading: ['id'],
+    })
+    expect(changesWithIgnore).toHaveLength(0)
+  })
+
+  it('still detects non-ignored attr changes', () => {
+    // Level changes should still be detected even when id is ignored
+    const oldDoc = docId(headingId(2, 'same-id', textId('Title')))
+    const newDoc = docId(headingId(3, 'same-id', textId('Title')))
+
+    const changes = computeDocDiff(oldDoc, newDoc, { heading: ['id'] })
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('still detects text changes when attrs are ignored', () => {
+    const oldDoc = docId(headingId(1, 'id-a', textId('Old Title')))
+    const newDoc = docId(headingId(1, 'id-b', textId('New Title')))
+
+    const changes = computeDocDiff(oldDoc, newDoc, { heading: ['id'] })
+    expect(changes.length).toBeGreaterThan(0)
   })
 })
