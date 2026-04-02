@@ -7,6 +7,7 @@ import type { LatexFeatureConfig } from './latex'
 import type { LinkTooltipFeatureConfig } from './link-tooltip'
 import type { ListItemFeatureConfig } from './list-item'
 import type { PlaceholderFeatureConfig } from './placeholder'
+import type { StreamingFeatureConfig } from './streaming'
 import type { TableFeatureConfig } from './table'
 import type { ToolbarFeatureConfig } from './toolbar'
 import type { TopBarFeatureConfig } from './top-bar'
@@ -50,6 +51,9 @@ export enum CrepeFeature {
 
   /// Diff review mode for comparing and accepting/rejecting document changes.
   Diff = 'diff',
+
+  /// Streaming AI input with progressive markdown rendering.
+  Streaming = 'streaming',
 }
 
 export interface CrepeFeatureConfig {
@@ -65,6 +69,7 @@ export interface CrepeFeatureConfig {
   [CrepeFeature.Latex]?: LatexFeatureConfig
   [CrepeFeature.TopBar]?: TopBarFeatureConfig
   [CrepeFeature.Diff]?: DiffFeatureConfig
+  [CrepeFeature.Streaming]?: StreamingFeatureConfig
 }
 
 export const defaultFeatures: Record<CrepeFeature, boolean> = {
@@ -80,4 +85,5 @@ export const defaultFeatures: Record<CrepeFeature, boolean> = {
   [CrepeFeature.Latex]: true,
   [CrepeFeature.TopBar]: false,
   [CrepeFeature.Diff]: false,
+  [CrepeFeature.Streaming]: false,
 }

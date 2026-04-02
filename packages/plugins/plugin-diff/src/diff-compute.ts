@@ -1,22 +1,37 @@
 import type { Change } from '@milkdown/prose/changeset'
-import type { Node } from '@milkdown/prose/model'
+import type { Mark, Node } from '@milkdown/prose/model'
 
 import { ChangeSet } from '@milkdown/prose/changeset'
 import { Slice } from '@milkdown/prose/model'
 import { ReplaceStep } from '@milkdown/prose/transform'
 
 /**
- * Custom token encoder that distinguishes leaf/atom nodes by their
- * attributes, not just their type name. This ensures that changes to
- * image-block src, math_inline value, etc. are detected by the diff.
+ * Custom token encoder that distinguishes nodes with non-default
+ * attributes, not just their type name. This ensures that attribute
+ * changes (e.g. image src, code_block language, heading level)
+ * are detected by the diff.
  */
 const diffEncoder = {
-  encodeCharacter: (char: number) => char,
+  encodeCharacter: (char: number, marks: readonly Mark[]) => {
+    if (marks.length === 0) return char
+    // Encode marks so that formatting changes (bold, italic, etc.)
+    // are detected as differences, not just text content.
+    const markNames = marks
+      .map((m) => m.type.name)
+      .sort()
+      .join(',')
+    return `${char}:${markNames}`
+  },
   encodeNodeStart: (node: Node) => {
-    if (node.isLeaf && node.type.spec.atom) {
-      // Encode atom nodes with their attributes so that attribute
-      // changes are detected as differences
-      return `${node.type.name}:${JSON.stringify(node.attrs, Object.keys(node.attrs).sort())}`
+    const attrs = node.attrs
+    if (attrs && Object.keys(attrs).length > 0) {
+      const hasNonDefault = Object.keys(attrs).some((key) => {
+        const defaultVal = node.type.attrs[key]?.default
+        return attrs[key] !== defaultVal
+      })
+      if (hasNonDefault) {
+        return `${node.type.name}:${JSON.stringify(attrs, Object.keys(attrs).sort())}`
+      }
     }
     return node.type.name
   },
@@ -36,11 +51,10 @@ const diffEncoder = {
 
 /// Compute fine-grained changes between two ProseMirror documents.
 export function computeDocDiff(oldDoc: Node, newDoc: Node): readonly Change[] {
-  // Create a ReplaceStep that transforms oldDoc into newDoc
   const step = new ReplaceStep(
     0,
     oldDoc.content.size,
-    new Slice(newDoc.content, 0, 0)
+    new Slice(newDoc.content.cut(0, newDoc.content.size), 0, 0)
   )
 
   const changeSet = ChangeSet.create(oldDoc, undefined, diffEncoder).addSteps(

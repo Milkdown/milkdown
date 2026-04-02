@@ -2,12 +2,19 @@ import type { Extension } from '@codemirror/state'
 
 import { Crepe } from '@milkdown/crepe'
 import all from '@milkdown/crepe/theme/common/style.css?inline'
+import { commandsCtx } from '@milkdown/kit/core'
 import {
   acceptAllDiffsCmd,
   clearDiffReviewCmd,
   rejectAllDiffsCmd,
   startDiffReviewCmd,
 } from '@milkdown/kit/plugin/diff'
+import {
+  abortStreamingCmd,
+  endStreamingCmd,
+  pushChunkCmd,
+  startStreamingCmd,
+} from '@milkdown/kit/plugin/streaming'
 import { callCommand } from '@milkdown/kit/utils'
 
 import { injectMarkdown, wrapInShadow } from '../utils/shadow'
@@ -21,12 +28,14 @@ export interface Args {
   enableCodemirror: boolean
   enableTopBar: boolean
   enableDiff: boolean
+  enableStreaming: boolean
   language: 'EN' | 'JA'
 }
 
 export const hideDiffArgs = {
   modifiedValue: { table: { disable: true } },
   enableDiff: { table: { disable: true } },
+  enableStreaming: { table: { disable: true } },
 }
 
 interface setupConfig {
@@ -53,6 +62,7 @@ export function setup({ args, style, theme }: setupConfig) {
       [Crepe.Feature.CodeMirror]: args.enableCodemirror,
       [Crepe.Feature.TopBar]: args.enableTopBar,
       [Crepe.Feature.Diff]: args.enableDiff,
+      [Crepe.Feature.Streaming]: args.enableStreaming,
     },
     featureConfigs: {
       [Crepe.Feature.LinkTooltip]: {
@@ -232,9 +242,11 @@ export function setupDiffReview(config: setupConfig) {
       }
 
       applyBtn!.addEventListener('click', () => {
-        crepe.editor.action(
-          callCommand(startDiffReviewCmd.key, config.args.modifiedValue)
-        )
+        crepe.editor.action((ctx) => {
+          ctx
+            .get(commandsCtx)
+            .call(startDiffReviewCmd.key, config.args.modifiedValue)
+        })
       })
       acceptAllBtn!.addEventListener('click', () => {
         crepe.editor.action(callCommand(acceptAllDiffsCmd.key))
@@ -244,6 +256,195 @@ export function setupDiffReview(config: setupConfig) {
       })
       clearBtn!.addEventListener('click', () => {
         crepe.editor.action(callCommand(clearDiffReviewCmd.key))
+      })
+    })
+    .catch(console.error)
+
+  return root
+}
+
+const streamingToolbarStyle = `
+.streaming-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.streaming-toolbar button {
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid;
+  font-weight: 500;
+}
+.streaming-toolbar-start { background: #3b82f6; color: white; border-color: #2563eb; }
+.streaming-toolbar-start:hover { background: #2563eb; }
+.streaming-toolbar-start:disabled { background: #93c5fd; border-color: #93c5fd; cursor: not-allowed; }
+.streaming-toolbar-stop { background: #22c55e; color: white; border-color: #16a34a; }
+.streaming-toolbar-stop:hover { background: #16a34a; }
+.streaming-toolbar-stop:disabled { background: #86efac; border-color: #86efac; cursor: not-allowed; }
+.streaming-toolbar-abort { background: #ef4444; color: white; border-color: #dc2626; }
+.streaming-toolbar-abort:hover { background: #dc2626; }
+.streaming-toolbar-abort:disabled { background: #fca5a5; border-color: #fca5a5; cursor: not-allowed; }
+`
+
+const sampleStreamContent = `# Streaming Demo
+
+This content is being streamed **token by token**, simulating an AI generating markdown in real-time.
+
+## Features
+
+The streaming plugin supports:
+
+- Progressive rendering of headings
+- Paragraphs with **bold** and *italic* formatting
+- Lists with multiple items
+- Code blocks with syntax highlighting
+
+\`\`\`typescript
+const editor = new Crepe({
+  root: '#app',
+  features: {
+    [CrepeFeature.Streaming]: true,
+  },
+})
+await editor.create()
+\`\`\`
+
+## How It Works
+
+The plugin accumulates tokens in a buffer, periodically parses the full markdown, diffs it against the current document, and applies only the changes. This gives a smooth, progressive rendering experience.
+
+> The quick brown fox jumps over the lazy dog.
+> This is a famous pangram used in typography.
+
+| Feature | Status |
+| ------- | ------ |
+| Headings | Done |
+| Lists | Done |
+| Code | Done |
+| Tables | Done |
+
+That's the end of the streaming demo!
+`
+
+export function setupStreamingDemo(config: setupConfig) {
+  const root = setup(config)
+  const shadow = root.shadowRoot!
+
+  const styleEl = document.createElement('style')
+  styleEl.textContent = `${streamingToolbarStyle}
+.streaming-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.streaming-controls textarea {
+  width: 100%;
+  min-height: 80px;
+  font-family: monospace;
+  font-size: 12px;
+  padding: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  resize: vertical;
+}
+`
+  shadow.appendChild(styleEl)
+
+  const controls = document.createElement('div')
+  controls.classList.add('streaming-controls')
+
+  const textarea = document.createElement('textarea')
+  textarea.value = sampleStreamContent
+  textarea.placeholder = 'Enter markdown to stream...'
+
+  const toolbar = document.createElement('div')
+  toolbar.classList.add('streaming-toolbar')
+
+  const startBtn = document.createElement('button')
+  startBtn.textContent = 'Start Streaming'
+  startBtn.classList.add('streaming-toolbar-start')
+
+  const stopBtn = document.createElement('button')
+  stopBtn.textContent = 'End Streaming'
+  stopBtn.classList.add('streaming-toolbar-stop')
+  stopBtn.disabled = true
+
+  const abortBtn = document.createElement('button')
+  abortBtn.textContent = 'Abort'
+  abortBtn.classList.add('streaming-toolbar-abort')
+  abortBtn.disabled = true
+
+  toolbar.appendChild(startBtn)
+  toolbar.appendChild(stopBtn)
+  toolbar.appendChild(abortBtn)
+
+  controls.appendChild(textarea)
+  controls.appendChild(toolbar)
+
+  waitForInstance(config.args, 5000)
+    .then((crepe) => {
+      const crepeWrapper = shadow.querySelector('.milkdown') as HTMLElement
+      if (crepeWrapper) {
+        crepeWrapper.parentElement!.insertBefore(controls, crepeWrapper)
+      } else {
+        shadow.insertBefore(controls, shadow.firstChild)
+      }
+
+      let streamTimer: ReturnType<typeof setInterval> | null = null
+
+      function setStreaming(active: boolean) {
+        startBtn.disabled = active
+        stopBtn.disabled = !active
+        abortBtn.disabled = !active
+        textarea.disabled = active
+      }
+
+      function stopTimer() {
+        if (streamTimer) {
+          clearInterval(streamTimer)
+          streamTimer = null
+        }
+      }
+
+      startBtn.addEventListener('click', () => {
+        crepe.editor.action(callCommand(startStreamingCmd.key))
+        setStreaming(true)
+
+        const chars = [...textarea.value]
+        let idx = 0
+
+        streamTimer = setInterval(() => {
+          const chunkSize = Math.floor(Math.random() * 3) + 1
+          let chunk = ''
+          for (let j = 0; j < chunkSize && idx < chars.length; j++, idx++) {
+            chunk += chars[idx]
+          }
+
+          if (chunk) {
+            crepe.editor.action(callCommand(pushChunkCmd.key, chunk))
+          }
+
+          if (idx >= chars.length) {
+            stopTimer()
+            crepe.editor.action(callCommand(endStreamingCmd.key))
+            setStreaming(false)
+          }
+        }, 30)
+      })
+
+      stopBtn.addEventListener('click', () => {
+        stopTimer()
+        crepe.editor.action(callCommand(endStreamingCmd.key))
+        setStreaming(false)
+      })
+
+      abortBtn.addEventListener('click', () => {
+        stopTimer()
+        crepe.editor.action(callCommand(abortStreamingCmd.key, { keep: false }))
+        setStreaming(false)
       })
     })
     .catch(console.error)

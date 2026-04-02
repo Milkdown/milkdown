@@ -11,6 +11,7 @@ import {
   modifiedLongContent,
   setup,
   setupDiffReview,
+  setupStreamingDemo,
   wikiContent,
 } from './setup'
 
@@ -35,6 +36,7 @@ const defaultArgs: Omit<Args, 'instance'> = {
   enableTopBar: false,
   modifiedValue: '',
   enableDiff: false,
+  enableStreaming: false,
   language: 'EN',
 }
 
@@ -77,5 +79,15 @@ export const DiffReview: Story = {
     defaultValue: longContent,
     modifiedValue: modifiedLongContent,
     enableDiff: true,
+  },
+}
+
+export const StreamingDemo: Story = {
+  render: (args) => {
+    return setupStreamingDemo({ args, style: crepe, theme: basicLight })
+  },
+  args: {
+    ...defaultArgs,
+    enableStreaming: true,
   },
 }

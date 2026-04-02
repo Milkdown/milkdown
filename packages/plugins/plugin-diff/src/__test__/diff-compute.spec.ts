@@ -167,14 +167,13 @@ describe('computeDocDiff', () => {
     expect(hasDeletion).toBe(true)
   })
 
-  it('does not detect heading level-only change (known limitation)', () => {
+  it('detects heading level-only change via attribute encoding', () => {
     const oldDoc = doc(heading(1, text('Title')))
     const newDoc = doc(heading(2, text('Title')))
     const changes = computeDocDiff(oldDoc, newDoc)
-    // Heading level is encoded in the node open token, so a level change
-    // won't be detected by the text-based diff (same node type name).
-    // This is a known limitation.
-    expect(changes).toHaveLength(0)
+    // Heading level is a non-default attribute, so the encoder
+    // distinguishes heading(1) from heading(2).
+    expect(changes.length).toBeGreaterThan(0)
   })
 
   it('detects atom node attribute changes', () => {

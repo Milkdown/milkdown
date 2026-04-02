@@ -15,6 +15,7 @@
     { "path": "../plugins/plugin-clipboard" },
     { "path": "../plugins/plugin-cursor" },
     { "path": "../plugins/plugin-diff" },
+    { "path": "../plugins/plugin-streaming" },
     { "path": "../plugins/plugin-history" },
     { "path": "../plugins/plugin-indent" },
     { "path": "../plugins/plugin-listener" },

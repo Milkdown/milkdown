@@ -471,6 +471,9 @@ importers:
       '@milkdown/plugin-slash':
         specifier: workspace:*
         version: link:../plugins/plugin-slash
+      '@milkdown/plugin-streaming':
+        specifier: workspace:*
+        version: link:../plugins/plugin-streaming
       '@milkdown/plugin-tooltip':
         specifier: workspace:*
         version: link:../plugins/plugin-tooltip
@@ -753,6 +756,24 @@ importers:
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.23
+
+  packages/plugins/plugin-streaming:
+    dependencies:
+      '@milkdown/core':
+        specifier: workspace:*
+        version: link:../../core
+      '@milkdown/ctx':
+        specifier: workspace:*
+        version: link:../../ctx
+      '@milkdown/plugin-diff':
+        specifier: workspace:*
+        version: link:../plugin-diff
+      '@milkdown/prose':
+        specifier: workspace:*
+        version: link:../../prose
+      '@milkdown/utils':
+        specifier: workspace:*
+        version: link:../../utils
 
   packages/plugins/plugin-tooltip:
     dependencies:
