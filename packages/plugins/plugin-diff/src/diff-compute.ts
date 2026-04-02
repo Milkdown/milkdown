@@ -6,10 +6,11 @@ import { Slice } from '@milkdown/prose/model'
 import { ReplaceStep } from '@milkdown/prose/transform'
 
 /**
- * Custom token encoder that distinguishes nodes with non-default
- * attributes, not just their type name. This ensures that attribute
- * changes (e.g. image src, code_block language, heading level)
- * are detected by the diff.
+ * Custom token encoder that distinguishes nodes by their content-semantic
+ * attributes. Atom nodes (image, math_inline) encode all attrs. Code nodes
+ * (code_block) encode language. Marks encode formatting. Other nodes only
+ * encode their type name to avoid false positives from runtime-generated
+ * attrs (e.g. heading id from headingIdGenerator).
  */
 const diffEncoder = {
   encodeCharacter: (char: number, marks: readonly Mark[]) => {
@@ -23,14 +24,24 @@ const diffEncoder = {
     return `${char}:${markNames}`
   },
   encodeNodeStart: (node: Node) => {
-    const attrs = node.attrs
-    if (attrs && Object.keys(attrs).length > 0) {
-      const hasNonDefault = Object.keys(attrs).some((key) => {
-        const defaultVal = node.type.attrs[key]?.default
-        return attrs[key] !== defaultVal
-      })
-      if (hasNonDefault) {
-        return `${node.type.name}:${JSON.stringify(attrs, Object.keys(attrs).sort())}`
+    // Encode attributes for nodes where attrs affect content semantics:
+    // - Atom/leaf nodes (image, math_inline): all attrs matter (src, value, etc.)
+    // - Code nodes (code_block): language attr affects rendering
+    // Other nodes (heading, paragraph) may have runtime-generated attrs
+    // (e.g. heading id) that differ between parsed documents and would
+    // cause false-positive diffs.
+    const shouldEncodeAttrs =
+      (node.isLeaf && node.type.spec.atom) || node.type.spec.code
+    if (shouldEncodeAttrs) {
+      const attrs = node.attrs
+      if (attrs && Object.keys(attrs).length > 0) {
+        const hasNonDefault = Object.keys(attrs).some((key) => {
+          const defaultVal = node.type.attrs[key]?.default
+          return attrs[key] !== defaultVal
+        })
+        if (hasNonDefault) {
+          return `${node.type.name}:${JSON.stringify(attrs, Object.keys(attrs).sort())}`
+        }
       }
     }
     return node.type.name
