@@ -413,7 +413,7 @@ export function setupStreamingDemo(config: setupConfig) {
         crepe.editor.action(callCommand(startStreamingCmd.key))
         setStreaming(true)
 
-        const chars = [...textarea.value]
+        const chars = Array.from(textarea.value)
         let idx = 0
 
         streamTimer = setInterval(() => {
@@ -643,7 +643,7 @@ export function setupAIDemo(config: setupConfig) {
         })
         setStreaming(true)
 
-        const chars = [...textarea.value]
+        const chars = Array.from(textarea.value)
         let idx = 0
 
         streamTimer = setInterval(() => {
