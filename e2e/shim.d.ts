@@ -46,4 +46,11 @@ declare global {
   var __clearDiff__: () => boolean
   var __acceptChunk__: (index: number) => boolean
   var __rejectChunk__: (index: number) => boolean
+
+  var __startStreaming__: (options?: {
+    insertAt?: 'cursor' | number
+  }) => boolean
+  var __pushChunk__: (token: string) => boolean
+  var __endStreaming__: (options?: { diffReview?: boolean }) => boolean
+  var __abortStreaming__: (options?: { keep?: boolean }) => boolean
 }

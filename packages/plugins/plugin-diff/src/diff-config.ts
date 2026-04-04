@@ -6,7 +6,7 @@ import { withMeta } from './__internal__/with-meta'
 
 /// The configuration context for the diff plugin.
 export const diffConfig = $ctx<DiffConfig, 'diffConfig'>(
-  { lockOnReview: true },
+  { lockOnReview: true, ignoreAttrs: {} },
   'diffConfig'
 )
 

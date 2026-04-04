@@ -26,6 +26,7 @@
     { "path": "./packages/plugins/plugin-listener" },
     { "path": "./packages/plugins/plugin-prism" },
     { "path": "./packages/plugins/plugin-slash" },
+    { "path": "./packages/plugins/plugin-streaming" },
     { "path": "./packages/plugins/plugin-tooltip" },
     { "path": "./packages/plugins/plugin-trailing" },
     { "path": "./packages/plugins/plugin-upload" },

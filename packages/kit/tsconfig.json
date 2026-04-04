@@ -19,6 +19,7 @@
     { "path": "../plugins/plugin-indent" },
     { "path": "../plugins/plugin-listener" },
     { "path": "../plugins/plugin-slash" },
+    { "path": "../plugins/plugin-streaming" },
     { "path": "../plugins/plugin-tooltip" },
     { "path": "../plugins/plugin-trailing" },
     { "path": "../plugins/plugin-upload" },

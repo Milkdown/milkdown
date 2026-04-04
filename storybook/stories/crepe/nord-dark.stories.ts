@@ -11,6 +11,8 @@ import {
   modifiedLongContent,
   setup,
   setupDiffReview,
+  setupAIDemo,
+  setupStreamingDemo,
   wikiContent,
 } from './setup'
 
@@ -36,6 +38,7 @@ const defaultArgs: Omit<Args, 'instance'> = {
   language: 'EN',
   modifiedValue: '',
   enableDiff: false,
+  enableStreaming: false,
 }
 
 export const Empty: Story = {
@@ -76,6 +79,28 @@ export const DiffReview: Story = {
     ...defaultArgs,
     defaultValue: longContent,
     modifiedValue: modifiedLongContent,
+    enableDiff: true,
+  },
+}
+
+export const StreamingDemo: Story = {
+  render: (args) => {
+    return setupStreamingDemo({ args, style: nordDark, theme: nord })
+  },
+  args: {
+    ...defaultArgs,
+    enableStreaming: true,
+  },
+}
+
+export const AIDemo: Story = {
+  render: (args) => {
+    return setupAIDemo({ args, style: nordDark, theme: nord })
+  },
+  args: {
+    ...defaultArgs,
+    defaultValue: longContent,
+    enableStreaming: true,
     enableDiff: true,
   },
 }

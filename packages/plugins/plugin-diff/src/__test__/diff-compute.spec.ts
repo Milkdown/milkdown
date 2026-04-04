@@ -52,6 +52,10 @@ const schema = new Schema({
   marks: {
     bold: { toDOM: () => ['strong', 0] },
     italic: { toDOM: () => ['em', 0] },
+    link: {
+      attrs: { href: { default: '' }, title: { default: null } },
+      toDOM: (mark: any) => ['a', { href: mark.attrs.href }, 0],
+    },
   },
 })
 
@@ -167,14 +171,13 @@ describe('computeDocDiff', () => {
     expect(hasDeletion).toBe(true)
   })
 
-  it('does not detect heading level-only change (known limitation)', () => {
+  it('detects heading level-only change', () => {
     const oldDoc = doc(heading(1, text('Title')))
     const newDoc = doc(heading(2, text('Title')))
     const changes = computeDocDiff(oldDoc, newDoc)
-    // Heading level is encoded in the node open token, so a level change
-    // won't be detected by the text-based diff (same node type name).
-    // This is a known limitation.
-    expect(changes).toHaveLength(0)
+    // Without ignoreAttrs, all non-default attrs are encoded, so the
+    // level change is detected.
+    expect(changes.length).toBeGreaterThan(0)
   })
 
   it('detects atom node attribute changes', () => {
@@ -342,5 +345,303 @@ describe('computeDocDiff - list', () => {
     const newDoc = doc(ul(li(p(text('A'))), li(p(text('B')))))
     const changes = computeDocDiff(oldDoc, newDoc)
     expect(changes).toHaveLength(0)
+  })
+})
+
+describe('computeDocDiff - marks', () => {
+  it('detects bold added', () => {
+    const oldDoc = doc(p(text('hello')))
+    const newDoc = doc(p(text('hello', [schema.marks.bold.create()])))
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('detects bold removed', () => {
+    const oldDoc = doc(p(text('hello', [schema.marks.bold.create()])))
+    const newDoc = doc(p(text('hello')))
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('detects mark type change (bold to italic)', () => {
+    const oldDoc = doc(p(text('hello', [schema.marks.bold.create()])))
+    const newDoc = doc(p(text('hello', [schema.marks.italic.create()])))
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('ignores identical marks', () => {
+    const oldDoc = doc(p(text('hello', [schema.marks.bold.create()])))
+    const newDoc = doc(p(text('hello', [schema.marks.bold.create()])))
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes).toHaveLength(0)
+  })
+
+  it('detects link href change', () => {
+    const oldDoc = doc(
+      p(text('click', [schema.marks.link.create({ href: 'https://old.com' })]))
+    )
+    const newDoc = doc(
+      p(text('click', [schema.marks.link.create({ href: 'https://new.com' })]))
+    )
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('ignores identical links', () => {
+    const oldDoc = doc(
+      p(text('click', [schema.marks.link.create({ href: 'https://same.com' })]))
+    )
+    const newDoc = doc(
+      p(text('click', [schema.marks.link.create({ href: 'https://same.com' })]))
+    )
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes).toHaveLength(0)
+  })
+})
+
+describe('computeDocDiff - range-limited', () => {
+  it('detects changes only within specified range', () => {
+    const oldDoc = doc(p(text('first')), p(text('second')), p(text('third')))
+    const newDoc = doc(p(text('first')), p(text('CHANGED')), p(text('third')))
+    // Full diff should find changes
+    const fullChanges = computeDocDiff(oldDoc, newDoc)
+    expect(fullChanges.length).toBeGreaterThan(0)
+
+    // Range-limited diff should also find changes when covering the changed area
+    const rangedChanges = computeDocDiff(oldDoc, newDoc, {
+      range: {
+        fromA: 0,
+        toA: oldDoc.content.size,
+        fromB: 0,
+        toB: newDoc.content.size,
+      },
+    })
+    expect(rangedChanges.length).toBeGreaterThan(0)
+  })
+
+  it('defaults omitted range fields to full document', () => {
+    const oldDoc = doc(p(text('hello')))
+    const newDoc = doc(p(text('hello world')))
+
+    // Empty range object = full doc defaults
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('returns empty for identical range', () => {
+    const oldDoc = doc(p(text('hello')))
+    const newDoc = doc(p(text('hello')))
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes).toHaveLength(0)
+  })
+
+  it('works with partial B range', () => {
+    const oldDoc = doc(p(text('hello')))
+    const newDoc = doc(p(text('hello')), p(text('extra')))
+
+    // Only diff a portion of newDoc
+    const changes = computeDocDiff(oldDoc, newDoc, {
+      range: { fromB: 0, toB: newDoc.content.size },
+    })
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('sub-range excludes changes outside the range', () => {
+    // Three paragraphs: first and third are changed, second is unchanged
+    const oldDoc = doc(p(text('AAA')), p(text('BBB')), p(text('CCC')))
+    const newDoc = doc(p(text('XXX')), p(text('BBB')), p(text('ZZZ')))
+
+    // Full diff finds changes in both first and third paragraphs
+    const fullChanges = computeDocDiff(oldDoc, newDoc)
+    expect(fullChanges.length).toBeGreaterThanOrEqual(2)
+
+    // Sub-range covering only the second paragraph (unchanged) — no changes
+    // p1 nodeSize=5 (open+AAA+close), so p2 starts at pos 5 and ends at pos 10
+    const secondParaStart = 5
+    const secondParaEnd = 10
+    const subChanges = computeDocDiff(oldDoc, newDoc, {
+      range: {
+        fromA: secondParaStart,
+        toA: secondParaEnd,
+        fromB: secondParaStart,
+        toB: secondParaEnd,
+      },
+    })
+    expect(subChanges).toHaveLength(0)
+  })
+})
+
+describe('computeDocDiff - range-limited with custom-view blocks', () => {
+  it('range diff with code block content change', () => {
+    const oldDoc = doc(
+      p(text('before')),
+      codeBlock('const x = 1'),
+      p(text('after'))
+    )
+    const newDoc = doc(
+      p(text('before')),
+      codeBlock('const x = 2'),
+      p(text('after'))
+    )
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('range diff with code block added', () => {
+    const oldDoc = doc(p(text('before')), p(text('after')))
+    const newDoc = doc(
+      p(text('before')),
+      codeBlock('new code'),
+      p(text('after'))
+    )
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('range diff with image src change', () => {
+    const oldDoc = doc(p(text('text')), image('old.png'))
+    const newDoc = doc(p(text('text')), image('new.png'))
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('range diff with image added between paragraphs', () => {
+    const oldDoc = doc(p(text('before')), p(text('after')))
+    const newDoc = doc(p(text('before')), image('photo.png'), p(text('after')))
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('range diff with table cell change', () => {
+    const oldDoc = doc(
+      p(text('intro')),
+      table(tr(th(text('A'))), tr(td(text('1')))),
+      p(text('outro'))
+    )
+    const newDoc = doc(
+      p(text('intro')),
+      table(tr(th(text('A'))), tr(td(text('X')))),
+      p(text('outro'))
+    )
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('range diff with table row added', () => {
+    const oldDoc = doc(table(tr(td(text('A')))))
+    const newDoc = doc(table(tr(td(text('A'))), tr(td(text('B')))))
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('range diff with list item added', () => {
+    const oldDoc = doc(ul(li(p(text('A')))))
+    const newDoc = doc(ul(li(p(text('A'))), li(p(text('B')))))
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('range diff preserves surrounding unchanged code blocks', () => {
+    const oldDoc = doc(
+      codeBlock('unchanged'),
+      p(text('old text')),
+      codeBlock('also unchanged')
+    )
+    const newDoc = doc(
+      codeBlock('unchanged'),
+      p(text('new text')),
+      codeBlock('also unchanged')
+    )
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes.length).toBeGreaterThan(0)
+    // Verify the change is only in the text, not in code blocks
+    for (const change of changes) {
+      // The code block boundaries should not be touched
+      expect(change.fromA).toBeGreaterThan(0)
+    }
+  })
+
+  it('range diff with mixed block types unchanged', () => {
+    const oldDoc = doc(
+      p(text('text')),
+      codeBlock('code'),
+      image('img.png'),
+      table(tr(td(text('cell')))),
+      ul(li(p(text('item'))))
+    )
+    const newDoc = doc(
+      p(text('text')),
+      codeBlock('code'),
+      image('img.png'),
+      table(tr(td(text('cell')))),
+      ul(li(p(text('item'))))
+    )
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes).toHaveLength(0)
+  })
+})
+
+describe('computeDocDiff - ignoreAttrs', () => {
+  const schemaWithId = new Schema({
+    nodes: {
+      doc: { content: 'block+' },
+      paragraph: { group: 'block', content: 'inline*', toDOM: () => ['p', 0] },
+      heading: {
+        group: 'block',
+        content: 'inline*',
+        attrs: { level: { default: 1 }, id: { default: '' } },
+        toDOM: (node) => [`h${node.attrs.level}`, 0],
+      },
+      text: { group: 'inline' },
+    },
+  })
+
+  function docId(...children: any[]) {
+    return schemaWithId.node('doc', null, children)
+  }
+
+  function headingId(level: number, id: string, ...content: any[]) {
+    return schemaWithId.node('heading', { level, id }, content)
+  }
+
+  function textId(str: string) {
+    return schemaWithId.text(str)
+  }
+
+  it('ignores specific attrs via ignoreAttrs config', () => {
+    // Without ignoreAttrs, an id change on heading produces a diff
+    const oldDoc = docId(headingId(1, 'old-id', textId('Title')))
+    const newDoc = docId(headingId(1, 'new-id', textId('Title')))
+
+    const changesWithoutIgnore = computeDocDiff(oldDoc, newDoc)
+    expect(changesWithoutIgnore.length).toBeGreaterThan(0)
+
+    // With ignoreAttrs: { heading: ['id'] }, the id change is ignored
+    const changesWithIgnore = computeDocDiff(oldDoc, newDoc, {
+      ignoreAttrs: { heading: ['id'] },
+    })
+    expect(changesWithIgnore).toHaveLength(0)
+  })
+
+  it('still detects non-ignored attr changes', () => {
+    // Level changes should still be detected even when id is ignored
+    const oldDoc = docId(headingId(2, 'same-id', textId('Title')))
+    const newDoc = docId(headingId(3, 'same-id', textId('Title')))
+
+    const changes = computeDocDiff(oldDoc, newDoc, {
+      ignoreAttrs: { heading: ['id'] },
+    })
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('still detects text changes when attrs are ignored', () => {
+    const oldDoc = docId(headingId(1, 'id-a', textId('Old Title')))
+    const newDoc = docId(headingId(1, 'id-b', textId('New Title')))
+
+    const changes = computeDocDiff(oldDoc, newDoc, {
+      ignoreAttrs: { heading: ['id'] },
+    })
+    expect(changes.length).toBeGreaterThan(0)
   })
 })
