@@ -120,9 +120,7 @@ describe('insert-at-cursor state transitions', () => {
   })
 
   it('updates insertEndPos on apply', () => {
-    let state: StreamingState | null = createStreamingState()
-    // Simulate starting in insert mode
-    state = applyStreamingAction(null, {
+    let state: StreamingState | null = applyStreamingAction(null, {
       type: 'start',
       originalDoc: doc(p(text('hello'))),
       insertPos: 3,
