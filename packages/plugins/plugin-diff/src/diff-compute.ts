@@ -60,19 +60,42 @@ function createDiffEncoder(ignoreAttrs: DiffIgnoreAttrs = {}) {
   }
 }
 
+/// A range that restricts the diff to a sub-region of both documents.
+/// Omitted fields default to 0 (start) or content.size (end).
+export interface ComputeDiffRange {
+  fromA?: number
+  toA?: number
+  fromB?: number
+  toB?: number
+}
+
+/// Options for `computeDocDiff`.
+export interface ComputeDocDiffOptions {
+  /// Restrict the diff to a sub-region of both documents.
+  range?: ComputeDiffRange
+  /// Map of node type names to attribute keys to ignore when diffing.
+  ignoreAttrs?: DiffIgnoreAttrs
+}
+
 /// Compute fine-grained changes between two ProseMirror documents.
+/// When `options.range` is provided, only the specified region is diffed.
 export function computeDocDiff(
   oldDoc: Node,
   newDoc: Node,
-  ignoreAttrs?: DiffIgnoreAttrs
+  options?: ComputeDocDiffOptions
 ): readonly Change[] {
+  const fromA = options?.range?.fromA ?? 0
+  const toA = options?.range?.toA ?? oldDoc.content.size
+  const fromB = options?.range?.fromB ?? 0
+  const toB = options?.range?.toB ?? newDoc.content.size
+
   const step = new ReplaceStep(
-    0,
-    oldDoc.content.size,
-    new Slice(newDoc.content.cut(0, newDoc.content.size), 0, 0)
+    fromA,
+    toA,
+    new Slice(newDoc.content.cut(fromB, toB), 0, 0)
   )
 
-  const encoder = createDiffEncoder(ignoreAttrs)
+  const encoder = createDiffEncoder(options?.ignoreAttrs)
   const changeSet = ChangeSet.create(oldDoc, undefined, encoder).addSteps(
     newDoc,
     [step.getMap()],

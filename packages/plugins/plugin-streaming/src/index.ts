@@ -10,6 +10,7 @@ import { streamingConfig } from './streaming-config'
 import { streamingPlugin } from './streaming-plugin'
 
 export * from './types'
+export { defaultInsertStrategy } from './flush'
 export { streamingConfig } from './streaming-config'
 export {
   applyStreamingAction,

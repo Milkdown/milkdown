@@ -10,6 +10,7 @@ import {
   longContent,
   modifiedLongContent,
   setup,
+  setupAIDemo,
   setupDiffReview,
   setupStreamingDemo,
   wikiContent,
@@ -89,5 +90,17 @@ export const StreamingDemo: Story = {
   args: {
     ...defaultArgs,
     enableStreaming: true,
+  },
+}
+
+export const AIDemo: Story = {
+  render: (args) => {
+    return setupAIDemo({ args, style: crepe, theme: basicLight })
+  },
+  args: {
+    ...defaultArgs,
+    defaultValue: longContent,
+    enableStreaming: true,
+    enableDiff: true,
   },
 }

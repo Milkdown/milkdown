@@ -17,8 +17,9 @@ setup(async () => {
   globalThis.__crepe__ = crepe
   await crepe.create()
 
-  globalThis.__startStreaming__ = () =>
-    crepe.editor.action(callCommand('StartStreaming'))
+  globalThis.__startStreaming__ = (options?: {
+    insertAt?: 'cursor' | number
+  }) => crepe.editor.action(callCommand('StartStreaming', options))
   globalThis.__pushChunk__ = (token: string) =>
     crepe.editor.action(callCommand('PushChunk', token))
   globalThis.__endStreaming__ = (options?: { diffReview?: boolean }) =>

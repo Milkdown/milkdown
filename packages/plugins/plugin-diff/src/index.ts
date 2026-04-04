@@ -9,6 +9,7 @@ import {
   rejectDiffChunkCmd,
   rejectDiffRangeCmd,
   startDiffReviewCmd,
+  startDiffReviewFromDocCmd,
 } from './diff-commands'
 import { diffConfig } from './diff-config'
 import { diffPlugin } from './diff-plugin'
@@ -16,7 +17,11 @@ import { diffPlugin } from './diff-plugin'
 export * from './types'
 export { diffConfig } from './diff-config'
 export { computeDocDiff } from './diff-compute'
-export type { DiffIgnoreAttrs } from './diff-compute'
+export type {
+  ComputeDocDiffOptions,
+  ComputeDiffRange,
+  DiffIgnoreAttrs,
+} from './diff-compute'
 export {
   diffPlugin,
   diffPluginKey,
@@ -32,6 +37,7 @@ export {
   rejectDiffChunkCmd,
   rejectDiffRangeCmd,
   startDiffReviewCmd,
+  startDiffReviewFromDocCmd,
 } from './diff-commands'
 
 /// The milkdown diff plugin.
@@ -39,6 +45,7 @@ export const diff: MilkdownPlugin[] = [
   diffConfig,
   diffPlugin,
   startDiffReviewCmd,
+  startDiffReviewFromDocCmd,
   acceptDiffChunkCmd,
   acceptDiffRangeCmd,
   rejectDiffChunkCmd,

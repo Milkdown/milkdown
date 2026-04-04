@@ -7,7 +7,7 @@ import { $prose } from '@milkdown/utils'
 import type { StreamingAction, StreamingConfig, StreamingState } from './types'
 
 import { withMeta } from './__internal__/with-meta'
-import { flushBuffer } from './flush'
+import { performFlush } from './flush'
 import { streamingConfig } from './streaming-config'
 
 /// The plugin key for accessing streaming state.
@@ -20,18 +20,7 @@ export function applyStreamingAction(
   state: StreamingState | null,
   action: StreamingAction | undefined
 ): StreamingState | null {
-  if (!state) {
-    if (action?.type === 'start') {
-      return {
-        buffer: '',
-        originalDoc: action.originalDoc,
-        active: true,
-        lastApplyTime: Date.now(),
-      }
-    }
-    return null
-  }
-
+  if (!state && action?.type !== 'start') return null
   if (!action) return state
 
   switch (action.type) {
@@ -41,19 +30,23 @@ export function applyStreamingAction(
         originalDoc: action.originalDoc,
         active: true,
         lastApplyTime: Date.now(),
+        insertPos: action.insertPos ?? null,
+        insertEndPos: action.insertEndPos ?? action.insertPos ?? null,
       }
 
-    case 'push':
-      return {
-        ...state,
-        buffer: state.buffer + action.token,
-      }
+    case 'push': {
+      if (!state) return null
+      return { ...state, buffer: state.buffer + action.token }
+    }
 
-    case 'apply':
+    case 'apply': {
+      if (!state) return null
       return {
         ...state,
         lastApplyTime: action.lastApplyTime,
+        insertEndPos: action.insertEndPos ?? state.insertEndPos,
       }
+    }
 
     case 'end':
     case 'abort':
@@ -122,13 +115,14 @@ function createFlushController(ctx: Ctx, config: StreamingConfig) {
     const buffer = state.buffer
     lastKnownBuffer = buffer
 
-    const result = flushBuffer(ctx, view.state.tr, buffer)
+    const result = performFlush(ctx, view.state.tr, state)
     if (!result.newDoc) return
     let tr = result.tr
 
     tr = tr.setMeta(streamingPluginKey, {
       type: 'apply',
       lastApplyTime: Date.now(),
+      insertEndPos: result.insertEndPos,
     } satisfies StreamingAction)
 
     if (config.scrollFollow) tr = tr.scrollIntoView()

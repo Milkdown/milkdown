@@ -3,7 +3,7 @@ import type { Node } from '@milkdown/prose/model'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { $prose } from '@milkdown/utils'
 
-import type { DiffIgnoreAttrs } from './diff-compute'
+import type { ComputeDocDiffOptions } from './diff-compute'
 import type { DiffAction, DiffState } from './types'
 
 import { withMeta } from './__internal__/with-meta'
@@ -16,9 +16,9 @@ export const diffPluginKey = new PluginKey<DiffState | null>('MILKDOWN_DIFF')
 function recomputeChanges(
   doc: Node,
   state: DiffState,
-  ignoreAttrs?: DiffIgnoreAttrs
+  options?: ComputeDocDiffOptions
 ): DiffState {
-  const changes = computeDocDiff(doc, state.newDoc, ignoreAttrs)
+  const changes = computeDocDiff(doc, state.newDoc, options)
   return { ...state, changes }
 }
 
@@ -50,11 +50,9 @@ export const diffPlugin = $prose((ctx) => {
 
         if (!value) {
           if (action?.type === 'start') {
-            const changes = computeDocDiff(
-              newEditorState.doc,
-              action.newDoc,
-              config.ignoreAttrs
-            )
+            const changes = computeDocDiff(newEditorState.doc, action.newDoc, {
+              ignoreAttrs: config.ignoreAttrs,
+            })
             return {
               newDoc: action.newDoc,
               changes,
@@ -69,11 +67,9 @@ export const diffPlugin = $prose((ctx) => {
         // The accepted change naturally disappears from the new diff
         let state = value
         if (tr.docChanged && state.active) {
-          state = recomputeChanges(
-            newEditorState.doc,
-            state,
-            config.ignoreAttrs
-          )
+          state = recomputeChanges(newEditorState.doc, state, {
+            ignoreAttrs: config.ignoreAttrs,
+          })
         }
 
         if (!action) return state
@@ -81,11 +77,9 @@ export const diffPlugin = $prose((ctx) => {
         let result: DiffState
         switch (action.type) {
           case 'start': {
-            const changes = computeDocDiff(
-              newEditorState.doc,
-              action.newDoc,
-              config.ignoreAttrs
-            )
+            const changes = computeDocDiff(newEditorState.doc, action.newDoc, {
+              ignoreAttrs: config.ignoreAttrs,
+            })
             return {
               newDoc: action.newDoc,
               changes,

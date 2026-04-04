@@ -1,30 +1,57 @@
 import { commandsCtx } from '@milkdown/core'
-import { startDiffReviewCmd } from '@milkdown/plugin-diff'
+import { startDiffReviewFromDocCmd } from '@milkdown/plugin-diff'
 import { Slice } from '@milkdown/prose/model'
 import { $command } from '@milkdown/utils'
 
 import type {
   AbortStreamingOptions,
   EndStreamingOptions,
+  StartStreamingOptions,
   StreamingAction,
 } from './types'
 
 import { withMeta } from './__internal__/with-meta'
-import { flushBuffer } from './flush'
+import { performFlush } from './flush'
 import { streamingConfig } from './streaming-config'
 import { streamingPluginKey } from './streaming-plugin'
 
 /// Start a streaming session. Captures the current doc and locks editing.
+/// Pass `{ insertAt: 'cursor' }` or `{ insertAt: <pos> }` for insert-at-cursor mode.
 export const startStreamingCmd = $command('StartStreaming', () => {
-  return () => (state, dispatch) => {
+  return (options?: StartStreamingOptions) => (state, dispatch) => {
     // Don't start if already streaming
     const existing = streamingPluginKey.getState(state)
     if (existing?.active) return false
 
     if (dispatch) {
+      let insertPos: number | undefined
+      let insertEndPos: number | undefined
+      if (options?.insertAt != null) {
+        insertPos =
+          options.insertAt === 'cursor'
+            ? state.selection.head
+            : options.insertAt
+
+        // If cursor is inside an empty textblock (e.g. empty paragraph),
+        // snap the range to cover the whole block so that inserting
+        // block-level content replaces it cleanly without splitting.
+        const resolved = state.doc.resolve(insertPos)
+        if (
+          resolved.parent.isTextblock &&
+          !resolved.parent.type.spec.code &&
+          resolved.parent.content.size === 0 &&
+          resolved.depth > 0
+        ) {
+          insertPos = resolved.before(resolved.depth)
+          insertEndPos = resolved.after(resolved.depth)
+        }
+      }
+
       const tr = state.tr.setMeta(streamingPluginKey, {
         type: 'start',
         originalDoc: state.doc,
+        insertPos,
+        insertEndPos,
       } satisfies StreamingAction)
       dispatch(tr)
     }
@@ -72,10 +99,8 @@ export const endStreamingCmd = $command('EndStreaming', (ctx) => {
       const config = ctx.get(streamingConfig.key)
       const diffReview = options?.diffReview ?? config.diffReviewOnEnd
 
-      // Final flush
-      const result = flushBuffer(ctx, state.tr, streamingState.buffer)
+      const result = performFlush(ctx, state.tr, streamingState)
       let tr = result.tr
-      const newDoc = result.newDoc
 
       // End streaming
       tr = tr.setMeta(streamingPluginKey, {
@@ -83,8 +108,9 @@ export const endStreamingCmd = $command('EndStreaming', (ctx) => {
       } satisfies StreamingAction)
 
       // Diff review handoff: restore original doc, then start diff review
-      if (diffReview && newDoc) {
-        // Replace content with original doc
+      if (diffReview && result.newDoc) {
+        const finalDoc = tr.doc
+
         tr = tr.replace(
           0,
           tr.doc.content.size,
@@ -93,15 +119,16 @@ export const endStreamingCmd = $command('EndStreaming', (ctx) => {
         dispatch(tr)
 
         // Start diff review via public command (separate transaction).
-        // This is not atomic with the above dispatch, but streaming state
-        // is already null at this point so filterTransaction won't block it.
+        // Always use startDiffReviewFromDocCmd to avoid the serialize→parse
+        // round-trip which can produce heading ID mismatches and other
+        // attribute differences.
         try {
           const commands = ctx.get(commandsCtx)
-          commands.call(startDiffReviewCmd.key, streamingState.buffer)
+          commands.call(startDiffReviewFromDocCmd.key, finalDoc)
         } catch (e) {
           console.warn('[milkdown/streaming] diff review handoff skipped:', e)
         }
-        return
+        return true
       }
 
       dispatch(tr)
@@ -127,12 +154,21 @@ export const abortStreamingCmd = $command('AbortStreaming', () => {
       let tr = state.tr
 
       if (!keep) {
-        // Restore original document
-        tr = tr.replace(
-          0,
-          state.doc.content.size,
-          new Slice(streamingState.originalDoc.content, 0, 0)
-        )
+        if (streamingState.insertPos != null) {
+          // Insert mode: remove only the inserted content
+          const from = streamingState.insertPos
+          const to = streamingState.insertEndPos ?? from
+          if (to > from) {
+            tr = tr.delete(from, to)
+          }
+        } else {
+          // Replace mode: restore original document
+          tr = tr.replace(
+            0,
+            state.doc.content.size,
+            new Slice(streamingState.originalDoc.content, 0, 0)
+          )
+        }
       }
 
       tr = tr.setMeta(streamingPluginKey, {

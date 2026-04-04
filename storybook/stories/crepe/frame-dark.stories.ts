@@ -11,6 +11,7 @@ import {
   modifiedLongContent,
   setup,
   setupDiffReview,
+  setupAIDemo,
   setupStreamingDemo,
   wikiContent,
 } from './setup'
@@ -89,5 +90,17 @@ export const StreamingDemo: Story = {
   args: {
     ...defaultArgs,
     enableStreaming: true,
+  },
+}
+
+export const AIDemo: Story = {
+  render: (args) => {
+    return setupAIDemo({ args, style: frameDark, theme: basicDark })
+  },
+  args: {
+    ...defaultArgs,
+    defaultValue: longContent,
+    enableStreaming: true,
+    enableDiff: true,
   },
 }

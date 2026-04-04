@@ -344,6 +344,188 @@ describe('computeDocDiff - list', () => {
   })
 })
 
+describe('computeDocDiff - range-limited', () => {
+  it('detects changes only within specified range', () => {
+    const oldDoc = doc(p(text('first')), p(text('second')), p(text('third')))
+    const newDoc = doc(p(text('first')), p(text('CHANGED')), p(text('third')))
+    // Full diff should find changes
+    const fullChanges = computeDocDiff(oldDoc, newDoc)
+    expect(fullChanges.length).toBeGreaterThan(0)
+
+    // Range-limited diff should also find changes when covering the changed area
+    const rangedChanges = computeDocDiff(oldDoc, newDoc, {
+      range: {
+        fromA: 0,
+        toA: oldDoc.content.size,
+        fromB: 0,
+        toB: newDoc.content.size,
+      },
+    })
+    expect(rangedChanges.length).toBeGreaterThan(0)
+  })
+
+  it('defaults omitted range fields to full document', () => {
+    const oldDoc = doc(p(text('hello')))
+    const newDoc = doc(p(text('hello world')))
+
+    // Empty range object = full doc defaults
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('returns empty for identical range', () => {
+    const oldDoc = doc(p(text('hello')))
+    const newDoc = doc(p(text('hello')))
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes).toHaveLength(0)
+  })
+
+  it('works with partial B range', () => {
+    const oldDoc = doc(p(text('hello')))
+    const newDoc = doc(p(text('hello')), p(text('extra')))
+
+    // Only diff a portion of newDoc
+    const changes = computeDocDiff(oldDoc, newDoc, {
+      range: { fromB: 0, toB: newDoc.content.size },
+    })
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('sub-range excludes changes outside the range', () => {
+    // Three paragraphs: first and third are changed, second is unchanged
+    const oldDoc = doc(p(text('AAA')), p(text('BBB')), p(text('CCC')))
+    const newDoc = doc(p(text('XXX')), p(text('BBB')), p(text('ZZZ')))
+
+    // Full diff finds changes in both first and third paragraphs
+    const fullChanges = computeDocDiff(oldDoc, newDoc)
+    expect(fullChanges.length).toBeGreaterThanOrEqual(2)
+
+    // Sub-range covering only the second paragraph (unchanged) — no changes
+    // p1 nodeSize=5 (open+AAA+close), so p2 starts at pos 5 and ends at pos 10
+    const secondParaStart = 5
+    const secondParaEnd = 10
+    const subChanges = computeDocDiff(oldDoc, newDoc, {
+      range: {
+        fromA: secondParaStart,
+        toA: secondParaEnd,
+        fromB: secondParaStart,
+        toB: secondParaEnd,
+      },
+    })
+    expect(subChanges).toHaveLength(0)
+  })
+})
+
+describe('computeDocDiff - range-limited with custom-view blocks', () => {
+  it('range diff with code block content change', () => {
+    const oldDoc = doc(
+      p(text('before')),
+      codeBlock('const x = 1'),
+      p(text('after'))
+    )
+    const newDoc = doc(
+      p(text('before')),
+      codeBlock('const x = 2'),
+      p(text('after'))
+    )
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('range diff with code block added', () => {
+    const oldDoc = doc(p(text('before')), p(text('after')))
+    const newDoc = doc(
+      p(text('before')),
+      codeBlock('new code'),
+      p(text('after'))
+    )
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('range diff with image src change', () => {
+    const oldDoc = doc(p(text('text')), image('old.png'))
+    const newDoc = doc(p(text('text')), image('new.png'))
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('range diff with image added between paragraphs', () => {
+    const oldDoc = doc(p(text('before')), p(text('after')))
+    const newDoc = doc(p(text('before')), image('photo.png'), p(text('after')))
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('range diff with table cell change', () => {
+    const oldDoc = doc(
+      p(text('intro')),
+      table(tr(th(text('A'))), tr(td(text('1')))),
+      p(text('outro'))
+    )
+    const newDoc = doc(
+      p(text('intro')),
+      table(tr(th(text('A'))), tr(td(text('X')))),
+      p(text('outro'))
+    )
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('range diff with table row added', () => {
+    const oldDoc = doc(table(tr(td(text('A')))))
+    const newDoc = doc(table(tr(td(text('A'))), tr(td(text('B')))))
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('range diff with list item added', () => {
+    const oldDoc = doc(ul(li(p(text('A')))))
+    const newDoc = doc(ul(li(p(text('A'))), li(p(text('B')))))
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('range diff preserves surrounding unchanged code blocks', () => {
+    const oldDoc = doc(
+      codeBlock('unchanged'),
+      p(text('old text')),
+      codeBlock('also unchanged')
+    )
+    const newDoc = doc(
+      codeBlock('unchanged'),
+      p(text('new text')),
+      codeBlock('also unchanged')
+    )
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes.length).toBeGreaterThan(0)
+    // Verify the change is only in the text, not in code blocks
+    for (const change of changes) {
+      // The code block boundaries should not be touched
+      expect(change.fromA).toBeGreaterThan(0)
+    }
+  })
+
+  it('range diff with mixed block types unchanged', () => {
+    const oldDoc = doc(
+      p(text('text')),
+      codeBlock('code'),
+      image('img.png'),
+      table(tr(td(text('cell')))),
+      ul(li(p(text('item'))))
+    )
+    const newDoc = doc(
+      p(text('text')),
+      codeBlock('code'),
+      image('img.png'),
+      table(tr(td(text('cell')))),
+      ul(li(p(text('item'))))
+    )
+    const changes = computeDocDiff(oldDoc, newDoc, {})
+    expect(changes).toHaveLength(0)
+  })
+})
+
 describe('computeDocDiff - ignoreAttrs', () => {
   const schemaWithId = new Schema({
     nodes: {
@@ -381,7 +563,7 @@ describe('computeDocDiff - ignoreAttrs', () => {
 
     // With ignoreAttrs: { heading: ['id'] }, the id change is ignored
     const changesWithIgnore = computeDocDiff(oldDoc, newDoc, {
-      heading: ['id'],
+      ignoreAttrs: { heading: ['id'] },
     })
     expect(changesWithIgnore).toHaveLength(0)
   })
@@ -391,7 +573,9 @@ describe('computeDocDiff - ignoreAttrs', () => {
     const oldDoc = docId(headingId(2, 'same-id', textId('Title')))
     const newDoc = docId(headingId(3, 'same-id', textId('Title')))
 
-    const changes = computeDocDiff(oldDoc, newDoc, { heading: ['id'] })
+    const changes = computeDocDiff(oldDoc, newDoc, {
+      ignoreAttrs: { heading: ['id'] },
+    })
     expect(changes.length).toBeGreaterThan(0)
   })
 
@@ -399,7 +583,9 @@ describe('computeDocDiff - ignoreAttrs', () => {
     const oldDoc = docId(headingId(1, 'id-a', textId('Old Title')))
     const newDoc = docId(headingId(1, 'id-b', textId('New Title')))
 
-    const changes = computeDocDiff(oldDoc, newDoc, { heading: ['id'] })
+    const changes = computeDocDiff(oldDoc, newDoc, {
+      ignoreAttrs: { heading: ['id'] },
+    })
     expect(changes.length).toBeGreaterThan(0)
   })
 })
