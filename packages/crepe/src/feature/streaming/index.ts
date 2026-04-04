@@ -7,6 +7,9 @@ import type { DefineFeature } from '../shared'
 import { crepeFeatureConfig } from '../../core/slice'
 import { CrepeFeature } from '../index'
 
+/// Default attrs to ignore during streaming flush in Crepe.
+const CREPE_IGNORE_ATTRS: Record<string, string[]> = { heading: ['id'] }
+
 export type StreamingFeatureConfig = Partial<StreamingConfig>
 
 export const streamingFeature: DefineFeature<StreamingFeatureConfig> = (
@@ -16,12 +19,11 @@ export const streamingFeature: DefineFeature<StreamingFeatureConfig> = (
   editor
     .config(crepeFeatureConfig(CrepeFeature.Streaming))
     .config((ctx) => {
-      if (config) {
-        ctx.update(streamingConfig.key, (prev) => ({
-          ...prev,
-          ...config,
-        }))
-      }
+      ctx.update(streamingConfig.key, (prev) => ({
+        ...prev,
+        ignoreAttrs: config?.ignoreAttrs ?? CREPE_IGNORE_ATTRS,
+        ...config,
+      }))
     })
     .use(streaming)
 }

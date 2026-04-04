@@ -44,6 +44,9 @@ export interface StreamingConfig {
   scrollFollow: boolean
   /// Enter diff review mode after streaming ends (default: false).
   diffReviewOnEnd: boolean
+  /// Map of node type names to attribute keys to ignore when diffing
+  /// during streaming flush (e.g. `{ heading: ['id'] }`).
+  ignoreAttrs?: Record<string, string[]>
   /// Custom resolver for determining how streamed content is inserted
   /// based on cursor position. When not set, uses `defaultInsertStrategy`.
   insertStrategy?: InsertStrategyResolver

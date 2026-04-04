@@ -25,7 +25,13 @@ export function flushBuffer(
   const newDoc = parser(buffer)
   if (!newDoc) return { tr, newDoc: null }
 
-  const changes = computeDocDiff(tr.doc, newDoc)
+  const config = ctx.get(streamingConfig.key)
+  const ignoreAttrs = config.ignoreAttrs
+  const changes = computeDocDiff(
+    tr.doc,
+    newDoc,
+    ignoreAttrs ? { ignoreAttrs } : undefined
+  )
   for (let i = changes.length - 1; i >= 0; i--) {
     const change = changes[i]!
     const newContent = newDoc.slice(change.fromB, change.toB)

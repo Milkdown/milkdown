@@ -95,10 +95,12 @@ export function computeDocDiff(
   newDoc: Node,
   options?: ComputeDocDiffOptions
 ): readonly Change[] {
-  const fromA = options?.range?.fromA ?? 0
-  const toA = options?.range?.toA ?? oldDoc.content.size
-  const fromB = options?.range?.fromB ?? 0
-  const toB = options?.range?.toB ?? newDoc.content.size
+  const oldSize = oldDoc.content.size
+  const newSize = newDoc.content.size
+  const fromA = Math.max(0, Math.min(options?.range?.fromA ?? 0, oldSize))
+  const toA = Math.max(fromA, Math.min(options?.range?.toA ?? oldSize, oldSize))
+  const fromB = Math.max(0, Math.min(options?.range?.fromB ?? 0, newSize))
+  const toB = Math.max(fromB, Math.min(options?.range?.toB ?? newSize, newSize))
 
   const step = new ReplaceStep(
     fromA,
