@@ -52,6 +52,10 @@ const schema = new Schema({
   marks: {
     bold: { toDOM: () => ['strong', 0] },
     italic: { toDOM: () => ['em', 0] },
+    link: {
+      attrs: { href: { default: '' }, title: { default: null } },
+      toDOM: (mark: any) => ['a', { href: mark.attrs.href }, 0],
+    },
   },
 })
 
@@ -339,6 +343,58 @@ describe('computeDocDiff - list', () => {
   it('ignores identical lists', () => {
     const oldDoc = doc(ul(li(p(text('A'))), li(p(text('B')))))
     const newDoc = doc(ul(li(p(text('A'))), li(p(text('B')))))
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes).toHaveLength(0)
+  })
+})
+
+describe('computeDocDiff - marks', () => {
+  it('detects bold added', () => {
+    const oldDoc = doc(p(text('hello')))
+    const newDoc = doc(p(text('hello', [schema.marks.bold.create()])))
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('detects bold removed', () => {
+    const oldDoc = doc(p(text('hello', [schema.marks.bold.create()])))
+    const newDoc = doc(p(text('hello')))
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('detects mark type change (bold to italic)', () => {
+    const oldDoc = doc(p(text('hello', [schema.marks.bold.create()])))
+    const newDoc = doc(p(text('hello', [schema.marks.italic.create()])))
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('ignores identical marks', () => {
+    const oldDoc = doc(p(text('hello', [schema.marks.bold.create()])))
+    const newDoc = doc(p(text('hello', [schema.marks.bold.create()])))
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes).toHaveLength(0)
+  })
+
+  it('detects link href change', () => {
+    const oldDoc = doc(
+      p(text('click', [schema.marks.link.create({ href: 'https://old.com' })]))
+    )
+    const newDoc = doc(
+      p(text('click', [schema.marks.link.create({ href: 'https://new.com' })]))
+    )
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('ignores identical links', () => {
+    const oldDoc = doc(
+      p(text('click', [schema.marks.link.create({ href: 'https://same.com' })]))
+    )
+    const newDoc = doc(
+      p(text('click', [schema.marks.link.create({ href: 'https://same.com' })]))
+    )
     const changes = computeDocDiff(oldDoc, newDoc)
     expect(changes).toHaveLength(0)
   })

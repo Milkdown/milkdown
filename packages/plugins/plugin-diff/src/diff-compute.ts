@@ -19,12 +19,23 @@ function createDiffEncoder(ignoreAttrs: DiffIgnoreAttrs = {}) {
     encodeCharacter: (char: number, marks: readonly Mark[]) => {
       if (marks.length === 0) return char
       // Encode marks so that formatting changes (bold, italic, etc.)
-      // are detected as differences, not just text content.
-      const markNames = marks
-        .map((m) => m.type.name)
+      // and mark attribute changes (e.g. link href) are detected.
+      const markTokens = marks
+        .map((m) => {
+          const attrs = m.attrs
+          const keys = attrs
+            ? Object.keys(attrs)
+                .filter((k) => attrs[k] != null)
+                .sort()
+            : []
+          if (keys.length === 0) return m.type.name
+          const encoded: Record<string, unknown> = {}
+          for (const k of keys) encoded[k] = attrs[k]
+          return `${m.type.name}:${JSON.stringify(encoded)}`
+        })
         .sort()
         .join(',')
-      return `${char}:${markNames}`
+      return `${char}:${markTokens}`
     },
     encodeNodeStart: (node: Node) => {
       const attrs = node.attrs
