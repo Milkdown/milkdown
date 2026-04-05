@@ -174,7 +174,7 @@ function createFlushController(ctx: Ctx, config: StreamingConfig) {
       }
 
       // Check if buffer has grown since last flush
-      if (state.buffer !== lastKnownBuffer) {
+      if (state.buffer.length !== lastKnownBufferLen) {
         const elapsed = Date.now() - state.lastApplyTime
         if (elapsed >= config.throttleMs) {
           flush()
