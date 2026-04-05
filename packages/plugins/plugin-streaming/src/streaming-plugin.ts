@@ -124,17 +124,16 @@ withMeta(streamingPlugin, {
  */
 function createFlushController(ctx: Ctx, config: StreamingConfig) {
   let trailingTimer: ReturnType<typeof setTimeout> | null = null
-  let lastKnownBuffer = ''
+  let lastKnownBufferLen = -1
   let view: EditorView | null = null
 
   function flush() {
     if (!view) return
 
     const state = streamingPluginKey.getState(view.state)
-    if (!state?.active || state.buffer === lastKnownBuffer) return
+    if (!state?.active || state.buffer.length === lastKnownBufferLen) return
 
-    const buffer = state.buffer
-    lastKnownBuffer = buffer
+    lastKnownBufferLen = state.buffer.length
 
     const result = performFlush(ctx, view.state.tr, state)
     if (!result.newDoc) return
@@ -170,7 +169,7 @@ function createFlushController(ctx: Ctx, config: StreamingConfig) {
           clearTimeout(trailingTimer)
           trailingTimer = null
         }
-        lastKnownBuffer = ''
+        lastKnownBufferLen = -1
         return
       }
 
