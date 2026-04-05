@@ -15,26 +15,34 @@ export type DiffIgnoreAttrs = Record<string, string[]>
  * but skips attrs listed in the `ignoreAttrs` map for a given node type.
  */
 function createDiffEncoder(ignoreAttrs: DiffIgnoreAttrs = {}) {
+  // Cache mark tokens to avoid repeated JSON.stringify on every character
+  const markTokenCache = new WeakMap<Mark, string>()
+
+  function encodeMark(m: Mark): string {
+    let token = markTokenCache.get(m)
+    if (token != null) return token
+
+    const attrs = m.attrs
+    const keys = attrs
+      ? Object.keys(attrs)
+          .filter((k) => attrs[k] != null)
+          .sort()
+      : []
+    if (keys.length === 0) {
+      token = m.type.name
+    } else {
+      const encoded: Record<string, unknown> = {}
+      for (const k of keys) encoded[k] = attrs[k]
+      token = `${m.type.name}:${JSON.stringify(encoded)}`
+    }
+    markTokenCache.set(m, token)
+    return token
+  }
+
   return {
     encodeCharacter: (char: number, marks: readonly Mark[]) => {
       if (marks.length === 0) return char
-      // Encode marks so that formatting changes (bold, italic, etc.)
-      // and mark attribute changes (e.g. link href) are detected.
-      const markTokens = marks
-        .map((m) => {
-          const attrs = m.attrs
-          const keys = attrs
-            ? Object.keys(attrs)
-                .filter((k) => attrs[k] != null)
-                .sort()
-            : []
-          if (keys.length === 0) return m.type.name
-          const encoded: Record<string, unknown> = {}
-          for (const k of keys) encoded[k] = attrs[k]
-          return `${m.type.name}:${JSON.stringify(encoded)}`
-        })
-        .sort()
-        .join(',')
+      const markTokens = marks.map(encodeMark).sort().join(',')
       return `${char}:${markTokens}`
     },
     encodeNodeStart: (node: Node) => {
