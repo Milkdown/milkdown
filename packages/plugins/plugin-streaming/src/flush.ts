@@ -109,7 +109,15 @@ export function flushBufferInsert(
   const clampedPos = Math.max(0, Math.min(insertPos, docSize))
   const clampedEnd = Math.max(clampedPos, Math.min(currentEndPos, docSize))
 
-  const resolved = tr.doc.resolve(clampedPos)
+  // Resolve strategy from a position inside the target textblock.
+  // When the range was snapped to cover an empty textblock (clampedEnd > clampedPos
+  // on first flush), clampedPos sits outside the textblock boundary. Using
+  // clampedPos + 1 resolves inside it so the strategy sees the correct parent.
+  const strategyPos =
+    clampedEnd > clampedPos && clampedPos + 1 <= docSize
+      ? clampedPos + 1
+      : clampedPos
+  const resolved = tr.doc.resolve(strategyPos)
   const config = ctx.get(streamingConfig.key)
   const resolveStrategy = config.insertStrategy ?? defaultInsertStrategy
   const strategy = resolveStrategy(resolved)
