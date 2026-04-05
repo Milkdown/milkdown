@@ -305,7 +305,7 @@ The streaming plugin supports:
 const editor = new Crepe({
   root: '#app',
   features: {
-    [CrepeFeature.Streaming]: true,
+    [Crepe.Feature.Streaming]: true,
   },
 })
 await editor.create()
@@ -527,8 +527,8 @@ Here is a summary of the key points:
 const editor = new Crepe({
   root: '#app',
   features: {
-    [CrepeFeature.Streaming]: true,
-    [CrepeFeature.Diff]: true,
+    [Crepe.Feature.Streaming]: true,
+    [Crepe.Feature.Diff]: true,
   },
 })
 \`\`\`
