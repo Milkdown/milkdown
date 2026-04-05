@@ -101,7 +101,9 @@ export function flushBufferInsert(
   tr: Transaction,
   options: FlushInsertOptions
 ): InsertResult {
-  const { buffer, insertPos, currentEndPos } = options
+  const { insertPos, currentEndPos } = options
+  // Normalize CRLF/CR to LF to avoid stray \r in inserted content
+  const buffer = options.buffer.replace(/\r\n?/g, '\n')
   if (!buffer) return { tr, applied: false, insertEndPos: currentEndPos }
 
   // Clamp positions to valid document range

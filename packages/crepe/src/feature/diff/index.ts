@@ -40,7 +40,11 @@ export const diffFeature: DefineFeature<DiffFeatureConfig> = (
           : {}),
         ignoreAttrs: config?.ignoreAttrs ?? CREPE_IGNORE_ATTRS,
       }))
-      const { lockOnReview: _, ...componentConfig } = config ?? {}
+      const {
+        lockOnReview: _,
+        ignoreAttrs: __,
+        ...componentConfig
+      } = config ?? {}
       ctx.update(diffComponentConfig.key, (prev) => ({
         ...prev,
         // Provide Crepe's custom block types as defaults, allow user override
