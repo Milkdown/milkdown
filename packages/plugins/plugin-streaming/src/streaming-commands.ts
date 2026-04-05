@@ -31,6 +31,7 @@ export const startStreamingCmd = $command('StartStreaming', () => {
           options.insertAt === 'cursor'
             ? state.selection.head
             : options.insertAt
+        if (!Number.isFinite(rawPos)) return false
         insertPos = Math.max(0, Math.min(rawPos, state.doc.content.size))
 
         // If cursor is inside an empty textblock (e.g. empty paragraph),
