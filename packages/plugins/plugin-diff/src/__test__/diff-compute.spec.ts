@@ -555,10 +555,13 @@ describe('computeDocDiff - range-limited with custom-view blocks', () => {
     )
     const changes = computeDocDiff(oldDoc, newDoc, {})
     expect(changes.length).toBeGreaterThan(0)
-    // Verify the change is only in the text, not in code blocks
+    // The middle paragraph sits between the two code blocks.
+    // Verify all changes fall within the paragraph's range.
+    const paraStart = oldDoc.child(0).nodeSize // after first code block
+    const paraEnd = paraStart + oldDoc.child(1).nodeSize // end of paragraph
     for (const change of changes) {
-      // The code block boundaries should not be touched
-      expect(change.fromA).toBeGreaterThan(0)
+      expect(change.fromA).toBeGreaterThanOrEqual(paraStart)
+      expect(change.toA).toBeLessThanOrEqual(paraEnd)
     }
   })
 
