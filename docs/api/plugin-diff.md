@@ -44,6 +44,14 @@ editor.action(
 )
 ```
 
+You can also pass a pre-parsed ProseMirror `Node` directly using `startDiffReviewFromDocCmd`, which avoids the serialize→parse round-trip:
+
+```typescript
+import { startDiffReviewFromDocCmd } from '@milkdown/kit/plugin/diff'
+
+editor.action(callCommand(startDiffReviewFromDocCmd.key, someDocNode))
+```
+
 ## Accepting and Rejecting Changes
 
 Users can click the Accept/Reject buttons on each change in the UI. You can also control this programmatically:
@@ -84,6 +92,7 @@ Editor.make()
     ctx.update(diffConfig.key, (prev) => ({
       ...prev,
       lockOnReview: false, // Allow editing during diff review (default: true)
+      ignoreAttrs: { heading: ['id'] }, // Ignore these attrs when diffing (default: { heading: ['id'] })
     }))
   })
   .use(diff)
@@ -151,6 +160,7 @@ For standalone usage, the main CSS classes are:
 ## Commands
 
 @startDiffReviewCmd
+@startDiffReviewFromDocCmd
 @acceptDiffChunkCmd
 @rejectDiffChunkCmd
 @acceptDiffRangeCmd
@@ -171,3 +181,6 @@ For standalone usage, the main CSS classes are:
 @DiffConfig
 @DiffRange
 @DiffAction
+@ComputeDocDiffOptions
+@ComputeDiffRange
+@DiffIgnoreAttrs
