@@ -11,6 +11,7 @@ export const streamingConfig = $ctx<StreamingConfig, 'streamingConfig'>(
     lockDuringStreaming: true,
     scrollFollow: true,
     diffReviewOnEnd: false,
+    ignoreAttrs: { heading: ['id'] },
   },
   'streamingConfig'
 )
