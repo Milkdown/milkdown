@@ -59,7 +59,7 @@ export const startDiffReviewFromDocCmd = $command(
   () => {
     return (newDoc?: Node) => (state, dispatch) => {
       if (!newDoc) return false
-      if (newDoc.type.schema !== state.doc.type.schema) return false
+      if (newDoc.type !== state.doc.type) return false
 
       if (dispatch) {
         const tr = state.tr.setMeta(diffPluginKey, {
