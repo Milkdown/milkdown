@@ -71,13 +71,12 @@ function createDiffEncoder(ignoreAttrs: DiffIgnoreAttrs = {}) {
   }
 }
 
-/// A range that restricts the diff to a sub-region of both documents.
+/// A symmetric range that restricts the diff to a sub-region of both documents.
+/// The same `from`/`to` positions are used in both old and new docs.
 /// Omitted fields default to 0 (start) or content.size (end).
 export interface ComputeDiffRange {
-  fromA?: number
-  toA?: number
-  fromB?: number
-  toB?: number
+  from?: number
+  to?: number
 }
 
 /// Options for `computeDocDiff`.
@@ -97,15 +96,15 @@ export function computeDocDiff(
 ): readonly Change[] {
   const oldSize = oldDoc.content.size
   const newSize = newDoc.content.size
-  const fromA = Math.max(0, Math.min(options?.range?.fromA ?? 0, oldSize))
-  const toA = Math.max(fromA, Math.min(options?.range?.toA ?? oldSize, oldSize))
-  const fromB = Math.max(0, Math.min(options?.range?.fromB ?? 0, newSize))
-  const toB = Math.max(fromB, Math.min(options?.range?.toB ?? newSize, newSize))
+  const minSize = Math.min(oldSize, newSize)
+  const from = Math.max(0, Math.min(options?.range?.from ?? 0, minSize))
+  const toOld = Math.max(from, Math.min(options?.range?.to ?? oldSize, oldSize))
+  const toNew = Math.max(from, Math.min(options?.range?.to ?? newSize, newSize))
 
   const step = new ReplaceStep(
-    fromA,
-    toA,
-    new Slice(newDoc.content.cut(fromB, toB), 0, 0)
+    from,
+    toOld,
+    new Slice(newDoc.content.cut(from, toNew), 0, 0)
   )
 
   const encoder = createDiffEncoder(options?.ignoreAttrs)

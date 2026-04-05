@@ -21,8 +21,8 @@ export const streamingFeature: DefineFeature<StreamingFeatureConfig> = (
     .config((ctx) => {
       ctx.update(streamingConfig.key, (prev) => ({
         ...prev,
-        ignoreAttrs: config?.ignoreAttrs ?? CREPE_IGNORE_ATTRS,
         ...config,
+        ignoreAttrs: config?.ignoreAttrs ?? CREPE_IGNORE_ATTRS,
       }))
     })
     .use(streaming)

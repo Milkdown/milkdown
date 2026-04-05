@@ -408,14 +408,9 @@ describe('computeDocDiff - range-limited', () => {
     const fullChanges = computeDocDiff(oldDoc, newDoc)
     expect(fullChanges.length).toBeGreaterThan(0)
 
-    // Range-limited diff should also find changes when covering the changed area
+    // Range covering the full doc should also find changes
     const rangedChanges = computeDocDiff(oldDoc, newDoc, {
-      range: {
-        fromA: 0,
-        toA: oldDoc.content.size,
-        fromB: 0,
-        toB: newDoc.content.size,
-      },
+      range: { from: 0, to: oldDoc.content.size },
     })
     expect(rangedChanges.length).toBeGreaterThan(0)
   })
@@ -436,17 +431,6 @@ describe('computeDocDiff - range-limited', () => {
     expect(changes).toHaveLength(0)
   })
 
-  it('works with partial B range', () => {
-    const oldDoc = doc(p(text('hello')))
-    const newDoc = doc(p(text('hello')), p(text('extra')))
-
-    // Only diff a portion of newDoc
-    const changes = computeDocDiff(oldDoc, newDoc, {
-      range: { fromB: 0, toB: newDoc.content.size },
-    })
-    expect(changes.length).toBeGreaterThan(0)
-  })
-
   it('sub-range excludes changes outside the range', () => {
     // Three paragraphs: first and third are changed, second is unchanged
     const oldDoc = doc(p(text('AAA')), p(text('BBB')), p(text('CCC')))
@@ -458,17 +442,33 @@ describe('computeDocDiff - range-limited', () => {
 
     // Sub-range covering only the second paragraph (unchanged) — no changes
     // p1 nodeSize=5 (open+AAA+close), so p2 starts at pos 5 and ends at pos 10
-    const secondParaStart = 5
-    const secondParaEnd = 10
     const subChanges = computeDocDiff(oldDoc, newDoc, {
-      range: {
-        fromA: secondParaStart,
-        toA: secondParaEnd,
-        fromB: secondParaStart,
-        toB: secondParaEnd,
-      },
+      range: { from: 5, to: 10 },
     })
     expect(subChanges).toHaveLength(0)
+  })
+
+  it('sub-range detects changes within the range', () => {
+    // Three paragraphs: only the second is changed
+    const oldDoc = doc(p(text('AAA')), p(text('BBB')), p(text('CCC')))
+    const newDoc = doc(p(text('AAA')), p(text('XXX')), p(text('CCC')))
+
+    // Sub-range covering the second paragraph — should find the change
+    const changes = computeDocDiff(oldDoc, newDoc, {
+      range: { from: 5, to: 10 },
+    })
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('range is clamped to document bounds', () => {
+    const oldDoc = doc(p(text('hello')))
+    const newDoc = doc(p(text('hello')))
+
+    // Out-of-bounds range should not throw
+    const changes = computeDocDiff(oldDoc, newDoc, {
+      range: { from: -5, to: 9999 },
+    })
+    expect(changes).toHaveLength(0)
   })
 })
 
