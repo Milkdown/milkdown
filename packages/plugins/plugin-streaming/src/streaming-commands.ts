@@ -32,7 +32,10 @@ export const startStreamingCmd = $command('StartStreaming', () => {
             ? state.selection.head
             : options.insertAt
         if (!Number.isFinite(rawPos)) return false
-        insertPos = Math.max(0, Math.min(rawPos, state.doc.content.size))
+        insertPos = Math.max(
+          0,
+          Math.min(Math.round(rawPos), state.doc.content.size)
+        )
 
         // If cursor is inside an empty textblock (e.g. empty paragraph),
         // snap the range to cover the whole block so that inserting
@@ -54,6 +57,7 @@ export const startStreamingCmd = $command('StartStreaming', () => {
         originalDoc: state.doc,
         insertPos,
         insertEndPos,
+        lastApplyTime: Date.now(),
       } satisfies StreamingAction)
       dispatch(tr)
     }

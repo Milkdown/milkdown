@@ -45,7 +45,11 @@ describe('streaming state transitions', () => {
 
   it('initializes on start action', () => {
     const originalDoc = doc(p(text('hello')))
-    const state = applyStreamingAction(null, { type: 'start', originalDoc })
+    const state = applyStreamingAction(null, {
+      type: 'start',
+      originalDoc,
+      lastApplyTime: Date.now(),
+    })
     expect(state).not.toBeNull()
     expect(state!.active).toBe(true)
     expect(state!.buffer).toBe('')
@@ -89,7 +93,11 @@ describe('streaming state transitions', () => {
     expect(state).toBeNull()
 
     const newDoc = doc(p(text('new start')))
-    state = applyStreamingAction(state, { type: 'start', originalDoc: newDoc })
+    state = applyStreamingAction(state, {
+      type: 'start',
+      originalDoc: newDoc,
+      lastApplyTime: Date.now(),
+    })
     expect(state).not.toBeNull()
     expect(state!.active).toBe(true)
     expect(state!.buffer).toBe('')
@@ -103,6 +111,7 @@ describe('insert-at-cursor state transitions', () => {
       type: 'start',
       originalDoc,
       insertPos: 5,
+      lastApplyTime: Date.now(),
     })
     expect(state).not.toBeNull()
     expect(state!.insertPos).toBe(5)
@@ -114,6 +123,7 @@ describe('insert-at-cursor state transitions', () => {
     const state = applyStreamingAction(null, {
       type: 'start',
       originalDoc,
+      lastApplyTime: Date.now(),
     })
     expect(state!.insertPos).toBeNull()
     expect(state!.insertEndPos).toBeNull()
@@ -124,6 +134,7 @@ describe('insert-at-cursor state transitions', () => {
       type: 'start',
       originalDoc: doc(p(text('hello'))),
       insertPos: 3,
+      lastApplyTime: Date.now(),
     })
     state = applyStreamingAction(state, {
       type: 'apply',
@@ -138,6 +149,7 @@ describe('insert-at-cursor state transitions', () => {
       type: 'start',
       originalDoc: doc(p(text('hello'))),
       insertPos: 3,
+      lastApplyTime: Date.now(),
     })
     state = applyStreamingAction(state, {
       type: 'apply',
@@ -151,6 +163,7 @@ describe('insert-at-cursor state transitions', () => {
       type: 'start',
       originalDoc: doc(p(text('hello'))),
       insertPos: 5,
+      lastApplyTime: Date.now(),
     })
     state = applyStreamingAction(state, { type: 'push', token: 'world' })
     expect(state!.buffer).toBe('world')
@@ -162,6 +175,7 @@ describe('insert-at-cursor state transitions', () => {
       type: 'start',
       originalDoc: doc(p(text('hello'))),
       insertPos: 5,
+      lastApplyTime: Date.now(),
     })
     state = applyStreamingAction(state, { type: 'push', token: 'data' })
     state = applyStreamingAction(state, { type: 'end' })
@@ -173,6 +187,7 @@ describe('insert-at-cursor state transitions', () => {
       type: 'start',
       originalDoc: doc(p(text('hello'))),
       insertPos: 5,
+      lastApplyTime: Date.now(),
     })
     state = applyStreamingAction(state, { type: 'abort' })
     expect(state).toBeNull()

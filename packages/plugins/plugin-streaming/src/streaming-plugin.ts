@@ -29,7 +29,7 @@ export function applyStreamingAction(
         buffer: '',
         originalDoc: action.originalDoc,
         active: true,
-        lastApplyTime: Date.now(),
+        lastApplyTime: action.lastApplyTime,
         insertPos: action.insertPos ?? null,
         insertEndPos: action.insertEndPos ?? action.insertPos ?? null,
       }
@@ -69,7 +69,28 @@ export const streamingPlugin = $prose((ctx) => {
         const action = tr.getMeta(streamingPluginKey) as
           | StreamingAction
           | undefined
-        return applyStreamingAction(value, action)
+        let state = applyStreamingAction(value, action)
+
+        // Map insert positions through transaction mapping when the doc
+        // changes from a non-streaming transaction (e.g. collaborative edits
+        // when lockDuringStreaming is disabled).
+        if (
+          state?.active &&
+          state.insertPos != null &&
+          tr.docChanged &&
+          !action
+        ) {
+          state = {
+            ...state,
+            insertPos: tr.mapping.map(state.insertPos),
+            insertEndPos:
+              state.insertEndPos != null
+                ? tr.mapping.map(state.insertEndPos)
+                : null,
+          }
+        }
+
+        return state
       },
     },
     filterTransaction(tr, editorState) {

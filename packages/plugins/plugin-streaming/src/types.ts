@@ -78,6 +78,7 @@ export type StreamingAction =
       originalDoc: Node
       insertPos?: number
       insertEndPos?: number
+      lastApplyTime: number
     }
   | { type: 'push'; token: string }
   | { type: 'apply'; lastApplyTime: number; insertEndPos?: number }
