@@ -28,11 +28,18 @@ async function simulateStream(
   }
 }
 
+/// Wait for the streaming flush to apply by checking that the editor
+/// contains the expected text. Uses Playwright's auto-retry instead of
+/// a fixed timeout.
+async function waitForFlush(page: Page, expectedText: string) {
+  const editor = page.locator('.editor')
+  await expect(editor).toContainText(expectedText, { timeout: 2000 })
+}
+
 test.describe('streaming basics', () => {
   test('streaming renders content progressively', async ({ page }) => {
     await simulateStream(page, ['# Hello', '\n\n', 'World'])
-    // Wait for throttle flush
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'World')
 
     const editor = page.locator('.editor')
     await expect(editor.locator('h1')).toContainText('Hello')
@@ -41,7 +48,7 @@ test.describe('streaming basics', () => {
 
   test('endStreaming finalizes content', async ({ page }) => {
     await simulateStream(page, ['# Title', '\n\n', 'Paragraph.'])
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'Paragraph.')
 
     await page.evaluate(() => window.__endStreaming__())
     await waitNextFrame(page)
@@ -70,7 +77,7 @@ test.describe('streaming basics', () => {
 
   test('editor unlocks after endStreaming', async ({ page }) => {
     await simulateStream(page, ['Hello'])
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'Hello')
 
     await page.evaluate(() => window.__endStreaming__())
     await waitNextFrame(page)
@@ -91,7 +98,7 @@ test.describe('streaming abort', () => {
     await waitNextFrame(page)
 
     await simulateStream(page, ['# Replaced', '\n\n', 'New stuff.'])
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'New stuff.')
 
     await page.evaluate(() => window.__abortStreaming__({ keep: false }))
     await waitNextFrame(page)
@@ -103,7 +110,7 @@ test.describe('streaming abort', () => {
 
   test('abort with keep=true preserves partial content', async ({ page }) => {
     await simulateStream(page, ['# Partial', '\n\n', 'Content.'])
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'Content.')
 
     await page.evaluate(() => window.__abortStreaming__({ keep: true }))
     await waitNextFrame(page)
@@ -143,7 +150,7 @@ test.describe('streaming with multiple blocks', () => {
       '- Item 3',
     ]
     await simulateStream(page, tokens)
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'Item 3')
 
     await page.evaluate(() => window.__endStreaming__())
     await waitNextFrame(page)
@@ -168,7 +175,7 @@ test.describe('streaming with multiple blocks', () => {
       '```',
     ]
     await simulateStream(page, tokens)
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'const')
 
     await page.evaluate(() => window.__endStreaming__())
     await waitNextFrame(page)
@@ -190,7 +197,7 @@ test.describe('insert-at-cursor', () => {
     await waitNextFrame(page)
 
     await simulateStream(page, ['Inserted text.'], { insertAt: 'cursor' })
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'Inserted text.')
 
     await page.evaluate(() => window.__endStreaming__())
     await waitNextFrame(page)
@@ -209,7 +216,7 @@ test.describe('insert-at-cursor', () => {
     await simulateStream(page, ['## Appended'], {
       insertAt: 'cursor',
     })
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'Appended')
 
     await page.evaluate(() => window.__endStreaming__())
     await waitNextFrame(page)
@@ -230,7 +237,7 @@ test.describe('insert-at-cursor', () => {
     await waitNextFrame(page)
 
     await simulateStream(page, ['Inserted stuff.'], { insertAt: 'cursor' })
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'Inserted stuff.')
 
     await page.evaluate(() => window.__abortStreaming__({ keep: false }))
     await waitNextFrame(page)
@@ -253,7 +260,7 @@ test.describe('insert-at-cursor', () => {
     await simulateStream(page, ['New paragraph after code.'], {
       insertAt: 'cursor',
     })
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'New paragraph after code.')
 
     await page.evaluate(() => window.__endStreaming__())
     await waitNextFrame(page)
@@ -273,7 +280,7 @@ test.describe('insert-at-cursor', () => {
     await waitNextFrame(page)
 
     await simulateStream(page, ['After table.'], { insertAt: 'cursor' })
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'After table.')
 
     await page.evaluate(() => window.__endStreaming__())
     await waitNextFrame(page)
@@ -295,7 +302,7 @@ test.describe('insert-at-cursor', () => {
     await waitNextFrame(page)
 
     await simulateStream(page, ['Middle content.'], { insertAt: 'cursor' })
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'Middle content.')
 
     await page.evaluate(() => window.__endStreaming__())
     await waitNextFrame(page)
@@ -317,7 +324,7 @@ test.describe('insert-at-cursor', () => {
     await waitNextFrame(page)
 
     await simulateStream(page, [' extra'], { insertAt: 'cursor' })
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'extra')
 
     await page.evaluate(() => window.__endStreaming__())
     await waitNextFrame(page)
@@ -347,7 +354,7 @@ test.describe('insert-at-cursor', () => {
       [' suffix\n\nNew paragraph after list.\n\n- New item 1\n- New item 2'],
       { insertAt: 'cursor' }
     )
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'New item 2')
 
     await page.evaluate(() => window.__endStreaming__())
     await waitNextFrame(page)
@@ -379,7 +386,7 @@ test.describe('insert-at-cursor', () => {
     await simulateStream(page, ['\n- not a list\n- just text'], {
       insertAt: 'cursor',
     })
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'just text')
 
     await page.evaluate(() => window.__endStreaming__())
     await waitNextFrame(page)
@@ -402,7 +409,7 @@ test.describe('insert-at-cursor', () => {
     await waitNextFrame(page)
 
     await simulateStream(page, ['\nnew line'], { insertAt: 'cursor' })
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'new line')
 
     await page.evaluate(() => window.__endStreaming__())
     await waitNextFrame(page)
@@ -422,7 +429,7 @@ test.describe('insert-at-cursor', () => {
     await waitNextFrame(page)
 
     await simulateStream(page, ['hello\n- list item'], { insertAt: 'cursor' })
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'hello')
 
     await page.evaluate(() => window.__endStreaming__())
     await waitNextFrame(page)
@@ -447,7 +454,7 @@ test.describe('insert-at-cursor', () => {
     await simulateStream(page, [' Extended\n\nNew content after heading.'], {
       insertAt: 'cursor',
     })
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'New content after heading.')
 
     await page.evaluate(() => window.__endStreaming__())
     await waitNextFrame(page)
@@ -475,7 +482,7 @@ test.describe('insert-at-cursor', () => {
     await simulateStream(page, [' more\n\nOutside block.'], {
       insertAt: 'cursor',
     })
-    await page.waitForTimeout(200)
+    await waitForFlush(page, 'Outside block.')
 
     await page.evaluate(() => window.__endStreaming__())
     await waitNextFrame(page)
