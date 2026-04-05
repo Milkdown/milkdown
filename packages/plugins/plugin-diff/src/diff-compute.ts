@@ -15,11 +15,14 @@ export type DiffIgnoreAttrs = Record<string, string[]>
  * but skips attrs listed in the `ignoreAttrs` map for a given node type.
  */
 function createDiffEncoder(ignoreAttrs: DiffIgnoreAttrs = {}) {
-  // Cache mark tokens to avoid repeated JSON.stringify on every character
-  const markTokenCache = new WeakMap<Mark, string>()
+  // Cache individual mark tokens and combined mark-set tokens.
+  // ProseMirror marks are ordered by type rank and structurally shared,
+  // so the same readonly Mark[] reference is reused for identical mark sets.
+  const singleMarkCache = new WeakMap<Mark, string>()
+  const markSetCache = new WeakMap<readonly Mark[], string>()
 
   function encodeMark(m: Mark): string {
-    let token = markTokenCache.get(m)
+    let token = singleMarkCache.get(m)
     if (token != null) return token
 
     const attrs = m.attrs
@@ -35,15 +38,20 @@ function createDiffEncoder(ignoreAttrs: DiffIgnoreAttrs = {}) {
       for (const k of keys) encoded[k] = attrs[k]
       token = `${m.type.name}:${JSON.stringify(encoded)}`
     }
-    markTokenCache.set(m, token)
+    singleMarkCache.set(m, token)
     return token
   }
 
   return {
     encodeCharacter: (char: number, marks: readonly Mark[]) => {
       if (marks.length === 0) return char
-      const markTokens = marks.map(encodeMark).sort().join(',')
-      return `${char}:${markTokens}`
+      let combined = markSetCache.get(marks)
+      if (combined == null) {
+        // ProseMirror marks are already sorted by type rank, so no sort needed
+        combined = marks.map(encodeMark).join(',')
+        markSetCache.set(marks, combined)
+      }
+      return `${char}:${combined}`
     },
     encodeNodeStart: (node: Node) => {
       const attrs = node.attrs
