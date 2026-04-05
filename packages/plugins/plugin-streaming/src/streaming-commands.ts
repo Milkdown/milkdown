@@ -155,21 +155,12 @@ export const abortStreamingCmd = $command('AbortStreaming', () => {
       let tr = state.tr
 
       if (!keep) {
-        if (streamingState.insertPos != null) {
-          // Insert mode: remove only the inserted content
-          const from = streamingState.insertPos
-          const to = streamingState.insertEndPos ?? from
-          if (to > from) {
-            tr = tr.delete(from, to)
-          }
-        } else {
-          // Replace mode: restore original document
-          tr = tr.replace(
-            0,
-            state.doc.content.size,
-            new Slice(streamingState.originalDoc.content, 0, 0)
-          )
-        }
+        // Restore original document (both insert and replace modes)
+        tr = tr.replace(
+          0,
+          state.doc.content.size,
+          new Slice(streamingState.originalDoc.content, 0, 0)
+        )
       }
 
       tr = tr.setMeta(streamingPluginKey, {
