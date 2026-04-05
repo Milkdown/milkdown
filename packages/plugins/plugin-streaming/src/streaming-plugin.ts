@@ -140,6 +140,9 @@ function createFlushController(ctx: Ctx, config: StreamingConfig) {
     if (!result.newDoc) return
     let tr = result.tr
 
+    // Skip dispatch when flush produced no document changes
+    if (!tr.docChanged && !result.insertEndPos) return
+
     tr = tr.setMeta(streamingPluginKey, {
       type: 'apply',
       lastApplyTime: Date.now(),
