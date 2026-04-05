@@ -137,10 +137,7 @@ function createFlushController(ctx: Ctx, config: StreamingConfig) {
     lastKnownBuffer = buffer
 
     const result = performFlush(ctx, view.state.tr, state)
-    if (!result.newDoc) {
-      lastKnownBuffer = ''
-      return
-    }
+    if (!result.newDoc) return
     let tr = result.tr
 
     tr = tr.setMeta(streamingPluginKey, {

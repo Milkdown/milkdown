@@ -212,7 +212,12 @@ test.describe('insert-at-cursor', () => {
     await setMarkdown(page, 'Existing content.')
     await waitNextFrame(page)
 
-    // Use cursor position to insert at end
+    // Move cursor to end of document
+    const editor = page.locator('.editor')
+    await editor.locator('p').last().click()
+    await page.keyboard.press('End')
+    await waitNextFrame(page)
+
     await simulateStream(page, ['## Appended'], {
       insertAt: 'cursor',
     })
