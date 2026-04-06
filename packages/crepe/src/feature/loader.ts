@@ -10,6 +10,7 @@ import { latex } from './latex'
 import { linkTooltip } from './link-tooltip'
 import { listItem } from './list-item'
 import { placeholder } from './placeholder'
+import { streamingFeature } from './streaming'
 import { table } from './table'
 import { toolbar } from './toolbar'
 import { topBar } from './top-bar'
@@ -55,6 +56,9 @@ export function loadFeature(
     }
     case CrepeFeature.Diff: {
       return diffFeature(editor, config)
+    }
+    case CrepeFeature.Streaming: {
+      return streamingFeature(editor, config)
     }
   }
 }

@@ -1,3 +1,4 @@
+import type { Node } from '@milkdown/prose/model'
 import type { Transaction } from '@milkdown/prose/state'
 
 import { parserCtx } from '@milkdown/core'
@@ -48,6 +49,32 @@ export const startDiffReviewCmd = $command('StartDiffReview', (ctx) => {
 
 withMeta(startDiffReviewCmd, {
   displayName: 'Command<startDiffReview>',
+  group: 'Diff',
+})
+
+/// Start a diff review with a pre-parsed document node.
+/// Avoids the serialize→parse round-trip of startDiffReviewCmd.
+export const startDiffReviewFromDocCmd = $command(
+  'StartDiffReviewFromDoc',
+  () => {
+    return (newDoc?: Node) => (state, dispatch) => {
+      if (!newDoc) return false
+      if (newDoc.type !== state.doc.type) return false
+
+      if (dispatch) {
+        const tr = state.tr.setMeta(diffPluginKey, {
+          type: 'start',
+          newDoc,
+        } satisfies DiffAction)
+        dispatch(tr)
+      }
+      return true
+    }
+  }
+)
+
+withMeta(startDiffReviewFromDocCmd, {
+  displayName: 'Command<startDiffReviewFromDoc>',
   group: 'Diff',
 })
 

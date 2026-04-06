@@ -57,6 +57,7 @@
     "./plugin/trailing": "./src/plugin/trailing.ts",
     "./plugin/upload": "./src/plugin/upload.ts",
     "./plugin/diff": "./src/plugin/diff.ts",
+    "./plugin/streaming": "./src/plugin/streaming.ts",
     "./component": "./src/component/index.ts",
     "./component/code-block": "./src/component/code-block.ts",
     "./component/image-block": "./src/component/image-block.ts",
@@ -198,6 +199,10 @@
       "./plugin/diff": {
         "types": "./lib/plugin/diff.d.ts",
         "import": "./lib/plugin/diff.js"
+      },
+      "./plugin/streaming": {
+        "types": "./lib/plugin/streaming.d.ts",
+        "import": "./lib/plugin/streaming.js"
       },
       "./component": {
         "types": "./lib/component/index.d.ts",
@@ -353,6 +358,9 @@
         "plugin/diff": [
           "lib/plugin/diff.d.ts"
         ],
+        "plugin/streaming": [
+          "lib/plugin/streaming.d.ts"
+        ],
         "component/diff": [
           "lib/component/diff.d.ts"
         ]
@@ -374,6 +382,7 @@
     "@milkdown/plugin-indent": "workspace:*",
     "@milkdown/plugin-listener": "workspace:*",
     "@milkdown/plugin-slash": "workspace:*",
+    "@milkdown/plugin-streaming": "workspace:*",
     "@milkdown/plugin-tooltip": "workspace:*",
     "@milkdown/plugin-trailing": "workspace:*",
     "@milkdown/plugin-upload": "workspace:*",

@@ -4,7 +4,7 @@ The crepe editor, built on top of milkdown.
 
 ## Features
 
-Crepe provides a rich set of features that can be enabled or disabled through configuration. By default, most features are enabled except for `TopBar`:
+Crepe provides a rich set of features that can be enabled or disabled through configuration. By default, most features are enabled except for `TopBar`, `Diff`, and `Streaming`:
 
 ```typescript
 const defaultFeatures: Record<CrepeFeature, boolean> = {
@@ -20,6 +20,7 @@ const defaultFeatures: Record<CrepeFeature, boolean> = {
   [Crepe.Feature.Latex]: true,
   [Crepe.Feature.TopBar]: false,
   [Crepe.Feature.Diff]: false,
+  [Crepe.Feature.Streaming]: false,
 }
 ```
 
@@ -598,6 +599,63 @@ const config: CrepeConfig = {
   },
 }
 ```
+
+#### Diff Feature
+
+```typescript
+interface DiffFeatureConfig {
+  lockOnReview?: boolean // Lock editing during diff review (default: true)
+  classPrefix?: string // CSS class prefix (default: 'milkdown-diff')
+  acceptLabel?: string // Accept button text (default: 'Accept')
+  rejectLabel?: string // Reject button text (default: 'Reject')
+  customBlockTypes?: string[] // Node types using custom node views
+  ignoreAttrs?: Record<string, string[]> // Attrs to ignore when diffing
+}
+
+// Example:
+const config: CrepeConfig = {
+  features: {
+    [Crepe.Feature.Diff]: true,
+  },
+  featureConfigs: {
+    [Crepe.Feature.Diff]: {
+      lockOnReview: true,
+      ignoreAttrs: { heading: ['id'] },
+    },
+  },
+}
+```
+
+See [@milkdown/plugin-diff](./plugin-diff.md) for commands and usage details.
+
+#### Streaming Feature
+
+```typescript
+interface StreamingFeatureConfig {
+  throttleMs?: number // Flush interval in ms (default: 100)
+  lockDuringStreaming?: boolean // Block user edits during streaming (default: true)
+  scrollFollow?: boolean // Auto-scroll to follow content (default: true)
+  diffReviewOnEnd?: boolean // Enter diff review on end (default: false)
+  ignoreAttrs?: Record<string, string[]> // Attrs to ignore when diffing during flush
+  insertStrategy?: InsertStrategyResolver // Custom insert strategy resolver
+}
+
+// Example:
+const config: CrepeConfig = {
+  features: {
+    [Crepe.Feature.Streaming]: true,
+    [Crepe.Feature.Diff]: true, // Recommended: enables diff review after streaming
+  },
+  featureConfigs: {
+    [Crepe.Feature.Streaming]: {
+      diffReviewOnEnd: true,
+      throttleMs: 150,
+    },
+  },
+}
+```
+
+See [@milkdown/plugin-streaming](./plugin-streaming.md) for commands and usage details.
 
 ## Usage
 
