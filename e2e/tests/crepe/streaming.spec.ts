@@ -343,6 +343,32 @@ test.describe('insert-at-cursor', () => {
     expect(markdown).toContain('Second paragraph.')
   })
 
+  test('insert inside empty list item streams correctly', async ({ page }) => {
+    await setMarkdown(page, '- ')
+    await waitNextFrame(page)
+
+    // Click inside the empty list item
+    const editor = page.locator('.editor')
+    await editor.locator('li').first().click()
+    await waitNextFrame(page)
+
+    await simulateStream(
+      page,
+      ['First line\n\nSecond paragraph.\n\n- Nested 1\n- Nested 2'],
+      { insertAt: 'cursor' }
+    )
+    await waitForFlush(page, 'Nested 2')
+
+    await page.evaluate(() => window.__endStreaming__())
+    await waitNextFrame(page)
+
+    const markdown = await getMarkdown(page)
+    expect(markdown).toContain('First line')
+    expect(markdown).toContain('Second paragraph.')
+    expect(markdown).toContain('Nested 1')
+    expect(markdown).toContain('Nested 2')
+  })
+
   test('insert inside list item uses plain text', async ({ page }) => {
     await setMarkdown(page, '- Item A\n- Item B')
     await waitNextFrame(page)
