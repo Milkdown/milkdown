@@ -207,3 +207,4 @@ editor.config((ctx) => {
 @AbortStreamingOptions
 @InsertStrategy
 @InsertStrategyResolver
+@StreamingAction

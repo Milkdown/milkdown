@@ -1,16 +1,13 @@
 import type { CommandManager } from '@milkdown/core'
 import type { Ctx } from '@milkdown/ctx'
 import type { DiffState } from '@milkdown/plugin-diff'
-import type { Change } from '@milkdown/prose/changeset'
 import type { Node } from '@milkdown/prose/model'
 
 import { commandsCtx } from '@milkdown/core'
 import {
-  acceptDiffChunkCmd,
   acceptDiffRangeCmd,
   diffPluginKey,
   getPendingChanges,
-  rejectDiffChunkCmd,
   rejectDiffRangeCmd,
 } from '@milkdown/plugin-diff'
 import { DOMSerializer } from '@milkdown/prose/model'
@@ -18,8 +15,19 @@ import { Plugin, PluginKey } from '@milkdown/prose/state'
 import { Decoration, DecorationSet } from '@milkdown/prose/view'
 import { $prose } from '@milkdown/utils'
 
+import type { ChangeSegment, MergedChange } from './merge-changes'
+
 import { withMeta } from '../__internal__/meta'
 import { diffComponentConfig } from './config'
+import {
+  addBlockDeletionDecorations,
+  coversOnlyTrailingEmptyParagraphs,
+  collectTopLevelNodes,
+  hasBlockContent,
+  isBlockSpanning,
+  snapToBlockBoundary,
+} from './doc-utils'
+import { mergeBlockChanges, splitCrossBoundaryChange } from './merge-changes'
 
 const diffDecorationKey = new PluginKey<DecorationSet>(
   'MILKDOWN_DIFF_DECORATION'
@@ -57,286 +65,97 @@ withMeta(diffDecorationPlugin, {
   group: 'DiffComponent',
 })
 
-/**
- * Check if a position range in a doc crosses a top-level block boundary.
- */
-function isBlockSpanning(doc: Node, from: number, to: number): boolean {
-  if (from === to) return false
+// ---------------------------------------------------------------------------
+// Decoration builders
+// ---------------------------------------------------------------------------
 
-  const $from = doc.resolve(from)
-  const $to = doc.resolve(to)
-
-  // If they're in different top-level blocks (depth 1), it spans blocks
-  if ($from.depth >= 1 && $to.depth >= 1) {
-    return $from.node(1) !== $to.node(1)
-  }
-
-  return $from.depth !== $to.depth
-}
-
-/**
- * Check if a slice from a doc contains block-level content.
- */
-function hasBlockContent(doc: Node, from: number, to: number): boolean {
-  if (from >= to) return false
-
-  const slice = doc.slice(from, to)
-  let hasBlock = false
-  slice.content.forEach((node) => {
-    if (node.isBlock) hasBlock = true
-  })
-  return hasBlock || slice.openStart > 0 || slice.openEnd > 0
-}
-
-/**
- * Check if a range in a doc covers only trailing empty paragraphs at the end.
- */
-function coversOnlyTrailingEmptyParagraphs(
-  doc: Node,
-  from: number,
-  to: number
-): boolean {
-  if (to !== doc.content.size) return false
-
-  const $from = doc.resolve(from)
-  if ($from.depth !== 0) return false
-
-  // Check all nodes from `from` to end are empty paragraphs
-  for (let i = $from.index(0); i < doc.childCount; i++) {
-    const child = doc.child(i)
-    if (child.type.name !== 'paragraph' || child.content.size > 0) return false
-  }
-  return true
-}
-
-/**
- * For block-level widgets, find a position between blocks rather than
- * inside an inline-content node (paragraph, heading). Walks up the
- * tree until it finds a node that can contain block children, then
- * snaps to the boundary at that depth.
- */
-function snapToBlockBoundary(doc: Node, pos: number): number {
-  const $pos = doc.resolve(pos)
-  for (let d = $pos.depth; d >= 1; d--) {
-    const parent = $pos.node(d)
-    // If this node only allows inline content, snap to before it
-    // so the widget renders between sibling blocks.
-    if (parent.isTextblock) {
-      return $pos.before(d)
-    }
-  }
-  return pos
-}
-
-/**
- * Iterate complete top-level nodes within a position range.
- * Only nodes that start at or after `from` are included —
- * callers must ensure `from` is aligned to a node boundary
- * (e.g. via getTopLevelBlockRange).
- */
-function forEachTopLevelNodeInRange(
-  doc: Node,
-  from: number,
-  to: number,
-  callback: (node: Node, start: number, end: number) => void
-): void {
-  let pos = 0
-  for (let i = 0; i < doc.childCount; i++) {
-    const child = doc.child(i)
-    const nodeEnd = pos + child.nodeSize
-    if (pos >= to) break
-    if (nodeEnd > from && pos >= from) callback(child, pos, nodeEnd)
-    pos = nodeEnd
-  }
-}
-
-/**
- * Add node-level deletion decorations for each top-level block in a range.
- * Uses Decoration.node so the class is applied to the node's outer DOM wrapper,
- * which works with custom node views (CodeMirror, image-block, etc.)
- * where Decoration.inline cannot penetrate.
- */
-function addBlockDeletionDecorations(
-  doc: Node,
-  from: number,
-  to: number,
-  classPrefix: string,
+interface CrossBoundaryOptions {
+  doc: Node
+  newDoc: Node
+  segments: ChangeSegment[]
+  change: MergedChange
+  changeIndex: number
+  classPrefix: string
+  commands: CommandManager
+  acceptLabel: string
+  rejectLabel: string
   decorations: Decoration[]
-): void {
-  forEachTopLevelNodeInRange(doc, from, to, (node, start, end) => {
-    // Skip trailing empty paragraphs (editor placeholders)
-    if (
-      end === doc.content.size &&
-      node.type.name === 'paragraph' &&
-      node.content.size === 0
-    )
-      return
-
-    decorations.push(
-      Decoration.node(start, end, {
-        class: `${classPrefix}-removed-block`,
-      })
-    )
-  })
 }
 
-/**
- * Find the enclosing top-level block node range for a position.
- * Returns { from, to } covering the entire block at depth 1.
- */
-function getTopLevelBlockRange(
-  doc: Node,
-  pos: number
-): { from: number; to: number } | null {
-  if (pos < 0 || pos > doc.content.size) return null
+/// Render a cross-boundary change as separate inline + block decorations.
+function addCrossBoundaryDecorations({
+  doc,
+  newDoc,
+  segments,
+  change,
+  changeIndex,
+  classPrefix,
+  commands,
+  acceptLabel,
+  rejectLabel,
+  decorations,
+}: CrossBoundaryOptions): void {
+  for (let j = 0; j < segments.length; j++) {
+    const seg = segments[j]!
+    const segDeletion = seg.fromA < seg.toA
+    const segInsertion = seg.fromB < seg.toB
 
-  const $pos = doc.resolve(Math.min(pos, doc.content.size))
-  if ($pos.depth >= 1) {
-    return {
-      from: $pos.before(1),
-      to: $pos.after(1),
-    }
-  }
-  return null
-}
-
-/**
- * Check if a position falls inside or at a custom block node in the given document.
- * Returns the node type name if found, or null.
- */
-function getCustomBlockAt(
-  doc: Node,
-  pos: number,
-  customBlockTypes: Set<string>
-): string | null {
-  if (pos < 0 || pos > doc.content.size) return null
-
-  const $pos = doc.resolve(Math.min(pos, doc.content.size))
-
-  // Check ancestor nodes (for positions inside tables, code blocks, etc.)
-  for (let d = $pos.depth; d >= 0; d--) {
-    const name = $pos.node(d).type.name
-    if (customBlockTypes.has(name)) return name
-  }
-
-  // Check node at/after this position (for atom/leaf nodes like image-block)
-  const nodeAfter = $pos.nodeAfter
-  if (nodeAfter && customBlockTypes.has(nodeAfter.type.name))
-    return nodeAfter.type.name
-
-  return null
-}
-
-interface MergedChange {
-  fromA: number
-  toA: number
-  fromB: number
-  toB: number
-  /** Original indices in the pending changes array (for accept/reject) */
-  originalIndices: number[]
-  /** Whether this change was merged from a custom block node (table, image-block, etc.) */
-  isCustomBlock: boolean
-}
-
-/**
- * Check if a change touches a custom block node in either document.
- */
-function changeTouchesCustomBlock(
-  change: Change,
-  doc: Node,
-  newDoc: Node,
-  customBlockTypes: Set<string>
-): boolean {
-  return (
-    getCustomBlockAt(doc, change.fromA, customBlockTypes) != null ||
-    getCustomBlockAt(doc, change.toA, customBlockTypes) != null ||
-    getCustomBlockAt(newDoc, change.fromB, customBlockTypes) != null ||
-    getCustomBlockAt(newDoc, change.toB, customBlockTypes) != null
-  )
-}
-
-/**
- * Merge changes that fall within custom block nodes (tables, image-blocks,
- * code blocks) into single block-level changes. This ensures proper rendering
- * for nodes that use custom node views where inline decorations don't work.
- */
-function mergeBlockChanges(
-  pending: readonly Change[],
-  doc: Node,
-  newDoc: Node,
-  customBlockTypes: Set<string>
-): MergedChange[] {
-  const result: MergedChange[] = []
-  const consumed = new Set<number>()
-
-  for (let i = 0; i < pending.length; i++) {
-    if (consumed.has(i)) continue
-
-    const change = pending[i]!
-
-    if (!changeTouchesCustomBlock(change, doc, newDoc, customBlockTypes)) {
-      result.push({
-        fromA: change.fromA,
-        toA: change.toA,
-        fromB: change.fromB,
-        toB: change.toB,
-        originalIndices: [i],
-        isCustomBlock: false,
-      })
-      continue
-    }
-
-    // Find the block ranges in both docs using all relevant positions
-    const blockRangeA =
-      getTopLevelBlockRange(doc, change.fromA) ??
-      getTopLevelBlockRange(doc, change.toA)
-    const blockRangeB =
-      getTopLevelBlockRange(newDoc, change.fromB) ??
-      getTopLevelBlockRange(newDoc, change.toB)
-
-    // Collect all changes that overlap with this block.
-    // Use the union of the block range and the original change range
-    // so we don't truncate changes that extend beyond the block.
-    const merged: MergedChange = {
-      fromA: Math.min(blockRangeA?.from ?? change.fromA, change.fromA),
-      toA: Math.max(blockRangeA?.to ?? change.toA, change.toA),
-      fromB: Math.min(blockRangeB?.from ?? change.fromB, change.fromB),
-      toB: Math.max(blockRangeB?.to ?? change.toB, change.toB),
-      originalIndices: [i],
-      isCustomBlock: true,
-    }
-    consumed.add(i)
-
-    for (let j = i + 1; j < pending.length; j++) {
-      if (consumed.has(j)) continue
-
-      const other = pending[j]!
-      // Check if the other change overlaps with the block range in either doc
-      // Use exclusive end boundary to avoid absorbing changes that start right after the block
-      const overlapA =
-        blockRangeA &&
-        other.fromA < blockRangeA.to &&
-        other.toA > blockRangeA.from
-      const overlapB =
-        blockRangeB &&
-        other.fromB < blockRangeB.to &&
-        other.toB > blockRangeB.from
-
-      if (overlapA || overlapB) {
-        consumed.add(j)
-        merged.originalIndices.push(j)
-        // Expand the merged range to include this change
-        merged.fromA = Math.min(merged.fromA, other.fromA)
-        merged.toA = Math.max(merged.toA, other.toA)
-        merged.fromB = Math.min(merged.fromB, other.fromB)
-        merged.toB = Math.max(merged.toB, other.toB)
+    if (segDeletion) {
+      if (seg.isBlock) {
+        addBlockDeletionDecorations(
+          doc,
+          seg.fromA,
+          seg.toA,
+          classPrefix,
+          decorations
+        )
+      } else {
+        decorations.push(
+          Decoration.inline(seg.fromA, seg.toA, {
+            class: `${classPrefix}-removed`,
+          })
+        )
       }
     }
 
-    result.push(merged)
+    if (segInsertion) {
+      const widgetPos = seg.isBlock
+        ? snapToBlockBoundary(doc, segDeletion ? seg.toA : seg.fromA)
+        : segDeletion
+          ? seg.toA
+          : seg.fromA
+      const widget = createInsertedWidget(newDoc, seg, classPrefix, seg.isBlock)
+      decorations.push(
+        Decoration.widget(widgetPos, widget, {
+          side: -1,
+          key: `added-${changeIndex}-${j}`,
+        })
+      )
+    }
   }
 
-  return result
+  // One set of controls for the full change, at block boundary
+  const lastSeg = segments[segments.length - 1]!
+  const lastSegEnd = lastSeg.isBlock
+    ? lastSeg.fromA < lastSeg.toA
+      ? lastSeg.toA
+      : lastSeg.fromA
+    : change.toA
+  const controlsPos = snapToBlockBoundary(doc, lastSegEnd)
+  const controls = createControlsWidget({
+    commands,
+    classPrefix,
+    isBlockLevel: true,
+    change,
+    acceptLabel,
+    rejectLabel,
+  })
+  decorations.push(
+    Decoration.widget(controlsPos, controls, {
+      side: -1,
+      key: `controls-${changeIndex}`,
+    })
+  )
 }
 
 function buildDecorations(
@@ -378,15 +197,51 @@ function buildDecorations(
 
     const deletionSpansBlocks =
       isDeletion && isBlockSpanning(doc, change.fromA, change.toA)
+    const deletionHasBlocks =
+      isDeletion && hasBlockContent(doc, change.fromA, change.toA)
     const insertionHasBlocks =
       isInsertion && hasBlockContent(diffState.newDoc, change.fromB, change.toB)
-    const isBlockLevel = deletionSpansBlocks || insertionHasBlocks
 
-    // Deletion: mark old content as removed
+    // Changes entirely within a single top-level block in the old doc
+    // (e.g. list item text edits, blockquote text changes) should render
+    // as inline — the old-doc slice may contain sub-block nodes but the
+    // edit itself is inline-level.
+    // Only apply when neither side contains block content, otherwise
+    // we'd render block nodes inside a <span> (invalid DOM).
+    const deletionWithinSingleBlock =
+      isDeletion &&
+      !deletionSpansBlocks &&
+      !deletionHasBlocks &&
+      !change.isCustomBlock &&
+      !insertionHasBlocks
+    const isBlockLevel =
+      (deletionSpansBlocks || deletionHasBlocks || insertionHasBlocks) &&
+      !deletionWithinSingleBlock
+
+    // Try to split cross-boundary changes into inline + block segments
+    // so both the inline text change and block additions are visible.
+    if (isBlockLevel && !change.isCustomBlock) {
+      const segments = splitCrossBoundaryChange(doc, diffState.newDoc, change)
+      if (segments) {
+        addCrossBoundaryDecorations({
+          doc,
+          newDoc: diffState.newDoc,
+          segments,
+          change,
+          changeIndex: i,
+          classPrefix,
+          commands,
+          acceptLabel: config.acceptLabel,
+          rejectLabel: config.rejectLabel,
+          decorations,
+        })
+        continue
+      }
+    }
+
+    // Non-split path: render as a single change
     if (isDeletion) {
-      if (change.isCustomBlock) {
-        // For custom block changes (tables, image-blocks, code blocks),
-        // use node decorations so custom node views get the styling.
+      if (change.isCustomBlock || isBlockLevel) {
         addBlockDeletionDecorations(
           doc,
           change.fromA,
@@ -403,16 +258,11 @@ function buildDecorations(
       }
     }
 
-    // Insertion widget position
     const rawWidgetPos = isDeletion ? change.toA : change.fromA
-
-    // For block-level widgets, snap to between top-level blocks
-    // so they don't render inside headings/paragraphs
     const widgetPos = isBlockLevel
       ? snapToBlockBoundary(doc, rawWidgetPos)
       : rawWidgetPos
 
-    // Insertion: show new content as a widget
     if (isInsertion) {
       const widget = createInsertedWidget(
         diffState.newDoc,
@@ -421,21 +271,18 @@ function buildDecorations(
         isBlockLevel
       )
       decorations.push(
-        Decoration.widget(widgetPos, widget, {
-          side: -1,
-          key: `added-${i}`,
-        })
+        Decoration.widget(widgetPos, widget, { side: -1, key: `added-${i}` })
       )
     }
 
-    const controls = createControlsWidget(
+    const controls = createControlsWidget({
       commands,
       classPrefix,
       isBlockLevel,
       change,
-      config.acceptLabel,
-      config.rejectLabel
-    )
+      acceptLabel: config.acceptLabel,
+      rejectLabel: config.rejectLabel,
+    })
     decorations.push(
       Decoration.widget(widgetPos, controls, {
         side: isBlockLevel ? -1 : 1,
@@ -446,6 +293,10 @@ function buildDecorations(
 
   return DecorationSet.create(doc, decorations)
 }
+
+// ---------------------------------------------------------------------------
+// Widget creators
+// ---------------------------------------------------------------------------
 
 function createInsertedWidget(
   newDoc: Node,
@@ -481,29 +332,38 @@ function createInsertedWidget(
   const fragment = serializer.serializeFragment(slice.content)
   dom.appendChild(fragment)
 
+  // If serialization produced no visible content (but not images/media),
+  // fall back to plain text
+  if (
+    !dom.textContent?.trim() &&
+    !dom.querySelector('img, video, audio, canvas, svg')
+  ) {
+    const fallback = newDoc.textBetween(change.fromB, change.toB, '\n', '\n')
+    if (fallback.trim()) {
+      dom.textContent = fallback
+    }
+  }
+
   return dom
 }
 
-/**
- * Collect complete top-level nodes within a position range.
- * Returns empty array if the range doesn't align with node boundaries.
- */
-function collectTopLevelNodes(doc: Node, from: number, to: number): Node[] {
-  const nodes: Node[] = []
-  forEachTopLevelNodeInRange(doc, from, to, (node) => {
-    nodes.push(node)
-  })
-  return nodes
+interface ControlsWidgetOptions {
+  commands: CommandManager
+  classPrefix: string
+  isBlockLevel: boolean
+  change: MergedChange
+  acceptLabel: string
+  rejectLabel: string
 }
 
-function createControlsWidget(
-  commands: CommandManager,
-  classPrefix: string,
-  isBlockLevel: boolean,
-  change: MergedChange,
-  acceptLabel: string,
-  rejectLabel: string
-): HTMLElement {
+function createControlsWidget({
+  commands,
+  classPrefix,
+  isBlockLevel,
+  change,
+  acceptLabel,
+  rejectLabel,
+}: ControlsWidgetOptions): HTMLElement {
   const dom = document.createElement(isBlockLevel ? 'div' : 'span')
   dom.className = `${classPrefix}-controls`
   dom.contentEditable = 'false'
@@ -512,24 +372,17 @@ function createControlsWidget(
   const handler = (action: 'accept' | 'reject') => (e: Event) => {
     e.preventDefault()
     e.stopPropagation()
-    if (change.isCustomBlock) {
-      // For merged custom block changes, use range-based commands
-      // so the entire block is accepted/rejected at once.
-      const range = {
-        fromA: change.fromA,
-        toA: change.toA,
-        fromB: change.fromB,
-        toB: change.toB,
-      }
-      const key =
-        action === 'accept' ? acceptDiffRangeCmd.key : rejectDiffRangeCmd.key
-      commands.call(key, range)
-    } else {
-      // Non-custom-block changes always have exactly one original index
-      const key =
-        action === 'accept' ? acceptDiffChunkCmd.key : rejectDiffChunkCmd.key
-      commands.call(key, change.originalIndices[0])
+    // Always use range-based commands — works for both custom blocks
+    // and split cross-boundary changes.
+    const range = {
+      fromA: change.fromA,
+      toA: change.toA,
+      fromB: change.fromB,
+      toB: change.toB,
     }
+    const key =
+      action === 'accept' ? acceptDiffRangeCmd.key : rejectDiffRangeCmd.key
+    commands.call(key, range)
   }
 
   const acceptBtn = document.createElement('button')

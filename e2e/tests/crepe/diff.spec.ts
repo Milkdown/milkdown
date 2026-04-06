@@ -159,15 +159,18 @@ test.describe('block diff', () => {
     await expect(addedBlock.first()).toBeVisible()
   })
 
-  test('deleted heading shows strikethrough', async ({ page }) => {
+  test('deleted heading is marked as removed', async ({ page }) => {
     await applyDiff(
       page,
       '# First\n\n## Second\n\nParagraph.',
       '# First\n\nParagraph.'
     )
 
+    // Deleting a whole heading is a block-level removal.
     const editor = page.locator('.editor')
-    const removed = editor.locator('.milkdown-diff-removed')
+    const removed = editor.locator(
+      '.milkdown-diff-removed, .milkdown-diff-removed-block'
+    )
     await expect(removed.first()).toBeVisible()
   })
 
@@ -183,6 +186,80 @@ test.describe('block diff', () => {
 
     const markdown = await getMarkdown(page)
     expect(markdown).toContain('Item 3')
+  })
+
+  test('cross-boundary change splits into inline and block segments', async ({
+    page,
+  }) => {
+    // Edit at the end of a paragraph AND add a following paragraph in one diff.
+    // Expect both an inline change (' extra') and a block-level added widget
+    // containing the new paragraph.
+    await applyDiff(
+      page,
+      '# Heading\n\nFirst paragraph.',
+      '# Heading\n\nFirst paragraph. extra\n\nSecond paragraph.'
+    )
+
+    const editor = page.locator('.editor')
+    const addedInline = editor.locator(
+      '.milkdown-diff-added:not(.milkdown-diff-added-block)'
+    )
+    const addedBlock = editor.locator('.milkdown-diff-added-block')
+
+    await expect(addedInline.first()).toBeVisible()
+    await expect(addedBlock.first()).toBeVisible()
+
+    await page.evaluate(() => window.__acceptAll__())
+    await waitNextFrame(page)
+
+    const markdown = await getMarkdown(page)
+    expect(markdown).toContain('First paragraph. extra')
+    expect(markdown).toContain('Second paragraph.')
+  })
+
+  test('within-block edit in list item renders as inline', async ({ page }) => {
+    // Text edit inside a list item paragraph — the old-doc slice contains
+    // sub-block nodes (list_item) but the edit itself is inline.
+    // Should render with inline decorations, not block-level widgets.
+    await applyDiff(page, '- Item one\n- Item two', '- Item ONE\n- Item two')
+
+    const editor = page.locator('.editor')
+    const addedInline = editor.locator(
+      '.milkdown-diff-added:not(.milkdown-diff-added-block)'
+    )
+    const removedInline = editor.locator(
+      '.milkdown-diff-removed:not(.milkdown-diff-removed-block)'
+    )
+
+    await expect(addedInline.first()).toBeVisible()
+    await expect(removedInline.first()).toBeVisible()
+
+    await page.evaluate(() => window.__acceptAll__())
+    await waitNextFrame(page)
+
+    const markdown = await getMarkdown(page)
+    expect(markdown).toContain('Item ONE')
+    expect(markdown).toContain('Item two')
+  })
+
+  test('within-block edit in blockquote renders as inline', async ({
+    page,
+  }) => {
+    await applyDiff(page, '> Quote text\n\nAfter.', '> Quote CHANGED\n\nAfter.')
+
+    const editor = page.locator('.editor')
+    const addedInline = editor.locator(
+      '.milkdown-diff-added:not(.milkdown-diff-added-block)'
+    )
+
+    await expect(addedInline.first()).toBeVisible()
+
+    await page.evaluate(() => window.__acceptAll__())
+    await waitNextFrame(page)
+
+    const markdown = await getMarkdown(page)
+    expect(markdown).toContain('Quote CHANGED')
+    expect(markdown).toContain('After.')
   })
 })
 
