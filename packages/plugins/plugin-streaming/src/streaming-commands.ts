@@ -37,15 +37,18 @@ export const startStreamingCmd = $command('StartStreaming', () => {
           Math.min(Math.round(rawPos), state.doc.content.size)
         )
 
-        // If cursor is inside an empty textblock (e.g. empty paragraph),
-        // snap the range to cover the whole block so that inserting
-        // block-level content replaces it cleanly without splitting.
+        // If cursor is inside a top-level empty textblock (e.g. the default
+        // empty paragraph in a new editor), snap the range to cover the whole
+        // block so that block-level content replaces it cleanly.
+        // Only depth === 1 — nested empty textblocks (inside list items,
+        // blockquotes, etc.) should not be snapped; the normal strategy
+        // handles them correctly at their original position.
         const resolved = state.doc.resolve(insertPos)
         if (
           resolved.parent.isTextblock &&
           !resolved.parent.type.spec.code &&
           resolved.parent.content.size === 0 &&
-          resolved.depth > 0
+          resolved.depth === 1
         ) {
           insertPos = resolved.before(resolved.depth)
           insertEndPos = resolved.after(resolved.depth)
