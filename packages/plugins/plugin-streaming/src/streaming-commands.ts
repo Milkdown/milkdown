@@ -113,7 +113,9 @@ export const endStreamingCmd = $command('EndStreaming', (ctx) => {
         type: 'end',
       } satisfies StreamingAction)
 
-      // Diff review handoff: restore original doc, then start diff review
+      // Diff review handoff: restore original doc, then start diff review.
+      // Note: when lockDuringStreaming is disabled, restoring originalDoc
+      // discards any concurrent edits made during the streaming session.
       if (diffReview && result.newDoc) {
         const finalDoc = tr.doc
 
@@ -160,7 +162,9 @@ export const abortStreamingCmd = $command('AbortStreaming', () => {
       let tr = state.tr
 
       if (!keep) {
-        // Restore original document (both insert and replace modes)
+        // Restore original document (both insert and replace modes).
+        // Note: when lockDuringStreaming is disabled, this discards any
+        // concurrent edits made during the streaming session.
         tr = tr.replace(
           0,
           state.doc.content.size,
