@@ -208,6 +208,31 @@ test.describe('insert-at-cursor', () => {
     expect(markdown).toContain('After.')
   })
 
+  test('insert at cursor replaces empty paragraph with blocks', async ({
+    page,
+  }) => {
+    // Empty editor has a single empty paragraph — streaming should replace it
+    const editor = page.locator('.editor')
+    await editor.locator('p').first().click()
+    await waitNextFrame(page)
+
+    await simulateStream(
+      page,
+      ['# Hello\n\nA paragraph.\n\n- Item 1\n- Item 2'],
+      { insertAt: 'cursor' }
+    )
+    await waitForFlush(page, 'Item 2')
+
+    await page.evaluate(() => window.__endStreaming__())
+    await waitNextFrame(page)
+
+    const markdown = await getMarkdown(page)
+    expect(markdown).toContain('# Hello')
+    expect(markdown).toContain('A paragraph.')
+    expect(markdown).toContain('Item 1')
+    expect(markdown).toContain('Item 2')
+  })
+
   test('insert at end of document', async ({ page }) => {
     await setMarkdown(page, 'Existing content.')
     await waitNextFrame(page)
