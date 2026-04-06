@@ -155,7 +155,7 @@ withMeta(endStreamingCmd, {
 
 /// Abort the streaming session. Optionally keep partial content or
 /// restore the original document.
-export const abortStreamingCmd = $command('AbortStreaming', () => {
+export const abortStreamingCmd = $command('AbortStreaming', (ctx) => {
   return (options?: AbortStreamingOptions) => (state, dispatch) => {
     const streamingState = streamingPluginKey.getState(state)
     if (!streamingState?.active) return false
@@ -164,7 +164,11 @@ export const abortStreamingCmd = $command('AbortStreaming', () => {
       const keep = options?.keep ?? false
       let tr = state.tr
 
-      if (!keep) {
+      if (keep) {
+        // Final flush to ensure latest buffered tokens are applied
+        const result = performFlush(ctx, tr, streamingState)
+        tr = result.tr
+      } else {
         // Restore original document (both insert and replace modes).
         // Note: when lockDuringStreaming is disabled, this discards any
         // concurrent edits made during the streaming session.
