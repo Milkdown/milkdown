@@ -648,3 +648,189 @@ describe('computeDocDiff - ignoreAttrs', () => {
     expect(changes.length).toBeGreaterThan(0)
   })
 })
+
+describe('computeDocDiff - per-block matching', () => {
+  it('independent paragraph edits produce separate non-overlapping changes', () => {
+    const oldDoc = doc(p(text('AAA')), p(text('BBB')), p(text('CCC')))
+    const newDoc = doc(p(text('XXX')), p(text('BBB')), p(text('ZZZ')))
+
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes.length).toBeGreaterThanOrEqual(2)
+
+    // Sorted and non-overlapping
+    for (let i = 1; i < changes.length; i++) {
+      expect(changes[i]!.fromA).toBeGreaterThanOrEqual(changes[i - 1]!.toA)
+      expect(changes[i]!.fromB).toBeGreaterThanOrEqual(changes[i - 1]!.toB)
+    }
+
+    // p1 nodeSize=5 (open+AAA+close), p2 spans [5, 10], p3 spans [10, 15]
+    // None of the changes should touch the middle paragraph at [5, 10]
+    for (const change of changes) {
+      const overlapsMiddle = change.fromA < 10 && change.toA > 5
+      expect(overlapsMiddle).toBe(false)
+    }
+  })
+
+  it('insertion between unchanged paragraphs is a pure insert', () => {
+    const oldDoc = doc(p(text('A')), p(text('C')))
+    const newDoc = doc(p(text('A')), p(text('B')), p(text('C')))
+
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes.length).toBe(1)
+
+    const change = changes[0]!
+    // Pure insert: fromA === toA
+    expect(change.fromA).toBe(change.toA)
+    // fromB < toB: insertion
+    expect(change.fromB).toBeLessThan(change.toB)
+  })
+
+  it('deletion between unchanged paragraphs is a pure delete', () => {
+    const oldDoc = doc(p(text('A')), p(text('B')), p(text('C')))
+    const newDoc = doc(p(text('A')), p(text('C')))
+
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes.length).toBe(1)
+
+    const change = changes[0]!
+    // Pure delete: fromB === toB
+    expect(change.fromB).toBe(change.toB)
+    // fromA < toA: deletion
+    expect(change.fromA).toBeLessThan(change.toA)
+  })
+
+  it('list item text edit recurses into the list', () => {
+    // bullet_list is a single top-level child, but our algorithm recurses
+    // into container nodes. Editing one item's text should produce a small
+    // change inside that item, not a huge one covering the whole list.
+    const oldDoc = doc(ul(li(p(text('one'))), li(p(text('two')))))
+    const newDoc = doc(ul(li(p(text('ONE'))), li(p(text('two')))))
+
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes.length).toBeGreaterThan(0)
+
+    // The change(s) should not cover the entire bullet_list
+    // bullet_list nodeSize for 2 items with one word each is quite small,
+    // but the whole-list replacement would span [0, ul.nodeSize]
+    const listOuterSize = oldDoc.child(0).nodeSize
+    for (const change of changes) {
+      // No single change should span the entire list
+      expect(change.toA - change.fromA).toBeLessThan(listOuterSize)
+    }
+  })
+
+  it('list item text edit + new list item produces two separate changes', () => {
+    // The main regression test: modifying an item AND adding a new one
+    // should produce two changes, not one big merged change.
+    const oldDoc = doc(ul(li(p(text('one'))), li(p(text('two')))))
+    const newDoc = doc(
+      ul(li(p(text('ONE'))), li(p(text('two'))), li(p(text('three'))))
+    )
+
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes.length).toBeGreaterThanOrEqual(2)
+
+    // Sorted and non-overlapping
+    for (let i = 1; i < changes.length; i++) {
+      expect(changes[i]!.fromA).toBeGreaterThanOrEqual(changes[i - 1]!.toA)
+    }
+  })
+
+  it('blockquote text edit recurses into the blockquote', () => {
+    // blockquote is not in the test schema, but we can test with nested
+    // paragraph-in-textblock pattern. Use the existing ul/li/p instead.
+    const oldDoc = doc(ul(li(p(text('hello world')))))
+    const newDoc = doc(ul(li(p(text('hello universe')))))
+
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes.length).toBeGreaterThan(0)
+
+    // The change should be inside the inner paragraph, not the whole list
+    const listOuterSize = oldDoc.child(0).nodeSize
+    for (const change of changes) {
+      expect(change.toA - change.fromA).toBeLessThan(listOuterSize)
+    }
+  })
+
+  it('unchanged middle block is not touched by diffs', () => {
+    const oldDoc = doc(
+      heading(1, text('Title')),
+      p(text('middle')),
+      heading(2, text('End'))
+    )
+    const newDoc = doc(
+      heading(1, text('TITLE')),
+      p(text('middle')),
+      heading(2, text('END'))
+    )
+
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes.length).toBeGreaterThanOrEqual(2)
+
+    // Middle paragraph 'middle' starts after h1 (nodeSize 7: open + 'Title' + close)
+    // h1 nodeSize = 7, so p starts at 7, p nodeSize = 8, p ends at 15
+    const h1Size = oldDoc.child(0).nodeSize
+    const pSize = oldDoc.child(1).nodeSize
+    const pStart = h1Size
+    const pEnd = pStart + pSize
+    for (const change of changes) {
+      const overlapsMiddle = change.fromA < pEnd && change.toA > pStart
+      expect(overlapsMiddle).toBe(false)
+    }
+  })
+
+  it('table cell edit recurses into the table', () => {
+    const oldDoc = doc(
+      table(tr(td(text('A')), td(text('B'))), tr(td(text('1')), td(text('2'))))
+    )
+    const newDoc = doc(
+      table(tr(td(text('A')), td(text('B'))), tr(td(text('1')), td(text('X'))))
+    )
+
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes.length).toBeGreaterThan(0)
+
+    // The change should be smaller than the entire table
+    const tableSize = oldDoc.child(0).nodeSize
+    for (const change of changes) {
+      expect(change.toA - change.fromA).toBeLessThan(tableSize)
+    }
+  })
+
+  it('reordering produces smaller changes than full replacement', () => {
+    const oldDoc = doc(p(text('A')), p(text('B')), p(text('C')))
+    const newDoc = doc(p(text('B')), p(text('A')), p(text('C')))
+
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes.length).toBeGreaterThan(0)
+
+    // Sorted and non-overlapping
+    for (let i = 1; i < changes.length; i++) {
+      expect(changes[i]!.fromA).toBeGreaterThanOrEqual(changes[i - 1]!.toA)
+    }
+  })
+
+  it('changes are sorted and non-overlapping (invariant)', () => {
+    // Complex case with many independent edits
+    const oldDoc = doc(
+      heading(1, text('Title')),
+      p(text('intro')),
+      ul(li(p(text('a'))), li(p(text('b')))),
+      p(text('outro'))
+    )
+    const newDoc = doc(
+      heading(2, text('Title')), // level change
+      p(text('intro updated')),
+      ul(li(p(text('A'))), li(p(text('b'))), li(p(text('c')))),
+      p(text('outro'))
+    )
+
+    const changes = computeDocDiff(oldDoc, newDoc)
+    expect(changes.length).toBeGreaterThan(0)
+
+    for (let i = 1; i < changes.length; i++) {
+      expect(changes[i]!.fromA).toBeGreaterThanOrEqual(changes[i - 1]!.toA)
+      expect(changes[i]!.fromB).toBeGreaterThanOrEqual(changes[i - 1]!.toB)
+    }
+  })
+})

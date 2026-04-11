@@ -1,7 +1,39 @@
 import type { Change } from '@milkdown/prose/changeset'
 import type { Node } from '@milkdown/prose/model'
 
-import { getCustomBlockAt, getTopLevelBlockRange } from './doc-utils'
+import {
+  getCustomBlockAncestor,
+  getCustomBlockAt,
+  getTopLevelBlockRange,
+  trailingEmptyParagraphStart,
+} from './doc-utils'
+
+/// Half-open interval overlap: do [a1, a2) and [b1, b2) share any position?
+function overlaps(a1: number, a2: number, b1: number, b2: number): boolean {
+  return a1 < b2 && a2 > b1
+}
+
+/// Does a range [from, to) in `doc` touch a custom block?
+///
+/// Non-empty ranges use the full boundary check — a position at the edge
+/// of a custom block counts as touching. Empty ranges (from === to) only
+/// count if the anchor is *inside* a custom block's ancestor chain; a
+/// point sitting between two top-level nodes isn't touching either
+/// neighbour and shouldn't trigger custom-block merging.
+function touchesCustomBlockRange(
+  doc: Node,
+  from: number,
+  to: number,
+  customBlockTypes: Set<string>
+): boolean {
+  if (from === to) {
+    return getCustomBlockAncestor(doc, from, customBlockTypes) != null
+  }
+  return (
+    getCustomBlockAt(doc, from, customBlockTypes) != null ||
+    getCustomBlockAt(doc, to, customBlockTypes, true) != null
+  )
+}
 
 export interface MergedChange {
   fromA: number
@@ -100,10 +132,8 @@ function changeTouchesCustomBlock(
   customBlockTypes: Set<string>
 ): boolean {
   return (
-    getCustomBlockAt(doc, change.fromA, customBlockTypes) != null ||
-    getCustomBlockAt(doc, change.toA, customBlockTypes, true) != null ||
-    getCustomBlockAt(newDoc, change.fromB, customBlockTypes) != null ||
-    getCustomBlockAt(newDoc, change.toB, customBlockTypes, true) != null
+    touchesCustomBlockRange(doc, change.fromA, change.toA, customBlockTypes) ||
+    touchesCustomBlockRange(newDoc, change.fromB, change.toB, customBlockTypes)
   )
 }
 
@@ -135,32 +165,25 @@ export function mergeBlockChanges(
       continue
     }
 
-    // Only expand each side when that side actually touches a custom block.
-    // Choose the endpoint based on which one actually touches the custom
-    // block — otherwise getTopLevelBlockRange would return an unrelated
-    // adjacent node.
-    const aFromTouches =
-      getCustomBlockAt(doc, change.fromA, customBlockTypes) != null
-    const aToTouches =
-      getCustomBlockAt(doc, change.toA, customBlockTypes, true) != null
-    const bFromTouches =
-      getCustomBlockAt(newDoc, change.fromB, customBlockTypes) != null
-    const bToTouches =
-      getCustomBlockAt(newDoc, change.toB, customBlockTypes, true) != null
-    const blockRangeA = aFromTouches
-      ? getTopLevelBlockRange(doc, change.fromA)
-      : aToTouches
-        ? getTopLevelBlockRange(doc, change.toA, true)
-        : null
-    const blockRangeB = bFromTouches
-      ? getTopLevelBlockRange(newDoc, change.fromB)
-      : bToTouches
-        ? getTopLevelBlockRange(newDoc, change.toB, true)
-        : null
+    // Expand each side to the enclosing top-level block when that side
+    // actually touches a custom block. For pure inserts/deletes, only the
+    // ancestor check counts — a boundary anchor next to a block doesn't
+    // drag the block into the merge.
+    const blockRangeA = expandToCustomBlockRange(
+      doc,
+      change.fromA,
+      change.toA,
+      customBlockTypes
+    )
+    const blockRangeB = expandToCustomBlockRange(
+      newDoc,
+      change.fromB,
+      change.toB,
+      customBlockTypes
+    )
 
-    // Collect all changes that overlap with this block.
-    // Use the union of the block range and the original change range
-    // so we don't truncate changes that extend beyond the block.
+    // Union of the block range and the original change range so we don't
+    // truncate changes that extend beyond the block.
     const merged: MergedChange = {
       fromA: Math.min(blockRangeA?.from ?? change.fromA, change.fromA),
       toA: Math.max(blockRangeA?.to ?? change.toA, change.toA),
@@ -170,33 +193,90 @@ export function mergeBlockChanges(
     }
     consumed.add(i)
 
+    // Absorb any later changes that overlap the block range in either doc.
     for (let j = i + 1; j < pending.length; j++) {
       if (consumed.has(j)) continue
-
       const other = pending[j]!
-      // Check if the other change overlaps with the block range in either doc
-      // Use exclusive end boundary to avoid absorbing changes that start right after the block
       const overlapA =
         blockRangeA &&
-        other.fromA < blockRangeA.to &&
-        other.toA > blockRangeA.from
+        overlaps(other.fromA, other.toA, blockRangeA.from, blockRangeA.to)
       const overlapB =
         blockRangeB &&
-        other.fromB < blockRangeB.to &&
-        other.toB > blockRangeB.from
-
-      if (overlapA || overlapB) {
-        consumed.add(j)
-        // Expand the merged range to include this change
-        merged.fromA = Math.min(merged.fromA, other.fromA)
-        merged.toA = Math.max(merged.toA, other.toA)
-        merged.fromB = Math.min(merged.fromB, other.fromB)
-        merged.toB = Math.max(merged.toB, other.toB)
-      }
+        overlaps(other.fromB, other.toB, blockRangeB.from, blockRangeB.to)
+      if (!overlapA && !overlapB) continue
+      consumed.add(j)
+      merged.fromA = Math.min(merged.fromA, other.fromA)
+      merged.toA = Math.max(merged.toA, other.toA)
+      merged.fromB = Math.min(merged.fromB, other.fromB)
+      merged.toB = Math.max(merged.toB, other.toB)
     }
 
-    result.push(merged)
+    // Coalesce with an already-emitted merged change whose custom-block
+    // range overlaps this one. Two seed changes can independently expand
+    // to cover the same custom block (e.g. a deletion just before a table
+    // and an insertion just after it), which would otherwise render the
+    // same block as a widget twice.
+    const existing = result.find(
+      (prev) =>
+        prev.isCustomBlock &&
+        (overlaps(merged.fromA, merged.toA, prev.fromA, prev.toA) ||
+          overlaps(merged.fromB, merged.toB, prev.fromB, prev.toB))
+    )
+    if (existing) {
+      existing.fromA = Math.min(existing.fromA, merged.fromA)
+      existing.toA = Math.max(existing.toA, merged.toA)
+      existing.fromB = Math.min(existing.fromB, merged.fromB)
+      existing.toB = Math.max(existing.toB, merged.toB)
+    } else {
+      result.push(merged)
+    }
   }
 
   return result
+}
+
+/// Remap pure inserts that sit at or past the doc's run of trailing empty
+/// paragraphs so they anchor *before* the empty paragraph instead of after.
+///
+/// Editors like Crepe always keep an empty paragraph at the doc end. A pure
+/// insert produced at `fromA === doc.content.size` would otherwise be spliced
+/// after the trailing empty paragraph, pushing it out of its trailing slot.
+/// The next diff recompute would then see the empty paragraph as middle-of-doc
+/// content that needs to be deleted, flashing an empty-looking removal widget.
+export function anchorTrailingInsertsBeforeEmptyParagraph(
+  changes: MergedChange[],
+  doc: Node
+): void {
+  const trailingStart = trailingEmptyParagraphStart(doc)
+  if (trailingStart === doc.content.size) return
+  for (const change of changes) {
+    const isPureInsert =
+      change.fromA === change.toA && change.fromB < change.toB
+    if (isPureInsert && change.fromA >= trailingStart) {
+      change.fromA = trailingStart
+      change.toA = trailingStart
+    }
+  }
+}
+
+/// Pick the top-level block range enclosing a custom block touched by
+/// [from, to). Returns null if neither endpoint actually touches a custom
+/// block (see `touchesCustomBlockRange` for the touch rules).
+function expandToCustomBlockRange(
+  doc: Node,
+  from: number,
+  to: number,
+  customBlockTypes: Set<string>
+): { from: number; to: number } | null {
+  if (from === to) {
+    if (getCustomBlockAncestor(doc, from, customBlockTypes) == null) return null
+    return getTopLevelBlockRange(doc, from)
+  }
+  if (getCustomBlockAt(doc, from, customBlockTypes) != null) {
+    return getTopLevelBlockRange(doc, from)
+  }
+  if (getCustomBlockAt(doc, to, customBlockTypes, true) != null) {
+    return getTopLevelBlockRange(doc, to, true)
+  }
+  return null
 }
