@@ -525,13 +525,17 @@ function isFullDocRange(
 }
 
 /// A boundary-aligned subtree pair extracted from a sub-region range.
-/// Both cuts share the same `contentStart` because the path from doc root
-/// to the shared ancestor is identical (in type, attrs, and absolute
-/// position) in old and new docs.
+///
+/// `cutAbsStart` is the absolute doc position where the cut subtree's
+/// first child sits in the original doc. It equals the range's `from`,
+/// and is the same in both docs because the precondition loop verifies
+/// the path from the doc root to the shared ancestor has the same
+/// absolute starts on both sides. It's the value to pass as
+/// `contentStart` to `diffChildrenLcs`.
 interface RangeSubtree {
   oldCut: Node
   newCut: Node
-  contentStart: number
+  cutAbsStart: number
 }
 
 /// Try to reduce a `[from, to)` sub-region into a pair of cut subtrees
@@ -589,19 +593,19 @@ function tryBuildRangeSubtree(
     return null
 
   const sharedNew = $newFrom.node(sharedDepth)
-  const contentStart = $oldFrom.start(sharedDepth)
-  const localFrom = from - contentStart
-  const localTo = to - contentStart
+  const ancestorContentStart = $oldFrom.start(sharedDepth)
+  const localFrom = from - ancestorContentStart
+  const localTo = to - ancestorContentStart
 
   // Boundary-aligned cut: Fragment.cut leaves child nodes untouched and
   // only adjusts which children are included.
   const oldCut = sharedOld.copy(sharedOld.content.cut(localFrom, localTo))
   const newCut = sharedNew.copy(sharedNew.content.cut(localFrom, localTo))
 
-  // The cut node's first child has offset 0 in its own content but
-  // absolute position `from` in the original doc, so `from` is the right
-  // contentStart to feed back to diffChildrenLcs.
-  return { oldCut, newCut, contentStart: from }
+  // The cut node's first child has offset 0 inside the cut but absolute
+  // position `from` in the original doc, so `from` is the contentStart
+  // we should hand back to diffChildrenLcs.
+  return { oldCut, newCut, cutAbsStart: from }
 }
 
 /// Compute fine-grained changes between two ProseMirror documents.
@@ -649,8 +653,8 @@ export function computeDocDiff(
   return diffChildrenLcs(
     subtree.oldCut,
     subtree.newCut,
-    subtree.contentStart,
-    subtree.contentStart,
+    subtree.cutAbsStart,
+    subtree.cutAbsStart,
     makeEnv(encoder)
   )
 }
