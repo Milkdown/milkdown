@@ -37,7 +37,7 @@ const LCS_MAX_CHILDREN = 500
  */
 function createDiffEncoder(
   ignoreAttrs: DiffIgnoreAttrs = {}
-): TokenEncoder<null> {
+): TokenEncoder<string | number> {
   // Cache individual mark tokens and combined mark-set tokens.
   // ProseMirror marks are ordered by type rank and structurally shared,
   // so the same readonly Mark[] reference is reused for identical mark sets.
@@ -67,13 +67,13 @@ function createDiffEncoder(
 
   return {
     encodeCharacter: (char: number, marks: readonly Mark[]) => {
-      if (marks.length === 0) return char as unknown as null
+      if (marks.length === 0) return char
       let combined = markSetCache.get(marks)
       if (combined == null) {
         combined = marks.map(encodeMark).join(',')
         markSetCache.set(marks, combined)
       }
-      return `${char}:${combined}` as unknown as null
+      return `${char}:${combined}`
     },
     encodeNodeStart: (node: Node) => {
       const attrs = node.attrs
@@ -89,10 +89,10 @@ function createDiffEncoder(
           for (const key of relevantKeys.sort()) {
             encoded[key] = attrs[key]
           }
-          return `${node.type.name}:${JSON.stringify(encoded)}` as unknown as null
+          return `${node.type.name}:${JSON.stringify(encoded)}`
         }
       }
-      return node.type.name as unknown as null
+      return node.type.name
     },
     encodeNodeEnd: (node: Node) => {
       const schema = node.type.schema
@@ -103,9 +103,9 @@ function createDiffEncoder(
       if (id == null)
         cache[node.type.name] = id =
           Object.keys(schema.nodes).indexOf(node.type.name) + 1
-      return -id as unknown as null
+      return -id
     },
-    compareTokens: (a: unknown, b: unknown) => a === b,
+    compareTokens: (a, b) => a === b,
   }
 }
 
@@ -114,7 +114,7 @@ function createDiffEncoder(
 /// equal for LCS matching (respects ignoreAttrs via the encoder).
 function nodeSignature(
   node: Node,
-  encoder: TokenEncoder<null>,
+  encoder: TokenEncoder<string | number>,
   cache: WeakMap<Node, string>
 ): string {
   const cached = cache.get(node)
@@ -157,7 +157,7 @@ interface ParentPair {
 
 /// Shared state carried through the per-block recursion.
 interface LcsEnv {
-  encoder: TokenEncoder<null>
+  encoder: TokenEncoder<string | number>
   sigCache: WeakMap<Node, string>
 }
 
@@ -310,6 +310,30 @@ function pureInsert(child: TopChild, anchorA: number, absB: number): Change {
   })
 }
 
+/// Large-container fallback: diff the container's content directly with
+/// a single ChangeSet, without wrapping. Positions returned by the
+/// changeset are relative to the container's content and get translated
+/// to absolute doc positions via the container's `contentStart`.
+function diffContainerContent(
+  oldPair: ParentPair,
+  newPair: ParentPair,
+  env: LcsEnv
+): Change[] {
+  const step = new ReplaceStep(
+    0,
+    oldPair.node.content.size,
+    new Slice(newPair.node.content, 0, 0)
+  )
+  const cs = ChangeSet.create(oldPair.node, undefined, env.encoder).addSteps(
+    newPair.node,
+    [step.getMap()],
+    null
+  )
+  return cs.changes.map((c) =>
+    translateChange(c, oldPair.contentStart, newPair.contentStart)
+  )
+}
+
 /// Diff two container nodes by matching their children with LCS.
 /// Returns changes with absolute positions (relative to the full doc).
 function diffChildrenLcs(
@@ -317,24 +341,13 @@ function diffChildrenLcs(
   newPair: ParentPair,
   env: LcsEnv
 ): Change[] {
-  // Guard against very large lists — fall back to single-step diff
+  // Guard against very large lists — fall back to a single ChangeSet
+  // computed directly on the container (no self-wrapping).
   if (
     oldPair.content.length > LCS_MAX_CHILDREN ||
     newPair.content.length > LCS_MAX_CHILDREN
   ) {
-    return diffPairWithChangeSet(
-      {
-        node: oldPair.node,
-        parent: oldPair.node,
-        abs: oldPair.contentStart - 1,
-      },
-      {
-        node: newPair.node,
-        parent: newPair.node,
-        abs: newPair.contentStart - 1,
-      },
-      env
-    )
+    return diffContainerContent(oldPair, newPair, env)
   }
 
   const matches = lcsMatch(oldPair.content, newPair.content)
@@ -452,7 +465,11 @@ function diffSameTypePair(
 
 /// Quick check for attr differences between two same-type nodes, using
 /// the encoder's node-start token (which respects ignoreAttrs).
-function attrsEqual(a: Node, b: Node, encoder: TokenEncoder<null>): boolean {
+function attrsEqual(
+  a: Node,
+  b: Node,
+  encoder: TokenEncoder<string | number>
+): boolean {
   return encoder.encodeNodeStart(a) === encoder.encodeNodeStart(b)
 }
 
@@ -462,7 +479,7 @@ function legacyDiff(
   oldDoc: Node,
   newDoc: Node,
   options: ComputeDocDiffOptions | undefined,
-  encoder: TokenEncoder<null>
+  encoder: TokenEncoder<string | number>
 ): readonly Change[] {
   const oldSize = oldDoc.content.size
   const newSize = newDoc.content.size

@@ -204,6 +204,55 @@ describe('mergeBlockChanges — pure inserts/deletes at custom block boundary', 
     expect(merged[0]!.isCustomBlock).toBe(true)
   })
 
+  it('produces no overlapping custom-block entries across multiple tables', () => {
+    // Invariant check: when multiple seeds touch different tables, the
+    // merged output must never contain two custom-block entries whose
+    // ranges overlap in either doc. Coalescing walks all existing entries
+    // (not just the first) to guarantee this.
+    const oldD = doc(
+      table(row(td(t('a')))),
+      p(t('mid')),
+      table(row(td(t('b'))))
+    )
+    const newD = doc(
+      table(row(td(t('A')))),
+      p(t('MID')),
+      table(row(td(t('B'))))
+    )
+    const t1End = oldD.child(0).nodeSize
+    const midSize = oldD.child(1).nodeSize
+    const t2Start = t1End + midSize
+    const t2End = t2Start + oldD.child(2).nodeSize
+    // Two seeds inside the tables emit independent custom-block merges.
+    const seedInT1 = chg(2, 3, 2, 3)
+    const seedInT2 = chg(t2Start + 2, t2Start + 3, t2Start + 2, t2Start + 3)
+    // A third seed whose range pokes into both tables (last cell of table 1
+    // through first cell of table 2). Both endpoints resolve inside a table
+    // via their ancestor chain, so mergeBlockChanges expands it.
+    const seedAcross = chg(t1End - 1, t2Start + 1, t1End - 1, t2Start + 1)
+    const merged = mergeBlockChanges(
+      [seedInT1, seedInT2, seedAcross],
+      oldD,
+      newD,
+      customBlockTypes
+    )
+    // All three seeds should collapse into a single custom-block entry.
+    const customEntries = merged.filter((m) => m.isCustomBlock)
+    expect(customEntries).toHaveLength(1)
+    expect(customEntries[0]!.fromA).toBeLessThanOrEqual(0)
+    expect(customEntries[0]!.toA).toBeGreaterThanOrEqual(t2End)
+    // And no two entries should overlap in either doc.
+    for (let i = 0; i < merged.length; i++) {
+      for (let j = i + 1; j < merged.length; j++) {
+        const a = merged[i]!
+        const b = merged[j]!
+        const overlapA = a.fromA < b.toA && a.toA > b.fromA
+        const overlapB = a.fromB < b.toB && a.toB > b.fromB
+        expect(overlapA || overlapB).toBe(false)
+      }
+    }
+  })
+
   it('coalesces two changes that expand into the same custom block', () => {
     // Two separate non-empty changes, each overlapping the table on a
     // different side, should collapse into a single merged change —

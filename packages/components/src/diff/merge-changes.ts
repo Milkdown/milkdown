@@ -216,20 +216,27 @@ export function mergeBlockChanges(
     // to cover the same custom block (e.g. a deletion just before a table
     // and an insertion just after it), which would otherwise render the
     // same block as a widget twice.
-    const existing = result.find(
-      (prev) =>
-        prev.isCustomBlock &&
-        (overlaps(merged.fromA, merged.toA, prev.fromA, prev.toA) ||
-          overlaps(merged.fromB, merged.toB, prev.fromB, prev.toB))
-    )
-    if (existing) {
-      existing.fromA = Math.min(existing.fromA, merged.fromA)
-      existing.toA = Math.max(existing.toA, merged.toA)
-      existing.fromB = Math.min(existing.fromB, merged.fromB)
-      existing.toB = Math.max(existing.toB, merged.toB)
-    } else {
-      result.push(merged)
+    // Coalesce with every already-emitted custom-block merged change whose
+    // range overlaps this one, not just the first. A seed could straddle
+    // two previously-emitted custom blocks, and merging into only the first
+    // would leave overlapping duplicates in the result.
+    const absorbedIndexes: number[] = []
+    for (let k = 0; k < result.length; k++) {
+      const prev = result[k]!
+      if (!prev.isCustomBlock) continue
+      const touchesA = overlaps(merged.fromA, merged.toA, prev.fromA, prev.toA)
+      const touchesB = overlaps(merged.fromB, merged.toB, prev.fromB, prev.toB)
+      if (!touchesA && !touchesB) continue
+      merged.fromA = Math.min(merged.fromA, prev.fromA)
+      merged.toA = Math.max(merged.toA, prev.toA)
+      merged.fromB = Math.min(merged.fromB, prev.fromB)
+      merged.toB = Math.max(merged.toB, prev.toB)
+      absorbedIndexes.push(k)
     }
+    for (let k = absorbedIndexes.length - 1; k >= 0; k--) {
+      result.splice(absorbedIndexes[k]!, 1)
+    }
+    result.push(merged)
   }
 
   return result
