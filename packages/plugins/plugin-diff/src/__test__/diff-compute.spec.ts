@@ -943,6 +943,36 @@ describe('computeDocDiff - range option, per-block', () => {
     expect(changes.length).toBeGreaterThan(0)
   })
 
+  it('sub-range with mismatched ancestor start position falls back to legacy', () => {
+    // Both docs have a bullet_list with the same children, but the
+    // prefix paragraph differs in size, so the ul sits at different
+    // absolute positions in the two docs. The same numeric range
+    // [16, 21] still resolves to depth 1 inside the ul in both docs
+    // (sharedDepth = 1) and lies on li boundaries in both, but
+    //
+    //   $oldFrom.start(1) = 11   (old ul.content starts at 11)
+    //   $newFrom.start(1) = 16   (new ul.content starts at 16)
+    //
+    // Without the absolute-start check in tryBuildRangeSubtree the cut
+    // would use mismatched local offsets and silently compare the wrong
+    // content. The check rejects the subtree extraction and we fall
+    // back to legacyDiff for correctness. This exercises the
+    // ancestor-chain mismatch branch of the precondition loop.
+    const oldDoc = doc(
+      p(text('xxxxxxxx')),
+      ul(li(p(text('a'))), li(p(text('b'))))
+    )
+    const newDoc = doc(
+      p(text('xxxxxxxxxxxxx')),
+      ul(li(p(text('a'))), li(p(text('b'))))
+    )
+
+    const changes = computeDocDiff(oldDoc, newDoc, {
+      range: { from: 16, to: 21 },
+    })
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
   it('empty sub-range returns no changes', () => {
     const oldDoc = doc(p(text('a')), p(text('b')))
     const newDoc = doc(p(text('a')), p(text('B')))
