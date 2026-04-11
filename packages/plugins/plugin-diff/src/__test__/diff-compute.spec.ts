@@ -834,3 +834,139 @@ describe('computeDocDiff - per-block matching', () => {
     }
   })
 })
+
+describe('computeDocDiff - range option, per-block', () => {
+  it('sub-range produces per-block granular changes (not one merged change)', () => {
+    // Crown-jewel test for the per-block range path. Two adjacent list
+    // items inside the same bullet_list both change. Under the legacy
+    // single-step path the changeset library merges adjacent edits
+    // inside one container into a single change covering the whole ul;
+    // per-block must surface them as independent changes anchored to
+    // each li.
+    const oldDoc = doc(
+      p(text('header')),
+      ul(li(p(text('a'))), li(p(text('b'))), li(p(text('c'))))
+    )
+    const newDoc = doc(
+      p(text('header')),
+      ul(li(p(text('A'))), li(p(text('B'))), li(p(text('c'))))
+    )
+
+    // p('header') nodeSize = 8; ul nodeSize = 17 (3 li @ 5 each + 2).
+    // Range covers exactly the ul: from = 8, to = 25.
+    const changes = computeDocDiff(oldDoc, newDoc, {
+      range: { from: 8, to: 25 },
+    })
+
+    expect(changes.length).toBeGreaterThanOrEqual(2)
+    for (const change of changes) {
+      expect(change.fromA).toBeGreaterThanOrEqual(8)
+      expect(change.toA).toBeLessThanOrEqual(25)
+      expect(change.fromB).toBeGreaterThanOrEqual(8)
+      expect(change.toB).toBeLessThanOrEqual(25)
+      // No single change should span both modified list items (which
+      // would be the legacy merging behaviour). Each li is 5 wide.
+      expect(change.toA - change.fromA).toBeLessThan(10)
+    }
+  })
+
+  it('sub-range inside a list matches list-item boundaries', () => {
+    // Exercises a non-doc shared ancestor (the bullet_list).
+    const oldDoc = doc(ul(li(p(text('a'))), li(p(text('b'))), li(p(text('c')))))
+    const newDoc = doc(ul(li(p(text('a'))), li(p(text('X'))), li(p(text('c')))))
+
+    // ul content starts at pos 1; li1 [1,6), li2 [6,11), li3 [11,16).
+    // Range covers exactly li2.
+    const changes = computeDocDiff(oldDoc, newDoc, {
+      range: { from: 6, to: 11 },
+    })
+
+    expect(changes.length).toBeGreaterThan(0)
+    for (const change of changes) {
+      expect(change.fromA).toBeGreaterThanOrEqual(6)
+      expect(change.toA).toBeLessThanOrEqual(11)
+    }
+  })
+
+  it('sub-range exactly aligned with one unchanged block returns no changes', () => {
+    // Same shape as the legacy `sub-range excludes changes outside the
+    // range` test — must keep working under the per-block path.
+    const oldDoc = doc(p(text('AAA')), p(text('BBB')), p(text('CCC')))
+    const newDoc = doc(p(text('XXX')), p(text('BBB')), p(text('ZZZ')))
+
+    const changes = computeDocDiff(oldDoc, newDoc, {
+      range: { from: 5, to: 10 },
+    })
+    expect(changes).toHaveLength(0)
+  })
+
+  it('sub-range mid-textblock falls back to legacy', () => {
+    // Range endpoints inside a single paragraph → shared ancestor is a
+    // textblock → tryBuildRangeSubtree returns null → legacyDiff runs.
+    const oldDoc = doc(p(text('hello world')))
+    const newDoc = doc(p(text('hello brave world')))
+
+    const changes = computeDocDiff(oldDoc, newDoc, {
+      range: { from: 4, to: 8 },
+    })
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('sub-range with sharedDepth divergence falls back to legacy', () => {
+    // Same numeric range resolves to a different sharedDepth in old vs
+    // new, so the per-block path bails out and legacyDiff handles it.
+    //
+    // In oldDoc (single paragraph 'hi there'), positions 3 and 4 both
+    // resolve inside the paragraph at depth 1, so sharedDepth = 1.
+    //
+    // In newDoc (two paragraphs 'hi' and ' there'), p('hi').nodeSize = 4,
+    // so position 3 is inside p1 at depth 1 but position 4 sits at the
+    // boundary between paragraphs at depth 0, so sharedDepth = 0.
+    const oldDoc = doc(p(text('hi there')))
+    const newDoc = doc(p(text('hi')), p(text(' there')))
+
+    const changes = computeDocDiff(oldDoc, newDoc, {
+      range: { from: 3, to: 4 },
+    })
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('sub-range with asymmetric clamp falls back to legacy', () => {
+    // Raw `to` is past the end of the smaller doc but inside the larger
+    // one — clamps to different values per doc, so we hand off.
+    const oldDoc = doc(p(text('hi')))
+    const newDoc = doc(p(text('hi')), p(text('extra')))
+
+    const changes = computeDocDiff(oldDoc, newDoc, {
+      range: { from: 0, to: 50 },
+    })
+    expect(changes.length).toBeGreaterThan(0)
+  })
+
+  it('empty sub-range returns no changes', () => {
+    const oldDoc = doc(p(text('a')), p(text('b')))
+    const newDoc = doc(p(text('a')), p(text('B')))
+
+    const changes = computeDocDiff(oldDoc, newDoc, {
+      range: { from: 3, to: 3 },
+    })
+    expect(changes).toHaveLength(0)
+  })
+
+  it('sub-range changes are sorted and non-overlapping', () => {
+    // Two adjacent paragraphs change inside the range; the per-block
+    // path must keep its sorted, non-overlapping invariant for both
+    // axes (mergeBlockChanges depends on it).
+    const oldDoc = doc(p(text('A')), p(text('B')), p(text('C')), p(text('D')))
+    const newDoc = doc(p(text('A')), p(text('X')), p(text('Y')), p(text('D')))
+
+    const changes = computeDocDiff(oldDoc, newDoc, {
+      range: { from: 3, to: 9 },
+    })
+    expect(changes.length).toBeGreaterThanOrEqual(2)
+    for (let i = 1; i < changes.length; i++) {
+      expect(changes[i]!.fromA).toBeGreaterThanOrEqual(changes[i - 1]!.toA)
+      expect(changes[i]!.fromB).toBeGreaterThanOrEqual(changes[i - 1]!.toB)
+    }
+  })
+})
