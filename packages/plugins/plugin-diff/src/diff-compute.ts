@@ -483,6 +483,29 @@ function attrsEqual(
   return encoder.encodeNodeStart(a) === encoder.encodeNodeStart(b)
 }
 
+/// A `range` option clamped against both doc sizes. `toOld` and `toNew`
+/// can differ when `range.to` is past the end of one doc but inside the
+/// other — that's the "asymmetric clamp" signal.
+interface ClampedRange {
+  from: number
+  toOld: number
+  toNew: number
+}
+
+/// Apply the legacy clamp semantics: `from` clamped against the smaller
+/// doc, `toOld` and `toNew` clamped per-doc, all monotonic with `from`.
+function clampRange(
+  range: ComputeDiffRange | undefined,
+  oldSize: number,
+  newSize: number
+): ClampedRange {
+  const minSize = Math.min(oldSize, newSize)
+  const from = Math.max(0, Math.min(range?.from ?? 0, minSize))
+  const toOld = Math.max(from, Math.min(range?.to ?? oldSize, oldSize))
+  const toNew = Math.max(from, Math.min(range?.to ?? newSize, newSize))
+  return { from, toOld, toNew }
+}
+
 /// Legacy single-step diff implementation. Used for the `range` option
 /// and as a fallback for large documents.
 function legacyDiff(
@@ -491,12 +514,11 @@ function legacyDiff(
   options: ComputeDocDiffOptions | undefined,
   encoder: TokenEncoder<string | number>
 ): readonly Change[] {
-  const oldSize = oldDoc.content.size
-  const newSize = newDoc.content.size
-  const minSize = Math.min(oldSize, newSize)
-  const from = Math.max(0, Math.min(options?.range?.from ?? 0, minSize))
-  const toOld = Math.max(from, Math.min(options?.range?.to ?? oldSize, oldSize))
-  const toNew = Math.max(from, Math.min(options?.range?.to ?? newSize, newSize))
+  const { from, toOld, toNew } = clampRange(
+    options?.range,
+    oldDoc.content.size,
+    newDoc.content.size
+  )
 
   const step = new ReplaceStep(
     from,
@@ -630,13 +652,8 @@ export function computeDocDiff(
     return diffChildrenLcs(oldDoc, newDoc, 0, 0, makeEnv(encoder))
   }
 
-  // Clamp exactly the way legacyDiff does so existing semantics stay
-  // identical when we eventually hand off to it.
-  const range = options!.range!
-  const minSize = Math.min(oldSize, newSize)
-  const from = Math.max(0, Math.min(range.from ?? 0, minSize))
-  const toOld = Math.max(from, Math.min(range.to ?? oldSize, oldSize))
-  const toNew = Math.max(from, Math.min(range.to ?? newSize, newSize))
+  // Share the clamp with legacyDiff so semantics can't drift.
+  const { from, toOld, toNew } = clampRange(options?.range, oldSize, newSize)
 
   // Asymmetric clamp → docs differ in size around the range. Hand off.
   if (toOld !== toNew) return legacyDiff(oldDoc, newDoc, options, encoder)
