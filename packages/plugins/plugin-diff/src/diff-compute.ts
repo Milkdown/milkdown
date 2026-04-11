@@ -313,43 +313,57 @@ function pureInsert(child: TopChild, anchorA: number, absB: number): Change {
 /// Large-container fallback: diff the container's content directly with
 /// a single ChangeSet, without wrapping. Positions returned by the
 /// changeset are relative to the container's content and get translated
-/// to absolute doc positions via the container's `contentStart`.
+/// to absolute doc positions via the caller-supplied `contentStart`.
 function diffContainerContent(
-  oldPair: ParentPair,
-  newPair: ParentPair,
+  oldNode: Node,
+  newNode: Node,
+  oldContentStart: number,
+  newContentStart: number,
   env: LcsEnv
 ): Change[] {
   const step = new ReplaceStep(
     0,
-    oldPair.node.content.size,
-    new Slice(newPair.node.content, 0, 0)
+    oldNode.content.size,
+    new Slice(newNode.content, 0, 0)
   )
-  const cs = ChangeSet.create(oldPair.node, undefined, env.encoder).addSteps(
-    newPair.node,
+  const cs = ChangeSet.create(oldNode, undefined, env.encoder).addSteps(
+    newNode,
     [step.getMap()],
     null
   )
   return cs.changes.map((c) =>
-    translateChange(c, oldPair.contentStart, newPair.contentStart)
+    translateChange(c, oldContentStart, newContentStart)
   )
 }
 
 /// Diff two container nodes by matching their children with LCS.
 /// Returns changes with absolute positions (relative to the full doc).
+///
+/// The large-container guard runs against raw `childCount` so we never
+/// eagerly compute signatures for a subtree that's about to be handled
+/// by the single-step fallback.
 function diffChildrenLcs(
-  oldPair: ParentPair,
-  newPair: ParentPair,
+  oldNode: Node,
+  newNode: Node,
+  oldContentStart: number,
+  newContentStart: number,
   env: LcsEnv
 ): Change[] {
-  // Guard against very large lists — fall back to a single ChangeSet
-  // computed directly on the container (no self-wrapping).
   if (
-    oldPair.content.length > LCS_MAX_CHILDREN ||
-    newPair.content.length > LCS_MAX_CHILDREN
+    oldNode.childCount > LCS_MAX_CHILDREN ||
+    newNode.childCount > LCS_MAX_CHILDREN
   ) {
-    return diffContainerContent(oldPair, newPair, env)
+    return diffContainerContent(
+      oldNode,
+      newNode,
+      oldContentStart,
+      newContentStart,
+      env
+    )
   }
 
+  const oldPair = makeParentPair(oldNode, oldContentStart, env)
+  const newPair = makeParentPair(newNode, newContentStart, env)
   const matches = lcsMatch(oldPair.content, newPair.content)
   const result: Change[] = []
   let i = 0
@@ -456,11 +470,7 @@ function diffSameTypePair(
     )
   }
 
-  return diffChildrenLcs(
-    makeParentPair(oldChild.node, absA + 1, env),
-    makeParentPair(newChild.node, absB + 1, env),
-    env
-  )
+  return diffChildrenLcs(oldChild.node, newChild.node, absA + 1, absB + 1, env)
 }
 
 /// Quick check for attr differences between two same-type nodes, using
@@ -518,8 +528,10 @@ function isFullDocRange(
 /// When `options.range` is provided, only the specified region is diffed.
 ///
 /// Uses per-block LCS matching (recursing into container nodes like
-/// bullet_list, blockquote, table) for the full-doc path. Falls back to
-/// a single-step diff when `range` is provided.
+/// bullet_list, blockquote, table). Falls back to a single-step diff
+/// when `options.range` actually restricts the diff to a sub-region of
+/// the document; a range that happens to cover the full document still
+/// takes the per-block path.
 export function computeDocDiff(
   oldDoc: Node,
   newDoc: Node,
@@ -527,16 +539,14 @@ export function computeDocDiff(
 ): readonly Change[] {
   const encoder = createDiffEncoder(options?.ignoreAttrs)
 
-  // Range option: use legacy single-step path for correctness.
+  // Sub-region range: use the legacy single-step path so the caller's
+  // boundary is honoured exactly. A range that covers the whole doc is
+  // treated as if no range were given.
   if (!isFullDocRange(options, oldDoc.content.size, newDoc.content.size)) {
     return legacyDiff(oldDoc, newDoc, options, encoder)
   }
 
   const env: LcsEnv = { encoder, sigCache: new WeakMap<Node, string>() }
   // Top-level diff: parent content starts at position 0 in the doc.
-  return diffChildrenLcs(
-    makeParentPair(oldDoc, 0, env),
-    makeParentPair(newDoc, 0, env),
-    env
-  )
+  return diffChildrenLcs(oldDoc, newDoc, 0, 0, env)
 }

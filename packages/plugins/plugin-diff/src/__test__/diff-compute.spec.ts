@@ -736,9 +736,9 @@ describe('computeDocDiff - per-block matching', () => {
     }
   })
 
-  it('blockquote text edit recurses into the blockquote', () => {
-    // blockquote is not in the test schema, but we can test with nested
-    // paragraph-in-textblock pattern. Use the existing ul/li/p instead.
+  it('nested list item text edit recurses into the inner paragraph', () => {
+    // Regression test for recursion through nested container nodes using
+    // the existing ul/li/p structure from this test schema.
     const oldDoc = doc(ul(li(p(text('hello world')))))
     const newDoc = doc(ul(li(p(text('hello universe')))))
 
