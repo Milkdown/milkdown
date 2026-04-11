@@ -402,8 +402,9 @@ describe('computeDocDiff - marks', () => {
 
 describe('computeDocDiff - range-limited', () => {
   it('detects changes only within specified range', () => {
+    // Same-size docs so a full-doc range is unambiguous in both.
     const oldDoc = doc(p(text('first')), p(text('second')), p(text('third')))
-    const newDoc = doc(p(text('first')), p(text('CHANGED')), p(text('third')))
+    const newDoc = doc(p(text('first')), p(text('SECOND')), p(text('third')))
     // Full diff should find changes
     const fullChanges = computeDocDiff(oldDoc, newDoc)
     expect(fullChanges.length).toBeGreaterThan(0)
@@ -900,21 +901,21 @@ describe('computeDocDiff - range option, per-block', () => {
     expect(changes).toHaveLength(0)
   })
 
-  it('sub-range mid-textblock falls back to legacy', () => {
+  it('sub-range mid-textblock throws RangeError', () => {
     // Range endpoints inside a single paragraph → shared ancestor is a
-    // textblock → tryBuildRangeSubtree returns null → legacyDiff runs.
+    // textblock → strict preconditions reject the range. Callers must
+    // widen the range to a block boundary.
     const oldDoc = doc(p(text('hello world')))
     const newDoc = doc(p(text('hello brave world')))
 
-    const changes = computeDocDiff(oldDoc, newDoc, {
-      range: { from: 4, to: 8 },
-    })
-    expect(changes.length).toBeGreaterThan(0)
+    expect(() =>
+      computeDocDiff(oldDoc, newDoc, { range: { from: 4, to: 8 } })
+    ).toThrow(RangeError)
   })
 
-  it('sub-range with sharedDepth divergence falls back to legacy', () => {
+  it('sub-range with sharedDepth divergence throws RangeError', () => {
     // Same numeric range resolves to a different sharedDepth in old vs
-    // new, so the per-block path bails out and legacyDiff handles it.
+    // new, so the strict preconditions reject the range.
     //
     // In oldDoc (single paragraph 'hi there'), positions 3 and 4 both
     // resolve inside the paragraph at depth 1, so sharedDepth = 1.
@@ -925,25 +926,27 @@ describe('computeDocDiff - range option, per-block', () => {
     const oldDoc = doc(p(text('hi there')))
     const newDoc = doc(p(text('hi')), p(text(' there')))
 
-    const changes = computeDocDiff(oldDoc, newDoc, {
-      range: { from: 3, to: 4 },
-    })
-    expect(changes.length).toBeGreaterThan(0)
+    expect(() =>
+      computeDocDiff(oldDoc, newDoc, { range: { from: 3, to: 4 } })
+    ).toThrow(RangeError)
   })
 
-  it('sub-range with asymmetric clamp falls back to legacy', () => {
-    // Raw `to` is past the end of the smaller doc but inside the larger
-    // one — clamps to different values per doc, so we hand off.
+  it('out-of-bounds range is silently clamped to the smaller doc', () => {
+    // Raw `to` is past the end of the smaller doc; the API clamps both
+    // endpoints to the smaller doc's size and runs per-block strictly
+    // within. The "extra" content of the larger doc is outside the
+    // (clamped) range and is correctly invisible to the diff.
     const oldDoc = doc(p(text('hi')))
     const newDoc = doc(p(text('hi')), p(text('extra')))
 
     const changes = computeDocDiff(oldDoc, newDoc, {
       range: { from: 0, to: 50 },
     })
-    expect(changes.length).toBeGreaterThan(0)
+    // Inside the clamped window [0, 4], both docs are identical.
+    expect(changes).toHaveLength(0)
   })
 
-  it('sub-range with mismatched ancestor start position falls back to legacy', () => {
+  it('sub-range with mismatched ancestor start position throws RangeError', () => {
     // Both docs have a bullet_list with the same children, but the
     // prefix paragraph differs in size, so the ul sits at different
     // absolute positions in the two docs. The same numeric range
@@ -953,11 +956,9 @@ describe('computeDocDiff - range option, per-block', () => {
     //   $oldFrom.start(1) = 11   (old ul.content starts at 11)
     //   $newFrom.start(1) = 16   (new ul.content starts at 16)
     //
-    // Without the absolute-start check in tryBuildRangeSubtree the cut
-    // would use mismatched local offsets and silently compare the wrong
-    // content. The check rejects the subtree extraction and we fall
-    // back to legacyDiff for correctness. This exercises the
-    // ancestor-chain mismatch branch of the precondition loop.
+    // Without the absolute-start check the cut would use mismatched
+    // local offsets and silently compare the wrong content; the strict
+    // preconditions throw a RangeError instead.
     const oldDoc = doc(
       p(text('xxxxxxxx')),
       ul(li(p(text('a'))), li(p(text('b'))))
@@ -967,10 +968,9 @@ describe('computeDocDiff - range option, per-block', () => {
       ul(li(p(text('a'))), li(p(text('b'))))
     )
 
-    const changes = computeDocDiff(oldDoc, newDoc, {
-      range: { from: 16, to: 21 },
-    })
-    expect(changes.length).toBeGreaterThan(0)
+    expect(() =>
+      computeDocDiff(oldDoc, newDoc, { range: { from: 16, to: 21 } })
+    ).toThrow(RangeError)
   })
 
   it('empty sub-range returns no changes', () => {
@@ -998,5 +998,72 @@ describe('computeDocDiff - range option, per-block', () => {
       expect(changes[i]!.fromA).toBeGreaterThanOrEqual(changes[i - 1]!.toA)
       expect(changes[i]!.fromB).toBeGreaterThanOrEqual(changes[i - 1]!.toB)
     }
+  })
+})
+
+// Schema with a container node (`blockquote`) carrying attrs, used for
+// the encoder/ignoreAttrs precondition tests below. The main test schema
+// has no container node with attrs, so we need a small bespoke schema
+// to exercise the ancestor-encoder check.
+describe('computeDocDiff - range option, ancestor attrs precondition', () => {
+  const blockquoteSchema = new Schema({
+    nodes: {
+      doc: { content: 'block+' },
+      paragraph: {
+        group: 'block',
+        content: 'inline*',
+        toDOM: () => ['p', 0],
+      },
+      text: { group: 'inline' },
+      blockquote: {
+        group: 'block',
+        content: 'block+',
+        attrs: { kind: { default: 'default' } },
+        toDOM: () => ['blockquote', 0],
+      },
+    },
+  })
+
+  const docBQ = (...children: any[]) =>
+    blockquoteSchema.node('doc', null, children)
+  const pBQ = (...content: any[]) =>
+    blockquoteSchema.node('paragraph', null, content)
+  const tBQ = (str: string) => blockquoteSchema.text(str)
+  const blockquote = (kind: string, ...content: any[]) =>
+    blockquoteSchema.node('blockquote', { kind }, content)
+
+  // Both docs share an outer blockquote whose `kind` attr differs but
+  // whose inner content is identical. Range covers the inner two
+  // paragraphs (boundary-aligned at the blockquote's content level).
+  // Position math:
+  //   p('a') and p('b') each nodeSize = 3, blockquote.content = 6,
+  //   blockquote.nodeSize = 8, doc.content.size = 8.
+  //   Range [1, 7] is inside blockquote.content at depth 1 in both docs.
+
+  it('honours ignoreAttrs on ancestor and runs the per-block path', () => {
+    // The ancestor blockquote's `kind` differs ('note' vs 'warning'),
+    // but ignoreAttrs tells the encoder to skip it. encodeNodeStart
+    // returns the same string for both ancestors → precondition passes
+    // → per-block runs → no changes (the inner paragraphs are equal).
+    const oldDoc = docBQ(blockquote('note', pBQ(tBQ('a')), pBQ(tBQ('b'))))
+    const newDoc = docBQ(blockquote('warning', pBQ(tBQ('a')), pBQ(tBQ('b'))))
+
+    const changes = computeDocDiff(oldDoc, newDoc, {
+      range: { from: 1, to: 7 },
+      ignoreAttrs: { blockquote: ['kind'] },
+    })
+    expect(changes).toHaveLength(0)
+  })
+
+  it('throws RangeError when a non-ignored ancestor attr differs', () => {
+    // Same docs as above but without ignoreAttrs. encodeNodeStart now
+    // returns different strings for the two blockquotes, so the
+    // precondition rejects the range.
+    const oldDoc = docBQ(blockquote('note', pBQ(tBQ('a')), pBQ(tBQ('b'))))
+    const newDoc = docBQ(blockquote('warning', pBQ(tBQ('a')), pBQ(tBQ('b'))))
+
+    expect(() =>
+      computeDocDiff(oldDoc, newDoc, { range: { from: 1, to: 7 } })
+    ).toThrow(RangeError)
   })
 })

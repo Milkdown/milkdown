@@ -483,69 +483,6 @@ function attrsEqual(
   return encoder.encodeNodeStart(a) === encoder.encodeNodeStart(b)
 }
 
-/// A `range` option clamped against both doc sizes. `toOld` and `toNew`
-/// can differ when `range.to` is past the end of one doc but inside the
-/// other — that's the "asymmetric clamp" signal.
-interface ClampedRange {
-  from: number
-  toOld: number
-  toNew: number
-}
-
-/// Apply the legacy clamp semantics: `from` clamped against the smaller
-/// doc, `toOld` and `toNew` clamped per-doc, all monotonic with `from`.
-function clampRange(
-  range: ComputeDiffRange | undefined,
-  oldSize: number,
-  newSize: number
-): ClampedRange {
-  const minSize = Math.min(oldSize, newSize)
-  const from = Math.max(0, Math.min(range?.from ?? 0, minSize))
-  const toOld = Math.max(from, Math.min(range?.to ?? oldSize, oldSize))
-  const toNew = Math.max(from, Math.min(range?.to ?? newSize, newSize))
-  return { from, toOld, toNew }
-}
-
-/// Legacy single-step diff implementation. Used for the `range` option
-/// and as a fallback for large documents.
-function legacyDiff(
-  oldDoc: Node,
-  newDoc: Node,
-  options: ComputeDocDiffOptions | undefined,
-  encoder: TokenEncoder<string | number>
-): readonly Change[] {
-  const { from, toOld, toNew } = clampRange(
-    options?.range,
-    oldDoc.content.size,
-    newDoc.content.size
-  )
-
-  const step = new ReplaceStep(
-    from,
-    toOld,
-    new Slice(newDoc.content.cut(from, toNew), 0, 0)
-  )
-  const changeSet = ChangeSet.create(oldDoc, undefined, encoder).addSteps(
-    newDoc,
-    [step.getMap()],
-    null
-  )
-  return changeSet.changes
-}
-
-/// Returns true if `options.range` is effectively the full document.
-function isFullDocRange(
-  options: ComputeDocDiffOptions | undefined,
-  oldSize: number,
-  newSize: number
-): boolean {
-  const range = options?.range
-  if (!range) return true
-  const from = range.from ?? 0
-  const to = range.to ?? Math.max(oldSize, newSize)
-  return from <= 0 && to >= Math.max(oldSize, newSize)
-}
-
 /// A boundary-aligned subtree pair extracted from a sub-region range.
 ///
 /// `cutAbsStart` is the absolute doc position where the cut subtree's
@@ -560,33 +497,38 @@ interface RangeSubtree {
   cutAbsStart: number
 }
 
-/// Try to reduce a `[from, to)` sub-region into a pair of cut subtrees
-/// that the per-block LCS path can diff directly. Returns `null` (signal
-/// to fall back to `legacyDiff`) when any precondition fails:
+/// Reduce a `[from, to)` sub-region into a pair of cut subtrees that the
+/// per-block LCS path can diff directly. Throws `RangeError` when any
+/// precondition fails:
 ///
 /// - the docs disagree on `sharedDepth` for the range
 /// - any ancestor along the shared chain differs in type, attrs (via
 ///   `encoder.encodeNodeStart`, so `ignoreAttrs` is honoured), or
 ///   absolute starting position
 /// - the shared ancestor is a textblock (per-block can't subdivide
-///   inside a textblock — `legacyDiff` is the right tool there)
+///   inside a textblock — callers should widen the range to a block
+///   boundary instead)
 /// - either endpoint lands mid-child instead of between siblings of the
 ///   shared ancestor — `Fragment.cut` would mutate the boundary child's
 ///   `nodeSize` and break absolute-position translation
-function tryBuildRangeSubtree(
+function buildRangeSubtree(
   oldDoc: Node,
   newDoc: Node,
   from: number,
   to: number,
   encoder: TokenEncoder<string | number>
-): RangeSubtree | null {
+): RangeSubtree {
   const $oldFrom = oldDoc.resolve(from)
   const $oldTo = oldDoc.resolve(to)
   const $newFrom = newDoc.resolve(from)
   const $newTo = newDoc.resolve(to)
 
   const sharedDepth = $oldFrom.sharedDepth(to)
-  if ($newFrom.sharedDepth(to) !== sharedDepth) return null
+  if ($newFrom.sharedDepth(to) !== sharedDepth) {
+    throw new RangeError(
+      `computeDocDiff: range [${from}, ${to}) resolves to different sharedDepth in old and new docs`
+    )
+  }
 
   // Ancestor chain identity: the encoder's node-start token always
   // begins with `node.type.name`, so a single equality check rejects
@@ -598,21 +540,38 @@ function tryBuildRangeSubtree(
     if (
       encoder.encodeNodeStart($oldFrom.node(d)) !==
       encoder.encodeNodeStart($newFrom.node(d))
-    )
-      return null
-    if ($oldFrom.start(d) !== $newFrom.start(d)) return null
+    ) {
+      throw new RangeError(
+        `computeDocDiff: ancestor at depth ${d} differs in type or non-ignored attrs along the path to the shared ancestor`
+      )
+    }
+    if ($oldFrom.start(d) !== $newFrom.start(d)) {
+      throw new RangeError(
+        `computeDocDiff: ancestor at depth ${d} starts at different absolute positions in old and new docs (content before the range differs in size)`
+      )
+    }
   }
 
   const sharedOld = $oldFrom.node(sharedDepth)
-  if (sharedOld.isTextblock) return null
+  if (sharedOld.isTextblock) {
+    throw new RangeError(
+      `computeDocDiff: range [${from}, ${to}) lands inside a textblock; widen the range to a block boundary`
+    )
+  }
 
   // Boundary alignment: both endpoints sit between children of the shared
   // ancestor. ResolvedPos.depth equals sharedDepth precisely when the
   // position is at a sibling boundary (not inside a child).
-  if ($oldFrom.depth !== sharedDepth || $oldTo.depth !== sharedDepth)
-    return null
-  if ($newFrom.depth !== sharedDepth || $newTo.depth !== sharedDepth)
-    return null
+  if (
+    $oldFrom.depth !== sharedDepth ||
+    $oldTo.depth !== sharedDepth ||
+    $newFrom.depth !== sharedDepth ||
+    $newTo.depth !== sharedDepth
+  ) {
+    throw new RangeError(
+      `computeDocDiff: range [${from}, ${to}) endpoints must be aligned to top-level child boundaries of the shared ancestor`
+    )
+  }
 
   const sharedNew = $newFrom.node(sharedDepth)
   const ancestorContentStart = $oldFrom.start(sharedDepth)
@@ -626,56 +585,66 @@ function tryBuildRangeSubtree(
 
   // The cut node's first child has offset 0 inside the cut but absolute
   // position `from` in the original doc, so `from` is the contentStart
-  // we should hand back to diffChildrenLcs.
+  // we hand back to diffChildrenLcs.
   return { oldCut, newCut, cutAbsStart: from }
 }
 
 /// Compute fine-grained changes between two ProseMirror documents.
 ///
 /// Uses per-block LCS matching (recursing into container nodes like
-/// bullet_list, blockquote, table). When `options.range` is provided and
-/// aligns to top-level child boundaries of a shared ancestor, the
-/// per-block path operates on a cut subtree so the result is just as
-/// fine-grained as the full-doc case. Mid-textblock ranges, structurally
-/// divergent docs, and asymmetric clamps fall back to a single-step diff.
+/// bullet_list, blockquote, table). Without `options.range`, the entire
+/// document is diffed.
+///
+/// When `options.range` is provided, the diff is restricted to that
+/// region. The range must satisfy these preconditions or the call
+/// throws `RangeError`:
+///
+/// - **boundary-aligned**: both endpoints sit between siblings of a
+///   common (non-textblock) container ancestor — i.e. not inside a
+///   textblock and not in the middle of a child node
+/// - **structurally identical path**: the chain of ancestors leading to
+///   that shared container has the same node types, attrs (modulo
+///   `ignoreAttrs`), and absolute start positions in both docs
+///
+/// Out-of-bounds endpoints are clamped silently. An empty range returns
+/// no changes.
 export function computeDocDiff(
   oldDoc: Node,
   newDoc: Node,
   options?: ComputeDocDiffOptions
 ): readonly Change[] {
   const encoder = createDiffEncoder(options?.ignoreAttrs)
+  const env: LcsEnv = { encoder, sigCache: new WeakMap<Node, string>() }
   const oldSize = oldDoc.content.size
   const newSize = newDoc.content.size
 
-  // Full-doc (or equivalent) → straight per-block path.
-  if (isFullDocRange(options, oldSize, newSize)) {
-    return diffChildrenLcs(oldDoc, newDoc, 0, 0, makeEnv(encoder))
+  const range = options?.range
+  if (range == null) {
+    return diffChildrenLcs(oldDoc, newDoc, 0, 0, env)
   }
 
-  // Share the clamp with legacyDiff so semantics can't drift.
-  const { from, toOld, toNew } = clampRange(options?.range, oldSize, newSize)
-
-  // Asymmetric clamp → docs differ in size around the range. Hand off.
-  if (toOld !== toNew) return legacyDiff(oldDoc, newDoc, options, encoder)
-  const to = toOld
+  // Clamp the range to a valid window. Out-of-bounds endpoints are
+  // silently clamped against the smaller doc — once clamped, both old
+  // and new agree on the same `[from, to)` slice.
+  const minSize = Math.min(oldSize, newSize)
+  const from = Math.max(0, Math.min(range.from ?? 0, minSize))
+  const to = Math.max(from, Math.min(range.to ?? minSize, minSize))
 
   // Empty range → no changes.
   if (from === to) return []
 
-  // Try to extract a boundary-aligned subtree on both sides; otherwise
-  // fall back to the legacy single-step path.
-  const subtree = tryBuildRangeSubtree(oldDoc, newDoc, from, to, encoder)
-  if (subtree == null) return legacyDiff(oldDoc, newDoc, options, encoder)
+  // Range that covers the whole common window of two same-sized docs is
+  // equivalent to no range at all.
+  if (from === 0 && to === minSize && oldSize === newSize) {
+    return diffChildrenLcs(oldDoc, newDoc, 0, 0, env)
+  }
 
+  const subtree = buildRangeSubtree(oldDoc, newDoc, from, to, encoder)
   return diffChildrenLcs(
     subtree.oldCut,
     subtree.newCut,
     subtree.cutAbsStart,
     subtree.cutAbsStart,
-    makeEnv(encoder)
+    env
   )
-}
-
-function makeEnv(encoder: TokenEncoder<string | number>): LcsEnv {
-  return { encoder, sigCache: new WeakMap<Node, string>() }
 }
