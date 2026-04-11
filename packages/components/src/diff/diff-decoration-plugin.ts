@@ -21,13 +21,17 @@ import { withMeta } from '../__internal__/meta'
 import { diffComponentConfig } from './config'
 import {
   addBlockDeletionDecorations,
-  coversOnlyTrailingEmptyParagraphs,
   collectTopLevelNodes,
+  coversOnlyTrailingEmptyParagraphs,
   hasBlockContent,
   isBlockSpanning,
   snapToBlockBoundary,
 } from './doc-utils'
-import { mergeBlockChanges, splitCrossBoundaryChange } from './merge-changes'
+import {
+  anchorTrailingInsertsBeforeEmptyParagraph,
+  mergeBlockChanges,
+  splitCrossBoundaryChange,
+} from './merge-changes'
 
 const diffDecorationKey = new PluginKey<DecorationSet>(
   'MILKDOWN_DIFF_DECORATION'
@@ -180,6 +184,7 @@ function buildDecorations(
     diffState.newDoc,
     customBlockTypes
   )
+  anchorTrailingInsertsBeforeEmptyParagraph(mergedChanges, doc)
 
   for (let i = 0; i < mergedChanges.length; i++) {
     const change = mergedChanges[i]!
