@@ -569,7 +569,7 @@ function buildRangeSubtree(
     $newTo.depth !== sharedDepth
   ) {
     throw new RangeError(
-      `computeDocDiff: range [${from}, ${to}) endpoints must be aligned to top-level child boundaries of the shared ancestor`
+      `computeDocDiff: range [${from}, ${to}) endpoints must be aligned to child boundaries of the shared ancestor`
     )
   }
 
