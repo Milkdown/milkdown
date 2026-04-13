@@ -131,9 +131,18 @@ export const runAICmd = $command('RunAI', (ctx) => {
       : state.selection.head
     if (!commands.call(startStreamingCmd.key, { insertAt })) return false
 
-    // Build prompt context.
-    const buildContext = config.buildContext ?? defaultBuildContext
-    const promptContext = buildContext(ctx, options.instruction)
+    // Everything after startStreamingCmd is wrapped in try/catch: if
+    // buildContext or anything else throws, we must abort the streaming
+    // session to avoid leaving the editor locked with no way to recover.
+    let promptContext: AIPromptContext
+    try {
+      const buildContext = config.buildContext ?? defaultBuildContext
+      promptContext = buildContext(ctx, options.instruction)
+    } catch (error) {
+      console.error('[milkdown/ai] buildContext failed:', error)
+      commands.call(abortStreamingCmd.key, { keep: false })
+      return false
+    }
 
     // Create an abort controller for this session.
     const abortController = new AbortController()
