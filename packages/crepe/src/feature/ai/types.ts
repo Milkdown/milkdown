@@ -31,8 +31,11 @@ export interface AIDiffConfig {
 
 /// Configuration for `CrepeFeature.AI`.
 export interface AIFeatureConfig {
-  /// Required. Async generator that yields markdown tokens.
-  provider: AIProvider
+  /// Async generator that yields markdown tokens. Required for
+  /// `runAICmd`; without it the command returns false. The diff and
+  /// streaming plugins load either way, so the feature can be enabled
+  /// without a provider for diff-only or manual-streaming use cases.
+  provider?: AIProvider
 
   /// Optional. Assemble the context passed to `provider`.
   /// Defaults to serializing the document (+ selection if any) as markdown.

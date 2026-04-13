@@ -18,14 +18,19 @@ export function defaultBuildContext(
   // Full document as markdown
   const document = serializer(state.doc)
 
-  // Selected text as markdown (empty if selection is collapsed)
+  // Selected text as markdown (empty if selection is collapsed).
+  // Use createAndFill because slice.content may be inline-only (e.g.
+  // a selection inside a paragraph), which is not valid as a direct
+  // child of the top node type.
   let selection = ''
   if (!state.selection.empty) {
     const { from, to } = state.selection
     const slice = state.doc.slice(from, to)
-    selection = serializer(
-      state.doc.type.schema.topNodeType.create(null, slice.content)
+    const wrapper = state.doc.type.schema.topNodeType.createAndFill(
+      null,
+      slice.content
     )
+    if (wrapper) selection = serializer(wrapper)
   }
 
   return { document, selection, instruction }

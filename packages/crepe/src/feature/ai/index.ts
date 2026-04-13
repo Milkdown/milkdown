@@ -23,7 +23,7 @@ const CREPE_CUSTOM_BLOCK_TYPES = ['table', 'image-block', 'code_block']
 /// Default attrs to ignore in Crepe's diff and streaming features.
 const CREPE_IGNORE_ATTRS: Record<string, string[]> = { heading: ['id'] }
 
-export type { AIFeatureConfig } from './types'
+export type { AIFeatureConfig, AIPromptContext, AIProvider } from './types'
 export { runAICmd, abortAICmd } from './commands'
 
 export const aiFeature: DefineFeature<AIFeatureConfig> = (editor, config) => {
