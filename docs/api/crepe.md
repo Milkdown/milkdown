@@ -607,18 +607,13 @@ markdown tokens) and Crepe handles the rest: start streaming, push
 chunks, end streaming, and optionally hand off to diff review.
 
 ```typescript
+import { Crepe } from '@milkdown/crepe'
+import type { AIFeatureConfig } from '@milkdown/crepe/feature/ai'
 import { runAICmd, abortAICmd } from '@milkdown/crepe/feature/ai'
+import { callCommand } from '@milkdown/kit/utils'
 
-interface AIFeatureConfig {
-  provider?: AIProvider // Async generator yielding markdown tokens
-  buildContext?: (ctx: Ctx, instruction: string) => AIPromptContext
-  diffReviewOnEnd?: boolean // Enter diff review on end (default: true)
-  diff?: AIDiffConfig // Pass-through config for the diff plugin
-  streaming?: Partial<Omit<StreamingConfig, 'diffReviewOnEnd'>> // Pass-through (diffReviewOnEnd is controlled above)
-}
-
-// Example:
-const config: CrepeConfig = {
+const crepe = new Crepe({
+  root: '#editor',
   features: {
     [Crepe.Feature.AI]: true,
   },
@@ -627,16 +622,20 @@ const config: CrepeConfig = {
       provider: async function* (context, signal) {
         // Yield markdown tokens from your LLM
       },
+      diffReviewOnEnd: true,
       diff: { lockOnReview: true },
       streaming: { throttleMs: 150 },
-    },
+    } satisfies AIFeatureConfig,
   },
-}
+})
+await crepe.create()
 
 // Trigger AI:
-editor.action(callCommand(runAICmd.key, { instruction: 'Summarize this' }))
+crepe.editor.action(
+  callCommand(runAICmd.key, { instruction: 'Summarize this' })
+)
 // Abort:
-editor.action(callCommand(abortAICmd.key))
+crepe.editor.action(callCommand(abortAICmd.key))
 ```
 
 See [@milkdown/plugin-diff](./plugin-diff.md) and
