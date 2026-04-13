@@ -203,8 +203,8 @@ const diffToolbarStyle = `
 .diff-toolbar-apply:hover { background: #2563eb; }
 .diff-toolbar-accept-all { background: #22c55e; color: white; border-color: #16a34a; }
 .diff-toolbar-accept-all:hover { background: #16a34a; }
-.diff-toolbar-reject-all { background: #ef4444; color: white; border-color: #dc2626; }
-.diff-toolbar-reject-all:hover { background: #dc2626; }
+.diff-toolbar-clear { background: #e5e7eb; color: #374151; border-color: #d1d5db; }
+.diff-toolbar-clear:hover { background: #d1d5db; }
 `
 
 export function setupDiffReview(config: setupConfig) {
