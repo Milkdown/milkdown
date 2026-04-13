@@ -579,7 +579,7 @@ export function setupAIDemo(config: setupConfig) {
             pollTimer = null
             setStreaming(false)
             const hasDiff = !!shadow.querySelector(
-              '.milkdown-diff-added, .milkdown-diff-removed'
+              '.milkdown-diff-added, .milkdown-diff-removed, .milkdown-diff-added-block, .milkdown-diff-removed-block'
             )
             if (hasDiff) setDiffReview(true)
           }
