@@ -1,0 +1,19 @@
+.milkdown.milkdown-ai-streaming::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 2px solid var(--crepe-color-primary, #8b5cf6);
+  border-radius: inherit;
+  animation: milkdown--ai-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes milkdown--ai-pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}

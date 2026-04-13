@@ -1,0 +1,162 @@
+import type { Ctx } from '@milkdown/kit/ctx'
+
+import { commandsCtx, editorViewCtx } from '@milkdown/kit/core'
+import {
+  abortStreamingCmd,
+  endStreamingCmd,
+  pushChunkCmd,
+  startStreamingCmd,
+} from '@milkdown/kit/plugin/streaming'
+import { $command, $ctx } from '@milkdown/kit/utils'
+
+import type { AIProvider, AIPromptContext, RunAIOptions } from './types'
+
+import { defaultBuildContext } from './context'
+
+// ---------------------------------------------------------------------------
+// Context slices
+// ---------------------------------------------------------------------------
+
+/// Holds the user-supplied provider and prompt builder. Populated by
+/// the AI feature's setup function from `AIFeatureConfig`.
+export const aiProviderConfig = $ctx(
+  {
+    provider: undefined as AIProvider | undefined,
+    buildContext: undefined as
+      | ((ctx: Ctx, instruction: string) => AIPromptContext)
+      | undefined,
+    diffReviewOnEnd: true,
+  },
+  'aiProviderConfig'
+)
+
+/// Holds the AbortController for the current AI session (null when idle).
+export const aiSessionCtx = $ctx(
+  { abortController: null as AbortController | null },
+  'aiSession'
+)
+
+// ---------------------------------------------------------------------------
+// CSS class for visual feedback
+// ---------------------------------------------------------------------------
+
+const AI_STREAMING_CLASS = 'milkdown-ai-streaming'
+
+function setStreamingClass(ctx: Ctx, active: boolean): void {
+  try {
+    const view = ctx.get(editorViewCtx)
+    const root = view.dom.closest('.milkdown')
+    if (root) {
+      root.classList.toggle(AI_STREAMING_CLASS, active)
+    }
+  } catch {
+    // Editor may be destroyed — ignore.
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Async provider runner
+// ---------------------------------------------------------------------------
+
+async function runProvider(
+  ctx: Ctx,
+  provider: AIProvider,
+  promptContext: AIPromptContext,
+  abortController: AbortController
+): Promise<void> {
+  try {
+    const iterable = provider(promptContext, abortController.signal)
+    const commands = ctx.get(commandsCtx)
+    for await (const chunk of iterable) {
+      if (abortController.signal.aborted) break
+      commands.call(pushChunkCmd.key, chunk)
+    }
+    if (abortController.signal.aborted) return
+    // Streaming complete — hand off to diff review if configured.
+    const config = ctx.get(aiProviderConfig.key)
+    commands.call(endStreamingCmd.key, {
+      diffReview: config.diffReviewOnEnd,
+    })
+  } catch (error) {
+    if (abortController.signal.aborted) return
+    console.error('[milkdown/ai] Provider error:', error)
+    const commands = ctx.get(commandsCtx)
+    commands.call(abortStreamingCmd.key, { keep: false })
+  } finally {
+    setStreamingClass(ctx, false)
+    ctx.set(aiSessionCtx.key, { abortController: null })
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Commands
+// ---------------------------------------------------------------------------
+
+/// Start an AI session: capture context, start streaming, and call the
+/// provider asynchronously. The command returns synchronously; the
+/// provider runs in the background.
+///
+/// Note on selection: when the user has a text selection, the provider
+/// receives the selected text in `AIPromptContext.selection`, but the
+/// streaming output is *inserted at* the selection head — it does not
+/// *replace* the selected text. A replace-selection mode requires
+/// streaming plugin changes and is planned as a follow-up.
+export const runAICmd = $command('RunAI', (ctx) => {
+  return (options?: RunAIOptions) => (state, dispatch) => {
+    if (!options?.instruction) return false
+
+    const config = ctx.get(aiProviderConfig.key)
+    if (!config.provider) return false
+
+    // Reject if a session is already running. Callers should abort the
+    // current session before starting a new one.
+    const session = ctx.get(aiSessionCtx.key)
+    if (session.abortController) return false
+
+    // Dry-run: when dispatch is undefined, ProseMirror is probing
+    // whether this command can execute (e.g. for keybinding / menu
+    // enabled state). Return true without side effects.
+    if (!dispatch) return true
+
+    // Start streaming at the cursor position.
+    const commands = ctx.get(commandsCtx)
+    const insertAt = state.selection.empty
+      ? ('cursor' as const)
+      : state.selection.head
+    if (!commands.call(startStreamingCmd.key, { insertAt })) return false
+
+    // Build prompt context.
+    const buildContext = config.buildContext ?? defaultBuildContext
+    const promptContext = buildContext(ctx, options.instruction)
+
+    // Create an abort controller for this session.
+    const abortController = new AbortController()
+    ctx.set(aiSessionCtx.key, { abortController })
+
+    // Visual feedback.
+    setStreamingClass(ctx, true)
+
+    // Fire-and-forget: the provider pushes chunks asynchronously.
+    // startStreamingCmd already dispatched its own transaction — we
+    // must NOT dispatch state.tr here as it would overwrite the
+    // streaming plugin's state with a stale doc.
+    void runProvider(ctx, config.provider, promptContext, abortController)
+
+    return true
+  }
+})
+
+/// Abort the current AI session. Signals the provider to stop and
+/// delegates to `abortStreamingCmd`.
+export const abortAICmd = $command('AbortAI', (ctx) => {
+  return (options?: { keep?: boolean }) => (_state, _dispatch) => {
+    const session = ctx.get(aiSessionCtx.key)
+    if (session.abortController) {
+      session.abortController.abort()
+      ctx.set(aiSessionCtx.key, { abortController: null })
+    }
+    setStreamingClass(ctx, false)
+    const commands = ctx.get(commandsCtx)
+    return commands.call(abortStreamingCmd.key, options)
+  }
+})

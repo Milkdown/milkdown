@@ -1,0 +1,58 @@
+import type { Ctx } from '@milkdown/kit/ctx'
+import type { StreamingConfig } from '@milkdown/kit/plugin/streaming'
+
+/// Context passed to the AI provider function.
+export interface AIPromptContext {
+  /// The full document serialized as markdown.
+  document: string
+  /// The selected text serialized as markdown (empty string if no selection).
+  selection: string
+  /// The user instruction (e.g. "summarize", "translate to English").
+  instruction: string
+}
+
+/// An async generator that yields markdown tokens from an LLM or
+/// similar source. Called by `runAICmd` with the assembled prompt
+/// context and an abort signal.
+export type AIProvider = (
+  context: AIPromptContext,
+  signal: AbortSignal
+) => AsyncIterable<string>
+
+/// Diff-related config options passed through to `@milkdown/plugin-diff`.
+export interface AIDiffConfig {
+  lockOnReview?: boolean
+  classPrefix?: string
+  acceptLabel?: string
+  rejectLabel?: string
+  customBlockTypes?: string[]
+  ignoreAttrs?: Record<string, string[]>
+}
+
+/// Configuration for `CrepeFeature.AI`.
+export interface AIFeatureConfig {
+  /// Required. Async generator that yields markdown tokens.
+  provider: AIProvider
+
+  /// Optional. Assemble the context passed to `provider`.
+  /// Defaults to serializing the document (+ selection if any) as markdown.
+  buildContext?: (ctx: Ctx, instruction: string) => AIPromptContext
+
+  /// Whether to enter diff review after streaming completes. Default true.
+  diffReviewOnEnd?: boolean
+
+  /// Pass-through config for the diff plugin.
+  diff?: AIDiffConfig
+
+  /// Pass-through config for the streaming plugin.
+  /// `diffReviewOnEnd` is excluded here because it's controlled by
+  /// `AIFeatureConfig.diffReviewOnEnd` at the AI layer — setting it on
+  /// both would be confusing.
+  streaming?: Partial<Omit<StreamingConfig, 'diffReviewOnEnd'>>
+}
+
+/// Options passed to `runAICmd`.
+export interface RunAIOptions {
+  /// The user instruction to send to the AI provider.
+  instruction: string
+}

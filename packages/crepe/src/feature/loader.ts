@@ -1,16 +1,15 @@
 import type { Editor } from '@milkdown/kit/core'
 
+import { aiFeature } from './ai'
 import { blockEdit } from './block-edit'
 import { codeMirror } from './code-mirror'
 import { cursor } from './cursor'
-import { diffFeature } from './diff'
 import { imageBlock } from './image-block'
 import { CrepeFeature } from './index'
 import { latex } from './latex'
 import { linkTooltip } from './link-tooltip'
 import { listItem } from './list-item'
 import { placeholder } from './placeholder'
-import { streamingFeature } from './streaming'
 import { table } from './table'
 import { toolbar } from './toolbar'
 import { topBar } from './top-bar'
@@ -54,11 +53,8 @@ export function loadFeature(
     case CrepeFeature.TopBar: {
       return topBar(editor, config)
     }
-    case CrepeFeature.Diff: {
-      return diffFeature(editor, config)
-    }
-    case CrepeFeature.Streaming: {
-      return streamingFeature(editor, config)
+    case CrepeFeature.AI: {
+      return aiFeature(editor, config)
     }
   }
 }

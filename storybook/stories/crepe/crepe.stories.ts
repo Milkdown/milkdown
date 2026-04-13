@@ -36,8 +36,7 @@ const defaultArgs: Omit<Args, 'instance'> = {
   enableCodemirror: true,
   enableTopBar: false,
   modifiedValue: '',
-  enableDiff: false,
-  enableStreaming: false,
+  enableAI: false,
   language: 'EN',
 }
 
@@ -79,7 +78,7 @@ export const DiffReview: Story = {
     ...defaultArgs,
     defaultValue: longContent,
     modifiedValue: modifiedLongContent,
-    enableDiff: true,
+    enableAI: true,
   },
 }
 
@@ -89,7 +88,7 @@ export const StreamingDemo: Story = {
   },
   args: {
     ...defaultArgs,
-    enableStreaming: true,
+    enableAI: true,
   },
 }
 
@@ -100,7 +99,6 @@ export const AIDemo: Story = {
   args: {
     ...defaultArgs,
     defaultValue: longContent,
-    enableStreaming: true,
-    enableDiff: true,
+    enableAI: true,
   },
 }
