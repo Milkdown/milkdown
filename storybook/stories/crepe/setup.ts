@@ -8,7 +8,6 @@ import { commandsCtx } from '@milkdown/kit/core'
 import {
   acceptAllDiffsCmd,
   clearDiffReviewCmd,
-  rejectAllDiffsCmd,
   startDiffReviewCmd,
 } from '@milkdown/kit/plugin/diff'
 import {
@@ -203,8 +202,6 @@ const diffToolbarStyle = `
 .diff-toolbar-accept-all:hover { background: #16a34a; }
 .diff-toolbar-reject-all { background: #ef4444; color: white; border-color: #dc2626; }
 .diff-toolbar-reject-all:hover { background: #dc2626; }
-.diff-toolbar-clear { background: #e5e7eb; color: #374151; border-color: #d1d5db; }
-.diff-toolbar-clear:hover { background: #d1d5db; }
 `
 
 export function setupDiffReview(config: setupConfig) {
@@ -221,7 +218,6 @@ export function setupDiffReview(config: setupConfig) {
   const buttons = [
     { text: 'Apply Diff', cls: 'diff-toolbar-apply' },
     { text: 'Accept All', cls: 'diff-toolbar-accept-all' },
-    { text: 'Reject All', cls: 'diff-toolbar-reject-all' },
     { text: 'Clear', cls: 'diff-toolbar-clear' },
   ]
   const btnElements = buttons.map(({ text, cls }) => {
@@ -231,7 +227,7 @@ export function setupDiffReview(config: setupConfig) {
     toolbar.appendChild(btn)
     return btn
   })
-  const [applyBtn, acceptAllBtn, rejectAllBtn, clearBtn] = btnElements
+  const [applyBtn, acceptAllBtn, clearBtn] = btnElements
 
   waitForInstance(config.args, 5000)
     .then((crepe) => {
@@ -251,9 +247,6 @@ export function setupDiffReview(config: setupConfig) {
       })
       acceptAllBtn!.addEventListener('click', () => {
         crepe.editor.action(callCommand(acceptAllDiffsCmd.key))
-      })
-      rejectAllBtn!.addEventListener('click', () => {
-        crepe.editor.action(callCommand(rejectAllDiffsCmd.key))
       })
       clearBtn!.addEventListener('click', () => {
         crepe.editor.action(callCommand(clearDiffReviewCmd.key))
@@ -596,7 +589,6 @@ export function setupAIDemo(config: setupConfig) {
 
   const acceptBtn = createBtn('Accept All', 'ai-btn-accept', true)
   const rejectBtn = createBtn('Reject All', 'ai-btn-reject', true)
-  const clearBtn = createBtn('Clear Diff', 'ai-btn-clear', true)
 
   controls.appendChild(textarea)
   controls.appendChild(toolbar)
@@ -619,7 +611,6 @@ export function setupAIDemo(config: setupConfig) {
       function setDiffReview(active: boolean) {
         acceptBtn.disabled = !active
         rejectBtn.disabled = !active
-        clearBtn.disabled = !active
       }
 
       startBtn.addEventListener('click', () => {
@@ -657,11 +648,6 @@ export function setupAIDemo(config: setupConfig) {
       })
 
       rejectBtn.addEventListener('click', () => {
-        crepe.editor.action(callCommand(rejectAllDiffsCmd.key))
-        setDiffReview(false)
-      })
-
-      clearBtn.addEventListener('click', () => {
         crepe.editor.action(callCommand(clearDiffReviewCmd.key))
         setDiffReview(false)
       })

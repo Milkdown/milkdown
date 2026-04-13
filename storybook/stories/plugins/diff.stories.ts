@@ -6,7 +6,6 @@ import {
   diff,
   startDiffReviewCmd,
   acceptAllDiffsCmd,
-  rejectAllDiffsCmd,
   clearDiffReviewCmd,
 } from '@milkdown/kit/plugin/diff'
 import { callCommand } from '@milkdown/kit/utils'
@@ -78,17 +77,12 @@ export const Default: Story = {
     acceptAllBtn.textContent = 'Accept All'
     acceptAllBtn.classList.add('diff-toolbar-accept-all')
 
-    const rejectAllBtn = document.createElement('button')
-    rejectAllBtn.textContent = 'Reject All'
-    rejectAllBtn.classList.add('diff-toolbar-reject-all')
-
     const clearBtn = document.createElement('button')
     clearBtn.textContent = 'Clear'
     clearBtn.classList.add('diff-toolbar-clear')
 
     toolbar.appendChild(applyBtn)
     toolbar.appendChild(acceptAllBtn)
-    toolbar.appendChild(rejectAllBtn)
     toolbar.appendChild(clearBtn)
 
     return setupMilkdown([style], args, (editor, _, wrapper) => {
@@ -104,10 +98,6 @@ export const Default: Story = {
 
           acceptAllBtn.addEventListener('click', () => {
             editor.action(callCommand(acceptAllDiffsCmd.key))
-          })
-
-          rejectAllBtn.addEventListener('click', () => {
-            editor.action(callCommand(rejectAllDiffsCmd.key))
           })
 
           clearBtn.addEventListener('click', () => {

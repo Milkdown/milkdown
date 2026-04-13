@@ -231,27 +231,6 @@ withMeta(acceptAllDiffsCmd, {
   group: 'Diff',
 })
 
-/// Reject all remaining pending changes.
-export const rejectAllDiffsCmd = $command('RejectAllDiffs', () => {
-  return () => (state, dispatch) => {
-    const diffState = diffPluginKey.getState(state)
-    if (!diffState) return false
-
-    if (dispatch) {
-      const tr = state.tr.setMeta(diffPluginKey, {
-        type: 'rejectAll',
-      } satisfies DiffAction)
-      dispatch(tr)
-    }
-    return true
-  }
-})
-
-withMeta(rejectAllDiffsCmd, {
-  displayName: 'Command<rejectAllDiffs>',
-  group: 'Diff',
-})
-
 /// Clear the diff review and unlock the editor.
 export const clearDiffReviewCmd = $command('ClearDiffReview', () => {
   return () => (state, dispatch) => {

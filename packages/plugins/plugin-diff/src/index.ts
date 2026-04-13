@@ -5,7 +5,6 @@ import {
   acceptDiffChunkCmd,
   acceptDiffRangeCmd,
   clearDiffReviewCmd,
-  rejectAllDiffsCmd,
   rejectDiffChunkCmd,
   rejectDiffRangeCmd,
   startDiffReviewCmd,
@@ -33,7 +32,6 @@ export {
   acceptDiffChunkCmd,
   acceptDiffRangeCmd,
   clearDiffReviewCmd,
-  rejectAllDiffsCmd,
   rejectDiffChunkCmd,
   rejectDiffRangeCmd,
   startDiffReviewCmd,
@@ -51,6 +49,5 @@ export const diff: MilkdownPlugin[] = [
   rejectDiffChunkCmd,
   rejectDiffRangeCmd,
   acceptAllDiffsCmd,
-  rejectAllDiffsCmd,
   clearDiffReviewCmd,
 ]

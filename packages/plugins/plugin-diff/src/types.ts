@@ -38,5 +38,4 @@ export type DiffAction =
   | { type: 'acceptRange'; range: DiffRange }
   | { type: 'rejectRange'; range: DiffRange }
   | { type: 'acceptAll' }
-  | { type: 'rejectAll' }
   | { type: 'clear' }
