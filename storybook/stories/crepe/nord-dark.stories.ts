@@ -6,7 +6,7 @@ import { nord } from '@uiw/codemirror-theme-nord'
 import type { Args } from './setup'
 
 import {
-  hideDiffArgs,
+  hideAIArgs,
   longContent,
   modifiedLongContent,
   setup,
@@ -48,7 +48,7 @@ export const Empty: Story = {
       theme: nord,
     })
   },
-  argTypes: hideDiffArgs,
+  argTypes: hideAIArgs,
   args: {
     ...defaultArgs,
   },

@@ -149,8 +149,12 @@ export const runAICmd = $command('RunAI', (ctx) => {
 /// Abort the current AI session. Signals the provider to stop and
 /// delegates to `abortStreamingCmd`.
 export const abortAICmd = $command('AbortAI', (ctx) => {
-  return (options?: { keep?: boolean }) => (_state, _dispatch) => {
+  return (options?: { keep?: boolean }) => (_state, dispatch) => {
     const session = ctx.get(aiSessionCtx.key)
+    // Dry-run: return whether there's something to abort, without
+    // performing any side effects.
+    if (!dispatch) return !!session.abortController
+
     if (session.abortController) {
       session.abortController.abort()
       ctx.set(aiSessionCtx.key, { abortController: null })

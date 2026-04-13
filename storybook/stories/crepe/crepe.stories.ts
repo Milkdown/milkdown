@@ -6,7 +6,7 @@ import { basicLight } from '@uiw/codemirror-theme-basic'
 import type { Args } from './setup'
 
 import {
-  hideDiffArgs,
+  hideAIArgs,
   longContent,
   modifiedLongContent,
   setup,
@@ -51,7 +51,7 @@ export const Empty: Story = {
   args: {
     ...defaultArgs,
   },
-  argTypes: hideDiffArgs,
+  argTypes: hideAIArgs,
 }
 
 export const WithDefaultValue: Story = {

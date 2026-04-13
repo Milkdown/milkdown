@@ -35,7 +35,7 @@ export interface Args {
   language: 'EN' | 'JA'
 }
 
-export const hideDiffArgs = {
+export const hideAIArgs = {
   modifiedValue: { table: { disable: true } },
   enableAI: { table: { disable: true } },
 }
@@ -537,7 +537,7 @@ export function setupAIDemo(config: setupConfig) {
   toolbar.appendChild(sep)
 
   const acceptBtn = createBtn('Accept All', 'ai-btn-accept', true)
-  const rejectBtn = createBtn('Reject All', 'ai-btn-reject', true)
+  const clearBtn = createBtn('Clear', 'ai-btn-clear', true)
 
   waitForInstance(config.args, 5000)
     .then((crepe) => {
@@ -555,7 +555,7 @@ export function setupAIDemo(config: setupConfig) {
 
       function setDiffReview(active: boolean) {
         acceptBtn.disabled = !active
-        rejectBtn.disabled = !active
+        clearBtn.disabled = !active
       }
 
       let pollTimer: ReturnType<typeof setInterval> | null = null
@@ -600,7 +600,7 @@ export function setupAIDemo(config: setupConfig) {
         setDiffReview(false)
       })
 
-      rejectBtn.addEventListener('click', () => {
+      clearBtn.addEventListener('click', () => {
         crepe.editor.action(callCommand(clearDiffReviewCmd.key))
         setDiffReview(false)
       })
