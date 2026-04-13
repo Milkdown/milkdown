@@ -561,6 +561,7 @@ export function setupAIDemo(config: setupConfig) {
       let pollTimer: ReturnType<typeof setInterval> | null = null
 
       startBtn.addEventListener('click', () => {
+        setDiffReview(false)
         setStreaming(true)
         // Use modifiedValue from the storybook controls panel as the
         // content to stream. The simulated provider echoes it back
@@ -593,6 +594,7 @@ export function setupAIDemo(config: setupConfig) {
         }
         crepe.editor.action(callCommand(abortAICmd.key, { keep: false }))
         setStreaming(false)
+        setDiffReview(false)
       })
 
       acceptBtn.addEventListener('click', () => {

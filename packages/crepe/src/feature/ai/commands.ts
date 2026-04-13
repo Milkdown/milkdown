@@ -6,6 +6,7 @@ import {
   endStreamingCmd,
   pushChunkCmd,
   startStreamingCmd,
+  streamingPluginKey,
 } from '@milkdown/kit/plugin/streaming'
 import { $command, $ctx } from '@milkdown/kit/utils'
 
@@ -121,8 +122,10 @@ export const runAICmd = $command('RunAI', (ctx) => {
 
     // Dry-run: when dispatch is undefined, ProseMirror is probing
     // whether this command can execute (e.g. for keybinding / menu
-    // enabled state). Return true without side effects.
-    if (!dispatch) return true
+    // enabled state). Return true without side effects. Also check
+    // the streaming plugin state — a manual streaming session started
+    // via startStreamingCmd would make startStreamingCmd return false.
+    if (!dispatch) return !streamingPluginKey.getState(state)?.active
 
     // Start streaming at the cursor position.
     const commands = ctx.get(commandsCtx)

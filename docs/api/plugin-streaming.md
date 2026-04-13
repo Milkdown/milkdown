@@ -90,7 +90,7 @@ The insert strategy depends on where the cursor is when streaming starts:
 
 ## Diff Review After Streaming
 
-When `CrepeFeature.AI` is enabled, you can hand off to diff review mode after streaming ends:
+When `Crepe.Feature.AI` is enabled, you can hand off to diff review mode after streaming ends:
 
 ```typescript
 // End streaming and enter diff review
