@@ -83,8 +83,14 @@ async function runProvider(
     const commands = ctx.get(commandsCtx)
     commands.call(abortStreamingCmd.key, { keep: false })
   } finally {
-    setStreamingClass(ctx, false)
-    ctx.set(aiSessionCtx.key, { abortController: null })
+    // Only clean up if this session is still the active one. If the
+    // user aborted and immediately started a new session, the new
+    // session owns the ctx now and we must not clobber it.
+    const current = ctx.get(aiSessionCtx.key)
+    if (current.abortController === abortController) {
+      setStreamingClass(ctx, false)
+      ctx.set(aiSessionCtx.key, { abortController: null })
+    }
   }
 }
 

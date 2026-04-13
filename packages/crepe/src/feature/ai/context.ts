@@ -19,9 +19,11 @@ export function defaultBuildContext(
   const document = serializer(state.doc)
 
   // Selected text as markdown (empty if selection is collapsed).
-  // Use createAndFill because slice.content may be inline-only (e.g.
-  // a selection inside a paragraph), which is not valid as a direct
-  // child of the top node type.
+  // For block-level selections (whole paragraphs, list items, etc.)
+  // we wrap the slice content in a doc node and serialize it. For
+  // inline-only selections (text inside a single paragraph),
+  // createAndFill returns null because inline content isn't valid as
+  // direct doc children — fall back to plain text via textBetween.
   let selection = ''
   if (!state.selection.empty) {
     const { from, to } = state.selection
@@ -30,7 +32,7 @@ export function defaultBuildContext(
       null,
       slice.content
     )
-    if (wrapper) selection = serializer(wrapper)
+    selection = wrapper ? serializer(wrapper) : state.doc.textBetween(from, to)
   }
 
   return { document, selection, instruction }
