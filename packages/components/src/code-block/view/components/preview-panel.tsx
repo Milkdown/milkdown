@@ -56,7 +56,7 @@ export const PreviewPanel = defineComponent<PreviewPanelProps>({
         typeof previewContent === 'string' ||
         previewContent instanceof Element
       ) {
-        previewContainer.innerHTML = DOMPurify.sanitize(previewContent)
+        previewContainer.innerHTML = DOMPurify.sanitize(previewContent, { ADD_TAGS: ['foreignObject'], ADD_ATTR: ['xmlns'] })
       }
     })
 
