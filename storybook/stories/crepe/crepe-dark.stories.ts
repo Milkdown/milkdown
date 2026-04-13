@@ -99,6 +99,7 @@ export const AIDemo: Story = {
   args: {
     ...defaultArgs,
     defaultValue: longContent,
+    modifiedValue: modifiedLongContent,
     enableAI: true,
   },
 }
