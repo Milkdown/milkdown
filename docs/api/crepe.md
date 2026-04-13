@@ -614,7 +614,7 @@ interface AIFeatureConfig {
   buildContext?: (ctx: Ctx, instruction: string) => AIPromptContext
   diffReviewOnEnd?: boolean // Enter diff review on end (default: true)
   diff?: AIDiffConfig // Pass-through config for the diff plugin
-  streaming?: Partial<StreamingConfig> // Pass-through config for the streaming plugin
+  streaming?: Partial<Omit<StreamingConfig, 'diffReviewOnEnd'>> // Pass-through (diffReviewOnEnd is controlled above)
 }
 
 // Example:
