@@ -1,6 +1,6 @@
 import type { Editor } from '@milkdown/kit/core'
 
-import { aiFeature } from './ai'
+import { ai } from './ai'
 import { blockEdit } from './block-edit'
 import { codeMirror } from './code-mirror'
 import { cursor } from './cursor'
@@ -54,7 +54,7 @@ export function loadFeature(
       return topBar(editor, config)
     }
     case CrepeFeature.AI: {
-      return aiFeature(editor, config)
+      return ai(editor, config)
     }
   }
 }

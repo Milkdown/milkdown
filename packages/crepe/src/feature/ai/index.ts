@@ -27,7 +27,7 @@ export type { AIFeatureConfig, AIPromptContext, AIProvider } from './types'
 export { runAICmd, abortAICmd } from './commands'
 export { defaultBuildContext } from './context'
 
-export const aiFeature: DefineFeature<AIFeatureConfig> = (editor, config) => {
+export const ai: DefineFeature<AIFeatureConfig> = (editor, config) => {
   const diffCfg = config?.diff ?? {}
   const streamingCfg = config?.streaming ?? {}
 
