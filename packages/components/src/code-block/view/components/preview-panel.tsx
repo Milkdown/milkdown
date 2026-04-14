@@ -83,6 +83,7 @@ export const PreviewPanel = defineComponent<PreviewPanelProps>({
         previewContainer.innerHTML = svgPurify.sanitize(previewContent, {
           ADD_TAGS: ['foreignObject'],
           ADD_ATTR: ['xmlns'],
+          HTML_INTEGRATION_POINTS: { foreignobject: true },
         })
       }
     })
