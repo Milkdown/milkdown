@@ -562,15 +562,13 @@ export function setupAIDemo(config: setupConfig) {
 
       startBtn.addEventListener('click', () => {
         setDiffReview(false)
-        setStreaming(true)
-        // Use modifiedValue from the storybook controls panel as the
-        // content to stream. The simulated provider echoes it back
-        // char by char, then diff review kicks in automatically.
-        crepe.editor.action(
+        const started = crepe.editor.action(
           callCommand(runAICmd.key, {
             instruction: config.args.modifiedValue,
           })
         )
+        if (!started) return
+        setStreaming(true)
         pollTimer = setInterval(() => {
           const milkdown = shadow.querySelector('.milkdown')
           const isStreaming =

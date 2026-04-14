@@ -1,6 +1,7 @@
 import type { Ctx } from '@milkdown/kit/ctx'
 
 import { commandsCtx, editorViewCtx } from '@milkdown/kit/core'
+import { diffPluginKey } from '@milkdown/kit/plugin/diff'
 import {
   abortStreamingCmd,
   endStreamingCmd,
@@ -115,17 +116,18 @@ export const runAICmd = $command('RunAI', (ctx) => {
     const config = ctx.get(aiProviderConfig.key)
     if (!config.provider) return false
 
-    // Reject if a session is already running. Callers should abort the
-    // current session before starting a new one.
+    // Reject if a session is already running, streaming is active, or
+    // diff review is active (lockOnReview blocks non-diff transactions,
+    // so streaming flushes would be silently rejected).
     const session = ctx.get(aiSessionCtx.key)
     if (session.abortController) return false
+    if (streamingPluginKey.getState(state)?.active) return false
+    if (diffPluginKey.getState(state)?.active) return false
 
     // Dry-run: when dispatch is undefined, ProseMirror is probing
-    // whether this command can execute (e.g. for keybinding / menu
-    // enabled state). Return true without side effects. Also check
-    // the streaming plugin state — a manual streaming session started
-    // via startStreamingCmd would make startStreamingCmd return false.
-    if (!dispatch) return !streamingPluginKey.getState(state)?.active
+    // whether this command can execute. All precondition checks above
+    // are side-effect-free so we can return true here.
+    if (!dispatch) return true
 
     // Start streaming at the cursor position.
     const commands = ctx.get(commandsCtx)
