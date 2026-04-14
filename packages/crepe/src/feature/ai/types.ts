@@ -1,15 +1,9 @@
 import type { Ctx } from '@milkdown/kit/ctx'
 import type { StreamingConfig } from '@milkdown/kit/plugin/streaming'
 
-/// Context passed to the AI provider function.
 export interface AIPromptContext {
-  /// The full document serialized as markdown.
   document: string
-  /// The selected text (empty string if no selection). Block-level
-  /// selections are serialized as markdown; inline-only selections
-  /// (e.g. text inside a single paragraph) fall back to plain text.
   selection: string
-  /// The user instruction (e.g. "summarize", "translate to English").
   instruction: string
 }
 
