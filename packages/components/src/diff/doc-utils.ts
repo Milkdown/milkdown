@@ -2,6 +2,8 @@ import type { Node } from '@milkdown/prose/model'
 
 import { Decoration } from '@milkdown/prose/view'
 
+import { DIFF_CLASS_PREFIX } from './config'
+
 /// Check if a position range in a doc crosses a top-level block boundary.
 export function isBlockSpanning(doc: Node, from: number, to: number): boolean {
   if (from === to) return false
@@ -140,7 +142,7 @@ export function addBlockDeletionDecorations(
 
     decorations.push(
       Decoration.node(start, end, {
-        class: 'milkdown-diff-removed-block',
+        class: `${DIFF_CLASS_PREFIX}-removed-block`,
       })
     )
   })

@@ -18,7 +18,10 @@ import { $prose } from '@milkdown/utils'
 import type { ChangeSegment, MergedChange } from './merge-changes'
 
 import { withMeta } from '../__internal__/meta'
-import { diffComponentConfig } from './config'
+import {
+  DIFF_CLASS_PREFIX as CLASS_PREFIX,
+  diffComponentConfig,
+} from './config'
 import {
   addBlockDeletionDecorations,
   collectTopLevelNodes,
@@ -72,8 +75,6 @@ withMeta(diffDecorationPlugin, {
 // ---------------------------------------------------------------------------
 // Decoration builders
 // ---------------------------------------------------------------------------
-
-const CLASS_PREFIX = 'milkdown-diff'
 
 interface CrossBoundaryOptions {
   doc: Node
