@@ -15,10 +15,8 @@ export type AIProvider = (
   signal: AbortSignal
 ) => AsyncIterable<string>
 
-/// Diff-related config options passed through to `@milkdown/plugin-diff`.
+/// Diff-related config options passed through to the diff plugin and component.
 export interface AIDiffConfig {
-  lockOnReview?: boolean
-  classPrefix?: string
   acceptLabel?: string
   rejectLabel?: string
   customBlockTypes?: string[]

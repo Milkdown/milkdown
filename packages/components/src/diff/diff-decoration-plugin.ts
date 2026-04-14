@@ -73,13 +73,14 @@ withMeta(diffDecorationPlugin, {
 // Decoration builders
 // ---------------------------------------------------------------------------
 
+const CLASS_PREFIX = 'milkdown-diff'
+
 interface CrossBoundaryOptions {
   doc: Node
   newDoc: Node
   segments: ChangeSegment[]
   change: MergedChange
   changeIndex: number
-  classPrefix: string
   commands: CommandManager
   acceptLabel: string
   rejectLabel: string
@@ -93,7 +94,6 @@ function addCrossBoundaryDecorations({
   segments,
   change,
   changeIndex,
-  classPrefix,
   commands,
   acceptLabel,
   rejectLabel,
@@ -106,17 +106,11 @@ function addCrossBoundaryDecorations({
 
     if (segDeletion) {
       if (seg.isBlock) {
-        addBlockDeletionDecorations(
-          doc,
-          seg.fromA,
-          seg.toA,
-          classPrefix,
-          decorations
-        )
+        addBlockDeletionDecorations(doc, seg.fromA, seg.toA, decorations)
       } else {
         decorations.push(
           Decoration.inline(seg.fromA, seg.toA, {
-            class: `${classPrefix}-removed`,
+            class: `${CLASS_PREFIX}-removed`,
           })
         )
       }
@@ -128,7 +122,7 @@ function addCrossBoundaryDecorations({
         : segDeletion
           ? seg.toA
           : seg.fromA
-      const widget = createInsertedWidget(newDoc, seg, classPrefix, seg.isBlock)
+      const widget = createInsertedWidget(newDoc, seg, seg.isBlock)
       decorations.push(
         Decoration.widget(widgetPos, widget, {
           side: -1,
@@ -148,7 +142,6 @@ function addCrossBoundaryDecorations({
   const controlsPos = snapToBlockBoundary(doc, lastSegEnd)
   const controls = createControlsWidget({
     commands,
-    classPrefix,
     isBlockLevel: true,
     change,
     acceptLabel,
@@ -167,7 +160,6 @@ function buildDecorations(
   doc: Node,
   diffState: DiffState,
   config: {
-    classPrefix: string
     customBlockTypes: string[]
     acceptLabel: string
     rejectLabel: string
@@ -175,7 +167,6 @@ function buildDecorations(
 ): DecorationSet {
   const decorations: Decoration[] = []
   const commands = ctx.get(commandsCtx)
-  const classPrefix = config.classPrefix
   const customBlockTypes = new Set(config.customBlockTypes)
   const pending = getPendingChanges(diffState)
   const mergedChanges = mergeBlockChanges(
@@ -234,7 +225,6 @@ function buildDecorations(
           segments,
           change,
           changeIndex: i,
-          classPrefix,
           commands,
           acceptLabel: config.acceptLabel,
           rejectLabel: config.rejectLabel,
@@ -247,17 +237,11 @@ function buildDecorations(
     // Non-split path: render as a single change
     if (isDeletion) {
       if (change.isCustomBlock || isBlockLevel) {
-        addBlockDeletionDecorations(
-          doc,
-          change.fromA,
-          change.toA,
-          classPrefix,
-          decorations
-        )
+        addBlockDeletionDecorations(doc, change.fromA, change.toA, decorations)
       } else {
         decorations.push(
           Decoration.inline(change.fromA, change.toA, {
-            class: `${classPrefix}-removed`,
+            class: `${CLASS_PREFIX}-removed`,
           })
         )
       }
@@ -272,7 +256,6 @@ function buildDecorations(
       const widget = createInsertedWidget(
         diffState.newDoc,
         change,
-        classPrefix,
         isBlockLevel
       )
       decorations.push(
@@ -282,7 +265,6 @@ function buildDecorations(
 
     const controls = createControlsWidget({
       commands,
-      classPrefix,
       isBlockLevel,
       change,
       acceptLabel: config.acceptLabel,
@@ -306,13 +288,12 @@ function buildDecorations(
 function createInsertedWidget(
   newDoc: Node,
   change: { fromB: number; toB: number },
-  classPrefix: string,
   isBlockLevel: boolean
 ): HTMLElement {
   const dom = document.createElement(isBlockLevel ? 'div' : 'span')
-  dom.className = `${classPrefix}-added`
+  dom.className = `${CLASS_PREFIX}-added`
   dom.contentEditable = 'false'
-  if (isBlockLevel) dom.classList.add(`${classPrefix}-added-block`)
+  if (isBlockLevel) dom.classList.add(`${CLASS_PREFIX}-added-block`)
 
   const serializer = DOMSerializer.fromSchema(newDoc.type.schema)
 
@@ -354,7 +335,6 @@ function createInsertedWidget(
 
 interface ControlsWidgetOptions {
   commands: CommandManager
-  classPrefix: string
   isBlockLevel: boolean
   change: MergedChange
   acceptLabel: string
@@ -363,16 +343,15 @@ interface ControlsWidgetOptions {
 
 function createControlsWidget({
   commands,
-  classPrefix,
   isBlockLevel,
   change,
   acceptLabel,
   rejectLabel,
 }: ControlsWidgetOptions): HTMLElement {
   const dom = document.createElement(isBlockLevel ? 'div' : 'span')
-  dom.className = `${classPrefix}-controls`
+  dom.className = `${CLASS_PREFIX}-controls`
   dom.contentEditable = 'false'
-  if (isBlockLevel) dom.classList.add(`${classPrefix}-controls-block`)
+  if (isBlockLevel) dom.classList.add(`${CLASS_PREFIX}-controls-block`)
 
   const handler = (action: 'accept' | 'reject') => (e: Event) => {
     e.preventDefault()
@@ -391,12 +370,12 @@ function createControlsWidget({
   }
 
   const acceptBtn = document.createElement('button')
-  acceptBtn.className = `${classPrefix}-accept`
+  acceptBtn.className = `${CLASS_PREFIX}-accept`
   acceptBtn.textContent = acceptLabel
   acceptBtn.addEventListener('click', handler('accept'))
 
   const rejectBtn = document.createElement('button')
-  rejectBtn.className = `${classPrefix}-reject`
+  rejectBtn.className = `${CLASS_PREFIX}-reject`
   rejectBtn.textContent = rejectLabel
   rejectBtn.addEventListener('click', handler('reject'))
 

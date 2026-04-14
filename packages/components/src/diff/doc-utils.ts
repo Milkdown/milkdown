@@ -127,7 +127,6 @@ export function addBlockDeletionDecorations(
   doc: Node,
   from: number,
   to: number,
-  classPrefix: string,
   decorations: Decoration[]
 ): void {
   forEachTopLevelNodeInRange(doc, from, to, (node, start, end) => {
@@ -141,7 +140,7 @@ export function addBlockDeletionDecorations(
 
     decorations.push(
       Decoration.node(start, end, {
-        class: `${classPrefix}-removed-block`,
+        class: 'milkdown-diff-removed-block',
       })
     )
   })

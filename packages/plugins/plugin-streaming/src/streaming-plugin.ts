@@ -72,8 +72,7 @@ export const streamingPlugin = $prose((ctx) => {
         let state = applyStreamingAction(value, action)
 
         // Map insert positions through transaction mapping when the doc
-        // changes from a non-streaming transaction (e.g. collaborative edits
-        // when lockDuringStreaming is disabled).
+        // changes from a non-streaming transaction (e.g. collaborative edits).
         if (
           state?.active &&
           state.insertPos != null &&
@@ -94,8 +93,6 @@ export const streamingPlugin = $prose((ctx) => {
       },
     },
     filterTransaction(tr, editorState) {
-      if (!config.lockDuringStreaming) return true
-
       const state = streamingPluginKey.getState(editorState)
       if (!state?.active) return true
 

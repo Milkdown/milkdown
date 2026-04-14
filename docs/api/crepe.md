@@ -623,7 +623,7 @@ const crepe = new Crepe({
         // Yield markdown tokens from your LLM
       },
       diffReviewOnEnd: true,
-      diff: { lockOnReview: true },
+      diff: { acceptLabel: 'Yes', rejectLabel: 'No' },
       streaming: { throttleMs: 150 },
     } satisfies AIFeatureConfig,
   },

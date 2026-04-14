@@ -3,7 +3,6 @@ import { $ctx } from '@milkdown/utils'
 import { withMeta } from '../__internal__/meta'
 
 export interface DiffComponentConfig {
-  classPrefix: string
   acceptLabel: string
   rejectLabel: string
   /// Node type names that use custom node views where inline decorations
@@ -13,7 +12,6 @@ export interface DiffComponentConfig {
 }
 
 const defaultConfig: DiffComponentConfig = {
-  classPrefix: 'milkdown-diff',
   acceptLabel: 'Accept',
   rejectLabel: 'Reject',
   customBlockTypes: [],

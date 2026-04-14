@@ -38,10 +38,6 @@ export type InsertStrategyResolver = (resolved: ResolvedPos) => InsertStrategy
 export interface StreamingConfig {
   /// Throttle interval for parse+diff+apply in ms (default: 100).
   throttleMs: number
-  /// Lock editing during streaming (default: true).
-  /// When disabled, concurrent edits are allowed but abort/diff-review
-  /// will restore the original document snapshot, discarding those edits.
-  lockDuringStreaming: boolean
   /// Auto-scroll to follow streaming content (default: true).
   scrollFollow: boolean
   /// Enter diff review mode after streaming ends (default: false).
