@@ -69,27 +69,7 @@ export const streamingPlugin = $prose((ctx) => {
         const action = tr.getMeta(streamingPluginKey) as
           | StreamingAction
           | undefined
-        let state = applyStreamingAction(value, action)
-
-        // Map insert positions through transaction mapping when the doc
-        // changes from a non-streaming transaction (e.g. collaborative edits).
-        if (
-          state?.active &&
-          state.insertPos != null &&
-          tr.docChanged &&
-          !action
-        ) {
-          state = {
-            ...state,
-            insertPos: tr.mapping.map(state.insertPos),
-            insertEndPos:
-              state.insertEndPos != null
-                ? tr.mapping.map(state.insertEndPos)
-                : null,
-          }
-        }
-
-        return state
+        return applyStreamingAction(value, action)
       },
     },
     filterTransaction(tr, editorState) {
