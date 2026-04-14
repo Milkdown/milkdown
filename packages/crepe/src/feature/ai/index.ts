@@ -60,7 +60,12 @@ export const ai: DefineFeature<AIFeatureConfig> = (editor, config) => {
         ignoreAttrs: streamingCfg.ignoreAttrs ?? CREPE_IGNORE_ATTRS,
         // Wire diffReviewOnEnd into the streaming plugin so manual
         // endStreamingCmd calls (outside runAICmd) also respect it.
-        diffReviewOnEnd: config?.diffReviewOnEnd ?? true,
+        // Only override if the user explicitly set it — otherwise
+        // keep the streaming plugin's own default so tests and
+        // manual-streaming use cases aren't surprised.
+        ...(config?.diffReviewOnEnd !== undefined
+          ? { diffReviewOnEnd: config.diffReviewOnEnd }
+          : {}),
       }))
     })
     .use(streaming)
