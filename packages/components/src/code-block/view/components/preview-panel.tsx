@@ -7,6 +7,30 @@ import { keepAlive } from '../../../__internal__/keep-alive'
 
 keepAlive(h, Fragment)
 
+const SVG_NAMESPACE = 'http://www.w3.org/2000/svg'
+
+/**
+ * Creates a DOMPurify instance that allows foreignObject only inside SVG.
+ * foreignObject is needed for Mermaid v11+ flowchart labels, but is a known
+ * mXSS vector (CVE-2020-26870) when allowed outside SVG context.
+ */
+function createSvgAwareSanitizer() {
+  const purify = DOMPurify()
+
+  purify.addHook('uponSanitizeElement', (node, data) => {
+    if (data.tagName === 'foreignobject') {
+      const parent = node.parentElement
+      if (!parent || parent.namespaceURI !== SVG_NAMESPACE) {
+        node.remove()
+      }
+    }
+  })
+
+  return purify
+}
+
+const svgPurify = createSvgAwareSanitizer()
+
 type PreviewPanelProps = Pick<
   CodeBlockProps,
   'text' | 'language' | 'config'
@@ -56,7 +80,10 @@ export const PreviewPanel = defineComponent<PreviewPanelProps>({
         typeof previewContent === 'string' ||
         previewContent instanceof Element
       ) {
-        previewContainer.innerHTML = DOMPurify.sanitize(previewContent, { ADD_TAGS: ['foreignObject'], ADD_ATTR: ['xmlns'] })
+        previewContainer.innerHTML = svgPurify.sanitize(previewContent, {
+          ADD_TAGS: ['foreignObject'],
+          ADD_ATTR: ['xmlns'],
+        })
       }
     })
 
