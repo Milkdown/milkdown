@@ -58,6 +58,9 @@ export const ai: DefineFeature<AIFeatureConfig> = (editor, config) => {
         ...prev,
         ...streamingCfg,
         ignoreAttrs: streamingCfg.ignoreAttrs ?? CREPE_IGNORE_ATTRS,
+        // Wire diffReviewOnEnd into the streaming plugin so manual
+        // endStreamingCmd calls (outside runAICmd) also respect it.
+        diffReviewOnEnd: config?.diffReviewOnEnd ?? true,
       }))
     })
     .use(streaming)
