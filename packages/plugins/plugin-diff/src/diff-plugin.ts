@@ -115,7 +115,6 @@ export const diffPlugin = $prose((ctx) => {
             break
 
           case 'acceptAll':
-          case 'rejectAll':
           case 'clear':
             return null
 

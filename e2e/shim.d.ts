@@ -42,7 +42,6 @@ declare global {
 
   var __applyDiff__: (markdown: string) => boolean
   var __acceptAll__: () => boolean
-  var __rejectAll__: () => boolean
   var __clearDiff__: () => boolean
   var __acceptChunk__: (index: number) => boolean
   var __rejectChunk__: (index: number) => boolean

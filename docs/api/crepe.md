@@ -4,7 +4,7 @@ The crepe editor, built on top of milkdown.
 
 ## Features
 
-Crepe provides a rich set of features that can be enabled or disabled through configuration. By default, most features are enabled except for `TopBar`, `Diff`, and `Streaming`:
+Crepe provides a rich set of features that can be enabled or disabled through configuration. By default, most features are enabled except for `TopBar` and `AI`:
 
 ```typescript
 const defaultFeatures: Record<CrepeFeature, boolean> = {
@@ -19,8 +19,7 @@ const defaultFeatures: Record<CrepeFeature, boolean> = {
   [Crepe.Feature.Table]: true,
   [Crepe.Feature.Latex]: true,
   [Crepe.Feature.TopBar]: false,
-  [Crepe.Feature.Diff]: false,
-  [Crepe.Feature.Streaming]: false,
+  [Crepe.Feature.AI]: false,
 }
 ```
 
@@ -600,62 +599,48 @@ const config: CrepeConfig = {
 }
 ```
 
-#### Diff Feature
+#### AI Feature
+
+The AI feature combines streaming input and diff review into a single
+workflow. Users supply a `provider` (an async generator that yields
+markdown tokens) and Crepe handles the rest: start streaming, push
+chunks, end streaming, and optionally hand off to diff review.
 
 ```typescript
-interface DiffFeatureConfig {
-  lockOnReview?: boolean // Lock editing during diff review (default: true)
-  classPrefix?: string // CSS class prefix (default: 'milkdown-diff')
-  acceptLabel?: string // Accept button text (default: 'Accept')
-  rejectLabel?: string // Reject button text (default: 'Reject')
-  customBlockTypes?: string[] // Node types using custom node views
-  ignoreAttrs?: Record<string, string[]> // Attrs to ignore when diffing
-}
+import { Crepe } from '@milkdown/crepe'
+import type { AIFeatureConfig } from '@milkdown/crepe/feature/ai'
+import { runAICmd, abortAICmd } from '@milkdown/crepe/feature/ai'
+import { callCommand } from '@milkdown/kit/utils'
 
-// Example:
-const config: CrepeConfig = {
+const crepe = new Crepe({
+  root: '#editor',
   features: {
-    [Crepe.Feature.Diff]: true,
+    [Crepe.Feature.AI]: true,
   },
   featureConfigs: {
-    [Crepe.Feature.Diff]: {
-      lockOnReview: true,
-      ignoreAttrs: { heading: ['id'] },
-    },
-  },
-}
-```
-
-See [@milkdown/plugin-diff](./plugin-diff.md) for commands and usage details.
-
-#### Streaming Feature
-
-```typescript
-interface StreamingFeatureConfig {
-  throttleMs?: number // Flush interval in ms (default: 100)
-  lockDuringStreaming?: boolean // Block user edits during streaming (default: true)
-  scrollFollow?: boolean // Auto-scroll to follow content (default: true)
-  diffReviewOnEnd?: boolean // Enter diff review on end (default: false)
-  ignoreAttrs?: Record<string, string[]> // Attrs to ignore when diffing during flush
-  insertStrategy?: InsertStrategyResolver // Custom insert strategy resolver
-}
-
-// Example:
-const config: CrepeConfig = {
-  features: {
-    [Crepe.Feature.Streaming]: true,
-    [Crepe.Feature.Diff]: true, // Recommended: enables diff review after streaming
-  },
-  featureConfigs: {
-    [Crepe.Feature.Streaming]: {
+    [Crepe.Feature.AI]: {
+      provider: async function* (context, signal) {
+        // Yield markdown tokens from your LLM
+      },
       diffReviewOnEnd: true,
-      throttleMs: 150,
-    },
+      diff: { lockOnReview: true },
+      streaming: { throttleMs: 150 },
+    } satisfies AIFeatureConfig,
   },
-}
+})
+await crepe.create()
+
+// Trigger AI:
+crepe.editor.action(
+  callCommand(runAICmd.key, { instruction: 'Summarize this' })
+)
+// Abort:
+crepe.editor.action(callCommand(abortAICmd.key))
 ```
 
-See [@milkdown/plugin-streaming](./plugin-streaming.md) for commands and usage details.
+See [@milkdown/plugin-diff](./plugin-diff.md) and
+[@milkdown/plugin-streaming](./plugin-streaming.md) for the underlying
+plugin APIs.
 
 ## Usage
 

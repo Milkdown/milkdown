@@ -11,7 +11,7 @@ setup(async () => {
   const crepe = new Crepe({
     root: '#app',
     features: {
-      [CrepeFeature.Diff]: true,
+      [CrepeFeature.AI]: true,
     },
   })
   globalThis.__crepe__ = crepe
@@ -21,8 +21,6 @@ setup(async () => {
     crepe.editor.action(callCommand('StartDiffReview', markdown))
   globalThis.__acceptAll__ = () =>
     crepe.editor.action(callCommand('AcceptAllDiffs'))
-  globalThis.__rejectAll__ = () =>
-    crepe.editor.action(callCommand('RejectAllDiffs'))
   globalThis.__clearDiff__ = () =>
     crepe.editor.action(callCommand('ClearDiffReview'))
   globalThis.__acceptChunk__ = (index: number) =>

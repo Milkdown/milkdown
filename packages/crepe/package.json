@@ -27,6 +27,9 @@
     "./builder": {
       "import": "./src/builder.ts"
     },
+    "./feature/ai": {
+      "import": "./src/feature/ai/index.ts"
+    },
     "./feature/block-edit": {
       "import": "./src/feature/block-edit/index.ts"
     },
@@ -79,6 +82,11 @@
         "import": "./lib/esm/builder.js",
         "require": "./lib/cjs/builder.js",
         "types": "./lib/types/builder.d.ts"
+      },
+      "./feature/ai": {
+        "import": "./lib/esm/feature/ai/index.js",
+        "require": "./lib/cjs/feature/ai/index.js",
+        "types": "./lib/types/feature/ai/index.d.ts"
       },
       "./feature/block-edit": {
         "import": "./lib/esm/feature/block-edit/index.js",

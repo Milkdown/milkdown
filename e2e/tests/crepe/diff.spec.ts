@@ -28,10 +28,10 @@ test.describe('diff commands', () => {
     expect(markdown).not.toContain('Hello World')
   })
 
-  test('reject all keeps the original document', async ({ page }) => {
+  test('clear diff keeps the original document', async ({ page }) => {
     await applyDiff(page, original, modified)
 
-    await page.evaluate(() => window.__rejectAll__())
+    await page.evaluate(() => window.__clearDiff__())
     await waitNextFrame(page)
 
     const markdown = await getMarkdown(page)

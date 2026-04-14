@@ -11,7 +11,7 @@ setup(async () => {
   const crepe = new Crepe({
     root: '#app',
     features: {
-      [CrepeFeature.Streaming]: true,
+      [CrepeFeature.AI]: true,
     },
   })
   globalThis.__crepe__ = crepe

@@ -25,7 +25,7 @@ import { Crepe, CrepeFeature } from '@milkdown/crepe'
 const crepe = new Crepe({
   root: '#editor',
   features: {
-    [CrepeFeature.Diff]: true,
+    [CrepeFeature.AI]: true,
   },
 })
 await crepe.create()
@@ -60,7 +60,6 @@ Users can click the Accept/Reject buttons on each change in the UI. You can also
 import { callCommand } from '@milkdown/kit/utils'
 import {
   acceptAllDiffsCmd,
-  rejectAllDiffsCmd,
   clearDiffReviewCmd,
   acceptDiffChunkCmd,
   rejectDiffChunkCmd,
@@ -69,10 +68,7 @@ import {
 // Accept all remaining changes
 editor.action(callCommand(acceptAllDiffsCmd.key))
 
-// Reject all remaining changes
-editor.action(callCommand(rejectAllDiffsCmd.key))
-
-// Cancel the review without applying anything
+// Clear the review (discard remaining changes, keep accepted ones)
 editor.action(callCommand(clearDiffReviewCmd.key))
 
 // Accept/reject a specific change by index
@@ -166,7 +162,6 @@ For standalone usage, the main CSS classes are:
 @acceptDiffRangeCmd
 @rejectDiffRangeCmd
 @acceptAllDiffsCmd
-@rejectAllDiffsCmd
 @clearDiffReviewCmd
 
 ## Utilities

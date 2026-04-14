@@ -1,12 +1,16 @@
 import type { Extension } from '@codemirror/state'
+import type {
+  AIFeatureConfig,
+  AIPromptContext,
+} from '@milkdown/crepe/feature/ai'
 
 import { Crepe } from '@milkdown/crepe'
+import { abortAICmd, runAICmd } from '@milkdown/crepe/feature/ai'
 import all from '@milkdown/crepe/theme/common/style.css?inline'
 import { commandsCtx } from '@milkdown/kit/core'
 import {
   acceptAllDiffsCmd,
   clearDiffReviewCmd,
-  rejectAllDiffsCmd,
   startDiffReviewCmd,
 } from '@milkdown/kit/plugin/diff'
 import {
@@ -27,24 +31,23 @@ export interface Args {
   modifiedValue: string
   enableCodemirror: boolean
   enableTopBar: boolean
-  enableDiff: boolean
-  enableStreaming: boolean
+  enableAI: boolean
   language: 'EN' | 'JA'
 }
 
-export const hideDiffArgs = {
+export const hideAIArgs = {
   modifiedValue: { table: { disable: true } },
-  enableDiff: { table: { disable: true } },
-  enableStreaming: { table: { disable: true } },
+  enableAI: { table: { disable: true } },
 }
 
 interface setupConfig {
   args: Args
   style: string
   theme: Extension
+  aiConfig?: AIFeatureConfig
 }
 
-export function setup({ args, style, theme }: setupConfig) {
+export function setup({ args, style, theme, aiConfig }: setupConfig) {
   const {
     wrapper: crepeRoot,
     root,
@@ -61,8 +64,7 @@ export function setup({ args, style, theme }: setupConfig) {
     features: {
       [Crepe.Feature.CodeMirror]: args.enableCodemirror,
       [Crepe.Feature.TopBar]: args.enableTopBar,
-      [Crepe.Feature.Diff]: args.enableDiff,
-      [Crepe.Feature.Streaming]: args.enableStreaming,
+      [Crepe.Feature.AI]: args.enableAI,
     },
     featureConfigs: {
       [Crepe.Feature.LinkTooltip]: {
@@ -160,6 +162,7 @@ export function setup({ args, style, theme }: setupConfig) {
               ? 'Edit'
               : 'Hide',
       },
+      ...(aiConfig ? { [Crepe.Feature.AI]: aiConfig } : {}),
     },
   })
 
@@ -200,8 +203,6 @@ const diffToolbarStyle = `
 .diff-toolbar-apply:hover { background: #2563eb; }
 .diff-toolbar-accept-all { background: #22c55e; color: white; border-color: #16a34a; }
 .diff-toolbar-accept-all:hover { background: #16a34a; }
-.diff-toolbar-reject-all { background: #ef4444; color: white; border-color: #dc2626; }
-.diff-toolbar-reject-all:hover { background: #dc2626; }
 .diff-toolbar-clear { background: #e5e7eb; color: #374151; border-color: #d1d5db; }
 .diff-toolbar-clear:hover { background: #d1d5db; }
 `
@@ -220,7 +221,6 @@ export function setupDiffReview(config: setupConfig) {
   const buttons = [
     { text: 'Apply Diff', cls: 'diff-toolbar-apply' },
     { text: 'Accept All', cls: 'diff-toolbar-accept-all' },
-    { text: 'Reject All', cls: 'diff-toolbar-reject-all' },
     { text: 'Clear', cls: 'diff-toolbar-clear' },
   ]
   const btnElements = buttons.map(({ text, cls }) => {
@@ -230,7 +230,7 @@ export function setupDiffReview(config: setupConfig) {
     toolbar.appendChild(btn)
     return btn
   })
-  const [applyBtn, acceptAllBtn, rejectAllBtn, clearBtn] = btnElements
+  const [applyBtn, acceptAllBtn, clearBtn] = btnElements
 
   waitForInstance(config.args, 5000)
     .then((crepe) => {
@@ -250,9 +250,6 @@ export function setupDiffReview(config: setupConfig) {
       })
       acceptAllBtn!.addEventListener('click', () => {
         crepe.editor.action(callCommand(acceptAllDiffsCmd.key))
-      })
-      rejectAllBtn!.addEventListener('click', () => {
-        crepe.editor.action(callCommand(rejectAllDiffsCmd.key))
       })
       clearBtn!.addEventListener('click', () => {
         crepe.editor.action(callCommand(clearDiffReviewCmd.key))
@@ -305,7 +302,7 @@ The streaming plugin supports:
 const editor = new Crepe({
   root: '#app',
   features: {
-    [Crepe.Feature.Streaming]: true,
+    [Crepe.Feature.AI]: true,
   },
 })
 await editor.create()
@@ -453,35 +450,6 @@ export function setupStreamingDemo(config: setupConfig) {
 }
 
 const aiDemoToolbarStyle = `
-.ai-demo-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-.ai-demo-controls textarea {
-  width: 100%;
-  min-height: 80px;
-  font-family: monospace;
-  font-size: 12px;
-  padding: 8px;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  resize: vertical;
-}
-.ai-demo-options {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  font-size: 13px;
-  color: #374151;
-}
-.ai-demo-options label {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-}
 .ai-demo-toolbar {
   display: flex;
   gap: 8px;
@@ -515,61 +483,39 @@ const aiDemoToolbarStyle = `
 }
 `
 
-const aiSampleContent = `## AI Generated Section
-
-Here is a summary of the key points:
-
-- **First point**: The architecture uses a plugin-based approach
-- **Second point**: Streaming content is buffered and flushed periodically
-- **Third point**: Diff review allows accepting or rejecting changes
-
-\`\`\`typescript
-const editor = new Crepe({
-  root: '#app',
-  features: {
-    [Crepe.Feature.Streaming]: true,
-    [Crepe.Feature.Diff]: true,
-  },
-})
-\`\`\`
-
-This content was generated by an AI assistant and inserted at the cursor position.
-`
+/// Simulated AI provider that streams the instruction back as markdown
+/// in small chunks. Only uses `context.instruction`; ignores
+/// `document` and `selection`.
+async function* simulateAIProvider(
+  context: AIPromptContext,
+  signal: AbortSignal
+): AsyncGenerator<string> {
+  const chars = Array.from(context.instruction)
+  let idx = 0
+  while (idx < chars.length) {
+    if (signal.aborted) return
+    const chunkSize = Math.floor(Math.random() * 3) + 1
+    let chunk = ''
+    for (let j = 0; j < chunkSize && idx < chars.length; j++, idx++) {
+      chunk += chars[idx]
+    }
+    yield chunk
+    await new Promise((r) => setTimeout(r, 30))
+  }
+}
 
 export function setupAIDemo(config: setupConfig) {
-  const root = setup(config)
+  const root = setup({
+    ...config,
+    aiConfig: {
+      provider: simulateAIProvider,
+    },
+  })
   const shadow = root.shadowRoot!
 
   const styleEl = document.createElement('style')
   styleEl.textContent = aiDemoToolbarStyle
   shadow.appendChild(styleEl)
-
-  const controls = document.createElement('div')
-  controls.classList.add('ai-demo-controls')
-
-  const textarea = document.createElement('textarea')
-  textarea.value = aiSampleContent
-  textarea.placeholder = 'Enter markdown to stream...'
-
-  const options = document.createElement('div')
-  options.classList.add('ai-demo-options')
-
-  const insertLabel = document.createElement('label')
-  const insertCheckbox = document.createElement('input')
-  insertCheckbox.type = 'checkbox'
-  insertCheckbox.checked = true
-  insertLabel.appendChild(insertCheckbox)
-  insertLabel.appendChild(document.createTextNode('Insert at cursor'))
-
-  const diffLabel = document.createElement('label')
-  const diffCheckbox = document.createElement('input')
-  diffCheckbox.type = 'checkbox'
-  diffCheckbox.checked = true
-  diffLabel.appendChild(diffCheckbox)
-  diffLabel.appendChild(document.createTextNode('Diff review after streaming'))
-
-  options.appendChild(insertLabel)
-  options.appendChild(diffLabel)
 
   const toolbar = document.createElement('div')
   toolbar.classList.add('ai-demo-toolbar')
@@ -583,8 +529,7 @@ export function setupAIDemo(config: setupConfig) {
     return btn
   }
 
-  const startBtn = createBtn('Start Streaming', 'ai-btn-start')
-  const stopBtn = createBtn('End Streaming', 'ai-btn-stop', true)
+  const startBtn = createBtn('Run AI', 'ai-btn-start')
   const abortBtn = createBtn('Abort', 'ai-btn-abort', true)
 
   const sep = document.createElement('div')
@@ -592,104 +537,66 @@ export function setupAIDemo(config: setupConfig) {
   toolbar.appendChild(sep)
 
   const acceptBtn = createBtn('Accept All', 'ai-btn-accept', true)
-  const rejectBtn = createBtn('Reject All', 'ai-btn-reject', true)
-  const clearBtn = createBtn('Clear Diff', 'ai-btn-clear', true)
-
-  controls.appendChild(textarea)
-  controls.appendChild(options)
-  controls.appendChild(toolbar)
+  const clearBtn = createBtn('Clear', 'ai-btn-clear', true)
 
   waitForInstance(config.args, 5000)
     .then((crepe) => {
       const crepeWrapper = shadow.querySelector('.milkdown') as HTMLElement
       if (crepeWrapper) {
-        crepeWrapper.parentElement!.insertBefore(controls, crepeWrapper)
+        crepeWrapper.parentElement!.insertBefore(toolbar, crepeWrapper)
       } else {
-        shadow.insertBefore(controls, shadow.firstChild)
+        shadow.insertBefore(toolbar, shadow.firstChild)
       }
-
-      let streamTimer: ReturnType<typeof setInterval> | null = null
 
       function setStreaming(active: boolean) {
         startBtn.disabled = active
-        stopBtn.disabled = !active
         abortBtn.disabled = !active
-        textarea.disabled = active
-        insertCheckbox.disabled = active
-        diffCheckbox.disabled = active
       }
 
       function setDiffReview(active: boolean) {
         acceptBtn.disabled = !active
-        rejectBtn.disabled = !active
         clearBtn.disabled = !active
       }
 
-      function stopTimer() {
-        if (streamTimer) {
-          clearInterval(streamTimer)
-          streamTimer = null
-        }
-      }
+      let pollTimer: ReturnType<typeof setInterval> | null = null
 
       startBtn.addEventListener('click', () => {
-        const insertAtCursor = insertCheckbox.checked
-        crepe.editor.action((ctx) => {
-          const cmds = ctx.get(commandsCtx)
-          cmds.call(
-            startStreamingCmd.key,
-            insertAtCursor ? { insertAt: 'cursor' as const } : undefined
-          )
-        })
+        setDiffReview(false)
+        const started = crepe.editor.action(
+          callCommand(runAICmd.key, {
+            instruction: config.args.modifiedValue,
+          })
+        )
+        if (!started) return
         setStreaming(true)
-
-        const chars = Array.from(textarea.value)
-        let idx = 0
-
-        streamTimer = setInterval(() => {
-          const chunkSize = Math.floor(Math.random() * 3) + 1
-          let chunk = ''
-          for (let j = 0; j < chunkSize && idx < chars.length; j++, idx++) {
-            chunk += chars[idx]
-          }
-
-          if (chunk) {
-            crepe.editor.action(callCommand(pushChunkCmd.key, chunk))
-          }
-
-          if (idx >= chars.length) {
-            stopTimer()
-            const diffReview = diffCheckbox.checked
-            crepe.editor.action(
-              callCommand(endStreamingCmd.key, { diffReview })
-            )
+        pollTimer = setInterval(() => {
+          const milkdown = shadow.querySelector('.milkdown')
+          const isStreaming =
+            milkdown?.classList.contains('milkdown-ai-streaming') ?? false
+          if (!isStreaming) {
+            clearInterval(pollTimer!)
+            pollTimer = null
             setStreaming(false)
-            if (diffReview) setDiffReview(true)
+            const hasDiff = !!shadow.querySelector(
+              '.milkdown-diff-added, .milkdown-diff-removed, .milkdown-diff-added-block, .milkdown-diff-removed-block'
+            )
+            if (hasDiff) setDiffReview(true)
           }
-        }, 30)
-      })
-
-      stopBtn.addEventListener('click', () => {
-        stopTimer()
-        const diffReview = diffCheckbox.checked
-        crepe.editor.action(callCommand(endStreamingCmd.key, { diffReview }))
-        setStreaming(false)
-        if (diffReview) setDiffReview(true)
+        }, 200)
       })
 
       abortBtn.addEventListener('click', () => {
-        stopTimer()
-        crepe.editor.action(callCommand(abortStreamingCmd.key, { keep: false }))
+        if (pollTimer) {
+          clearInterval(pollTimer)
+          pollTimer = null
+        }
+        crepe.editor.action(callCommand(abortAICmd.key, { keep: false }))
         setStreaming(false)
+        setDiffReview(false)
       })
 
       acceptBtn.addEventListener('click', () => {
         crepe.editor.action(callCommand(acceptAllDiffsCmd.key))
-        setDiffReview(false)
-      })
-
-      rejectBtn.addEventListener('click', () => {
-        crepe.editor.action(callCommand(rejectAllDiffsCmd.key))
         setDiffReview(false)
       })
 

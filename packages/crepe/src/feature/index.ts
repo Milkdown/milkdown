@@ -1,13 +1,12 @@
+import type { AIFeatureConfig } from './ai'
 import type { BlockEditFeatureConfig } from './block-edit'
 import type { CodeMirrorFeatureConfig } from './code-mirror'
 import type { CursorFeatureConfig } from './cursor'
-import type { DiffFeatureConfig } from './diff'
 import type { ImageBlockFeatureConfig } from './image-block'
 import type { LatexFeatureConfig } from './latex'
 import type { LinkTooltipFeatureConfig } from './link-tooltip'
 import type { ListItemFeatureConfig } from './list-item'
 import type { PlaceholderFeatureConfig } from './placeholder'
-import type { StreamingFeatureConfig } from './streaming'
 import type { TableFeatureConfig } from './table'
 import type { ToolbarFeatureConfig } from './toolbar'
 import type { TopBarFeatureConfig } from './top-bar'
@@ -49,11 +48,8 @@ export enum CrepeFeature {
   /// Fixed top toolbar with heading selector, formatting buttons, insert actions, and block commands.
   TopBar = 'top-bar',
 
-  /// Diff review mode for comparing and accepting/rejecting document changes.
-  Diff = 'diff',
-
-  /// Streaming AI input with progressive markdown rendering.
-  Streaming = 'streaming',
+  /// AI-assisted editing: streaming input, diff review, and provider integration.
+  AI = 'ai',
 }
 
 export interface CrepeFeatureConfig {
@@ -68,8 +64,7 @@ export interface CrepeFeatureConfig {
   [CrepeFeature.Table]?: TableFeatureConfig
   [CrepeFeature.Latex]?: LatexFeatureConfig
   [CrepeFeature.TopBar]?: TopBarFeatureConfig
-  [CrepeFeature.Diff]?: DiffFeatureConfig
-  [CrepeFeature.Streaming]?: StreamingFeatureConfig
+  [CrepeFeature.AI]?: AIFeatureConfig
 }
 
 export const defaultFeatures: Record<CrepeFeature, boolean> = {
@@ -84,6 +79,5 @@ export const defaultFeatures: Record<CrepeFeature, boolean> = {
   [CrepeFeature.Table]: true,
   [CrepeFeature.Latex]: true,
   [CrepeFeature.TopBar]: false,
-  [CrepeFeature.Diff]: false,
-  [CrepeFeature.Streaming]: false,
+  [CrepeFeature.AI]: false,
 }
