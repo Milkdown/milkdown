@@ -167,20 +167,28 @@ export const runAICmd = $command('RunAI', (ctx) => {
 })
 
 /// Abort the current AI session. Signals the provider to stop and
-/// delegates to `abortStreamingCmd`.
+/// delegates to `abortStreamingCmd` if streaming is still active.
+/// Returns true whenever an AI session was actually cleaned up.
 export const abortAICmd = $command('AbortAI', (ctx) => {
-  return (options?: { keep?: boolean }) => (_state, dispatch) => {
+  return (options?: { keep?: boolean }) => (state, dispatch) => {
     const session = ctx.get(aiSessionCtx.key)
     // Dry-run: return whether there's something to abort, without
     // performing any side effects.
     if (!dispatch) return !!session.abortController
 
-    if (session.abortController) {
-      session.abortController.abort()
-      ctx.set(aiSessionCtx.key, { abortController: null })
-    }
+    if (!session.abortController) return false
+
+    session.abortController.abort()
+    ctx.set(aiSessionCtx.key, { abortController: null })
     setStreamingClass(ctx, false)
-    const commands = ctx.get(commandsCtx)
-    return commands.call(abortStreamingCmd.key, options)
+
+    // Only call abortStreamingCmd if the streaming plugin is still
+    // active — it may have already finished/errored by the time the
+    // user clicks abort.
+    if (streamingPluginKey.getState(state)?.active) {
+      const commands = ctx.get(commandsCtx)
+      commands.call(abortStreamingCmd.key, options)
+    }
+    return true
   }
 })
