@@ -87,7 +87,6 @@ Editor.make()
   .config((ctx) => {
     ctx.update(diffConfig.key, (prev) => ({
       ...prev,
-      lockOnReview: false, // Allow editing during diff review (default: true)
       ignoreAttrs: { heading: ['id'] }, // Ignore these attrs when diffing (default: { heading: ['id'] })
     }))
   })
@@ -107,7 +106,6 @@ Editor.make()
   .config((ctx) => {
     ctx.update(diffComponentConfig.key, (prev) => ({
       ...prev,
-      classPrefix: 'my-diff', // CSS class prefix (default: 'milkdown-diff')
       acceptLabel: 'Apply', // Accept button text (default: 'Accept')
       rejectLabel: 'Discard', // Reject button text (default: 'Reject')
       customBlockTypes: [

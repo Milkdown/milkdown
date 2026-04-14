@@ -8,7 +8,6 @@ import { withMeta } from './__internal__/with-meta'
 export const streamingConfig = $ctx<StreamingConfig, 'streamingConfig'>(
   {
     throttleMs: 100,
-    lockDuringStreaming: true,
     scrollFollow: true,
     diffReviewOnEnd: false,
     ignoreAttrs: { heading: ['id'] },

@@ -37,12 +37,9 @@ export const ai: DefineFeature<AIFeatureConfig> = (editor, config) => {
     .config((ctx) => {
       ctx.update(diffConfig.key, (prev) => ({
         ...prev,
-        ...(diffCfg.lockOnReview !== undefined
-          ? { lockOnReview: diffCfg.lockOnReview }
-          : {}),
         ignoreAttrs: diffCfg.ignoreAttrs ?? CREPE_IGNORE_ATTRS,
       }))
-      const { lockOnReview: _, ignoreAttrs: __, ...componentConfig } = diffCfg
+      const { ignoreAttrs: _, ...componentConfig } = diffCfg
       ctx.update(diffComponentConfig.key, (prev) => ({
         ...prev,
         customBlockTypes:

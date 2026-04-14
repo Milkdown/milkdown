@@ -16,8 +16,6 @@ export interface DiffState {
 
 /// Configuration options for the diff plugin.
 export interface DiffConfig {
-  /** Lock document editing during diff review (default: true) */
-  lockOnReview: boolean
   /** Map of node type names to attribute keys to ignore when diffing */
   ignoreAttrs: Record<string, string[]>
 }

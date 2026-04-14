@@ -128,8 +128,6 @@ export const diffPlugin = $prose((ctx) => {
       },
     },
     filterTransaction(tr, editorState) {
-      if (!config.lockOnReview) return true
-
       const diffState = diffPluginKey.getState(editorState)
       if (!diffState?.active) return true
 

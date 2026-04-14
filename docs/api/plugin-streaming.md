@@ -137,7 +137,6 @@ editor.config((ctx) => {
   ctx.update(streamingConfig.key, (prev) => ({
     ...prev,
     throttleMs: 100, // Flush interval in ms (default: 100)
-    lockDuringStreaming: true, // Block user edits during streaming (default: true)
     scrollFollow: true, // Auto-scroll to follow content (default: true)
     diffReviewOnEnd: false, // Enter diff review on end (default: false)
   }))

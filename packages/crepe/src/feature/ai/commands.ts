@@ -117,7 +117,7 @@ export const runAICmd = $command('RunAI', (ctx) => {
     if (!config.provider) return false
 
     // Reject if a session is already running, streaming is active, or
-    // diff review is active (lockOnReview blocks non-diff transactions,
+    // diff review is active (the diff plugin blocks non-diff transactions,
     // so streaming flushes would be silently rejected).
     const session = ctx.get(aiSessionCtx.key)
     if (session.abortController) return false
