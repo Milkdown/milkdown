@@ -29,10 +29,23 @@ export const startStreamingCmd = $command('StartStreaming', () => {
       if (options?.insertAt != null) {
         if (options.insertAt === 'selection') {
           // Replace-selection mode: use the full selection range.
-          // When the selection is collapsed (from === to), this
-          // naturally degrades to insert-at-cursor behavior.
           insertPos = state.selection.from
           insertEndPos = state.selection.to
+
+          // When the selection is collapsed, apply the same empty-paragraph
+          // snap as cursor mode so the behavior is truly identical.
+          if (state.selection.empty) {
+            const resolved = state.doc.resolve(insertPos)
+            if (
+              resolved.parent.isTextblock &&
+              !resolved.parent.type.spec.code &&
+              resolved.parent.content.size === 0 &&
+              resolved.depth === 1
+            ) {
+              insertPos = resolved.before(resolved.depth)
+              insertEndPos = resolved.after(resolved.depth)
+            }
+          }
         } else {
           const rawPos =
             options.insertAt === 'cursor'

@@ -127,7 +127,7 @@ export const runAICmd = $command('RunAI', (ctx) => {
     // are side-effect-free so we can return true here.
     if (!dispatch) return true
 
-    // Start streaming at the cursor position.
+    // Start streaming — replaces the selection if non-empty.
     const commands = ctx.get(commandsCtx)
     const insertAt = state.selection.empty
       ? ('cursor' as const)

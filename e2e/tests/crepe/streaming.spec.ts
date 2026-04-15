@@ -656,4 +656,23 @@ test.describe('replace-selection', () => {
     expect(markdown).toContain('Before. Inserted.')
     expect(markdown).toContain('After.')
   })
+
+  test('collapsed selection in empty document snaps like cursor mode', async ({
+    page,
+  }) => {
+    // Empty editor has a single empty paragraph — block content should
+    // replace it cleanly, same as insertAt: 'cursor'.
+    const editor = page.locator('.editor')
+    await editor.locator('p').first().click()
+    await waitNextFrame(page)
+
+    await simulateStream(page, ['# Heading'], { insertAt: 'selection' })
+    await waitForFlush(page, 'Heading')
+
+    await page.evaluate(() => window.__endStreaming__())
+    await waitNextFrame(page)
+
+    const markdown = await getMarkdown(page)
+    expect(markdown.trim()).toBe('# Heading')
+  })
 })
