@@ -606,6 +606,11 @@ workflow. Users supply a `provider` (an async generator that yields
 markdown tokens) and Crepe handles the rest: start streaming, push
 chunks, end streaming, and optionally hand off to diff review.
 
+When the user has a text selection, `runAICmd` replaces the selected text
+with the AI output. The provider receives the selected text in
+`AIPromptContext.selection` for context-aware generation. When the
+selection is empty, content is inserted at the cursor position.
+
 ```typescript
 import { Crepe } from '@milkdown/crepe'
 import type { AIFeatureConfig } from '@milkdown/crepe/feature/ai'

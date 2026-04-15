@@ -104,11 +104,9 @@ async function runProvider(
 /// provider asynchronously. The command returns synchronously; the
 /// provider runs in the background.
 ///
-/// Note on selection: when the user has a text selection, the provider
-/// receives the selected text in `AIPromptContext.selection`, but the
-/// streaming output is *inserted at* the selection head — it does not
-/// *replace* the selected text. A replace-selection mode requires
-/// streaming plugin changes and is planned as a follow-up.
+/// When the user has a text selection, the streamed output replaces the
+/// selected text. The provider also receives the selected text in
+/// `AIPromptContext.selection` for context-aware generation.
 export const runAICmd = $command('RunAI', (ctx) => {
   return (options?: RunAIOptions) => (state, dispatch) => {
     if (!options?.instruction) return false
@@ -129,11 +127,11 @@ export const runAICmd = $command('RunAI', (ctx) => {
     // are side-effect-free so we can return true here.
     if (!dispatch) return true
 
-    // Start streaming at the cursor position.
+    // Start streaming — replaces the selection if non-empty.
     const commands = ctx.get(commandsCtx)
     const insertAt = state.selection.empty
       ? ('cursor' as const)
-      : state.selection.head
+      : ('selection' as const)
     if (!commands.call(startStreamingCmd.key, { insertAt })) return false
 
     // Everything after startStreamingCmd is wrapped in try/catch: if

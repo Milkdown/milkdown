@@ -194,6 +194,72 @@ describe('insert-at-cursor state transitions', () => {
   })
 })
 
+describe('replace-selection state transitions', () => {
+  it('sets different insertPos and insertEndPos on start', () => {
+    const originalDoc = doc(p(text('hello world')))
+    const state = applyStreamingAction(null, {
+      type: 'start',
+      originalDoc,
+      insertPos: 2,
+      insertEndPos: 8,
+      lastApplyTime: Date.now(),
+    })
+    expect(state).not.toBeNull()
+    expect(state!.insertPos).toBe(2)
+    expect(state!.insertEndPos).toBe(8)
+    expect(state!.active).toBe(true)
+  })
+
+  it('updates insertEndPos on apply while preserving insertPos', () => {
+    let state: StreamingState | null = applyStreamingAction(null, {
+      type: 'start',
+      originalDoc: doc(p(text('hello world'))),
+      insertPos: 2,
+      insertEndPos: 8,
+      lastApplyTime: Date.now(),
+    })
+    state = applyStreamingAction(state, {
+      type: 'push',
+      token: 'replacement',
+    })
+    expect(state!.buffer).toBe('replacement')
+    expect(state!.insertPos).toBe(2)
+    expect(state!.insertEndPos).toBe(8)
+
+    state = applyStreamingAction(state, {
+      type: 'apply',
+      lastApplyTime: Date.now(),
+      insertEndPos: 15,
+    })
+    expect(state!.insertPos).toBe(2)
+    expect(state!.insertEndPos).toBe(15)
+  })
+
+  it('returns null on end', () => {
+    let state: StreamingState | null = applyStreamingAction(null, {
+      type: 'start',
+      originalDoc: doc(p(text('hello world'))),
+      insertPos: 2,
+      insertEndPos: 8,
+      lastApplyTime: Date.now(),
+    })
+    state = applyStreamingAction(state, { type: 'end' })
+    expect(state).toBeNull()
+  })
+
+  it('returns null on abort', () => {
+    let state: StreamingState | null = applyStreamingAction(null, {
+      type: 'start',
+      originalDoc: doc(p(text('hello world'))),
+      insertPos: 2,
+      insertEndPos: 8,
+      lastApplyTime: Date.now(),
+    })
+    state = applyStreamingAction(state, { type: 'abort' })
+    expect(state).toBeNull()
+  })
+})
+
 describe('buffer accumulation', () => {
   it('builds markdown incrementally', () => {
     let state: StreamingState | null = createStreamingState()

@@ -27,31 +27,52 @@ export const startStreamingCmd = $command('StartStreaming', () => {
       let insertPos: number | undefined
       let insertEndPos: number | undefined
       if (options?.insertAt != null) {
-        const rawPos =
-          options.insertAt === 'cursor'
-            ? state.selection.head
-            : options.insertAt
-        if (!Number.isFinite(rawPos)) return false
-        insertPos = Math.max(
-          0,
-          Math.min(Math.round(rawPos), state.doc.content.size)
-        )
+        if (options.insertAt === 'selection') {
+          // Replace-selection mode: use the full selection range.
+          insertPos = state.selection.from
+          insertEndPos = state.selection.to
 
-        // If cursor is inside a top-level empty textblock (e.g. the default
-        // empty paragraph in a new editor), snap the range to cover the whole
-        // block so that block-level content replaces it cleanly.
-        // Only depth === 1 — nested empty textblocks (inside list items,
-        // blockquotes, etc.) should not be snapped; the normal strategy
-        // handles them correctly at their original position.
-        const resolved = state.doc.resolve(insertPos)
-        if (
-          resolved.parent.isTextblock &&
-          !resolved.parent.type.spec.code &&
-          resolved.parent.content.size === 0 &&
-          resolved.depth === 1
-        ) {
-          insertPos = resolved.before(resolved.depth)
-          insertEndPos = resolved.after(resolved.depth)
+          // When the selection is collapsed, apply the same empty-paragraph
+          // snap as cursor mode so the behavior is truly identical.
+          if (state.selection.empty) {
+            const resolved = state.doc.resolve(insertPos)
+            if (
+              resolved.parent.isTextblock &&
+              !resolved.parent.type.spec.code &&
+              resolved.parent.content.size === 0 &&
+              resolved.depth === 1
+            ) {
+              insertPos = resolved.before(resolved.depth)
+              insertEndPos = resolved.after(resolved.depth)
+            }
+          }
+        } else {
+          const rawPos =
+            options.insertAt === 'cursor'
+              ? state.selection.head
+              : options.insertAt
+          if (!Number.isFinite(rawPos)) return false
+          insertPos = Math.max(
+            0,
+            Math.min(Math.round(rawPos), state.doc.content.size)
+          )
+
+          // If cursor is inside a top-level empty textblock (e.g. the default
+          // empty paragraph in a new editor), snap the range to cover the whole
+          // block so that block-level content replaces it cleanly.
+          // Only depth === 1 — nested empty textblocks (inside list items,
+          // blockquotes, etc.) should not be snapped; the normal strategy
+          // handles them correctly at their original position.
+          const resolved = state.doc.resolve(insertPos)
+          if (
+            resolved.parent.isTextblock &&
+            !resolved.parent.type.spec.code &&
+            resolved.parent.content.size === 0 &&
+            resolved.depth === 1
+          ) {
+            insertPos = resolved.before(resolved.depth)
+            insertEndPos = resolved.after(resolved.depth)
+          }
         }
       }
 

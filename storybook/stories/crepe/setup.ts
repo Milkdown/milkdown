@@ -7,7 +7,7 @@ import type {
 import { Crepe } from '@milkdown/crepe'
 import { abortAICmd, runAICmd } from '@milkdown/crepe/feature/ai'
 import all from '@milkdown/crepe/theme/common/style.css?inline'
-import { commandsCtx } from '@milkdown/kit/core'
+import { commandsCtx, editorViewCtx } from '@milkdown/kit/core'
 import {
   acceptAllDiffsCmd,
   clearDiffReviewCmd,
@@ -407,7 +407,15 @@ export function setupStreamingDemo(config: setupConfig) {
       }
 
       startBtn.addEventListener('click', () => {
-        crepe.editor.action(callCommand(startStreamingCmd.key))
+        // When the user has selected text, use replace-selection mode;
+        // otherwise fall back to replace-whole-doc mode.
+        crepe.editor.action((ctx) => {
+          const view = ctx.get(editorViewCtx)
+          const options = view.state.selection.empty
+            ? undefined
+            : { insertAt: 'selection' as const }
+          ctx.get(commandsCtx).call(startStreamingCmd.key, options)
+        })
         setStreaming(true)
 
         const chars = Array.from(textarea.value)
