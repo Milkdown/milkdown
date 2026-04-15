@@ -88,6 +88,22 @@ The insert strategy depends on where the cursor is when streaming starts:
 | Table cell                       | All content inserted as plain text, newlines collapsed to spaces                   |
 | Between blocks (depth 0)         | Full markdown parse, inserted as block nodes                                       |
 
+## Replace Selection
+
+You can replace the current text selection with streamed content:
+
+```typescript
+editor.action((ctx) => {
+  ctx.get(commandsCtx).call(startStreamingCmd.key, { insertAt: 'selection' })
+})
+```
+
+When the selection is non-empty, the selected range is replaced by the streamed content as it arrives. When the selection is collapsed (empty), this behaves identically to `insertAt: 'cursor'`.
+
+The insert strategy is resolved based on the position at `selection.from`. For example, if the selection starts inside a paragraph, the `split-block` strategy is used; if it starts inside a code block, plain-text insertion is used.
+
+After streaming ends, aborting with `keep: false` restores the original document including the selected text. Diff review mode also works correctly — the diff shows the original selection being replaced.
+
 ## Diff Review After Streaming
 
 When the diff plugin is also loaded (e.g. via `Crepe.Feature.AI` in Crepe, or by manually calling `editor.use(diff)` on a standalone editor), you can hand off to diff review mode after streaming ends:

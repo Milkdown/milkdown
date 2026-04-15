@@ -47,7 +47,7 @@ declare global {
   var __rejectChunk__: (index: number) => boolean
 
   var __startStreaming__: (options?: {
-    insertAt?: 'cursor' | number
+    insertAt?: 'cursor' | 'selection' | number
   }) => boolean
   var __pushChunk__: (token: string) => boolean
   var __endStreaming__: (options?: { diffReview?: boolean }) => boolean

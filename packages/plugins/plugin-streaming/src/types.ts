@@ -52,9 +52,14 @@ export interface StreamingConfig {
 
 /// Options for starting a streaming session.
 export interface StartStreamingOptions {
-  /// Insert at cursor position or a specific position instead of replacing
-  /// the whole document. 'cursor' resolves to current selection head.
-  insertAt?: 'cursor' | number
+  /// Insert at cursor position, replace the current selection, or insert
+  /// at a specific position instead of replacing the whole document.
+  /// - `'cursor'`: resolves to current `selection.head` (insert point).
+  /// - `'selection'`: resolves to `selection.from`/`selection.to`,
+  ///   replacing the selected range. When the selection is collapsed
+  ///   this behaves identically to `'cursor'`.
+  /// - `number`: absolute position in the document.
+  insertAt?: 'cursor' | 'selection' | number
 }
 
 /// Options for ending a streaming session.

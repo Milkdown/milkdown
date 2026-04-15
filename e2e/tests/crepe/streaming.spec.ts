@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
 async function simulateStream(
   page: Page,
   tokens: string[],
-  options?: { delayMs?: number; insertAt?: 'cursor' | number }
+  options?: { delayMs?: number; insertAt?: 'cursor' | 'selection' | number }
 ) {
   const delayMs = options?.delayMs ?? 30
   const insertAt = options?.insertAt
@@ -550,5 +550,110 @@ test.describe('insert-at-cursor', () => {
     expect(markdown).toContain('Outside block.')
     // Original content preserved
     expect(markdown).toContain('After quote.')
+  })
+})
+
+test.describe('replace-selection', () => {
+  test('replaces selected text within a paragraph', async ({ page }) => {
+    await setMarkdown(page, 'Hello world, this is a test.')
+    await waitNextFrame(page)
+
+    // Select "world" by keyboard: Home → move right 6 → shift-select 5
+    const editor = page.locator('.editor')
+    await editor.locator('p').first().click()
+    await page.keyboard.press('Home')
+    for (let i = 0; i < 6; i++) await page.keyboard.press('ArrowRight')
+    await page.keyboard.down('Shift')
+    for (let i = 0; i < 5; i++) await page.keyboard.press('ArrowRight')
+    await page.keyboard.up('Shift')
+    await waitNextFrame(page)
+
+    await simulateStream(page, ['universe'], { insertAt: 'selection' })
+    await waitForFlush(page, 'universe')
+
+    await page.evaluate(() => window.__endStreaming__())
+    await waitNextFrame(page)
+
+    const markdown = await getMarkdown(page)
+    expect(markdown).toContain('Hello universe')
+    expect(markdown).not.toContain('world')
+  })
+
+  test('replaces selection with multi-block content', async ({ page }) => {
+    await setMarkdown(page, 'Start.\n\nMiddle paragraph.\n\nEnd.')
+    await waitNextFrame(page)
+
+    // Select entire "Middle paragraph." text
+    const editor = page.locator('.editor')
+    await editor.locator('p').nth(1).click()
+    await page.keyboard.press('Home')
+    await page.keyboard.down('Shift')
+    await page.keyboard.press('End')
+    await page.keyboard.up('Shift')
+    await waitNextFrame(page)
+
+    await simulateStream(page, ['# New Heading\n\nReplaced content.'], {
+      insertAt: 'selection',
+    })
+    await waitForFlush(page, 'Replaced content.')
+
+    await page.evaluate(() => window.__endStreaming__())
+    await waitNextFrame(page)
+
+    const markdown = await getMarkdown(page)
+    expect(markdown).toContain('Start.')
+    expect(markdown).toContain('New Heading')
+    expect(markdown).toContain('Replaced content.')
+    expect(markdown).toContain('End.')
+    expect(markdown).not.toContain('Middle paragraph.')
+  })
+
+  test('abort replace-selection restores original', async ({ page }) => {
+    await setMarkdown(page, 'Keep this text intact.')
+    await waitNextFrame(page)
+
+    // Select "this text"
+    const editor = page.locator('.editor')
+    await editor.locator('p').first().click()
+    await page.keyboard.press('Home')
+    for (let i = 0; i < 5; i++) await page.keyboard.press('ArrowRight')
+    await page.keyboard.down('Shift')
+    for (let i = 0; i < 9; i++) await page.keyboard.press('ArrowRight')
+    await page.keyboard.up('Shift')
+    await waitNextFrame(page)
+
+    await simulateStream(page, ['REPLACED'], { insertAt: 'selection' })
+    await waitForFlush(page, 'REPLACED')
+
+    await page.evaluate(() => window.__abortStreaming__({ keep: false }))
+    await waitNextFrame(page)
+
+    const markdown = await getMarkdown(page)
+    expect(markdown).toContain('Keep this text intact.')
+    expect(markdown).not.toContain('REPLACED')
+  })
+
+  test('empty selection with insertAt selection behaves like cursor', async ({
+    page,
+  }) => {
+    await setMarkdown(page, 'Before. After.')
+    await waitNextFrame(page)
+
+    // Place cursor without selecting (collapsed selection)
+    const editor = page.locator('.editor')
+    await editor.locator('p').first().click()
+    await page.keyboard.press('Home')
+    for (let i = 0; i < 7; i++) await page.keyboard.press('ArrowRight')
+    await waitNextFrame(page)
+
+    await simulateStream(page, [' Inserted.'], { insertAt: 'selection' })
+    await waitForFlush(page, 'Inserted.')
+
+    await page.evaluate(() => window.__endStreaming__())
+    await waitNextFrame(page)
+
+    const markdown = await getMarkdown(page)
+    expect(markdown).toContain('Before. Inserted.')
+    expect(markdown).toContain('After.')
   })
 })
