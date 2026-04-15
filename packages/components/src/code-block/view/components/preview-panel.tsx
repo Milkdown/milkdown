@@ -10,26 +10,36 @@ keepAlive(h, Fragment)
 const SVG_NAMESPACE = 'http://www.w3.org/2000/svg'
 
 /**
- * Creates a DOMPurify instance that allows foreignObject only inside SVG.
- * foreignObject is needed for Mermaid v11+ flowchart labels, but is a known
- * mXSS vector (CVE-2020-26870) when allowed outside SVG context.
+ * Creates a sanitizer that allows foreignObject only inside SVG context.
+ *
+ * Mermaid v11+ uses foreignObject for flowchart node labels, but foreignObject
+ * is a known mXSS vector (CVE-2020-26870) outside SVG context. The strategy:
+ *   1. ADD_TAGS allows foreignObject to survive DOMPurify's initial filtering
+ *   2. The uponSanitizeElement hook removes it if NOT inside an SVG element
+ *   3. HTML_INTEGRATION_POINTS lets its HTML children parse correctly
  */
 function createSvgAwareSanitizer() {
   const purify = DOMPurify()
+
+  const config = {
+    ADD_TAGS: ['foreignObject'],
+    ADD_ATTR: ['xmlns'],
+    HTML_INTEGRATION_POINTS: { foreignobject: true },
+  }
 
   purify.addHook('uponSanitizeElement', (node, data) => {
     if (data.tagName === 'foreignobject') {
       const parent = node.parentElement
       if (!parent || parent.namespaceURI !== SVG_NAMESPACE) {
-        node.remove()
+        node.parentNode?.removeChild(node)
       }
     }
   })
 
-  return purify
+  return (dirty: string | Node) => purify.sanitize(dirty, config)
 }
 
-const svgPurify = createSvgAwareSanitizer()
+const sanitizeSvg = createSvgAwareSanitizer()
 
 type PreviewPanelProps = Pick<
   CodeBlockProps,
@@ -80,11 +90,7 @@ export const PreviewPanel = defineComponent<PreviewPanelProps>({
         typeof previewContent === 'string' ||
         previewContent instanceof Element
       ) {
-        previewContainer.innerHTML = svgPurify.sanitize(previewContent, {
-          ADD_TAGS: ['foreignObject'],
-          ADD_ATTR: ['xmlns'],
-          HTML_INTEGRATION_POINTS: { foreignobject: true },
-        })
+        previewContainer.innerHTML = sanitizeSvg(previewContent)
       }
     })
 
