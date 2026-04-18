@@ -1,5 +1,7 @@
+import type { MilkdownError } from '@milkdown/exception'
 import type { Ctx } from '@milkdown/kit/ctx'
 
+import { aiBuildContextError, aiProviderError } from '@milkdown/exception'
 import { commandsCtx, editorViewCtx } from '@milkdown/kit/core'
 import { diffPluginKey } from '@milkdown/kit/plugin/diff'
 import {
@@ -28,6 +30,7 @@ export const aiProviderConfig = $ctx(
       | ((ctx: Ctx, instruction: string) => AIPromptContext)
       | undefined,
     diffReviewOnEnd: true,
+    onError: undefined as ((error: MilkdownError) => void) | undefined,
   },
   'aiProviderConfig'
 )
@@ -81,7 +84,10 @@ async function runProvider(
     })
   } catch (error) {
     if (abortController.signal.aborted) return
-    console.error('[milkdown/ai] Provider error:', error)
+    const milkdownError = aiProviderError(error)
+    console.error(`[milkdown/ai] ${milkdownError.message}`)
+    const config = ctx.get(aiProviderConfig.key)
+    config.onError?.(milkdownError)
     const commands = ctx.get(commandsCtx)
     commands.call(abortStreamingCmd.key, { keep: false })
   } finally {
@@ -142,7 +148,9 @@ export const runAICmd = $command('RunAI', (ctx) => {
       const buildContext = config.buildContext ?? defaultBuildContext
       promptContext = buildContext(ctx, options.instruction)
     } catch (error) {
-      console.error('[milkdown/ai] buildContext failed:', error)
+      const milkdownError = aiBuildContextError(error)
+      console.error(`[milkdown/ai] ${milkdownError.message}`)
+      config.onError?.(milkdownError)
       commands.call(abortStreamingCmd.key, { keep: false })
       return false
     }

@@ -1,3 +1,4 @@
+import type { MilkdownError } from '@milkdown/exception'
 import type { Ctx } from '@milkdown/kit/ctx'
 import type { StreamingConfig } from '@milkdown/kit/plugin/streaming'
 
@@ -46,6 +47,11 @@ export interface AIFeatureConfig {
   /// `AIFeatureConfig.diffReviewOnEnd` at the AI layer — setting it on
   /// both would be confusing.
   streaming?: Partial<Omit<StreamingConfig, 'diffReviewOnEnd'>>
+
+  /// Called when an error occurs during AI processing.
+  /// Receives a `MilkdownError` with code `aiProviderError` or
+  /// `aiBuildContextError`.
+  onError?: (error: MilkdownError) => void
 }
 
 /// Options passed to `runAICmd`.

@@ -72,6 +72,7 @@ export const ai: DefineFeature<AIFeatureConfig> = (editor, config) => {
         provider: config?.provider,
         buildContext: config?.buildContext,
         diffReviewOnEnd: config?.diffReviewOnEnd ?? true,
+        onError: config?.onError,
       }))
     })
     .use(aiProviderConfig)

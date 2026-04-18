@@ -166,6 +166,7 @@
     "@codemirror/state": "^6.4.1",
     "@codemirror/theme-one-dark": "^6.1.2",
     "@codemirror/view": "^6.16.0",
+    "@milkdown/exception": "workspace:*",
     "@milkdown/kit": "workspace:*",
     "@types/lodash-es": "^4.17.12",
     "clsx": "^2.0.0",
