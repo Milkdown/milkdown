@@ -11,5 +11,5 @@
     "tsBuildInfoFile": "./lib/tsconfig.tsbuildinfo"
   },
   "include": ["src"],
-  "references": [{ "path": "../exception" }, { "path": "../kit" }]
+  "references": [{ "path": "../kit" }]
 }
