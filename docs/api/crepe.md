@@ -630,6 +630,11 @@ const crepe = new Crepe({
       diffReviewOnEnd: true,
       diff: { acceptLabel: 'Yes', rejectLabel: 'No' },
       streaming: { throttleMs: 150 },
+      onError: (error) => {
+        // Handle AI errors (provider failures, buildContext errors).
+        // Defaults to console.error if not provided.
+        showToast(error.message)
+      },
     } satisfies AIFeatureConfig,
   },
 })
