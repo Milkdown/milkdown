@@ -31,7 +31,7 @@ export const aiProviderConfig = $ctx(
       | undefined,
     diffReviewOnEnd: true,
     onError: (error: MilkdownError) => {
-      console.error(`[milkdown/ai] ${error.message}`)
+      console.error(`[milkdown/ai] [${error.code}]`, error)
     },
   },
   'aiProviderConfig'
@@ -88,7 +88,11 @@ async function runProvider(
     if (abortController.signal.aborted) return
     const milkdownError = aiProviderError(error)
     const config = ctx.get(aiProviderConfig.key)
-    config.onError(milkdownError)
+    try {
+      config.onError(milkdownError)
+    } catch (handlerError) {
+      console.error('[milkdown/ai] onError handler failed:', handlerError)
+    }
     const commands = ctx.get(commandsCtx)
     commands.call(abortStreamingCmd.key, { keep: false })
   } finally {
@@ -150,7 +154,11 @@ export const runAICmd = $command('RunAI', (ctx) => {
       promptContext = buildContext(ctx, options.instruction)
     } catch (error) {
       const milkdownError = aiBuildContextError(error)
-      config.onError(milkdownError)
+      try {
+        config.onError(milkdownError)
+      } catch (handlerError) {
+        console.error('[milkdown/ai] onError handler failed:', handlerError)
+      }
       commands.call(abortStreamingCmd.key, { keep: false })
       return false
     }

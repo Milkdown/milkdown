@@ -192,7 +192,8 @@ export function aiProviderError(cause: unknown) {
   const message = cause instanceof Error ? cause.message : String(cause)
   return new MilkdownError(
     ErrorCode.aiProviderError,
-    `AI provider error: ${message}`
+    `AI provider error: ${message}`,
+    { cause }
   )
 }
 
@@ -200,6 +201,7 @@ export function aiBuildContextError(cause: unknown) {
   const message = cause instanceof Error ? cause.message : String(cause)
   return new MilkdownError(
     ErrorCode.aiBuildContextError,
-    `AI buildContext failed: ${message}`
+    `AI buildContext failed: ${message}`,
+    { cause }
   )
 }
