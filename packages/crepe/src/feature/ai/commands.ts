@@ -62,6 +62,19 @@ function setStreamingClass(ctx: Ctx, active: boolean): void {
 }
 
 // ---------------------------------------------------------------------------
+// Error helper
+// ---------------------------------------------------------------------------
+
+function emitAIError(ctx: Ctx, error: MilkdownError): void {
+  try {
+    const config = ctx.get(aiProviderConfig.key)
+    config.onError(error)
+  } catch (handlerError) {
+    console.error('[milkdown/ai] onError handler failed:', handlerError)
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Async provider runner
 // ---------------------------------------------------------------------------
 
@@ -87,12 +100,7 @@ async function runProvider(
   } catch (error) {
     if (abortController.signal.aborted) return
     const milkdownError = aiProviderError(error)
-    const config = ctx.get(aiProviderConfig.key)
-    try {
-      config.onError(milkdownError)
-    } catch (handlerError) {
-      console.error('[milkdown/ai] onError handler failed:', handlerError)
-    }
+    emitAIError(ctx, milkdownError)
     const commands = ctx.get(commandsCtx)
     commands.call(abortStreamingCmd.key, { keep: false })
   } finally {
@@ -154,11 +162,7 @@ export const runAICmd = $command('RunAI', (ctx) => {
       promptContext = buildContext(ctx, options.instruction)
     } catch (error) {
       const milkdownError = aiBuildContextError(error)
-      try {
-        config.onError(milkdownError)
-      } catch (handlerError) {
-        console.error('[milkdown/ai] onError handler failed:', handlerError)
-      }
+      emitAIError(ctx, milkdownError)
       commands.call(abortStreamingCmd.key, { keep: false })
       return false
     }

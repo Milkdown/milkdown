@@ -189,7 +189,7 @@ export function missingYjsDoc() {
 }
 
 export function aiProviderError(cause: unknown) {
-  const message = cause instanceof Error ? cause.message : String(cause)
+  const message = cause instanceof Error ? cause.message : stringify(cause)
   return new MilkdownError(
     ErrorCode.aiProviderError,
     `AI provider error: ${message}`,
@@ -198,7 +198,7 @@ export function aiProviderError(cause: unknown) {
 }
 
 export function aiBuildContextError(cause: unknown) {
-  const message = cause instanceof Error ? cause.message : String(cause)
+  const message = cause instanceof Error ? cause.message : stringify(cause)
   return new MilkdownError(
     ErrorCode.aiBuildContextError,
     `AI buildContext failed: ${message}`,
