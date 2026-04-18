@@ -1,8 +1,8 @@
-import type { MilkdownError } from '@milkdown/exception'
 import type { Ctx } from '@milkdown/kit/ctx'
+import type { MilkdownError } from '@milkdown/kit/exception'
 
-import { aiBuildContextError, aiProviderError } from '@milkdown/exception'
 import { commandsCtx, editorViewCtx } from '@milkdown/kit/core'
+import { aiBuildContextError, aiProviderError } from '@milkdown/kit/exception'
 import { diffPluginKey } from '@milkdown/kit/plugin/diff'
 import {
   abortStreamingCmd,

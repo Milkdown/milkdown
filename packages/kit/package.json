@@ -24,6 +24,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./core": "./src/core.ts",
+    "./exception": "./src/exception.ts",
     "./ctx": "./src/ctx.ts",
     "./transformer": "./src/transformer.ts",
     "./utils": "./src/utils.ts",
@@ -76,6 +77,10 @@
       "./core": {
         "types": "./lib/core.d.ts",
         "import": "./lib/core.js"
+      },
+      "./exception": {
+        "types": "./lib/exception.d.ts",
+        "import": "./lib/exception.js"
       },
       "./ctx": {
         "types": "./lib/ctx.d.ts",
@@ -247,6 +252,9 @@
         "core": [
           "lib/core.d.ts"
         ],
+        "exception": [
+          "lib/exception.d.ts"
+        ],
         "ctx": [
           "lib/ctx.d.ts"
         ],
@@ -374,6 +382,7 @@
     "@milkdown/components": "workspace:*",
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
+    "@milkdown/exception": "workspace:*",
     "@milkdown/plugin-block": "workspace:*",
     "@milkdown/plugin-clipboard": "workspace:*",
     "@milkdown/plugin-cursor": "workspace:*",

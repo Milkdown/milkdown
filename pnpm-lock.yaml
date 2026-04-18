@@ -453,9 +453,6 @@ importers:
       '@codemirror/view':
         specifier: ^6.16.0
         version: 6.40.0
-      '@milkdown/exception':
-        specifier: workspace:*
-        version: link:../exception
       '@milkdown/kit':
         specifier: workspace:*
         version: link:../kit
@@ -547,6 +544,9 @@ importers:
       '@milkdown/ctx':
         specifier: workspace:*
         version: link:../ctx
+      '@milkdown/exception':
+        specifier: workspace:*
+        version: link:../exception
       '@milkdown/plugin-block':
         specifier: workspace:*
         version: link:../plugins/plugin-block

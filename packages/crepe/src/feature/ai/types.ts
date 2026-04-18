@@ -1,5 +1,5 @@
-import type { MilkdownError } from '@milkdown/exception'
 import type { Ctx } from '@milkdown/kit/ctx'
+import type { MilkdownError } from '@milkdown/kit/exception'
 import type { StreamingConfig } from '@milkdown/kit/plugin/streaming'
 
 export interface AIPromptContext {
