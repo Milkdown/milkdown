@@ -4,7 +4,7 @@ description: Setup the environment
 runs:
   using: composite
   steps:
-    - uses: pnpm/action-setup@v6.0.0
+    - uses: pnpm/action-setup@v6.0.1
       with:
         run_install: false
 
