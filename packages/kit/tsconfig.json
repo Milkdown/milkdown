@@ -11,6 +11,7 @@
     { "path": "../components" },
     { "path": "../core" },
     { "path": "../ctx" },
+    { "path": "../exception" },
     { "path": "../plugins/plugin-block" },
     { "path": "../plugins/plugin-clipboard" },
     { "path": "../plugins/plugin-cursor" },

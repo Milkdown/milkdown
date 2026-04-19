@@ -544,6 +544,9 @@ importers:
       '@milkdown/ctx':
         specifier: workspace:*
         version: link:../ctx
+      '@milkdown/exception':
+        specifier: workspace:*
+        version: link:../exception
       '@milkdown/plugin-block':
         specifier: workspace:*
         version: link:../plugins/plugin-block

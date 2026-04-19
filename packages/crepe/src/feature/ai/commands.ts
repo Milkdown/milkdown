@@ -1,6 +1,8 @@
 import type { Ctx } from '@milkdown/kit/ctx'
+import type { MilkdownError } from '@milkdown/kit/exception'
 
 import { commandsCtx, editorViewCtx } from '@milkdown/kit/core'
+import { aiBuildContextError, aiProviderError } from '@milkdown/kit/exception'
 import { diffPluginKey } from '@milkdown/kit/plugin/diff'
 import {
   abortStreamingCmd,
@@ -28,6 +30,9 @@ export const aiProviderConfig = $ctx(
       | ((ctx: Ctx, instruction: string) => AIPromptContext)
       | undefined,
     diffReviewOnEnd: true,
+    onError: (error: MilkdownError) => {
+      console.error(`[milkdown/ai] [${error.code}]`, error)
+    },
   },
   'aiProviderConfig'
 )
@@ -57,6 +62,19 @@ function setStreamingClass(ctx: Ctx, active: boolean): void {
 }
 
 // ---------------------------------------------------------------------------
+// Error helper
+// ---------------------------------------------------------------------------
+
+function emitAIError(ctx: Ctx, error: MilkdownError): void {
+  const config = ctx.get(aiProviderConfig.key)
+  try {
+    config.onError(error)
+  } catch (handlerError) {
+    console.error('[milkdown/ai] onError handler failed:', handlerError)
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Async provider runner
 // ---------------------------------------------------------------------------
 
@@ -81,7 +99,8 @@ async function runProvider(
     })
   } catch (error) {
     if (abortController.signal.aborted) return
-    console.error('[milkdown/ai] Provider error:', error)
+    const milkdownError = aiProviderError(error)
+    emitAIError(ctx, milkdownError)
     const commands = ctx.get(commandsCtx)
     commands.call(abortStreamingCmd.key, { keep: false })
   } finally {
@@ -142,7 +161,8 @@ export const runAICmd = $command('RunAI', (ctx) => {
       const buildContext = config.buildContext ?? defaultBuildContext
       promptContext = buildContext(ctx, options.instruction)
     } catch (error) {
-      console.error('[milkdown/ai] buildContext failed:', error)
+      const milkdownError = aiBuildContextError(error)
+      emitAIError(ctx, milkdownError)
       commands.call(abortStreamingCmd.key, { keep: false })
       return false
     }

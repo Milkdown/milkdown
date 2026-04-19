@@ -68,10 +68,16 @@ export const ai: DefineFeature<AIFeatureConfig> = (editor, config) => {
     .use(streaming)
     // -- AI orchestration --
     .config((ctx) => {
-      ctx.update(aiProviderConfig.key, () => ({
-        provider: config?.provider,
-        buildContext: config?.buildContext,
-        diffReviewOnEnd: config?.diffReviewOnEnd ?? true,
+      ctx.update(aiProviderConfig.key, (prev) => ({
+        ...prev,
+        ...(config?.provider !== undefined
+          ? { provider: config.provider }
+          : {}),
+        ...(config?.buildContext !== undefined
+          ? { buildContext: config.buildContext }
+          : {}),
+        diffReviewOnEnd: config?.diffReviewOnEnd ?? prev.diffReviewOnEnd,
+        ...(config?.onError !== undefined ? { onError: config.onError } : {}),
       }))
     })
     .use(aiProviderConfig)

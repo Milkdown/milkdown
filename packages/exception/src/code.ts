@@ -17,4 +17,8 @@ export enum ErrorCode {
   // collab plugin
   ctxNotBind = 'ctxNotBind',
   missingYjsDoc = 'missingYjsDoc',
+
+  // AI plugin
+  aiProviderError = 'aiProviderError',
+  aiBuildContextError = 'aiBuildContextError',
 }
