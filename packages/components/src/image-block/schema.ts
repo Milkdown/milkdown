@@ -19,6 +19,7 @@ export const imageBlockSchema = $nodeSchema('image-block', () => {
       src: { default: '', validate: 'string' },
       caption: { default: '', validate: 'string' },
       ratio: { default: 1, validate: 'number' },
+      alt: { default: '', validate: 'string' },
     },
     parseDOM: [
       {
@@ -30,6 +31,7 @@ export const imageBlockSchema = $nodeSchema('image-block', () => {
             src: dom.getAttribute('src') || '',
             caption: dom.getAttribute('caption') || '',
             ratio: Number(dom.getAttribute('ratio') ?? 1),
+            alt: dom.getAttribute('alt') || '',
           }
         },
       },
@@ -40,24 +42,39 @@ export const imageBlockSchema = $nodeSchema('image-block', () => {
       runner: (state, node, type) => {
         const src = node.url as string
         const caption = node.title as string
-        let ratio = Number((node.alt as string) || 1)
+        const rawAlt = (node.alt as string) || ''
+
+        // Parse ratio from alt-text for backward compatibility
+        let ratio = Number(rawAlt || 1)
         if (Number.isNaN(ratio) || ratio === 0) ratio = 1
 
         state.addNode(type, {
           src,
           caption,
           ratio,
+          alt: rawAlt,
         })
       },
     },
     toMarkdown: {
       match: (node) => node.type.name === 'image-block',
       runner: (state, node) => {
+        const alt = node.attrs.alt as string
+        const ratio = node.attrs.ratio as number
+
+        // Preserve real alt-text if it exists and is non-numeric.
+        // If alt-text is numeric or empty, fall back to ratio (backward compatible).
+        const isNumericAlt = alt !== '' && !Number.isNaN(Number(alt))
+        const altText =
+          alt !== '' && !isNumericAlt
+            ? alt
+            : `${Number.parseFloat(String(ratio)).toFixed(2)}`
+
         state.openNode('paragraph')
         state.addNode('image', undefined, undefined, {
           title: node.attrs.caption,
           url: node.attrs.src,
-          alt: `${Number.parseFloat(node.attrs.ratio).toFixed(2)}`,
+          alt: altText,
         })
         state.closeNode()
       },
