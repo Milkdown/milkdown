@@ -66,8 +66,8 @@ function setStreamingClass(ctx: Ctx, active: boolean): void {
 // ---------------------------------------------------------------------------
 
 function emitAIError(ctx: Ctx, error: MilkdownError): void {
+  const config = ctx.get(aiProviderConfig.key)
   try {
-    const config = ctx.get(aiProviderConfig.key)
     config.onError(error)
   } catch (handlerError) {
     console.error('[milkdown/ai] onError handler failed:', handlerError)

@@ -188,8 +188,16 @@ export function missingYjsDoc() {
   )
 }
 
+function safeStringify(value: unknown): string {
+  try {
+    return stringify(value)
+  } catch {
+    return '[Unserializable]'
+  }
+}
+
 export function aiProviderError(cause: unknown) {
-  const message = cause instanceof Error ? cause.message : stringify(cause)
+  const message = cause instanceof Error ? cause.message : safeStringify(cause)
   return new MilkdownError(
     ErrorCode.aiProviderError,
     `AI provider error: ${message}`,
@@ -198,7 +206,7 @@ export function aiProviderError(cause: unknown) {
 }
 
 export function aiBuildContextError(cause: unknown) {
-  const message = cause instanceof Error ? cause.message : stringify(cause)
+  const message = cause instanceof Error ? cause.message : safeStringify(cause)
   return new MilkdownError(
     ErrorCode.aiBuildContextError,
     `AI buildContext failed: ${message}`,
