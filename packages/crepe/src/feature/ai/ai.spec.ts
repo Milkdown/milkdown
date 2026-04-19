@@ -5,7 +5,7 @@ import { Crepe } from '../../core'
 import { CrepeFeature } from '../index'
 import { runAICmd } from './commands'
 
-function flushMicrotasks() {
+function waitForAsync() {
   return new Promise<void>((resolve) => setTimeout(resolve, 0))
 }
 
@@ -31,7 +31,7 @@ describe('AI onError', () => {
     await crepe.create()
 
     crepe.editor.action(callCommand(runAICmd.key, { instruction: 'test' }))
-    await flushMicrotasks()
+    await waitForAsync()
 
     expect(onError).toHaveBeenCalledOnce()
     const error = onError.mock.calls[0]![0]
@@ -63,7 +63,7 @@ describe('AI onError', () => {
     await crepe.create()
 
     crepe.editor.action(callCommand(runAICmd.key, { instruction: 'test' }))
-    await flushMicrotasks()
+    await waitForAsync()
 
     expect(onError).toHaveBeenCalledOnce()
     const error = onError.mock.calls[0]![0]

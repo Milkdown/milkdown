@@ -1,7 +1,7 @@
 import type { ErrorCode } from './code'
 
 export class MilkdownError extends Error {
-  public code: string
+  public readonly code: ErrorCode
   public override cause?: unknown
   constructor(code: ErrorCode, message: string, options?: { cause?: unknown }) {
     super(message, options)
