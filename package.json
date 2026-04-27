@@ -52,7 +52,7 @@
     "lint-staged": "^16.0.0",
     "oxfmt": "^0.46.0",
     "oxlint": "^1.8.0",
-    "oxlint-tsgolint": "^0.21.0",
+    "oxlint-tsgolint": "^0.22.0",
     "pkg-pr-new": "^0.0.67",
     "postcss": "^8.4.38",
     "postcss-cli": "^11.0.0",
