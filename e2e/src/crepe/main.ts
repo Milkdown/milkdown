@@ -2,6 +2,7 @@ import { CodeMirrorBlock } from '@milkdown/components/code-block'
 import { Crepe } from '@milkdown/crepe'
 import '@milkdown/crepe/theme/common/style.css'
 import '@milkdown/crepe/theme/frame.css'
+
 import { setup } from '../utils'
 
 globalThis.__CodeMirrorBlock__ = CodeMirrorBlock
