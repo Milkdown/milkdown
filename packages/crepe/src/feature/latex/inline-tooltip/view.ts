@@ -58,6 +58,8 @@ export class LatexInlineTooltip implements PluginView {
 
   #shouldShow = (view: EditorView) => {
     const shouldShow = () => {
+      if (!view.editable) return false
+
       const { selection, schema } = view.state
       if (selection.empty) return false
       if (!(selection instanceof NodeSelection)) return false
