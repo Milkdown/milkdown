@@ -177,7 +177,6 @@ export function setup({ args, style, theme, aiConfig }: setupConfig) {
   return root
 }
 
-
 const aiDemoToolbarStyle = `
 .ai-demo-toolbar {
   display: flex;

@@ -8,12 +8,13 @@ import { posToDOMRect } from '@milkdown/kit/prose'
 import { TextSelection } from '@milkdown/kit/prose/state'
 import { createApp, ref, type App } from 'vue'
 
+import type { ResolvedSuggestions } from './suggestions'
+
 import { runAICmd } from '../commands'
 import {
   AIInstructionInput,
   type AIInstructionTooltipChrome,
 } from './component'
-import type { ResolvedSuggestions } from './suggestions'
 
 export interface AIInstructionTooltipViewConfig {
   placeholder: string

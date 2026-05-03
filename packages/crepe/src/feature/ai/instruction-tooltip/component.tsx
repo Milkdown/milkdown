@@ -9,8 +9,9 @@ import {
   type Ref,
 } from 'vue'
 
-import { keepAlive } from '../../../utils/keep-alive'
 import type { AISuggestionItem, ResolvedSuggestions } from './suggestions'
+
+import { keepAlive } from '../../../utils/keep-alive'
 
 keepAlive(h)
 
@@ -118,7 +119,9 @@ export const AIInstructionInput = defineComponent<AIInstructionInputProps>({
     const filteredItems = computed(() => {
       const q = inputValue.value.trim().toLowerCase()
       if (!q) return allItems.value
-      return allItems.value.filter((item) => item.label.toLowerCase().includes(q))
+      return allItems.value.filter((item) =>
+        item.label.toLowerCase().includes(q)
+      )
     })
 
     const showSendAsPrompt = computed(() => inputValue.value.trim().length > 0)

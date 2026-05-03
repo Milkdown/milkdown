@@ -7,8 +7,9 @@ import { Plugin, PluginKey } from '@milkdown/kit/prose/state'
 import { Decoration, DecorationSet } from '@milkdown/kit/prose/view'
 import { $prose } from '@milkdown/kit/utils'
 
-import { abortAICmd, aiSessionCtx } from './commands'
 import type { AIStreamingIndicatorConfig } from './types'
+
+import { abortAICmd, aiSessionCtx } from './commands'
 
 const CLASS_PREFIX = 'milkdown-ai-streaming'
 const SPINNER_PERIOD_MS = 800

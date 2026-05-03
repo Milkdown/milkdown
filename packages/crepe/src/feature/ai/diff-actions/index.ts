@@ -1,10 +1,9 @@
 import { commandsCtx } from '@milkdown/kit/core'
-import {
-  acceptAllDiffsCmd,
-  diffPluginKey,
-} from '@milkdown/kit/plugin/diff'
+import { acceptAllDiffsCmd, diffPluginKey } from '@milkdown/kit/plugin/diff'
 import { Plugin, PluginKey } from '@milkdown/kit/prose/state'
 import { $prose } from '@milkdown/kit/utils'
+
+import type { AIDiffActionsConfig } from '../types'
 
 import {
   clearIcon as defaultRejectIcon,
@@ -12,7 +11,6 @@ import {
   enterKeyIcon as defaultEnterKeyIcon,
   retryIcon as defaultRetryIcon,
 } from '../../../icons'
-import type { AIDiffActionsConfig } from '../types'
 import { DiffActionsPanelView, type ResolvedDiffActionsConfig } from './view'
 
 const diffActionsPanelKey = new PluginKey('CREPE_AI_DIFF_ACTIONS_PANEL')

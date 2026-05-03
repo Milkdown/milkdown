@@ -3,6 +3,9 @@ import type { Ctx } from '@milkdown/kit/ctx'
 import { tooltipFactory } from '@milkdown/kit/plugin/tooltip'
 import { $ctx } from '@milkdown/kit/utils'
 
+import type { AIFeatureConfig } from '../types'
+import type { AIInstructionTooltipChrome } from './component'
+
 import {
   aiIcon as defaultAiIcon,
   chevronLeftIcon as defaultChevronLeftIcon,
@@ -11,13 +14,11 @@ import {
   sendIcon as defaultSendIcon,
   sendPromptIcon as defaultSendPromptIcon,
 } from '../../../icons'
-import type { AIFeatureConfig } from '../types'
-import type { AIInstructionTooltipChrome } from './component'
+import { AISuggestionsBuilder, applyDefaultSuggestions } from './suggestions'
 import {
   AIInstructionTooltipView,
   type AIInstructionTooltipViewConfig,
 } from './view'
-import { AISuggestionsBuilder, applyDefaultSuggestions } from './suggestions'
 
 export interface AIInstructionTooltipAPI {
   show: (from: number, to: number) => void

@@ -124,7 +124,9 @@ export class AISuggestionsBuilder {
   /// underlying node, so changes are always visible.
   getSubmenu = (id: string) => {
     const node = this.#nodes.find((n) => n.kind === 'submenu' && n.id === id)
-    return node?.kind === 'submenu' ? createSubmenuBuilder(node.node) : undefined
+    return node?.kind === 'submenu'
+      ? createSubmenuBuilder(node.node)
+      : undefined
   }
 
   clear = () => {
