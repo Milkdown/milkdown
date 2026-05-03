@@ -1,7 +1,7 @@
 import type { Ctx } from '@milkdown/kit/ctx'
 
 import { toggleLinkCommand } from '@milkdown/kit/component/link-tooltip'
-import { commandsCtx } from '@milkdown/kit/core'
+import { commandsCtx, editorViewCtx } from '@milkdown/kit/core'
 import {
   emphasisSchema,
   inlineCodeSchema,
@@ -23,6 +23,7 @@ import type { ToolbarFeatureConfig } from '.'
 import { CrepeFeature } from '..'
 import { useCrepeFeatures } from '../../core/slice'
 import {
+  aiIcon,
   boldIcon,
   codeIcon,
   functionsIcon,
@@ -31,6 +32,7 @@ import {
   strikethroughIcon,
 } from '../../icons'
 import { GroupBuilder } from '../../utils/group-builder'
+import { aiInstructionTooltipAPI } from '../ai/instruction-tooltip'
 import { toggleLatexCommand } from '../latex/command'
 import { mathInlineSchema } from '../latex/inline-latex'
 
@@ -129,6 +131,20 @@ export function getGroups(config?: ToolbarFeatureConfig, ctx?: Ctx) {
       commands.call(toggleLinkCommand.key)
     },
   })
+
+  const isAIEnabled = flags?.includes(CrepeFeature.AI)
+  if (isAIEnabled) {
+    functionGroup.addItem('ai', {
+      icon: config?.aiIcon ?? aiIcon,
+      active: () => false,
+      onRun: (ctx) => {
+        const api = ctx.get(aiInstructionTooltipAPI.key)
+        const view = ctx.get(editorViewCtx)
+        const { from, to } = view.state.selection
+        api.show(from, to)
+      },
+    })
+  }
 
   config?.buildToolbar?.(groupBuilder)
 

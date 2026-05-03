@@ -1,7 +1,7 @@
 import type { Ctx } from '@milkdown/kit/ctx'
 import type { MilkdownError } from '@milkdown/kit/exception'
 
-import { commandsCtx, editorViewCtx } from '@milkdown/kit/core'
+import { commandsCtx } from '@milkdown/kit/core'
 import { aiBuildContextError, aiProviderError } from '@milkdown/kit/exception'
 import { diffPluginKey } from '@milkdown/kit/plugin/diff'
 import {
@@ -37,32 +37,25 @@ export const aiProviderConfig = $ctx(
   'aiProviderConfig'
 )
 
-/// Holds the AbortController for the current AI session (null when idle).
+/// Holds the AbortController and active-form label for the current AI
+/// session (null/empty when idle). `label` is shown in the streaming
+/// indicator. `lastInstruction`, `lastLabel`, `lastFrom`, `lastTo` are
+/// kept after the session ends so the diff-actions Retry button can
+/// re-run the same prompt on the same text range.
 export const aiSessionCtx = $ctx(
-  { abortController: null as AbortController | null },
+  {
+    abortController: null as AbortController | null,
+    label: '',
+    lastInstruction: '',
+    lastLabel: undefined as string | undefined,
+    lastFrom: -1,
+    lastTo: -1,
+  },
   'aiSession'
 )
 
 // ---------------------------------------------------------------------------
-// CSS class for visual feedback
-// ---------------------------------------------------------------------------
-
-const AI_STREAMING_CLASS = 'milkdown-ai-streaming'
-
-function setStreamingClass(ctx: Ctx, active: boolean): void {
-  try {
-    const view = ctx.get(editorViewCtx)
-    const root = view.dom.closest('.milkdown')
-    if (root) {
-      root.classList.toggle(AI_STREAMING_CLASS, active)
-    }
-  } catch {
-    // Editor may be destroyed — ignore.
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Error helper
+// Helpers
 // ---------------------------------------------------------------------------
 
 function emitAIError(ctx: Ctx, error: MilkdownError): void {
@@ -72,6 +65,18 @@ function emitAIError(ctx: Ctx, error: MilkdownError): void {
   } catch (handlerError) {
     console.error('[milkdown/ai] onError handler failed:', handlerError)
   }
+}
+
+/// Clear the live (`abortController`, `label`) portion of the session
+/// while preserving the `last*` fields used by the diff-actions Retry
+/// button.
+function clearActiveSession(ctx: Ctx): void {
+  const current = ctx.get(aiSessionCtx.key)
+  ctx.set(aiSessionCtx.key, {
+    ...current,
+    abortController: null,
+    label: '',
+  })
 }
 
 // ---------------------------------------------------------------------------
@@ -109,8 +114,7 @@ async function runProvider(
     // session owns the ctx now and we must not clobber it.
     const current = ctx.get(aiSessionCtx.key)
     if (current.abortController === abortController) {
-      setStreamingClass(ctx, false)
-      ctx.set(aiSessionCtx.key, { abortController: null })
+      clearActiveSession(ctx)
     }
   }
 }
@@ -146,12 +150,33 @@ export const runAICmd = $command('RunAI', (ctx) => {
     // are side-effect-free so we can return true here.
     if (!dispatch) return true
 
+    // Set the session label before starting the streaming plugin, so
+    // the streaming-indicator widget reads the right label when its
+    // decoration is first built. Empty string means "no caller-supplied
+    // label" — the indicator widget falls through to its configured
+    // `fallbackLabel`. `lastInstruction` / `lastLabel` are also stored
+    // here so the diff-actions Retry button can re-run the same prompt
+    // later.
+    const abortController = new AbortController()
+    const { from, to } = state.selection
+    ctx.set(aiSessionCtx.key, {
+      abortController,
+      label: options.label ?? '',
+      lastInstruction: options.instruction,
+      lastLabel: options.label,
+      lastFrom: from,
+      lastTo: to,
+    })
+
     // Start streaming — replaces the selection if non-empty.
     const commands = ctx.get(commandsCtx)
     const insertAt = state.selection.empty
       ? ('cursor' as const)
       : ('selection' as const)
-    if (!commands.call(startStreamingCmd.key, { insertAt })) return false
+    if (!commands.call(startStreamingCmd.key, { insertAt })) {
+      clearActiveSession(ctx)
+      return false
+    }
 
     // Everything after startStreamingCmd is wrapped in try/catch: if
     // buildContext or anything else throws, we must abort the streaming
@@ -164,15 +189,9 @@ export const runAICmd = $command('RunAI', (ctx) => {
       const milkdownError = aiBuildContextError(error)
       emitAIError(ctx, milkdownError)
       commands.call(abortStreamingCmd.key, { keep: false })
+      clearActiveSession(ctx)
       return false
     }
-
-    // Create an abort controller for this session.
-    const abortController = new AbortController()
-    ctx.set(aiSessionCtx.key, { abortController })
-
-    // Visual feedback.
-    setStreamingClass(ctx, true)
 
     // Fire-and-forget: the provider pushes chunks asynchronously.
     // startStreamingCmd already dispatched its own transaction — we
@@ -197,8 +216,7 @@ export const abortAICmd = $command('AbortAI', (ctx) => {
     if (!session.abortController) return false
 
     session.abortController.abort()
-    ctx.set(aiSessionCtx.key, { abortController: null })
-    setStreamingClass(ctx, false)
+    clearActiveSession(ctx)
 
     // Only call abortStreamingCmd if the streaming plugin is still
     // active — it may have already finished/errored by the time the
