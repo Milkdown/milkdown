@@ -145,7 +145,7 @@ export function streamingIndicatorPlugin(
         decorations(state) {
           return indicatorKey.getState(state) ?? DecorationSet.empty
         },
-        handleKeyDown(view, event) {
+        handleKeyDown(_view, event) {
           if (event.key !== 'Escape') return false
           const session = ctx.get(aiSessionCtx.key)
           if (!session.abortController) return false
