@@ -10,9 +10,7 @@ import {
   longContent,
   modifiedLongContent,
   setup,
-  setupDiffReview,
   setupAIDemo,
-  setupStreamingDemo,
   wikiContent,
 } from './setup'
 
@@ -67,28 +65,6 @@ export const WikiValue: Story = {
   args: {
     ...defaultArgs,
     defaultValue: wikiContent,
-  },
-}
-
-export const DiffReview: Story = {
-  render: (args) => {
-    return setupDiffReview({ args, style: nord, theme: basicLight })
-  },
-  args: {
-    ...defaultArgs,
-    defaultValue: longContent,
-    modifiedValue: modifiedLongContent,
-    enableAI: true,
-  },
-}
-
-export const StreamingDemo: Story = {
-  render: (args) => {
-    return setupStreamingDemo({ args, style: nord, theme: basicLight })
-  },
-  args: {
-    ...defaultArgs,
-    enableAI: true,
   },
 }
 

@@ -1,19 +1,409 @@
-.milkdown.milkdown-ai-streaming::after {
-  content: '';
+/* AI Instruction Tooltip */
+.milkdown-ai-instruction {
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border: 2px solid var(--crepe-color-primary, #8b5cf6);
-  border-radius: inherit;
-  animation: milkdown--ai-pulse 1.5s ease-in-out infinite;
+  z-index: 10;
+
+  &[data-show='false'] {
+    display: none;
+  }
+
+  & > .ai-instruction {
+    width: 360px;
+    background: var(--crepe-color-surface);
+    border-radius: 12px;
+    box-shadow: var(--crepe-shadow-2);
+    font-family: var(--crepe-font-default);
+    font-size: 14px;
+    color: var(--crepe-color-on-background);
+    overflow: hidden;
+  }
 }
 
-@keyframes milkdown--ai-pulse {
-  0%,
-  100% {
-    opacity: 0.3;
-  }
-  50% {
-    opacity: 0.8;
-  }
+.ai-instruction-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px;
+  padding: 4px 4px 4px 12px;
+  background: var(--crepe-color-background);
+  border: 1px solid
+    color-mix(in srgb, var(--crepe-color-primary) 35%, transparent);
+  border-radius: 999px;
+}
+
+.ai-instruction-input-prefix {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--crepe-color-primary);
+}
+
+.ai-instruction-input-prefix svg {
+  width: 18px;
+  height: 18px;
+  color: var(--crepe-color-primary);
+  fill: var(--crepe-color-primary);
+}
+
+.ai-instruction-input-field {
+  flex: 1;
+  min-width: 0;
+  outline: none;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--crepe-color-on-background);
+  padding: 4px 0;
+}
+
+.ai-instruction-input-field::placeholder {
+  color: var(--crepe-color-outline);
+}
+
+.ai-instruction-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--crepe-color-primary);
+  color: var(--crepe-color-on-inverse);
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.ai-instruction-submit svg {
+  width: 16px;
+  height: 16px;
+  color: var(--crepe-color-on-inverse);
+  fill: var(--crepe-color-on-inverse);
+}
+
+.ai-instruction-submit:hover {
+  background: color-mix(in srgb, var(--crepe-color-primary) 85%, white);
+}
+
+.ai-instruction-list {
+  max-height: 320px;
+  overflow-y: auto;
+  padding-bottom: 6px;
+}
+
+.ai-instruction-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px 4px;
+  cursor: pointer;
+  color: var(--crepe-color-outline);
+  font-size: 12px;
+  font-weight: 500;
+  user-select: none;
+}
+
+.ai-instruction-back:hover {
+  color: var(--crepe-color-on-background);
+}
+
+.ai-instruction-back-icon {
+  display: inline-flex;
+}
+
+.ai-instruction-back-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+}
+
+.ai-instruction-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.ai-instruction-section-header {
+  padding: 6px 16px 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--crepe-color-outline);
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.ai-instruction-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  cursor: pointer;
+  user-select: none;
+  color: var(--crepe-color-on-background);
+}
+
+.ai-instruction-item.active {
+  background: var(--crepe-color-hover);
+}
+
+.ai-instruction-item-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.ai-instruction-item-icon svg {
+  width: 18px;
+  height: 18px;
+  color: var(--crepe-color-on-surface-variant);
+  fill: var(--crepe-color-on-surface-variant);
+  stroke: var(--crepe-color-on-surface-variant);
+}
+
+.ai-instruction-item-label {
+  flex: 1;
+  font-size: 14px;
+  line-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ai-instruction-item-label mark {
+  background: var(--crepe-color-secondary);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+.ai-instruction-item-arrow {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--crepe-color-outline);
+}
+
+.ai-instruction-item-arrow svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+}
+
+.ai-instruction-item-prompt .ai-instruction-item-label {
+  color: var(--crepe-color-primary);
+}
+
+.ai-instruction-item-prompt .ai-instruction-item-icon svg {
+  color: var(--crepe-color-primary);
+  fill: var(--crepe-color-primary);
+}
+
+.ai-instruction-item-quote {
+  font-weight: 500;
+}
+
+.ai-instruction-item-shortcut {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 20px;
+  padding: 0 4px;
+  border-radius: 4px;
+  background: var(--crepe-color-surface-low);
+  color: var(--crepe-color-outline);
+  flex-shrink: 0;
+}
+
+.ai-instruction-item-shortcut svg {
+  width: 14px;
+  height: 14px;
+  color: var(--crepe-color-outline);
+  fill: var(--crepe-color-outline);
+}
+
+/* Streaming Indicator */
+.milkdown-ai-streaming-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px 4px 12px;
+  margin: 4px 0;
+  border-radius: 999px;
+  border: 1px solid
+    color-mix(in srgb, var(--crepe-color-primary) 20%, transparent);
+  background: var(--crepe-color-surface);
+  vertical-align: middle;
+  white-space: nowrap;
+  user-select: none;
+  font-family: var(--crepe-font-default);
+}
+
+.milkdown-ai-streaming-spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid
+    color-mix(in srgb, var(--crepe-color-primary) 25%, transparent);
+  border-top-color: var(--crepe-color-primary);
+  flex-shrink: 0;
+  /* Rotation is driven by requestAnimationFrame in JS so it survives
+     DOM re-mounts when the indicator's position advances. */
+  will-change: transform;
+}
+
+.milkdown-ai-streaming-label {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--crepe-color-on-background);
+}
+
+.milkdown-ai-streaming-esc {
+  font-family: var(--crepe-font-code, ui-monospace, monospace);
+  font-size: 11px;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--crepe-color-surface-low);
+  color: var(--crepe-color-outline);
+}
+
+/* Diff Actions Panel */
+.milkdown-ai-diff-actions {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 11;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px;
+  background: var(--crepe-color-surface);
+  border: 1px solid
+    color-mix(in srgb, var(--crepe-color-primary) 18%, transparent);
+  border-radius: 999px;
+  box-shadow: var(--crepe-shadow-2);
+  font-family: var(--crepe-font-default);
+  user-select: none;
+}
+
+.milkdown-ai-diff-actions[data-show='false'] {
+  display: none;
+}
+
+.milkdown-ai-diff-actions-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--crepe-color-on-background);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.milkdown-ai-diff-actions-btn:hover {
+  background: var(--crepe-color-hover);
+}
+
+.milkdown-ai-diff-actions-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.milkdown-ai-diff-actions-btn:disabled:hover {
+  background: transparent;
+}
+
+.milkdown-ai-diff-actions-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+}
+
+.milkdown-ai-diff-actions-icon svg {
+  width: 16px;
+  height: 16px;
+  color: currentColor;
+  fill: currentColor;
+}
+
+.milkdown-ai-diff-actions-btn-retry {
+  color: var(--crepe-color-on-surface-variant);
+}
+
+.milkdown-ai-diff-actions-btn-reject {
+  color: var(--crepe-color-diff-removed-text, #ba1a1a);
+  background: color-mix(
+    in srgb,
+    var(--crepe-color-diff-removed, #ef4444) 8%,
+    transparent
+  );
+}
+
+.milkdown-ai-diff-actions-btn-reject:hover {
+  background: color-mix(
+    in srgb,
+    var(--crepe-color-diff-removed, #ef4444) 16%,
+    transparent
+  );
+}
+
+.milkdown-ai-diff-actions-btn-accept {
+  color: var(--crepe-color-diff-added-text, #166534);
+  background: color-mix(
+    in srgb,
+    var(--crepe-color-diff-added, #22c55e) 12%,
+    transparent
+  );
+}
+
+.milkdown-ai-diff-actions-btn-accept:hover {
+  background: color-mix(
+    in srgb,
+    var(--crepe-color-diff-added, #22c55e) 22%,
+    transparent
+  );
+}
+
+.milkdown-ai-diff-actions-shortcut {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 4px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  background: color-mix(
+    in srgb,
+    var(--crepe-color-diff-added, #22c55e) 14%,
+    transparent
+  );
+  font-family: var(--crepe-font-code, ui-monospace, monospace);
+  font-size: 11px;
+  color: inherit;
+}
+
+.milkdown-ai-diff-actions-shortcut-icon {
+  display: inline-flex;
+}
+
+.milkdown-ai-diff-actions-shortcut-icon svg {
+  width: 12px;
+  height: 12px;
+  color: currentColor;
+  fill: currentColor;
 }
