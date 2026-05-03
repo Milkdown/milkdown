@@ -102,11 +102,14 @@ export class AIInstructionTooltipView implements PluginView {
   }
 
   update = (view: EditorView) => {
-    const { state } = view
-    const { selection } = state
-    if (!(selection instanceof TextSelection)) return
-
-    if (selection.from !== this.#from || selection.to !== this.#to) {
+    const { selection } = view.state
+    // Hide whenever the anchor selection moves OR becomes a non-text
+    // selection (e.g. user clicks an image or table node). Otherwise the
+    // tooltip would stay orphaned on screen with no valid range.
+    const isTextSelection = selection instanceof TextSelection
+    const movedRange =
+      selection.from !== this.#from || selection.to !== this.#to
+    if (!isTextSelection || movedRange) {
       this.#provider.hide()
     }
   }

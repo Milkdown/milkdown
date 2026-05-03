@@ -22,7 +22,9 @@ import { defaultBuildContext } from './context'
 // ---------------------------------------------------------------------------
 
 /// Holds the user-supplied provider and prompt builder. Populated by
-/// the AI feature's setup function from `AIFeatureConfig`.
+/// the AI feature's setup function from `AIFeatureConfig`. `aiIcon`
+/// lives here too so that other features (notably the toolbar) can pick
+/// up the AI feature's icon override at render time.
 export const aiProviderConfig = $ctx(
   {
     provider: undefined as AIProvider | undefined,
@@ -33,6 +35,7 @@ export const aiProviderConfig = $ctx(
     onError: (error: MilkdownError) => {
       console.error(`[milkdown/ai] [${error.code}]`, error)
     },
+    aiIcon: undefined as string | undefined,
   },
   'aiProviderConfig'
 )

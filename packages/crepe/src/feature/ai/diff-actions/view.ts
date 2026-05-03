@@ -1,4 +1,5 @@
 import type { Ctx } from '@milkdown/kit/ctx'
+import type { Node } from '@milkdown/kit/prose/model'
 import type { PluginView } from '@milkdown/kit/prose/state'
 import type { EditorView } from '@milkdown/kit/prose/view'
 
@@ -40,6 +41,11 @@ export class DiffActionsPanelView implements PluginView {
   readonly #retryBtn: HTMLButtonElement
   readonly #config: ResolvedDiffActionsConfig
   #visible = false
+  /// Doc snapshot at the moment diff review activated. If the live doc
+  /// drifts from this snapshot the user has accepted some per-change
+  /// diffs and the stored `lastFrom`/`lastTo` no longer point at the
+  /// original range — Retry is unsafe at that point.
+  #diffStartDoc: Node | null = null
 
   constructor(
     readonly ctx: Ctx,
@@ -123,13 +129,13 @@ export class DiffActionsPanelView implements PluginView {
   #retry = (): void => {
     const session = this.ctx.get(aiSessionCtx.key)
     if (!session.lastInstruction) return
+    // Refuse to retry once the user has accepted any individual diff —
+    // `clearDiffReviewCmd` only exits diff mode, it doesn't roll back
+    // accepted changes, so the stored range would point at shifted text.
+    if (!this.#canRetry()) return
 
     const commands = this.ctx.get(commandsCtx)
-    // Clear the diff review first so runAICmd's precondition passes.
     commands.call(clearDiffReviewCmd.key)
-    // Restore the original selection so runAICmd operates on the same
-    // range. After clearDiffReview the doc is back to its pre-AI state,
-    // so the stored from/to are still valid.
     const editorView = this.ctx.get(editorViewCtx)
     const { doc } = editorView.state
     const from = Math.min(Math.max(session.lastFrom, 0), doc.content.size)
@@ -145,6 +151,12 @@ export class DiffActionsPanelView implements PluginView {
     })
   }
 
+  #canRetry(): boolean {
+    if (!this.#diffStartDoc) return false
+    const editorView = this.ctx.get(editorViewCtx)
+    return editorView.state.doc.eq(this.#diffStartDoc)
+  }
+
   #rejectAll = (): void => {
     this.ctx.get(commandsCtx).call(clearDiffReviewCmd.key)
   }
@@ -155,12 +167,20 @@ export class DiffActionsPanelView implements PluginView {
 
   update(view: EditorView): void {
     const active = !!diffPluginKey.getState(view.state)?.active
-    if (active === this.#visible) return
-    this.#visible = active
-    this.#panel.dataset.show = active ? 'true' : 'false'
+
+    if (active !== this.#visible) {
+      this.#visible = active
+      this.#panel.dataset.show = active ? 'true' : 'false'
+      this.#diffStartDoc = active ? view.state.doc : null
+    }
+
     if (active) {
+      // Re-evaluate Retry every transaction so the button disables the
+      // moment a per-change accept shifts the doc out of its initial form.
       const session = this.ctx.get(aiSessionCtx.key)
-      this.#retryBtn.disabled = !session.lastInstruction
+      const docUntouched =
+        !!this.#diffStartDoc && view.state.doc.eq(this.#diffStartDoc)
+      this.#retryBtn.disabled = !session.lastInstruction || !docUntouched
     }
   }
 

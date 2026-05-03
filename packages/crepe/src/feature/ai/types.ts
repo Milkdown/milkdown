@@ -104,8 +104,9 @@ export interface AIFeatureConfig {
   /// `aiBuildContextError`.
   onError?: (error: MilkdownError) => void
 
-  /// Custom icon for the AI toolbar button (sparkle entry point) and for
-  /// the prefix slot inside the instruction input.
+  /// Custom icon for both the toolbar AI entry point and the prefix slot
+  /// inside the instruction input. The toolbar feature can override this
+  /// for just the toolbar button via `ToolbarFeatureConfig.aiIcon`.
   aiIcon?: string
 
   /// Placeholder text for the AI instruction input on the main view.

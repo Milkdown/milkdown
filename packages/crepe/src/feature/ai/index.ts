@@ -95,6 +95,7 @@ export const ai: DefineFeature<AIFeatureConfig> = (editor, config) => {
           : {}),
         diffReviewOnEnd: config?.diffReviewOnEnd ?? prev.diffReviewOnEnd,
         ...(config?.onError !== undefined ? { onError: config.onError } : {}),
+        ...(config?.aiIcon !== undefined ? { aiIcon: config.aiIcon } : {}),
       }))
     })
     .use(aiProviderConfig)
