@@ -1,11 +1,23 @@
-import { commandsCtx } from '@milkdown/kit/core'
-import { clearDiffReviewCmd } from '@milkdown/kit/plugin/diff'
+import type { EditorView } from '@milkdown/kit/prose/view'
+
+import { commandsCtx, editorViewCtx } from '@milkdown/kit/core'
+import {
+  clearDiffReviewCmd,
+  diffPluginKey,
+  startDiffReviewCmd,
+} from '@milkdown/kit/plugin/diff'
+import {
+  startStreamingCmd,
+  streamingPluginKey,
+} from '@milkdown/kit/plugin/streaming'
 import { callCommand } from '@milkdown/kit/utils'
 import { describe, expect, test, vi } from 'vitest'
+import { nextTick } from 'vue'
 
 import { Crepe } from '../../core'
 import { CrepeFeature } from '../index'
 import { aiSessionCtx, runAICmd } from './commands'
+import { aiInstructionTooltipAPI } from './instruction-tooltip'
 
 function waitForAsync() {
   return new Promise<void>((resolve) => setTimeout(resolve, 0))
@@ -15,6 +27,27 @@ async function flushStream() {
   // Streaming dispatches are scheduled across microtasks; a few ticks
   // are enough for the simulated provider to drain.
   for (let i = 0; i < 5; i++) await waitForAsync()
+}
+
+function dispatchKeyDown(
+  view: EditorView,
+  key: string,
+  modifiers: { metaKey?: boolean; ctrlKey?: boolean } = {}
+): boolean {
+  const event = new KeyboardEvent('keydown', {
+    key,
+    bubbles: true,
+    cancelable: true,
+    ...modifiers,
+  })
+  // Iterate every plugin's handleKeyDown until one claims the event.
+  // Returning `undefined` from the visitor keeps `someProp` looking;
+  // returning `true` short-circuits and is what we treat as "handled".
+  return (
+    view.someProp('handleKeyDown', (handler) =>
+      handler(view, event) ? true : undefined
+    ) === true
+  )
 }
 
 describe('AI onError', () => {
@@ -161,5 +194,122 @@ describe('AI session retry metadata', () => {
     expect(session.abortController).toBeNull()
     expect(session.label).toBe('')
     expect(session.lastInstruction).toBe('Improve writing')
+  })
+})
+
+describe('AI keybindings', () => {
+  test('Mod-Enter on an active diff review accepts all changes', async () => {
+    const crepe = new Crepe({
+      defaultValue: 'hello',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: {
+        [CrepeFeature.AI]: {
+          provider: async function* () {
+            yield 'unused'
+          },
+        },
+      },
+    })
+    await crepe.create()
+    try {
+      crepe.editor.action((ctx) => {
+        ctx.get(commandsCtx).call(startDiffReviewCmd.key, 'goodbye')
+      })
+
+      const view = crepe.editor.ctx.get(editorViewCtx)
+      expect(diffPluginKey.getState(view.state)?.active).toBe(true)
+
+      expect(dispatchKeyDown(view, 'Enter', { metaKey: true })).toBe(true)
+      expect(diffPluginKey.getState(view.state)?.active).toBeFalsy()
+      // Accept-all keeps the modified text.
+      expect(view.state.doc.textContent).toContain('goodbye')
+    } finally {
+      await crepe.destroy()
+    }
+  })
+
+  test('Esc aborts an in-flight AI session', async () => {
+    const crepe = new Crepe({
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: {
+        [CrepeFeature.AI]: {
+          provider: async function* () {
+            // Hang indefinitely so the session stays open until aborted.
+            await new Promise(() => {})
+            yield ''
+          },
+          diffReviewOnEnd: false,
+        },
+      },
+    })
+    await crepe.create()
+    try {
+      crepe.editor.action(callCommand(runAICmd.key, { instruction: 'test' }))
+      await waitForAsync()
+
+      const view = crepe.editor.ctx.get(editorViewCtx)
+      expect(streamingPluginKey.getState(view.state)?.active).toBe(true)
+
+      expect(dispatchKeyDown(view, 'Escape')).toBe(true)
+      await waitForAsync()
+
+      const session = crepe.editor.action((ctx) => ctx.get(aiSessionCtx.key))
+      expect(session.abortController).toBeNull()
+      expect(streamingPluginKey.getState(view.state)?.active).toBeFalsy()
+    } finally {
+      await crepe.destroy()
+    }
+  })
+
+  test('Esc aborts a manual streaming session when no AI session is active', async () => {
+    const crepe = new Crepe({
+      features: { [CrepeFeature.AI]: true },
+    })
+    await crepe.create()
+    try {
+      crepe.editor.action((ctx) => {
+        ctx.get(commandsCtx).call(startStreamingCmd.key, { insertAt: 'cursor' })
+      })
+
+      const view = crepe.editor.ctx.get(editorViewCtx)
+      expect(streamingPluginKey.getState(view.state)?.active).toBe(true)
+      // Sanity: no AI session is in flight.
+      expect(
+        crepe.editor.action((ctx) => ctx.get(aiSessionCtx.key).abortController)
+      ).toBeNull()
+
+      expect(dispatchKeyDown(view, 'Escape')).toBe(true)
+      expect(streamingPluginKey.getState(view.state)?.active).toBeFalsy()
+    } finally {
+      await crepe.destroy()
+    }
+  })
+})
+
+describe('AI instruction palette', () => {
+  test('show() mounts a palette input under .milkdown-ai-instruction', async () => {
+    const crepe = new Crepe({
+      defaultValue: 'hello',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: {
+        [CrepeFeature.AI]: {
+          provider: async function* () {
+            yield 'unused'
+          },
+        },
+      },
+    })
+    await crepe.create()
+    try {
+      crepe.editor.ctx.get(aiInstructionTooltipAPI.key).show(0, 0)
+      await nextTick()
+
+      const input = document.querySelector<HTMLInputElement>(
+        '.milkdown-ai-instruction input'
+      )
+      expect(input).not.toBeNull()
+    } finally {
+      await crepe.destroy()
+    }
   })
 })
