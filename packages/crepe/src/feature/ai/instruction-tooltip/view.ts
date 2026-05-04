@@ -99,12 +99,16 @@ export class AIInstructionTooltipView implements PluginView {
   }
 
   #onConfirm = (instruction: string, label?: string) => {
+    if (!instruction.trim()) return
+    // Dispatch first and only dismiss the palette on success. If
+    // `runAICmd` rejects (no provider, an active streaming session, an
+    // active diff review, …) the user's typed instruction stays visible
+    // so they can retry once the editor is in a state that accepts it.
+    const commands = this.ctx.get(commandsCtx)
+    const accepted = commands.call(runAICmd.key, { instruction, label })
+    if (!accepted) return
     this.#wantsShow = false
     this.#provider.hide()
-    if (instruction.trim()) {
-      const commands = this.ctx.get(commandsCtx)
-      commands.call(runAICmd.key, { instruction, label })
-    }
   }
 
   #onCancel = () => {

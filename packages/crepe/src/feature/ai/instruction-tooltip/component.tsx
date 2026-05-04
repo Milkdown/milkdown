@@ -88,6 +88,12 @@ export const AIInstructionInput = defineComponent<AIInstructionInputProps>({
     const inputRef = ref<HTMLInputElement | null>(null)
     const listRef = ref<HTMLDivElement | null>(null)
 
+    // Stable id pair used to wire the input ↔ listbox combobox so that
+    // screen readers announce the highlighted option as the user moves
+    // through the suggestions with the arrow keys.
+    const listboxId = `ai-instruction-list-${Math.random().toString(36).slice(2, 9)}`
+    const optionId = (idx: number) => `${listboxId}-opt-${idx}`
+
     watch(resetSignal, () => {
       inputValue.value = ''
       view.value = { kind: 'main' }
@@ -267,6 +273,13 @@ export const AIInstructionInput = defineComponent<AIInstructionInputProps>({
             <input
               ref={inputRef}
               class="ai-instruction-input-field"
+              role="combobox"
+              aria-expanded="true"
+              aria-autocomplete="list"
+              aria-controls={listboxId}
+              aria-activedescendant={
+                totalItems.value > 0 ? optionId(selectedIndex.value) : undefined
+              }
               placeholder={
                 submenuDef ? submenuDef.searchPlaceholder : placeholder.value
               }
@@ -287,7 +300,13 @@ export const AIInstructionInput = defineComponent<AIInstructionInputProps>({
             </button>
           </div>
 
-          <div class="ai-instruction-list" ref={listRef}>
+          <div
+            class="ai-instruction-list"
+            ref={listRef}
+            id={listboxId}
+            role="listbox"
+            aria-label="AI suggestions"
+          >
             {submenuDef && (
               <div
                 class="ai-instruction-back"
@@ -309,7 +328,10 @@ export const AIInstructionInput = defineComponent<AIInstructionInputProps>({
                 {items.map((item, idx) => (
                   <div
                     key={item.id}
+                    id={optionId(idx)}
                     data-index={idx}
+                    role="option"
+                    aria-selected={idx === selectedIndex.value}
                     class={[
                       'ai-instruction-item',
                       idx === selectedIndex.value ? 'active' : '',
@@ -342,7 +364,10 @@ export const AIInstructionInput = defineComponent<AIInstructionInputProps>({
                   {chrome.sendAsPromptHeaderLabel}
                 </div>
                 <div
+                  id={optionId(items.length)}
                   data-index={items.length}
+                  role="option"
+                  aria-selected={selectedIndex.value === items.length}
                   class={[
                     'ai-instruction-item',
                     'ai-instruction-item-prompt',
