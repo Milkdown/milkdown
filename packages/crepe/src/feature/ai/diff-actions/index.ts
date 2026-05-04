@@ -11,6 +11,7 @@ import {
   enterKeyIcon as defaultEnterKeyIcon,
   retryIcon as defaultRetryIcon,
 } from '../../../icons'
+import { aiSessionCtx } from '../commands'
 import { DiffActionsPanelView, type ResolvedDiffActionsConfig } from './view'
 
 const diffActionsPanelKey = new PluginKey('CREPE_AI_DIFF_ACTIONS_PANEL')
@@ -79,6 +80,10 @@ export function diffActionsPanelPlugin(options: DiffActionsPluginOptions = {}) {
           if (event.key !== 'Enter') return false
           if (!(event.metaKey || event.ctrlKey)) return false
           if (!diffPluginKey.getState(view.state)?.active) return false
+          // Only intercept Mod-Enter for diffs this AI session started.
+          // Manual `startDiffReviewCmd` flows shouldn't have their key
+          // bindings mutated just because the AI feature is loaded.
+          if (!ctx.get(aiSessionCtx.key).diffOwnedByAI) return false
           event.preventDefault()
           const commands = ctx.get(commandsCtx)
           commands.call(acceptAllDiffsCmd.key)

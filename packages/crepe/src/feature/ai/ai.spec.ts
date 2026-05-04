@@ -198,7 +198,7 @@ describe('AI session retry metadata', () => {
 })
 
 describe('AI keybindings', () => {
-  test('Mod-Enter on an active diff review accepts all changes', async () => {
+  test('Mod-Enter accepts all changes for an AI-owned diff review', async () => {
     const crepe = new Crepe({
       defaultValue: 'hello',
       features: { [CrepeFeature.AI]: true },
@@ -212,7 +212,11 @@ describe('AI keybindings', () => {
     })
     await crepe.create()
     try {
+      // Simulate the end of an AI session: the streaming side flips
+      // `diffOwnedByAI` on right before handing off to diff review.
       crepe.editor.action((ctx) => {
+        const session = ctx.get(aiSessionCtx.key)
+        ctx.set(aiSessionCtx.key, { ...session, diffOwnedByAI: true })
         ctx.get(commandsCtx).call(startDiffReviewCmd.key, 'goodbye')
       })
 
@@ -221,8 +225,38 @@ describe('AI keybindings', () => {
 
       expect(dispatchKeyDown(view, 'Enter', { metaKey: true })).toBe(true)
       expect(diffPluginKey.getState(view.state)?.active).toBeFalsy()
-      // Accept-all keeps the modified text.
       expect(view.state.doc.textContent).toContain('goodbye')
+    } finally {
+      await crepe.destroy()
+    }
+  })
+
+  test('Mod-Enter does not hijack a manually-started diff review', async () => {
+    const crepe = new Crepe({
+      defaultValue: 'hello',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: {
+        [CrepeFeature.AI]: {
+          provider: async function* () {
+            yield 'unused'
+          },
+        },
+      },
+    })
+    await crepe.create()
+    try {
+      // No `diffOwnedByAI` flip — this represents host code calling
+      // `startDiffReviewCmd` directly, independent of the AI feature.
+      crepe.editor.action((ctx) => {
+        ctx.get(commandsCtx).call(startDiffReviewCmd.key, 'goodbye')
+      })
+
+      const view = crepe.editor.ctx.get(editorViewCtx)
+      expect(diffPluginKey.getState(view.state)?.active).toBe(true)
+
+      // Handler must let the event fall through; the diff stays active.
+      expect(dispatchKeyDown(view, 'Enter', { metaKey: true })).toBe(false)
+      expect(diffPluginKey.getState(view.state)?.active).toBe(true)
     } finally {
       await crepe.destroy()
     }
@@ -280,6 +314,67 @@ describe('AI keybindings', () => {
 
       expect(dispatchKeyDown(view, 'Escape')).toBe(true)
       expect(streamingPluginKey.getState(view.state)?.active).toBeFalsy()
+    } finally {
+      await crepe.destroy()
+    }
+  })
+})
+
+describe('AI diff actions panel visibility', () => {
+  /// Panels from earlier tests may linger in `document.body` until their
+  /// editor view is fully torn down, so always look up the panel
+  /// relative to the current crepe instance's `.milkdown` host.
+  function findPanelFor(crepe: Crepe): HTMLElement | null {
+    const view = crepe.editor.ctx.get(editorViewCtx)
+    const host = view.dom.closest('.milkdown') ?? document.body
+    return host.querySelector<HTMLElement>('.milkdown-ai-diff-actions')
+  }
+
+  test('panel stays hidden for a manually-started diff review', async () => {
+    const crepe = new Crepe({
+      defaultValue: 'hello',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: {
+        [CrepeFeature.AI]: {
+          provider: async function* () {
+            yield 'unused'
+          },
+        },
+      },
+    })
+    await crepe.create()
+    try {
+      crepe.editor.action((ctx) => {
+        ctx.get(commandsCtx).call(startDiffReviewCmd.key, 'goodbye')
+      })
+
+      expect(findPanelFor(crepe)?.dataset.show).toBe('false')
+    } finally {
+      await crepe.destroy()
+    }
+  })
+
+  test('panel shows for an AI-owned diff review', async () => {
+    const crepe = new Crepe({
+      defaultValue: 'hello',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: {
+        [CrepeFeature.AI]: {
+          provider: async function* () {
+            yield 'unused'
+          },
+        },
+      },
+    })
+    await crepe.create()
+    try {
+      crepe.editor.action((ctx) => {
+        const session = ctx.get(aiSessionCtx.key)
+        ctx.set(aiSessionCtx.key, { ...session, diffOwnedByAI: true })
+        ctx.get(commandsCtx).call(startDiffReviewCmd.key, 'goodbye')
+      })
+
+      expect(findPanelFor(crepe)?.dataset.show).toBe('true')
     } finally {
       await crepe.destroy()
     }

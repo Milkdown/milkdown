@@ -79,6 +79,15 @@ export class AIInstructionTooltipView implements PluginView {
       this.#wantsShow = false
       requestAnimationFrame(() => {
         try {
+          // Only restore focus to the editor when the palette itself
+          // was holding focus at hide time (Escape, Enter-to-confirm,
+          // selection-driven dismissal). If the user dismissed the
+          // palette by clicking somewhere else, focus is already on
+          // that target and stealing it back would frustrate keyboard
+          // and assistive-technology users trying to leave the editor.
+          const root = this.#content.getRootNode() as Document | ShadowRoot
+          const active = root.activeElement
+          if (!active || !this.#content.contains(active)) return
           const v = this.ctx.get(editorViewCtx)
           v.dom.focus({ preventScroll: true })
         } catch {

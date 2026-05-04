@@ -50,6 +50,10 @@ export class DiffActionsPanelView implements PluginView {
   readonly #retryBtn: HTMLButtonElement
   readonly #config: ResolvedDiffActionsConfig
   #visible = false
+  /// Tracks the diff plugin's `active` flag across transactions so we
+  /// can detect false→true / true→false edges independently of whether
+  /// the panel is actually being shown.
+  #diffActive = false
   /// Doc snapshot at the moment diff review activated. If the live doc
   /// drifts from this snapshot the user has accepted some per-change
   /// diffs and the stored `lastFrom`/`lastTo` no longer point at the
@@ -58,6 +62,8 @@ export class DiffActionsPanelView implements PluginView {
   /// Whether the active diff review came from this AI session's
   /// streaming hand-off (vs being started manually via
   /// `startDiffReviewCmd`). Captured at the false→true transition.
+  /// The panel only renders when this is true so it doesn't take over
+  /// non-AI diff flows that exist independently of the AI feature.
   #ownedByAI = false
 
   constructor(
@@ -180,12 +186,11 @@ export class DiffActionsPanelView implements PluginView {
   }
 
   update(view: EditorView): void {
-    const active = !!diffPluginKey.getState(view.state)?.active
+    const diffActive = !!diffPluginKey.getState(view.state)?.active
 
-    if (active !== this.#visible) {
-      this.#visible = active
-      this.#panel.dataset.show = active ? 'true' : 'false'
-      if (active) {
+    if (diffActive !== this.#diffActive) {
+      this.#diffActive = diffActive
+      if (diffActive) {
         // false → true. Capture ownership now; from this point on any
         // doc drift means the user has accepted individual diffs.
         const session = this.ctx.get(aiSessionCtx.key)
@@ -206,16 +211,23 @@ export class DiffActionsPanelView implements PluginView {
       }
     }
 
-    if (active) {
+    // Render only for AI-owned diff reviews. Non-AI diffs (started via
+    // `startDiffReviewCmd` directly) are left to whatever UX the host
+    // had in place before this feature shipped.
+    const shouldShow = diffActive && this.#ownedByAI
+    if (shouldShow !== this.#visible) {
+      this.#visible = shouldShow
+      this.#panel.dataset.show = shouldShow ? 'true' : 'false'
+    }
+
+    if (shouldShow) {
       // Re-evaluate Retry every transaction so the button disables the
       // moment a per-change accept shifts the doc out of its initial
-      // form, and stays disabled for diff reviews this AI session
-      // didn't start.
+      // form.
       const session = this.ctx.get(aiSessionCtx.key)
       const docUntouched =
         !!this.#diffStartDoc && view.state.doc.eq(this.#diffStartDoc)
-      this.#retryBtn.disabled =
-        !this.#ownedByAI || !session.lastInstruction || !docUntouched
+      this.#retryBtn.disabled = !session.lastInstruction || !docUntouched
     }
   }
 
