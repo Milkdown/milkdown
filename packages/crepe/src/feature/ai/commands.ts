@@ -108,14 +108,24 @@ async function runProvider(
     // Streaming complete — hand off to diff review if configured. The
     // ownership flag is flipped *before* the dispatch so the diff-actions
     // panel reads `true` during the same transaction's update cycle.
+    // If the dispatch is rejected (e.g. host code already ended the
+    // streaming session), revert the flag so the next manually-started
+    // diff review isn't misclassified as AI-owned — `clearActiveSession`
+    // intentionally preserves `diffOwnedByAI` because the panel is
+    // responsible for clearing it on the diff true→false edge, but no
+    // such edge fires when the dispatch never landed.
     const config = ctx.get(aiProviderConfig.key)
     if (config.diffReviewOnEnd) {
       const cur = ctx.get(aiSessionCtx.key)
       ctx.set(aiSessionCtx.key, { ...cur, diffOwnedByAI: true })
     }
-    commands.call(endStreamingCmd.key, {
+    const dispatched = commands.call(endStreamingCmd.key, {
       diffReview: config.diffReviewOnEnd,
     })
+    if (config.diffReviewOnEnd && !dispatched) {
+      const cur = ctx.get(aiSessionCtx.key)
+      ctx.set(aiSessionCtx.key, { ...cur, diffOwnedByAI: false })
+    }
   } catch (error) {
     if (abortController.signal.aborted) return
     const milkdownError = aiProviderError(error)
