@@ -56,6 +56,9 @@ function renderHighlighted(label: string, query: string) {
 
 type AIInstructionInputProps = {
   placeholder: Ref<string>
+  /// Bumped by the view layer every time the tooltip is shown, so the
+  /// component can reset transient state (input value, submenu, cursor).
+  resetSignal: Ref<number>
   suggestions: ResolvedSuggestions
   chrome: AIInstructionTooltipChrome
   onConfirm: (instruction: string, label?: string) => void
@@ -65,17 +68,31 @@ type AIInstructionInputProps = {
 export const AIInstructionInput = defineComponent<AIInstructionInputProps>({
   props: {
     placeholder: { type: Object, required: true },
+    resetSignal: { type: Object, required: true },
     suggestions: { type: Object, required: true },
     chrome: { type: Object, required: true },
     onConfirm: { type: Function, required: true },
     onCancel: { type: Function, required: true },
   },
-  setup({ placeholder, suggestions, chrome, onConfirm, onCancel }) {
+  setup({
+    placeholder,
+    resetSignal,
+    suggestions,
+    chrome,
+    onConfirm,
+    onCancel,
+  }) {
     const inputValue = ref('')
     const view = ref<ViewMode>({ kind: 'main' })
     const selectedIndex = ref(0)
     const inputRef = ref<HTMLInputElement | null>(null)
     const listRef = ref<HTMLDivElement | null>(null)
+
+    watch(resetSignal, () => {
+      inputValue.value = ''
+      view.value = { kind: 'main' }
+      selectedIndex.value = 0
+    })
 
     const allItems = computed<DisplayItem[]>(() => {
       if (view.value.kind === 'submenu') {
@@ -262,8 +279,9 @@ export const AIInstructionInput = defineComponent<AIInstructionInputProps>({
             <button
               type="button"
               class="ai-instruction-submit"
+              disabled={!showPrompt}
               onMousedown={onItemPointerDown}
-              onClick={onSelectCurrent}
+              onClick={submitRaw}
             >
               <Icon icon={chrome.sendIcon} />
             </button>

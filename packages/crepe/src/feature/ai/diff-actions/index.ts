@@ -18,7 +18,26 @@ const diffActionsPanelKey = new PluginKey('CREPE_AI_DIFF_ACTIONS_PANEL')
 export const DEFAULT_DIFF_ACTIONS_RETRY_LABEL = 'Retry'
 export const DEFAULT_DIFF_ACTIONS_REJECT_ALL_LABEL = 'Reject all'
 export const DEFAULT_DIFF_ACTIONS_ACCEPT_ALL_LABEL = 'Accept all'
-export const DEFAULT_DIFF_ACTIONS_MOD_SYMBOL = '⌘'
+
+function detectModSymbol(): string {
+  if (typeof navigator === 'undefined') return '⌘'
+  // `userAgentData.platform` is the modern accessor; fall back to the
+  // legacy `platform` / `userAgent` strings for older browsers and
+  // jsdom-based test environments.
+  const ua = navigator as unknown as {
+    userAgentData?: { platform?: string }
+    platform?: string
+    userAgent?: string
+  }
+  const platform =
+    ua.userAgentData?.platform ?? ua.platform ?? ua.userAgent ?? ''
+  return /mac|iphone|ipad|ipod/i.test(platform) ? '⌘' : 'Ctrl'
+}
+
+/// Detected per renderer process. Override via
+/// `AIDiffActionsConfig.modSymbol` when the UI should diverge from the
+/// runtime platform (e.g. always render `⌘` in a macOS-themed product).
+export const DEFAULT_DIFF_ACTIONS_MOD_SYMBOL = detectModSymbol()
 
 interface DiffActionsPluginOptions {
   config?: AIDiffActionsConfig

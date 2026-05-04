@@ -27,6 +27,7 @@ export class AIInstructionTooltipView implements PluginView {
   #provider: TooltipProvider
   #app: App
   #placeholder
+  #resetSignal
   #from = -1
   #to = -1
 
@@ -39,12 +40,17 @@ export class AIInstructionTooltipView implements PluginView {
     // changes; today there's no setter, but keeping it reactive lets a
     // future API (e.g. context-sensitive placeholders) plug in cleanly.
     this.#placeholder = ref(config.placeholder)
+    // Bumped on each `show()` so the component clears input/submenu/cursor
+    // state — the Vue app stays mounted across hide/show cycles, so its
+    // local state would otherwise persist into the next session.
+    this.#resetSignal = ref(0)
 
     const content = document.createElement('div')
     content.className = 'milkdown-ai-instruction'
 
     const app = createApp(AIInstructionInput, {
       placeholder: this.#placeholder,
+      resetSignal: this.#resetSignal,
       suggestions: config.suggestions,
       chrome: config.chrome,
       onConfirm: this.#onConfirm,
@@ -91,6 +97,7 @@ export class AIInstructionTooltipView implements PluginView {
   show = (from: number, to: number) => {
     this.#from = from
     this.#to = to
+    this.#resetSignal.value++
     const view = this.ctx.get(editorViewCtx)
     this.#provider.show(
       { getBoundingClientRect: () => posToDOMRect(view, from, to) },
