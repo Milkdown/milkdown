@@ -46,6 +46,10 @@ export class DiffActionsPanelView implements PluginView {
   /// diffs and the stored `lastFrom`/`lastTo` no longer point at the
   /// original range — Retry is unsafe at that point.
   #diffStartDoc: Node | null = null
+  /// Whether the active diff review came from this AI session's
+  /// streaming hand-off (vs being started manually via
+  /// `startDiffReviewCmd`). Captured at the false→true transition.
+  #ownedByAI = false
 
   constructor(
     readonly ctx: Ctx,
@@ -129,10 +133,11 @@ export class DiffActionsPanelView implements PluginView {
   #retry = (): void => {
     const session = this.ctx.get(aiSessionCtx.key)
     if (!session.lastInstruction) return
-    // Refuse to retry once the user has accepted any individual diff —
+    // Refuse to retry when the active diff didn't originate from this
+    // AI session, or once the user has accepted any individual diff —
     // `clearDiffReviewCmd` only exits diff mode, it doesn't roll back
     // accepted changes, so the stored range would point at shifted text.
-    if (!this.#canRetry()) return
+    if (!this.#ownedByAI || !this.#canRetry()) return
 
     const commands = this.ctx.get(commandsCtx)
     commands.call(clearDiffReviewCmd.key)
@@ -171,16 +176,37 @@ export class DiffActionsPanelView implements PluginView {
     if (active !== this.#visible) {
       this.#visible = active
       this.#panel.dataset.show = active ? 'true' : 'false'
-      this.#diffStartDoc = active ? view.state.doc : null
+      if (active) {
+        // false → true. Capture ownership now; from this point on any
+        // doc drift means the user has accepted individual diffs.
+        const session = this.ctx.get(aiSessionCtx.key)
+        this.#ownedByAI = session.diffOwnedByAI
+        this.#diffStartDoc = view.state.doc
+      } else {
+        // true → false. Clear local state and the session-level flag so
+        // a subsequent manual diff doesn't pick up stale ownership.
+        this.#ownedByAI = false
+        this.#diffStartDoc = null
+        const session = this.ctx.get(aiSessionCtx.key)
+        if (session.diffOwnedByAI) {
+          this.ctx.set(aiSessionCtx.key, {
+            ...session,
+            diffOwnedByAI: false,
+          })
+        }
+      }
     }
 
     if (active) {
       // Re-evaluate Retry every transaction so the button disables the
-      // moment a per-change accept shifts the doc out of its initial form.
+      // moment a per-change accept shifts the doc out of its initial
+      // form, and stays disabled for diff reviews this AI session
+      // didn't start.
       const session = this.ctx.get(aiSessionCtx.key)
       const docUntouched =
         !!this.#diffStartDoc && view.state.doc.eq(this.#diffStartDoc)
-      this.#retryBtn.disabled = !session.lastInstruction || !docUntouched
+      this.#retryBtn.disabled =
+        !this.#ownedByAI || !session.lastInstruction || !docUntouched
     }
   }
 

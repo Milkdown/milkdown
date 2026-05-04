@@ -44,7 +44,11 @@ export const aiProviderConfig = $ctx(
 /// session (null/empty when idle). `label` is shown in the streaming
 /// indicator. `lastInstruction`, `lastLabel`, `lastFrom`, `lastTo` are
 /// kept after the session ends so the diff-actions Retry button can
-/// re-run the same prompt on the same text range.
+/// re-run the same prompt on the same text range. `diffOwnedByAI` is
+/// flipped on right before our `endStreamingCmd` activates diff review
+/// and back off when the diff panel sees the diff close, so a manually
+/// started diff review (via `startDiffReviewCmd`) doesn't inherit the
+/// previous AI session's Retry affordance.
 export const aiSessionCtx = $ctx(
   {
     abortController: null as AbortController | null,
@@ -53,6 +57,7 @@ export const aiSessionCtx = $ctx(
     lastLabel: undefined as string | undefined,
     lastFrom: -1,
     lastTo: -1,
+    diffOwnedByAI: false,
   },
   'aiSession'
 )
@@ -100,8 +105,14 @@ async function runProvider(
       commands.call(pushChunkCmd.key, chunk)
     }
     if (abortController.signal.aborted) return
-    // Streaming complete — hand off to diff review if configured.
+    // Streaming complete — hand off to diff review if configured. The
+    // ownership flag is flipped *before* the dispatch so the diff-actions
+    // panel reads `true` during the same transaction's update cycle.
     const config = ctx.get(aiProviderConfig.key)
+    if (config.diffReviewOnEnd) {
+      const cur = ctx.get(aiSessionCtx.key)
+      ctx.set(aiSessionCtx.key, { ...cur, diffOwnedByAI: true })
+    }
     commands.call(endStreamingCmd.key, {
       diffReview: config.diffReviewOnEnd,
     })
@@ -169,6 +180,9 @@ export const runAICmd = $command('RunAI', (ctx) => {
       lastLabel: options.label,
       lastFrom: from,
       lastTo: to,
+      // Reset every run; only the success path that hands off to diff
+      // review flips it back on.
+      diffOwnedByAI: false,
     })
 
     // Start streaming — replaces the selection if non-empty.
