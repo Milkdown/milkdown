@@ -7,10 +7,13 @@ import type {
 import { Crepe } from '@milkdown/crepe'
 import { abortAICmd, runAICmd } from '@milkdown/crepe/feature/ai'
 import all from '@milkdown/crepe/theme/common/style.css?inline'
+import { editorViewCtx } from '@milkdown/kit/core'
 import {
   acceptAllDiffsCmd,
   clearDiffReviewCmd,
+  diffPluginKey,
 } from '@milkdown/kit/plugin/diff'
+import { streamingPluginKey } from '@milkdown/kit/plugin/streaming'
 import { callCommand } from '@milkdown/kit/utils'
 
 import { injectMarkdown, wrapInShadow } from '../utils/shadow'
@@ -288,6 +291,15 @@ export function setupAIDemo(config: setupConfig) {
 
       let pollTimer: ReturnType<typeof setInterval> | null = null
 
+      const readPluginState = () =>
+        crepe.editor.action((ctx) => {
+          const view = ctx.get(editorViewCtx)
+          return {
+            streaming: !!streamingPluginKey.getState(view.state)?.active,
+            diff: !!diffPluginKey.getState(view.state)?.active,
+          }
+        })
+
       startBtn.addEventListener('click', () => {
         setDiffReview(false)
         const started = crepe.editor.action(
@@ -297,18 +309,16 @@ export function setupAIDemo(config: setupConfig) {
         )
         if (!started) return
         setStreaming(true)
+        // Poll the plugin states directly. The AI feature used to toggle
+        // a `.milkdown-ai-streaming` class on the root, but that signal
+        // was removed when the inline streaming indicator landed.
         pollTimer = setInterval(() => {
-          const milkdown = shadow.querySelector('.milkdown')
-          const isStreaming =
-            milkdown?.classList.contains('milkdown-ai-streaming') ?? false
-          if (!isStreaming) {
+          const { streaming, diff } = readPluginState()
+          if (!streaming) {
             clearInterval(pollTimer!)
             pollTimer = null
             setStreaming(false)
-            const hasDiff = !!shadow.querySelector(
-              '.milkdown-diff-added, .milkdown-diff-removed, .milkdown-diff-added-block, .milkdown-diff-removed-block'
-            )
-            if (hasDiff) setDiffReview(true)
+            if (diff) setDiffReview(true)
           }
         }, 200)
       })
