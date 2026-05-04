@@ -2,7 +2,10 @@ import type { Ctx } from '@milkdown/kit/ctx'
 import type { Node } from '@milkdown/kit/prose/model'
 
 import { commandsCtx } from '@milkdown/kit/core'
-import { streamingPluginKey } from '@milkdown/kit/plugin/streaming'
+import {
+  abortStreamingCmd,
+  streamingPluginKey,
+} from '@milkdown/kit/plugin/streaming'
 import { Plugin, PluginKey } from '@milkdown/kit/prose/state'
 import { Decoration, DecorationSet } from '@milkdown/kit/prose/view'
 import { $prose } from '@milkdown/kit/utils'
@@ -146,14 +149,25 @@ export function streamingIndicatorPlugin(
         decorations(state) {
           return indicatorKey.getState(state) ?? DecorationSet.empty
         },
-        handleKeyDown(_view, event) {
+        handleKeyDown(view, event) {
           if (event.key !== 'Escape') return false
-          const session = ctx.get(aiSessionCtx.key)
-          if (!session.abortController) return false
-          event.preventDefault()
           const commands = ctx.get(commandsCtx)
-          commands.call(abortAICmd.key, { keep: true })
-          return true
+          // AI-driven session: route through abortAICmd so the AI
+          // session state (abortController, label) cleans up too.
+          if (ctx.get(aiSessionCtx.key).abortController) {
+            event.preventDefault()
+            commands.call(abortAICmd.key, { keep: true })
+            return true
+          }
+          // Manual streaming session (no AI session in flight) — abort
+          // the streaming plugin directly so the "Esc to cancel" hint
+          // shown in the pill isn't misleading.
+          if (streamingPluginKey.getState(view.state)?.active) {
+            event.preventDefault()
+            commands.call(abortStreamingCmd.key, { keep: true })
+            return true
+          }
+          return false
         },
       },
     })

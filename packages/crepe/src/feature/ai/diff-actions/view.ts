@@ -10,10 +10,19 @@ import {
   diffPluginKey,
 } from '@milkdown/kit/plugin/diff'
 import { TextSelection } from '@milkdown/kit/prose/state'
+import DOMPurify from 'dompurify'
 
 import { aiSessionCtx, runAICmd } from '../commands'
 
 const PANEL_CLASS = 'milkdown-ai-diff-actions'
+
+/// Icons in `ResolvedDiffActionsConfig` are user-supplied SVG strings,
+/// so route them through DOMPurify before assigning to `innerHTML` —
+/// matches the sanitization the shared `Icon` component already does
+/// for Vue-rendered icons.
+function setSanitizedIcon(host: HTMLElement, svg: string): void {
+  host.innerHTML = DOMPurify.sanitize(svg.trim())
+}
 
 /// Fully resolved diff actions config — every field has a value, so the
 /// view doesn't have to know about defaults.
@@ -31,7 +40,7 @@ export interface ResolvedDiffActionsConfig {
 function createIcon(svg: string): HTMLElement {
   const span = document.createElement('span')
   span.className = `${PANEL_CLASS}-icon`
-  span.innerHTML = svg
+  setSanitizedIcon(span, svg)
   return span
 }
 
@@ -125,7 +134,7 @@ export class DiffActionsPanelView implements PluginView {
     cmd.textContent = this.#config.modSymbol
     const enter = document.createElement('span')
     enter.className = `${PANEL_CLASS}-shortcut-icon`
-    enter.innerHTML = this.#config.enterKeyIcon
+    setSanitizedIcon(enter, this.#config.enterKeyIcon)
     shortcut.append(cmd, enter)
     return shortcut
   }
