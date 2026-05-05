@@ -131,6 +131,11 @@ export interface AIFeatureConfig {
   /// @default DEFAULT_SUBMIT_BUTTON_LABEL
   submitButtonLabel?: string
 
+  /// Accessible name announced for the suggestion list (`role="listbox"`)
+  /// inside the palette. Localize alongside the other strings.
+  /// @default DEFAULT_LISTBOX_LABEL
+  listboxLabel?: string
+
   /// Icon for the round submit button in the input pill.
   /// Default: an upward arrow.
   sendIcon?: string

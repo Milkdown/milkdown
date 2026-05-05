@@ -28,6 +28,7 @@ export interface AIInstructionTooltipChrome {
   sendAsPromptHeaderLabel: string
   sendAsPromptLabel: string
   submitButtonLabel: string
+  listboxLabel: string
 }
 
 type ViewMode = { kind: 'main' } | { kind: 'submenu'; id: string }
@@ -313,19 +314,20 @@ export const AIInstructionInput = defineComponent<AIInstructionInputProps>({
             ref={listRef}
             id={listboxId}
             role="listbox"
-            aria-label="AI suggestions"
+            aria-label={chrome.listboxLabel}
           >
             {submenuDef && (
-              <div
+              <button
+                type="button"
                 class="ai-instruction-back"
                 onMousedown={onItemPointerDown}
                 onClick={exitSubmenu}
               >
-                <span class="ai-instruction-back-icon">
+                <span class="ai-instruction-back-icon" aria-hidden="true">
                   <Icon icon={chrome.chevronLeftIcon} />
                 </span>
                 <span>{submenuDef.title}</span>
-              </div>
+              </button>
             )}
 
             {items.length > 0 && (

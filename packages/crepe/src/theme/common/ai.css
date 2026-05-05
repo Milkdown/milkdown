@@ -105,6 +105,15 @@
 }
 
 .milkdown .ai-instruction-back {
+  /* Rendered as a real <button> for keyboard / screen-reader access;
+     reset the user-agent button styling so it visually matches the
+     surrounding palette chrome. */
+  appearance: none;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
   display: flex;
   align-items: center;
   gap: 6px;
