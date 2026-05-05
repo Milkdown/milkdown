@@ -72,15 +72,18 @@ describe('AI onError', () => {
       },
     })
     await crepe.create()
+    try {
+      crepe.editor.action(callCommand(runAICmd.key, { instruction: 'test' }))
+      await waitForAsync()
 
-    crepe.editor.action(callCommand(runAICmd.key, { instruction: 'test' }))
-    await waitForAsync()
-
-    expect(onError).toHaveBeenCalledOnce()
-    const error = onError.mock.calls[0]![0]
-    expect(error.code).toBe('aiProviderError')
-    expect(error.message).toContain('network failure')
-    expect(error.cause).toBeInstanceOf(Error)
+      expect(onError).toHaveBeenCalledOnce()
+      const error = onError.mock.calls[0]![0]
+      expect(error.code).toBe('aiProviderError')
+      expect(error.message).toContain('network failure')
+      expect(error.cause).toBeInstanceOf(Error)
+    } finally {
+      await crepe.destroy()
+    }
   })
 
   test('buildContext error triggers onError with aiBuildContextError code', async () => {
@@ -104,15 +107,18 @@ describe('AI onError', () => {
       },
     })
     await crepe.create()
+    try {
+      crepe.editor.action(callCommand(runAICmd.key, { instruction: 'test' }))
+      await waitForAsync()
 
-    crepe.editor.action(callCommand(runAICmd.key, { instruction: 'test' }))
-    await waitForAsync()
-
-    expect(onError).toHaveBeenCalledOnce()
-    const error = onError.mock.calls[0]![0]
-    expect(error.code).toBe('aiBuildContextError')
-    expect(error.message).toContain('context build failed')
-    expect(error.cause).toBeInstanceOf(Error)
+      expect(onError).toHaveBeenCalledOnce()
+      const error = onError.mock.calls[0]![0]
+      expect(error.code).toBe('aiBuildContextError')
+      expect(error.message).toContain('context build failed')
+      expect(error.cause).toBeInstanceOf(Error)
+    } finally {
+      await crepe.destroy()
+    }
   })
 })
 
@@ -135,20 +141,23 @@ describe('AI session retry metadata', () => {
 
   test('runAICmd persists instruction, label, and selection range', async () => {
     const crepe = await makeCrepe()
+    try {
+      crepe.editor.action(
+        callCommand(runAICmd.key, {
+          instruction: 'Improve writing',
+          label: 'Improving writing',
+        })
+      )
+      await flushStream()
 
-    crepe.editor.action(
-      callCommand(runAICmd.key, {
-        instruction: 'Improve writing',
-        label: 'Improving writing',
-      })
-    )
-    await flushStream()
-
-    const session = crepe.editor.action((ctx) => ctx.get(aiSessionCtx.key))
-    expect(session.lastInstruction).toBe('Improve writing')
-    expect(session.lastLabel).toBe('Improving writing')
-    expect(session.lastFrom).toBeGreaterThanOrEqual(0)
-    expect(session.lastTo).toBeGreaterThanOrEqual(session.lastFrom)
+      const session = crepe.editor.action((ctx) => ctx.get(aiSessionCtx.key))
+      expect(session.lastInstruction).toBe('Improve writing')
+      expect(session.lastLabel).toBe('Improving writing')
+      expect(session.lastFrom).toBeGreaterThanOrEqual(0)
+      expect(session.lastTo).toBeGreaterThanOrEqual(session.lastFrom)
+    } finally {
+      await crepe.destroy()
+    }
   })
 
   test('rejects a second runAICmd while a session is in flight', async () => {
@@ -166,36 +175,42 @@ describe('AI session retry metadata', () => {
       },
     })
     await crepe.create()
+    try {
+      const first = crepe.editor.action(
+        callCommand(runAICmd.key, { instruction: 'first' })
+      )
+      const second = crepe.editor.action(
+        callCommand(runAICmd.key, { instruction: 'second' })
+      )
 
-    const first = crepe.editor.action(
-      callCommand(runAICmd.key, { instruction: 'first' })
-    )
-    const second = crepe.editor.action(
-      callCommand(runAICmd.key, { instruction: 'second' })
-    )
-
-    expect(first).toBe(true)
-    expect(second).toBe(false)
+      expect(first).toBe(true)
+      expect(second).toBe(false)
+    } finally {
+      await crepe.destroy()
+    }
   })
 
   test('lastInstruction survives session cleanup so Retry can replay it', async () => {
     const crepe = await makeCrepe()
+    try {
+      crepe.editor.action(
+        callCommand(runAICmd.key, { instruction: 'Improve writing' })
+      )
+      await flushStream()
 
-    crepe.editor.action(
-      callCommand(runAICmd.key, { instruction: 'Improve writing' })
-    )
-    await flushStream()
+      // Whether or not diff review activates, the persistent retry fields
+      // must outlive the live session state.
+      crepe.editor.action((ctx) => {
+        ctx.get(commandsCtx).call(clearDiffReviewCmd.key)
+      })
 
-    // Whether or not diff review activates, the persistent retry fields
-    // must outlive the live session state.
-    crepe.editor.action((ctx) => {
-      ctx.get(commandsCtx).call(clearDiffReviewCmd.key)
-    })
-
-    const session = crepe.editor.action((ctx) => ctx.get(aiSessionCtx.key))
-    expect(session.abortController).toBeNull()
-    expect(session.label).toBe('')
-    expect(session.lastInstruction).toBe('Improve writing')
+      const session = crepe.editor.action((ctx) => ctx.get(aiSessionCtx.key))
+      expect(session.abortController).toBeNull()
+      expect(session.label).toBe('')
+      expect(session.lastInstruction).toBe('Improve writing')
+    } finally {
+      await crepe.destroy()
+    }
   })
 })
 
@@ -463,7 +478,12 @@ describe('AI instruction palette', () => {
       crepe.editor.ctx.get(aiInstructionTooltipAPI.key).show(0, 0)
       await nextTick()
 
-      const input = document.querySelector<HTMLInputElement>(
+      // Scope the lookup to this editor's `.milkdown` host so a stale
+      // palette left in `document.body` by an earlier test can't make
+      // the assertion accidentally pass.
+      const view = crepe.editor.ctx.get(editorViewCtx)
+      const host = view.dom.closest('.milkdown') ?? document.body
+      const input = host.querySelector<HTMLInputElement>(
         '.milkdown-ai-instruction input'
       )
       expect(input).not.toBeNull()
