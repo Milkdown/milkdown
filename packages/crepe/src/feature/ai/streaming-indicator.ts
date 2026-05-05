@@ -43,9 +43,17 @@ class IndicatorWidget {
     const dom = document.createElement('span')
     dom.className = `${CLASS_PREFIX}-indicator`
     dom.contentEditable = 'false'
+    // Treat the pill as a status live region so assistive technologies
+    // get notified when AI starts streaming and when the active-form
+    // label changes between sessions ("Improving writing…",
+    // "Translating to French…", etc.).
+    dom.setAttribute('role', 'status')
+    dom.setAttribute('aria-live', 'polite')
 
     const spinner = document.createElement('span')
     spinner.className = `${CLASS_PREFIX}-spinner`
+    // The decorative rotation has no semantic value for screen readers.
+    spinner.setAttribute('aria-hidden', 'true')
     dom.appendChild(spinner)
 
     const label = document.createElement('span')

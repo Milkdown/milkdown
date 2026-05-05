@@ -154,8 +154,14 @@ export const AIInstructionInput = defineComponent<AIInstructionInputProps>({
       () => filteredItems.value.length + (showSendAsPrompt.value ? 1 : 0)
     )
 
-    watch([filteredItems, view], () => {
-      selectedIndex.value = 0
+    watch([filteredItems, view, showSendAsPrompt], () => {
+      // When the user has typed something, default the highlight to the
+      // "Send as prompt" row (always last in the list) so pressing Enter
+      // sends the typed text instead of running whichever built-in
+      // suggestion happens to substring-match the query.
+      selectedIndex.value = showSendAsPrompt.value
+        ? filteredItems.value.length
+        : 0
     })
 
     const focusInput = () => {
