@@ -125,6 +125,12 @@ export interface AIFeatureConfig {
   /// @default DEFAULT_SEND_AS_PROMPT_LABEL
   sendAsPromptLabel?: string
 
+  /// Accessible name for the round submit button in the input pill.
+  /// Surfaced as `aria-label` so screen readers don't announce the
+  /// icon-only button as "unlabeled".
+  /// @default DEFAULT_SUBMIT_BUTTON_LABEL
+  submitButtonLabel?: string
+
   /// Icon for the round submit button in the input pill.
   /// Default: an upward arrow.
   sendIcon?: string

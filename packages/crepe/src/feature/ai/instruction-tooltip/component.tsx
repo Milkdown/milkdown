@@ -27,6 +27,7 @@ export interface AIInstructionTooltipChrome {
   suggestionsHeaderLabel: string
   sendAsPromptHeaderLabel: string
   sendAsPromptLabel: string
+  submitButtonLabel: string
 }
 
 type ViewMode = { kind: 'main' } | { kind: 'submenu'; id: string }
@@ -292,6 +293,7 @@ export const AIInstructionInput = defineComponent<AIInstructionInputProps>({
             <button
               type="button"
               class="ai-instruction-submit"
+              aria-label={chrome.submitButtonLabel}
               disabled={!showPrompt}
               onMousedown={onItemPointerDown}
               onClick={submitRaw}

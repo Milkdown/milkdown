@@ -14,6 +14,8 @@ import { callCommand } from '@milkdown/kit/utils'
 import { describe, expect, test, vi } from 'vitest'
 import { nextTick } from 'vue'
 
+import type { AIPromptContext } from './types'
+
 import { Crepe } from '../../core'
 import { CrepeFeature } from '../index'
 import { aiSessionCtx, runAICmd } from './commands'
@@ -375,6 +377,68 @@ describe('AI diff actions panel visibility', () => {
       })
 
       expect(findPanelFor(crepe)?.dataset.show).toBe('true')
+    } finally {
+      await crepe.destroy()
+    }
+  })
+
+  test('Retry button clears the diff review and re-runs the stored prompt', async () => {
+    // Hanging provider so the re-issued AI session stays in streaming
+    // and doesn't transition back into diff review while we assert.
+    const provider = vi.fn(async function* () {
+      await new Promise(() => {})
+      yield ''
+    })
+    const crepe = new Crepe({
+      defaultValue: 'hello world',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: { [CrepeFeature.AI]: { provider } },
+    })
+    await crepe.create()
+    try {
+      // Stage the editor as if a previous AI run had ended in diff
+      // review: persistent retry metadata + AI ownership flag + active
+      // diff. We bypass `runAICmd` so the assertions don't have to wait
+      // for a full streaming round-trip.
+      crepe.editor.action((ctx) => {
+        const session = ctx.get(aiSessionCtx.key)
+        ctx.set(aiSessionCtx.key, {
+          ...session,
+          lastInstruction: 'Improve writing',
+          lastLabel: 'Improving writing',
+          lastFrom: 0,
+          lastTo: 5,
+          diffOwnedByAI: true,
+        })
+        ctx.get(commandsCtx).call(startDiffReviewCmd.key, 'goodbye')
+      })
+
+      const view = crepe.editor.ctx.get(editorViewCtx)
+      expect(diffPluginKey.getState(view.state)?.active).toBe(true)
+
+      const panel = findPanelFor(crepe)
+      const retryBtn = panel?.querySelector<HTMLButtonElement>(
+        '.milkdown-ai-diff-actions-btn-retry'
+      )
+      expect(retryBtn).not.toBeNull()
+      expect(retryBtn?.disabled).toBe(false)
+
+      retryBtn?.click()
+      // The click handler runs synchronously; the provider call happens
+      // on a microtask once streaming has been set up.
+      await waitForAsync()
+
+      // Diff review was cleared and a fresh streaming session is now in
+      // flight (the hanging provider keeps it there for the rest of the
+      // test).
+      expect(diffPluginKey.getState(view.state)?.active).toBeFalsy()
+      expect(streamingPluginKey.getState(view.state)?.active).toBe(true)
+      // Provider received the persisted instruction.
+      expect(provider).toHaveBeenCalled()
+      const [promptContext] = provider.mock.calls[0] as unknown as [
+        AIPromptContext,
+      ]
+      expect(promptContext.instruction).toBe('Improve writing')
     } finally {
       await crepe.destroy()
     }

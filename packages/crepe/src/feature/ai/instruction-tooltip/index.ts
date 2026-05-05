@@ -41,6 +41,7 @@ export const aiInstructionTooltip = tooltipFactory('CREPE_AI_INSTRUCTION')
 export const DEFAULT_SUGGESTIONS_HEADER_LABEL = 'SUGGESTIONS'
 export const DEFAULT_SEND_AS_PROMPT_HEADER_LABEL = 'SEND AS PROMPT'
 export const DEFAULT_SEND_AS_PROMPT_LABEL = 'Ask AI:'
+export const DEFAULT_SUBMIT_BUTTON_LABEL = 'Send prompt'
 export const DEFAULT_INSTRUCTION_PLACEHOLDER =
   'Tell AI what to do with the selection…'
 
@@ -58,6 +59,7 @@ function resolveChrome(config?: AIFeatureConfig): AIInstructionTooltipChrome {
       config?.sendAsPromptHeaderLabel ?? DEFAULT_SEND_AS_PROMPT_HEADER_LABEL,
     sendAsPromptLabel:
       config?.sendAsPromptLabel ?? DEFAULT_SEND_AS_PROMPT_LABEL,
+    submitButtonLabel: config?.submitButtonLabel ?? DEFAULT_SUBMIT_BUTTON_LABEL,
   }
 }
 
