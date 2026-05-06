@@ -12,8 +12,8 @@ import type { ToolbarFeatureConfig } from './toolbar'
 import type { TopBarFeatureConfig } from './top-bar'
 
 /// The crepe editor feature flags.
-/// Every feature is enabled by default.
-/// Every feature is a string literal type.
+/// Most features are enabled by default; `TopBar` and `AI` are opt-in.
+/// See `defaultFeatures` for the per-flag default.
 export enum CrepeFeature {
   /// Syntax highlighting and editing for code blocks with language support, theme customization, and preview capabilities.
   CodeMirror = 'code-mirror',
