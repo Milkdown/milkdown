@@ -11,8 +11,6 @@ import {
   modifiedLongContent,
   setup,
   setupAIDemo,
-  setupDiffReview,
-  setupStreamingDemo,
   wikiContent,
 } from './setup'
 
@@ -67,28 +65,6 @@ export const WikiValue: Story = {
   args: {
     ...defaultArgs,
     defaultValue: wikiContent,
-  },
-}
-
-export const DiffReview: Story = {
-  render: (args) => {
-    return setupDiffReview({ args, style: crepe, theme: basicLight })
-  },
-  args: {
-    ...defaultArgs,
-    defaultValue: longContent,
-    modifiedValue: modifiedLongContent,
-    enableAI: true,
-  },
-}
-
-export const StreamingDemo: Story = {
-  render: (args) => {
-    return setupStreamingDemo({ args, style: crepe, theme: basicLight })
-  },
-  args: {
-    ...defaultArgs,
-    enableAI: true,
   },
 }
 

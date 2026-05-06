@@ -170,6 +170,7 @@
     "@types/lodash-es": "^4.17.12",
     "clsx": "^2.0.0",
     "codemirror": "^6.0.1",
+    "dompurify": "^3.2.5",
     "katex": "^0.16.0",
     "lodash-es": "^4.17.21",
     "prosemirror-virtual-cursor": "^0.4.2",

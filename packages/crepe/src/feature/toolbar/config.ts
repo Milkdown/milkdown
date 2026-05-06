@@ -1,7 +1,7 @@
 import type { Ctx } from '@milkdown/kit/ctx'
 
 import { toggleLinkCommand } from '@milkdown/kit/component/link-tooltip'
-import { commandsCtx } from '@milkdown/kit/core'
+import { commandsCtx, editorViewCtx } from '@milkdown/kit/core'
 import {
   emphasisSchema,
   inlineCodeSchema,
@@ -23,6 +23,7 @@ import type { ToolbarFeatureConfig } from '.'
 import { CrepeFeature } from '..'
 import { useCrepeFeatures } from '../../core/slice'
 import {
+  aiIcon,
   boldIcon,
   codeIcon,
   functionsIcon,
@@ -31,6 +32,8 @@ import {
   strikethroughIcon,
 } from '../../icons'
 import { GroupBuilder } from '../../utils/group-builder'
+import { aiProviderConfig } from '../ai/commands'
+import { aiInstructionTooltipAPI } from '../ai/instruction-tooltip'
 import { toggleLatexCommand } from '../latex/command'
 import { mathInlineSchema } from '../latex/inline-latex'
 
@@ -129,6 +132,29 @@ export function getGroups(config?: ToolbarFeatureConfig, ctx?: Ctx) {
       commands.call(toggleLinkCommand.key)
     },
   })
+
+  // Skip the AI button entirely when the feature is disabled or when no
+  // provider is configured — without a provider the palette would open
+  // but `runAICmd` would silently reject every action. Toolbar-level
+  // `aiIcon` wins over `AIFeatureConfig.aiIcon` so consumers can override
+  // just the toolbar entry without touching the tooltip prefix.
+  // The aiProviderConfig slice is only injected when the AI feature is
+  // active, so guard the lookup behind the flag check.
+  if (ctx && flags?.includes(CrepeFeature.AI)) {
+    const aiCfg = ctx.get(aiProviderConfig.key)
+    if (aiCfg.provider) {
+      functionGroup.addItem('ai', {
+        icon: config?.aiIcon ?? aiCfg.aiIcon ?? aiIcon,
+        active: () => false,
+        onRun: (ctx) => {
+          const api = ctx.get(aiInstructionTooltipAPI.key)
+          const view = ctx.get(editorViewCtx)
+          const { from, to } = view.state.selection
+          api.show(from, to)
+        },
+      })
+    }
+  }
 
   config?.buildToolbar?.(groupBuilder)
 

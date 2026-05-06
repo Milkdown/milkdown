@@ -16,6 +16,13 @@ import {
   abortAICmd,
   runAICmd,
 } from './commands'
+import { diffActionsPanelPlugin } from './diff-actions'
+import {
+  aiInstructionTooltip,
+  aiInstructionTooltipAPI,
+  configureAIInstructionTooltip,
+} from './instruction-tooltip'
+import { streamingIndicatorPlugin } from './streaming-indicator'
 
 /// Default node types in Crepe that use custom node views.
 const CREPE_CUSTOM_BLOCK_TYPES = ['table', 'image-block', 'code_block']
@@ -23,7 +30,17 @@ const CREPE_CUSTOM_BLOCK_TYPES = ['table', 'image-block', 'code_block']
 /// Default attrs to ignore in Crepe's diff and streaming features.
 const CREPE_IGNORE_ATTRS: Record<string, string[]> = { heading: ['id'] }
 
-export type { AIFeatureConfig, AIPromptContext, AIProvider } from './types'
+export type {
+  AIDiffActionsConfig,
+  AIFeatureConfig,
+  AIPromptContext,
+  AIProvider,
+  AIStreamingIndicatorConfig,
+  AISubmenuBuilder,
+  AISubmenuDef,
+  AISuggestionItem,
+  AISuggestionsBuilder,
+} from './types'
 export { runAICmd, abortAICmd } from './commands'
 export { defaultBuildContext } from './context'
 
@@ -78,10 +95,24 @@ export const ai: DefineFeature<AIFeatureConfig> = (editor, config) => {
           : {}),
         diffReviewOnEnd: config?.diffReviewOnEnd ?? prev.diffReviewOnEnd,
         ...(config?.onError !== undefined ? { onError: config.onError } : {}),
+        ...(config?.aiIcon !== undefined ? { aiIcon: config.aiIcon } : {}),
       }))
     })
     .use(aiProviderConfig)
     .use(aiSessionCtx)
     .use(runAICmd)
     .use(abortAICmd)
+    // -- AI instruction tooltip --
+    .config(configureAIInstructionTooltip(config))
+    .use(aiInstructionTooltipAPI)
+    .use(aiInstructionTooltip)
+    // -- Streaming indicator --
+    .use(streamingIndicatorPlugin({ config: config?.streamingIndicator }))
+    // -- Diff actions panel --
+    .use(
+      diffActionsPanelPlugin({
+        config: config?.diffActions,
+        enterKeyIcon: config?.enterKeyIcon,
+      })
+    )
 }

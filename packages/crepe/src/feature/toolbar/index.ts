@@ -25,6 +25,7 @@ interface ToolbarConfig {
   linkIcon: string
   strikethroughIcon: string
   latexIcon: string
+  aiIcon: string
   buildToolbar: (builder: GroupBuilder<ToolbarItem>) => void
 }
 
