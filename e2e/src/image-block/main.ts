@@ -1,6 +1,7 @@
 import { Crepe, CrepeFeature } from '@milkdown/crepe'
 import '@milkdown/crepe/theme/common/style.css'
 import '@milkdown/crepe/theme/frame.css'
+
 import { setup } from '../utils'
 
 setup(async () => {
