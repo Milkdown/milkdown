@@ -376,6 +376,7 @@ interface ToolbarFeatureConfig {
   linkIcon?: string
   strikethroughIcon?: string
   latexIcon?: string
+  aiIcon?: string // Override only the toolbar's AI button (only renders when AI is enabled and a provider is configured)
   buildToolbar?: (builder: GroupBuilder<ToolbarItem>) => void
 }
 
@@ -603,8 +604,10 @@ const config: CrepeConfig = {
 
 The AI feature combines streaming input and diff review into a single
 workflow. Users supply a `provider` (an async generator that yields
-markdown tokens) and Crepe handles the rest: start streaming, push
-chunks, end streaming, and optionally hand off to diff review.
+markdown tokens) and Crepe handles the rest: a toolbar entry point, an
+instruction palette with built-in suggestions, an inline streaming
+indicator, and a floating diff actions panel for accepting or rejecting
+the result.
 
 When the user has a text selection, `runAICmd` replaces the selected text
 with the AI output. The provider receives the selected text in
@@ -640,12 +643,139 @@ const crepe = new Crepe({
 })
 await crepe.create()
 
-// Trigger AI:
+// Trigger AI programmatically:
 crepe.editor.action(
   callCommand(runAICmd.key, { instruction: 'Summarize this' })
 )
 // Abort:
 crepe.editor.action(callCommand(abortAICmd.key))
+```
+
+##### UX Surfaces
+
+When `Crepe.Feature.AI` is enabled and a `provider` is configured, the
+feature wires up four UI surfaces:
+
+1. **Toolbar AI button** — appears in the selection toolbar's "Function"
+   group. Hidden when no `provider` is configured. Override the icon via
+   `AIFeatureConfig.aiIcon` (applies everywhere) or
+   `ToolbarFeatureConfig.aiIcon` (toolbar only).
+2. **Instruction palette** — a combobox dropdown that opens from the
+   toolbar button. Users can pick a built-in suggestion, drill into a
+   submenu (e.g. _Change tone…_, _Translate…_), or type a free-form
+   instruction and submit it as a custom prompt.
+3. **Streaming indicator** — an inline pill rendered at the streaming
+   insertion point with a spinner, the active-form label (e.g. _Improving
+   writing…_), and an _Esc to cancel_ hint.
+4. **Diff actions panel** — a floating panel pinned to the bottom of the
+   editor while diff review is active for an AI-owned session. Provides
+   _Retry_ (re-run the same prompt on the original range), _Reject all_,
+   and _Accept all_ buttons. _Accept all_ is also bound to <kbd>Mod</kbd>+<kbd>Enter</kbd>.
+
+##### Localizing Strings & Overriding Icons
+
+Every label and icon used by the AI surfaces is configurable. All of the
+following live on `AIFeatureConfig`:
+
+```typescript
+interface AIFeatureConfig {
+  // ── Instruction palette strings ───────────────────────────────────
+  instructionPlaceholder?: string // Default: 'Tell AI what to do with the selection…'
+  suggestionsHeaderLabel?: string // Default: 'SUGGESTIONS'
+  sendAsPromptHeaderLabel?: string // Default: 'SEND AS PROMPT'
+  sendAsPromptLabel?: string // Default: 'Ask AI:'
+  submitButtonLabel?: string // aria-label, default: 'Send prompt'
+  listboxLabel?: string // aria-label, default: 'AI suggestions'
+
+  // ── Icon overrides ────────────────────────────────────────────────
+  aiIcon?: string // Toolbar entry + palette prefix
+  sendIcon?: string // Round submit button
+  sendPromptIcon?: string // "Ask AI: …" entry icon
+  enterKeyIcon?: string // Shared by palette shortcut chip + diff panel
+  chevronLeftIcon?: string // Submenu back arrow
+  chevronRightIcon?: string // Submenu indicator
+
+  // ── Streaming indicator ───────────────────────────────────────────
+  streamingIndicator?: {
+    fallbackLabel?: string // Default: 'Generating' (used when runAICmd has no `label`)
+    cancelHint?: string // Default: 'Esc to cancel'
+  }
+
+  // ── Diff actions panel ────────────────────────────────────────────
+  diffActions?: {
+    retryLabel?: string // Default: 'Retry'
+    rejectAllLabel?: string // Default: 'Reject all'
+    acceptAllLabel?: string // Default: 'Accept all'
+    retryIcon?: string
+    rejectIcon?: string
+    acceptIcon?: string
+    modSymbol?: string // Default: '⌘' on macOS, 'Ctrl' elsewhere
+  }
+}
+```
+
+##### Customizing Suggestions
+
+The instruction palette ships with built-in suggestions: _Improve
+writing_, _Fix grammar & spelling_, _Make shorter_, _Make longer_, plus
+_Change tone…_ and _Translate…_ submenus. Customize the list via
+`buildAISuggestions`:
+
+```typescript
+const config: AIFeatureConfig = {
+  buildAISuggestions: (builder) => {
+    // The builder is pre-populated with the defaults; mutate freely.
+    builder.removeItem('grammar') // drop a built-in
+    builder.addItem('summarize', {
+      icon: '<svg>…</svg>',
+      label: 'Summarize',
+      streamingLabel: 'Summarizing', // shown in the streaming indicator
+      prompt: 'Summarize this in one paragraph.',
+    })
+
+    // Add a new submenu with its own items
+    builder.addSubmenu(
+      'audience',
+      {
+        icon: '<svg>…</svg>',
+        label: 'Rewrite for audience…',
+        title: 'Rewrite for audience',
+        searchPlaceholder: 'Search audiences…',
+      },
+      (sub) => {
+        sub.addItem('beginner', {
+          icon: '<svg>…</svg>',
+          label: 'Beginners',
+          prompt: 'Rewrite this for a beginner audience.',
+        })
+      }
+    )
+
+    // To start from scratch instead, call builder.clear() first.
+  },
+}
+```
+
+The submitted prompt is wrapped in an `AIPromptContext` (with the
+serialized document and any selection) and passed to your `provider`.
+
+##### Triggering Programmatically
+
+```typescript
+import { runAICmd, abortAICmd } from '@milkdown/crepe/feature/ai'
+import { callCommand } from '@milkdown/kit/utils'
+
+// `label` is the active-form text shown in the streaming indicator.
+crepe.editor.action(
+  callCommand(runAICmd.key, {
+    instruction: 'Translate this to French',
+    label: 'Translating to French',
+  })
+)
+
+// Abort the in-flight session. `keep: true` preserves the partial
+// streamed output; `keep: false` (default) discards it.
+crepe.editor.action(callCommand(abortAICmd.key, { keep: true }))
 ```
 
 See [@milkdown/plugin-diff](./plugin-diff.md) and
