@@ -41,13 +41,15 @@ interface setupConfig {
 /// Builds a Crepe instance with the common i18n / feature config used
 /// by every story. `aiConfig` overrides the AI feature's config when
 /// `args.enableAI` is true; pass `undefined` for non-AI stories.
-function createCrepeInstance(
+/// Resolves once `crepe.create()` has finished so callers can show
+/// status / surface errors only after the editor is actually ready.
+async function createCrepeInstance(
   crepeRoot: HTMLElement,
   args: Args,
   markdownContainer: HTMLElement,
   theme: Extension,
   aiConfig: AIFeatureConfig | undefined
-): Crepe {
+): Promise<Crepe> {
   const { language } = args
   const crepe = new Crepe({
     root: crepeRoot,
@@ -140,12 +142,9 @@ function createCrepeInstance(
       })
     })
     .setReadonly(args.readonly)
-    .create()
-    .then(() => {
-      args.instance = crepe
-    })
-    .catch(console.error)
 
+  await crepe.create()
+  args.instance = crepe
   return crepe
 }
 
@@ -158,7 +157,14 @@ export function setup({ args, style, theme, aiConfig }: setupConfig) {
   const markdownContainer = document.createElement('div')
   markdownContainer.classList.add('markdown-container')
   shadow.appendChild(markdownContainer)
-  createCrepeInstance(crepeRoot, args, markdownContainer, theme, aiConfig)
+  // Storybook's HTML render() is sync; surface failures via console.
+  void createCrepeInstance(
+    crepeRoot,
+    args,
+    markdownContainer,
+    theme,
+    aiConfig
+  ).catch(console.error)
   return root
 }
 
@@ -262,7 +268,7 @@ export function setupAIDemo({ args, style, theme }: setupConfig) {
   const banner = document.createElement('div')
   banner.classList.add('byok-banner')
   banner.innerHTML = `
-    <div><strong>BYOK demo.</strong> Your API key is stored in this browser's localStorage and sent to ${providerLabel} via the storybook dev proxy (CORS workaround). Only works with <code>pnpm start</code>; the deployed static storybook will 404. Do not use a production key here.</div>
+    <div><strong>BYOK demo.</strong> Your API key is held in this tab's <code>sessionStorage</code> (cleared when the tab closes) and sent to ${providerLabel} via the storybook dev proxy (CORS workaround). Only works with <code>pnpm start</code>; the deployed static storybook will 404. Do not use a production key here.</div>
     <div class="byok-row">
       <label for="byok-key">${providerLabel} API key:</label>
       <input id="byok-key" type="password" placeholder="${placeholder}" autocomplete="off" />
@@ -312,21 +318,26 @@ export function setupAIDemo({ args, style, theme }: setupConfig) {
   }
 
   // Awaits both teardown and create() so repeated clicks on Save can't
-  // overlap a still-pending destroy with a fresh create.
+  // overlap a still-pending destroy with a fresh create, and so the
+  // status only flips to "ready" once the editor is actually usable.
   async function mount(apiKey: string) {
     setBusy(true)
+    status.textContent = 'Loading editor…'
     try {
       await teardown()
-      crepeInstance = createCrepeInstance(
+      crepeInstance = await createCrepeInstance(
         crepeRoot,
         args,
         markdownContainer,
         theme,
-        {
-          provider: buildProvider(args, apiKey),
-        }
+        { provider: buildProvider(args, apiKey) }
       )
       status.textContent = `Editor ready. Provider: ${args.aiProvider}, model: ${args.aiModel}.`
+    } catch (err) {
+      crepeInstance = null
+      const message = err instanceof Error ? err.message : String(err)
+      status.textContent = `Failed to load editor: ${message}`
+      console.error('[byok] mount failed', err)
     } finally {
       setBusy(false)
     }
@@ -338,12 +349,12 @@ export function setupAIDemo({ args, style, theme }: setupConfig) {
       status.textContent = 'Please enter an API key.'
       return
     }
-    localStorage.setItem(storageKey(args.aiProvider), key)
+    sessionStorage.setItem(storageKey(args.aiProvider), key)
     void mount(key)
   })
 
   clearBtn.addEventListener('click', () => {
-    localStorage.removeItem(storageKey(args.aiProvider))
+    sessionStorage.removeItem(storageKey(args.aiProvider))
     keyInput.value = ''
     setBusy(true)
     void teardown().finally(() => {
@@ -353,7 +364,7 @@ export function setupAIDemo({ args, style, theme }: setupConfig) {
     })
   })
 
-  const stored = localStorage.getItem(storageKey(args.aiProvider)) ?? ''
+  const stored = sessionStorage.getItem(storageKey(args.aiProvider)) ?? ''
   if (stored) {
     keyInput.value = stored
     void mount(stored)
