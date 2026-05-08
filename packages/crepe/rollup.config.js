@@ -89,9 +89,9 @@ export default () => {
     ...llmProviderEntry.flatMap((name) => {
       return [
         {
-          input: `./src/llm-providers/${name}.ts`,
+          input: `./src/llm-providers/${name}/index.ts`,
           output: {
-            dir: 'lib/esm/llm-providers',
+            dir: `lib/esm/llm-providers/${name}`,
             format: 'esm',
             sourcemap: true,
           },
@@ -99,9 +99,9 @@ export default () => {
           plugins: jsPlugins,
         },
         {
-          input: `./src/llm-providers/${name}.ts`,
+          input: `./src/llm-providers/${name}/index.ts`,
           output: {
-            dir: 'lib/cjs/llm-providers',
+            dir: `lib/cjs/llm-providers/${name}`,
             format: 'cjs',
             sourcemap: true,
           },

@@ -1,4 +1,4 @@
-import type { AIPromptContext, AIProvider } from '../feature/ai/types'
+import type { AIPromptContext, AIProvider } from '../../feature/ai/types'
 
 import {
   type BaseProviderConfig,
@@ -7,7 +7,7 @@ import {
   parseSSE,
   readErrorBody,
   resolveSystemPrompt,
-} from './shared'
+} from '../shared'
 
 const PROVIDER_NAME = 'milkdown/providers/openai'
 const DEFAULT_BASE_URL = 'https://api.openai.com'
@@ -100,7 +100,10 @@ function defaultMessages(
   userMessage: string
 ): OpenAIChatMessage[] {
   const messages: OpenAIChatMessage[] = []
-  if (systemPrompt) messages.push({ role: 'system', content: systemPrompt })
+  // `null` means "omit"; an empty string is still a caller-provided
+  // value and should be sent as-is.
+  if (systemPrompt !== null)
+    messages.push({ role: 'system', content: systemPrompt })
   messages.push({ role: 'user', content: userMessage })
   return messages
 }

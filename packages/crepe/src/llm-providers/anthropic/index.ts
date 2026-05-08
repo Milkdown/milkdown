@@ -1,4 +1,4 @@
-import type { AIPromptContext, AIProvider } from '../feature/ai/types'
+import type { AIPromptContext, AIProvider } from '../../feature/ai/types'
 
 import {
   type BaseProviderConfig,
@@ -7,7 +7,7 @@ import {
   parseSSE,
   readErrorBody,
   resolveSystemPrompt,
-} from './shared'
+} from '../shared'
 
 const PROVIDER_NAME = 'milkdown/providers/anthropic'
 const DEFAULT_BASE_URL = 'https://api.anthropic.com'
@@ -94,7 +94,9 @@ export function createAnthropicProvider(
       model: config.model,
       max_tokens: config.maxTokens ?? DEFAULT_MAX_TOKENS,
       stream: true,
-      ...(built.system ? { system: built.system } : {}),
+      // Caller-supplied empty string is still a value; only `undefined`
+      // (i.e. resolveSystemPrompt returned `null`) means "omit".
+      ...(built.system !== undefined ? { system: built.system } : {}),
       messages: built.messages,
       ...config.body,
     })

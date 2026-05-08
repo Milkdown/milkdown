@@ -234,6 +234,23 @@ describe('createOpenAIProvider', () => {
     expect(body.messages[0].role).toBe('user')
   })
 
+  test('keeps an empty-string systemPrompt instead of omitting it', async () => {
+    const fetchMock = vi.fn<FetchSig>(async () => sseResponse(['[DONE]']))
+    globalThis.fetch = fetchMock as unknown as typeof fetch
+
+    const provider = createOpenAIProvider({
+      apiKey: 'sk-test',
+      model: 'gpt-4o-mini',
+      systemPrompt: '',
+      dangerouslyAllowBrowser: true,
+    })
+    await collect(provider(sampleContext, new AbortController().signal))
+    const body = JSON.parse(String(fetchMock.mock.calls[0]![1]!.body))
+    expect(body.messages).toHaveLength(2)
+    expect(body.messages[0]).toEqual({ role: 'system', content: '' })
+    expect(body.messages[1].role).toBe('user')
+  })
+
   test('throws on non-2xx with body included', async () => {
     globalThis.fetch = vi.fn(
       async () =>
@@ -357,6 +374,23 @@ describe('createAnthropicProvider', () => {
     await collect(provider(sampleContext, new AbortController().signal))
     const body = JSON.parse(String(fetchMock.mock.calls[0]![1]!.body))
     expect(body.system).toBeUndefined()
+  })
+
+  test('keeps an empty-string systemPrompt instead of omitting it', async () => {
+    const fetchMock = vi.fn<FetchSig>(async () =>
+      sseResponse([JSON.stringify({ type: 'message_stop' })])
+    )
+    globalThis.fetch = fetchMock as unknown as typeof fetch
+
+    const provider = createAnthropicProvider({
+      apiKey: 'sk-ant-test',
+      model: 'claude-sonnet-4-5',
+      systemPrompt: '',
+      dangerouslyAllowBrowser: true,
+    })
+    await collect(provider(sampleContext, new AbortController().signal))
+    const body = JSON.parse(String(fetchMock.mock.calls[0]![1]!.body))
+    expect(body.system).toBe('')
   })
 
   test('proxy mode: omits x-api-key and direct-browser-access header', async () => {

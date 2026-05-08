@@ -64,10 +64,10 @@
       "import": "./src/feature/top-bar/index.ts"
     },
     "./llm-providers/openai": {
-      "import": "./src/llm-providers/openai.ts"
+      "import": "./src/llm-providers/openai/index.ts"
     },
     "./llm-providers/anthropic": {
-      "import": "./src/llm-providers/anthropic.ts"
+      "import": "./src/llm-providers/anthropic/index.ts"
     },
     "./theme/common/*": "./src/theme/common/*",
     "./theme/classic.css": "./src/theme/crepe/style.css",
@@ -150,14 +150,14 @@
         "types": "./lib/types/feature/top-bar/index.d.ts"
       },
       "./llm-providers/openai": {
-        "import": "./lib/esm/llm-providers/openai.js",
-        "require": "./lib/cjs/llm-providers/openai.js",
-        "types": "./lib/types/llm-providers/openai.d.ts"
+        "import": "./lib/esm/llm-providers/openai/index.js",
+        "require": "./lib/cjs/llm-providers/openai/index.js",
+        "types": "./lib/types/llm-providers/openai/index.d.ts"
       },
       "./llm-providers/anthropic": {
-        "import": "./lib/esm/llm-providers/anthropic.js",
-        "require": "./lib/cjs/llm-providers/anthropic.js",
-        "types": "./lib/types/llm-providers/anthropic.d.ts"
+        "import": "./lib/esm/llm-providers/anthropic/index.js",
+        "require": "./lib/cjs/llm-providers/anthropic/index.js",
+        "types": "./lib/types/llm-providers/anthropic/index.d.ts"
       },
       "./theme/common/*": "./lib/theme/common/*",
       "./theme/classic.css": "./lib/theme/crepe/style.css",
