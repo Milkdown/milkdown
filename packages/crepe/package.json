@@ -63,11 +63,11 @@
     "./feature/top-bar": {
       "import": "./src/feature/top-bar/index.ts"
     },
-    "./providers/openai": {
-      "import": "./src/providers/openai.ts"
+    "./llm-providers/openai": {
+      "import": "./src/llm-providers/openai.ts"
     },
-    "./providers/anthropic": {
-      "import": "./src/providers/anthropic.ts"
+    "./llm-providers/anthropic": {
+      "import": "./src/llm-providers/anthropic.ts"
     },
     "./theme/common/*": "./src/theme/common/*",
     "./theme/classic.css": "./src/theme/crepe/style.css",
@@ -149,15 +149,15 @@
         "require": "./lib/cjs/feature/top-bar/index.js",
         "types": "./lib/types/feature/top-bar/index.d.ts"
       },
-      "./providers/openai": {
-        "import": "./lib/esm/providers/openai.js",
-        "require": "./lib/cjs/providers/openai.js",
-        "types": "./lib/types/providers/openai.d.ts"
+      "./llm-providers/openai": {
+        "import": "./lib/esm/llm-providers/openai.js",
+        "require": "./lib/cjs/llm-providers/openai.js",
+        "types": "./lib/types/llm-providers/openai.d.ts"
       },
-      "./providers/anthropic": {
-        "import": "./lib/esm/providers/anthropic.js",
-        "require": "./lib/cjs/providers/anthropic.js",
-        "types": "./lib/types/providers/anthropic.d.ts"
+      "./llm-providers/anthropic": {
+        "import": "./lib/esm/llm-providers/anthropic.js",
+        "require": "./lib/cjs/llm-providers/anthropic.js",
+        "types": "./lib/types/llm-providers/anthropic.d.ts"
       },
       "./theme/common/*": "./lib/theme/common/*",
       "./theme/classic.css": "./lib/theme/crepe/style.css",

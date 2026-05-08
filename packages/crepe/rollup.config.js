@@ -28,7 +28,7 @@ const featureEntry = [
   'top-bar',
 ]
 
-const providerEntry = ['openai', 'anthropic']
+const llmProviderEntry = ['openai', 'anthropic']
 
 export default () => {
   const jsPlugins = [
@@ -86,12 +86,12 @@ export default () => {
         },
       ]
     }),
-    ...providerEntry.flatMap((name) => {
+    ...llmProviderEntry.flatMap((name) => {
       return [
         {
-          input: `./src/providers/${name}.ts`,
+          input: `./src/llm-providers/${name}.ts`,
           output: {
-            dir: 'lib/esm/providers',
+            dir: 'lib/esm/llm-providers',
             format: 'esm',
             sourcemap: true,
           },
@@ -99,9 +99,9 @@ export default () => {
           plugins: jsPlugins,
         },
         {
-          input: `./src/providers/${name}.ts`,
+          input: `./src/llm-providers/${name}.ts`,
           output: {
-            dir: 'lib/cjs/providers',
+            dir: 'lib/cjs/llm-providers',
             format: 'cjs',
             sourcemap: true,
           },

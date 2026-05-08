@@ -2,8 +2,8 @@ import type { Extension } from '@codemirror/state'
 import type { AIFeatureConfig, AIProvider } from '@milkdown/crepe/feature/ai'
 
 import { Crepe } from '@milkdown/crepe'
-import { createAnthropicProvider } from '@milkdown/crepe/providers/anthropic'
-import { createOpenAIProvider } from '@milkdown/crepe/providers/openai'
+import { createAnthropicProvider } from '@milkdown/crepe/llm-providers/anthropic'
+import { createOpenAIProvider } from '@milkdown/crepe/llm-providers/openai'
 import all from '@milkdown/crepe/theme/common/style.css?inline'
 
 import { injectMarkdown, wrapInShadow } from '../utils/shadow'
