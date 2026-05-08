@@ -208,7 +208,31 @@ function parseInlineContent(
   if (!hasInlineStructure) {
     return Fragment.from(schema.text(text))
   }
-  return firstBlock.content
+  // CommonMark strips up to 3 leading and any trailing whitespace when
+  // wrapping inline content in a paragraph. For mid-paragraph inserts,
+  // that loss visibly concatenates words (e.g. ` **bold**` → `**bold**`
+  // collides with the previous character). Re-prepend / re-append the
+  // original whitespace if the parsed content didn't preserve it.
+  let content = firstBlock.content
+  const leading = /^\s+/.exec(text)?.[0]
+  if (leading) {
+    const firstText = content.firstChild?.isText
+      ? (content.firstChild.text ?? '')
+      : ''
+    if (!firstText.startsWith(leading)) {
+      content = Fragment.from(schema.text(leading)).append(content)
+    }
+  }
+  const trailing = /\s+$/.exec(text)?.[0]
+  if (trailing) {
+    const lastText = content.lastChild?.isText
+      ? (content.lastChild.text ?? '')
+      : ''
+    if (!lastText.endsWith(trailing)) {
+      content = content.append(Fragment.from(schema.text(trailing)))
+    }
+  }
+  return content
 }
 
 /// Split buffer at first newline: first line merges as inline markdown

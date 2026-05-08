@@ -120,6 +120,43 @@ describe('AI streaming inline markdown', () => {
       await crepe.destroy()
     }
   })
+
+  test('leading whitespace before inline marks is preserved', async () => {
+    // CommonMark would strip the leading space when wrapping the line
+    // in a paragraph; without explicit whitespace preservation the
+    // streamed token would collide with the preceding character once
+    // inserted mid-paragraph.
+    const crepe = new Crepe({
+      defaultValue: 'pre',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: {
+        [CrepeFeature.AI]: {
+          provider: async function* () {
+            yield ' **bold**'
+          },
+          diffReviewOnEnd: false,
+        },
+      },
+    })
+    await crepe.create()
+    try {
+      crepe.editor.action(callCommand(runAICmd.key, { instruction: 'go' }))
+      await flushStream()
+
+      const view = crepe.editor.action((ctx) => ctx.get(editorViewCtx))
+      const docText = view.state.doc.textContent
+      expect(docText).toContain(' bold')
+      expect(docText).not.toContain('prebold')
+
+      let foundStrong = false
+      view.state.doc.descendants((node) => {
+        if (node.marks.some((m) => m.type.name === 'strong')) foundStrong = true
+      })
+      expect(foundStrong).toBe(true)
+    } finally {
+      await crepe.destroy()
+    }
+  })
 })
 
 describe('AI onError', () => {
