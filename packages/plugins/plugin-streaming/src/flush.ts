@@ -161,10 +161,15 @@ function applyPlainText(
 }
 
 /// Parse a single markdown line and return its inline content (text
-/// nodes with marks, links, etc.) for merging into a textblock. Falls
-/// back to a plain text node when the parser produces nothing usable
-/// or yields a non-textblock first child (defensive — for typical AI
-/// streaming output the first block is always a paragraph).
+/// nodes with marks, links, etc.) for merging into a textblock. Only
+/// uses the parsed result when it actually contains inline *structure*
+/// (marks or non-text nodes); for plain-text-only output we fall back
+/// to the original string so that:
+/// - leading whitespace isn't stripped by CommonMark paragraph rules
+///   (e.g. `' Inserted.'` would otherwise become `'Inserted.'`)
+/// - block markers don't silently disappear when the line happens to
+///   parse as a different block type (e.g. `'# Heading'` parses as a
+///   heading, dropping the `# ` if we extracted heading.content)
 function parseInlineContent(
   ctx: Ctx,
   schema: Node['type']['schema'],
@@ -174,10 +179,19 @@ function parseInlineContent(
   const parser = ctx.get(parserCtx)
   const parsed = parser(text)
   const firstBlock = parsed?.firstChild
-  if (firstBlock?.isTextblock && firstBlock.content.size > 0) {
-    return firstBlock.content
+  if (!firstBlock?.isTextblock || firstBlock.content.size === 0) {
+    return Fragment.from(schema.text(text))
   }
-  return Fragment.from(schema.text(text))
+  let hasInlineStructure = false
+  firstBlock.content.forEach((child) => {
+    if (!child.isText || child.marks.length > 0) {
+      hasInlineStructure = true
+    }
+  })
+  if (!hasInlineStructure) {
+    return Fragment.from(schema.text(text))
+  }
+  return firstBlock.content
 }
 
 /// Split buffer at first newline: first line merges as inline markdown
@@ -235,7 +249,25 @@ function applySplitBlock({
 
   const fullContent = innerContent.append(blockContent)
   const slice = new Slice(fullContent, depth, 0)
-  tr = tr.replace(from, to, slice)
+
+  // If `to` lands exactly at the end of the enclosing parent's inline
+  // content, extend it past the parent's close so the slice's
+  // `openEnd: 0` matches the right-boundary depth. Without this,
+  // ProseMirror has to reconcile a depth mismatch (right boundary at
+  // depth N vs slice ending at depth 0) which, for multi-block
+  // replacements covering the whole inline content, silently drops the
+  // next sibling block.
+  const docSize = tr.doc.content.size
+  const resolvedTo = tr.doc.resolve(Math.min(to, docSize))
+  let actualTo = to
+  if (
+    resolvedTo.depth === depth &&
+    resolvedTo.parentOffset === resolvedTo.parent.content.size
+  ) {
+    actualTo = resolvedTo.after(depth)
+  }
+
+  tr = tr.replace(from, actualTo, slice)
 
   // Subtract depth because the open nodes merge into existing structure
   const insertedSize = fullContent.size - depth
