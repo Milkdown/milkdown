@@ -161,9 +161,15 @@ function applyPlainText(
 }
 
 /// Characters that could trigger inline markdown parsing into marks
-/// or non-text nodes (emphasis, strong, code, link, escape). Used by
-/// the fast-path check below.
-const INLINE_MARKDOWN_TOKENS = /[*_~`[\]\\]/
+/// or non-text nodes:
+/// - `*`, `_`            emphasis / strong
+/// - `~`                 strikethrough (GFM)
+/// - `` ` ``             inline code
+/// - `[`, `]`            links / images
+/// - `\`                 escape
+/// - `<`                 autolinks (`<https://...>`, `<a@b.com>`) and raw HTML
+/// Used by the fast-path check below.
+const INLINE_MARKDOWN_TOKENS = /[*_~`[\]\\<]/
 
 /// Parse a single markdown line and return its inline content (text
 /// nodes with marks, links, etc.) for merging into a textblock. Only

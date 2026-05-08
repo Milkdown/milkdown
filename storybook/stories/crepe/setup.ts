@@ -265,31 +265,76 @@ export function setupAIDemo({ args, style, theme }: setupConfig) {
   const providerLabel = args.aiProvider === 'anthropic' ? 'Anthropic' : 'OpenAI'
   const placeholder = args.aiProvider === 'anthropic' ? 'sk-ant-...' : 'sk-...'
 
+  // Build the banner with createElement / textContent rather than
+  // `innerHTML` interpolation: even though the dynamic values are
+  // currently constrained by the `aiProvider` union, building the DOM
+  // explicitly avoids reintroducing an XSS surface if those values
+  // ever broaden.
   const banner = document.createElement('div')
   banner.classList.add('byok-banner')
-  banner.innerHTML = `
-    <div><strong>BYOK demo.</strong> Your API key is held in this tab's <code>sessionStorage</code> (cleared when the tab closes) and sent to ${providerLabel} via the storybook dev proxy (CORS workaround). Only works with <code>pnpm start</code>; the deployed static storybook will 404. Do not use a production key here.</div>
-    <div class="byok-row">
-      <label for="byok-key">${providerLabel} API key:</label>
-      <input id="byok-key" type="password" placeholder="${placeholder}" autocomplete="off" />
-      <button class="byok-toggle" type="button" aria-label="Toggle key visibility">Show</button>
-      <button class="byok-save">Save &amp; load editor</button>
-      <button class="byok-clear">Clear</button>
-    </div>
-    <div class="byok-status"></div>
-    <div class="byok-hint">Tip: select some text, then click the AI button on the toolbar to open the instruction tooltip.</div>
-  `
+
+  const intro = document.createElement('div')
+  const introStrong = document.createElement('strong')
+  introStrong.textContent = 'BYOK demo.'
+  const introCodeStorage = document.createElement('code')
+  introCodeStorage.textContent = 'sessionStorage'
+  const introCodeStart = document.createElement('code')
+  introCodeStart.textContent = 'pnpm start'
+  intro.append(
+    introStrong,
+    " Your API key is held in this tab's ",
+    introCodeStorage,
+    ` (cleared when the tab closes) and sent to ${providerLabel} via the storybook dev proxy (CORS workaround). Only works with `,
+    introCodeStart,
+    '; the deployed static storybook will 404. Do not use a production key here.'
+  )
+  banner.appendChild(intro)
+
+  const row = document.createElement('div')
+  row.classList.add('byok-row')
+
+  const label = document.createElement('label')
+  label.htmlFor = 'byok-key'
+  label.textContent = `${providerLabel} API key:`
+
+  const keyInput = document.createElement('input')
+  keyInput.id = 'byok-key'
+  keyInput.type = 'password'
+  keyInput.placeholder = placeholder
+  keyInput.autocomplete = 'off'
+
+  const toggleBtn = document.createElement('button')
+  toggleBtn.type = 'button'
+  toggleBtn.classList.add('byok-toggle')
+  toggleBtn.setAttribute('aria-label', 'Toggle key visibility')
+  toggleBtn.textContent = 'Show'
+
+  const saveBtn = document.createElement('button')
+  saveBtn.classList.add('byok-save')
+  saveBtn.textContent = 'Save & load editor'
+
+  const clearBtn = document.createElement('button')
+  clearBtn.classList.add('byok-clear')
+  clearBtn.textContent = 'Clear'
+
+  row.append(label, keyInput, toggleBtn, saveBtn, clearBtn)
+  banner.appendChild(row)
+
+  const status = document.createElement('div')
+  status.classList.add('byok-status')
+  banner.appendChild(status)
+
+  const hint = document.createElement('div')
+  hint.classList.add('byok-hint')
+  hint.textContent =
+    'Tip: select some text, then click the AI button on the toolbar to open the instruction tooltip.'
+  banner.appendChild(hint)
+
   shadow.appendChild(banner)
 
   const markdownContainer = document.createElement('div')
   markdownContainer.classList.add('markdown-container')
   shadow.appendChild(markdownContainer)
-
-  const keyInput = banner.querySelector<HTMLInputElement>('#byok-key')!
-  const saveBtn = banner.querySelector<HTMLButtonElement>('.byok-save')!
-  const clearBtn = banner.querySelector<HTMLButtonElement>('.byok-clear')!
-  const toggleBtn = banner.querySelector<HTMLButtonElement>('.byok-toggle')!
-  const status = banner.querySelector<HTMLDivElement>('.byok-status')!
 
   toggleBtn.addEventListener('click', () => {
     const showing = keyInput.type === 'text'
