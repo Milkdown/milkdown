@@ -160,6 +160,11 @@ function applyPlainText(
   return { tr, applied: true, insertEndPos: from + textContent.length }
 }
 
+/// Characters that could trigger inline markdown parsing into marks
+/// or non-text nodes (emphasis, strong, code, link, escape). Used by
+/// the fast-path check below.
+const INLINE_MARKDOWN_TOKENS = /[*_~`[\]\\]/
+
 /// Parse a single markdown line and return its inline content (text
 /// nodes with marks, links, etc.) for merging into a textblock. Only
 /// uses the parsed result when it actually contains inline *structure*
@@ -170,12 +175,18 @@ function applyPlainText(
 /// - block markers don't silently disappear when the line happens to
 ///   parse as a different block type (e.g. `'# Heading'` parses as a
 ///   heading, dropping the `# ` if we extracted heading.content)
+///
+/// Insert-mode flushes happen on every push, so we skip the parser
+/// entirely when the text contains no markdown-relevant tokens.
 function parseInlineContent(
   ctx: Ctx,
   schema: Node['type']['schema'],
   text: string
 ): Fragment {
   if (!text) return Fragment.empty
+  if (!INLINE_MARKDOWN_TOKENS.test(text)) {
+    return Fragment.from(schema.text(text))
+  }
   const parser = ctx.get(parserCtx)
   const parsed = parser(text)
   const firstBlock = parsed?.firstChild

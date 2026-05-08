@@ -10,7 +10,8 @@ import { injectMarkdown, wrapInShadow } from '../utils/shadow'
 import localStyle from './style.css?inline'
 
 export interface Args {
-  instance: Crepe
+  /// Set after `crepe.create()` resolves; not present at story-render time.
+  instance?: Crepe
   readonly: boolean
   defaultValue: string
   enableCodemirror: boolean
@@ -224,8 +225,10 @@ const aiDemoBannerStyle = `
 
 function buildProvider(args: Args, apiKey: string): AIProvider {
   // Route through the storybook dev server's vite proxy (configured in
-  // storybook/vite.config.mts) to dodge CORS. The proxy is dev-only —
-  // the deployed static storybook build will get 404s here.
+  // storybook/.storybook/main.ts via `viteFinal` — Storybook's vite
+  // builder doesn't honor `server.proxy` in the user vite.config.mts)
+  // to dodge CORS. The proxy is dev-only — the deployed static
+  // storybook build will get 404s here.
   if (args.aiProvider === 'anthropic') {
     return createAnthropicProvider({
       apiKey,
@@ -290,23 +293,43 @@ export function setupAIDemo({ args, style, theme }: setupConfig) {
 
   let crepeInstance: Crepe | null = null
 
-  function mount(apiKey: string) {
-    if (crepeInstance) {
-      void crepeInstance.destroy()
-      crepeInstance = null
-      markdownContainer.replaceChildren()
-      crepeRoot.replaceChildren()
+  function setBusy(busy: boolean) {
+    saveBtn.disabled = busy
+    clearBtn.disabled = busy
+  }
+
+  async function teardown() {
+    if (!crepeInstance) return
+    const old = crepeInstance
+    crepeInstance = null
+    markdownContainer.replaceChildren()
+    crepeRoot.replaceChildren()
+    try {
+      await old.destroy()
+    } catch (err) {
+      console.error('[byok] destroy failed', err)
     }
-    crepeInstance = createCrepeInstance(
-      crepeRoot,
-      args,
-      markdownContainer,
-      theme,
-      {
-        provider: buildProvider(args, apiKey),
-      }
-    )
-    status.textContent = `Editor ready. Provider: ${args.aiProvider}, model: ${args.aiModel}.`
+  }
+
+  // Awaits both teardown and create() so repeated clicks on Save can't
+  // overlap a still-pending destroy with a fresh create.
+  async function mount(apiKey: string) {
+    setBusy(true)
+    try {
+      await teardown()
+      crepeInstance = createCrepeInstance(
+        crepeRoot,
+        args,
+        markdownContainer,
+        theme,
+        {
+          provider: buildProvider(args, apiKey),
+        }
+      )
+      status.textContent = `Editor ready. Provider: ${args.aiProvider}, model: ${args.aiModel}.`
+    } finally {
+      setBusy(false)
+    }
   }
 
   saveBtn.addEventListener('click', () => {
@@ -316,25 +339,24 @@ export function setupAIDemo({ args, style, theme }: setupConfig) {
       return
     }
     localStorage.setItem(storageKey(args.aiProvider), key)
-    mount(key)
+    void mount(key)
   })
 
   clearBtn.addEventListener('click', () => {
     localStorage.removeItem(storageKey(args.aiProvider))
     keyInput.value = ''
-    if (crepeInstance) {
-      void crepeInstance.destroy()
-      crepeInstance = null
-      markdownContainer.replaceChildren()
-      crepeRoot.replaceChildren()
-    }
-    status.textContent = 'API key cleared. Enter a new key to load the editor.'
+    setBusy(true)
+    void teardown().finally(() => {
+      status.textContent =
+        'API key cleared. Enter a new key to load the editor.'
+      setBusy(false)
+    })
   })
 
   const stored = localStorage.getItem(storageKey(args.aiProvider)) ?? ''
   if (stored) {
     keyInput.value = stored
-    mount(stored)
+    void mount(stored)
   } else {
     status.textContent = 'Enter your API key to load the editor.'
   }
