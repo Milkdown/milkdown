@@ -52,6 +52,76 @@ function dispatchKeyDown(
   )
 }
 
+describe('AI streaming inline markdown', () => {
+  // Regression: replace-selection / insert-at-cursor flushes used to
+  // insert the buffer's first line as a plain text node, which left
+  // markdown syntax like **bold** and [link](url) visible in the
+  // document. The fix in plugin-streaming/flush.ts parses the first
+  // line as inline markdown so marks/links survive into the doc tree.
+  test('first line preserves strong and link marks across a paragraph break', async () => {
+    const crepe = new Crepe({
+      defaultValue: 'pre',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: {
+        [CrepeFeature.AI]: {
+          provider: async function* () {
+            yield '**bold** and [a](https://example.com).\n\nSecond block.'
+          },
+          diffReviewOnEnd: false,
+        },
+      },
+    })
+    await crepe.create()
+    try {
+      crepe.editor.action(callCommand(runAICmd.key, { instruction: 'go' }))
+      await flushStream()
+
+      const view = crepe.editor.action((ctx) => ctx.get(editorViewCtx))
+      const docText = view.state.doc.textContent
+      expect(docText).not.toContain('**')
+      expect(docText).not.toContain('](')
+
+      let foundStrong = false
+      let foundLink = false
+      view.state.doc.descendants((node) => {
+        if (node.marks.some((m) => m.type.name === 'strong')) foundStrong = true
+        if (node.marks.some((m) => m.type.name === 'link')) foundLink = true
+      })
+      expect(foundStrong).toBe(true)
+      expect(foundLink).toBe(true)
+    } finally {
+      await crepe.destroy()
+    }
+  })
+
+  test('single-line response parses inline marks instead of raw text', async () => {
+    const crepe = new Crepe({
+      defaultValue: 'pre',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: {
+        [CrepeFeature.AI]: {
+          provider: async function* () {
+            yield '**bold** and [a](https://example.com)'
+          },
+          diffReviewOnEnd: false,
+        },
+      },
+    })
+    await crepe.create()
+    try {
+      crepe.editor.action(callCommand(runAICmd.key, { instruction: 'go' }))
+      await flushStream()
+
+      const view = crepe.editor.action((ctx) => ctx.get(editorViewCtx))
+      const docText = view.state.doc.textContent
+      expect(docText).not.toContain('**')
+      expect(docText).not.toContain('](')
+    } finally {
+      await crepe.destroy()
+    }
+  })
+})
+
 describe('AI onError', () => {
   test('provider error triggers onError with aiProviderError code', async () => {
     const onError = vi.fn()

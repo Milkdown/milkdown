@@ -63,6 +63,12 @@
     "./feature/top-bar": {
       "import": "./src/feature/top-bar/index.ts"
     },
+    "./providers/openai": {
+      "import": "./src/providers/openai.ts"
+    },
+    "./providers/anthropic": {
+      "import": "./src/providers/anthropic.ts"
+    },
     "./theme/common/*": "./src/theme/common/*",
     "./theme/classic.css": "./src/theme/crepe/style.css",
     "./theme/classic-dark.css": "./src/theme/crepe-dark/style.css",
@@ -142,6 +148,16 @@
         "import": "./lib/esm/feature/top-bar/index.js",
         "require": "./lib/cjs/feature/top-bar/index.js",
         "types": "./lib/types/feature/top-bar/index.d.ts"
+      },
+      "./providers/openai": {
+        "import": "./lib/esm/providers/openai.js",
+        "require": "./lib/cjs/providers/openai.js",
+        "types": "./lib/types/providers/openai.d.ts"
+      },
+      "./providers/anthropic": {
+        "import": "./lib/esm/providers/anthropic.js",
+        "require": "./lib/cjs/providers/anthropic.js",
+        "types": "./lib/types/providers/anthropic.d.ts"
       },
       "./theme/common/*": "./lib/theme/common/*",
       "./theme/classic.css": "./lib/theme/crepe/style.css",

@@ -1,20 +1,10 @@
 import type { Extension } from '@codemirror/state'
-import type {
-  AIFeatureConfig,
-  AIPromptContext,
-} from '@milkdown/crepe/feature/ai'
+import type { AIFeatureConfig, AIProvider } from '@milkdown/crepe/feature/ai'
 
 import { Crepe } from '@milkdown/crepe'
-import { abortAICmd, runAICmd } from '@milkdown/crepe/feature/ai'
+import { createAnthropicProvider } from '@milkdown/crepe/providers/anthropic'
+import { createOpenAIProvider } from '@milkdown/crepe/providers/openai'
 import all from '@milkdown/crepe/theme/common/style.css?inline'
-import { editorViewCtx } from '@milkdown/kit/core'
-import {
-  acceptAllDiffsCmd,
-  clearDiffReviewCmd,
-  diffPluginKey,
-} from '@milkdown/kit/plugin/diff'
-import { streamingPluginKey } from '@milkdown/kit/plugin/streaming'
-import { callCommand } from '@milkdown/kit/utils'
 
 import { injectMarkdown, wrapInShadow } from '../utils/shadow'
 import localStyle from './style.css?inline'
@@ -23,16 +13,21 @@ export interface Args {
   instance: Crepe
   readonly: boolean
   defaultValue: string
-  modifiedValue: string
   enableCodemirror: boolean
   enableTopBar: boolean
   enableAI: boolean
   language: 'EN' | 'JA'
+  /// AI demo only — selects which built-in provider to construct when
+  /// the user enters a key in the BYOK banner.
+  aiProvider: 'openai' | 'anthropic'
+  /// AI demo only — model id passed to the chosen provider.
+  aiModel: string
 }
 
 export const hideAIArgs = {
-  modifiedValue: { table: { disable: true } },
   enableAI: { table: { disable: true } },
+  aiProvider: { table: { disable: true } },
+  aiModel: { table: { disable: true } },
 }
 
 interface setupConfig {
@@ -42,17 +37,17 @@ interface setupConfig {
   aiConfig?: AIFeatureConfig
 }
 
-export function setup({ args, style, theme, aiConfig }: setupConfig) {
-  const {
-    wrapper: crepeRoot,
-    root,
-    shadow,
-  } = wrapInShadow([all, style, localStyle])
+/// Builds a Crepe instance with the common i18n / feature config used
+/// by every story. `aiConfig` overrides the AI feature's config when
+/// `args.enableAI` is true; pass `undefined` for non-AI stories.
+function createCrepeInstance(
+  crepeRoot: HTMLElement,
+  args: Args,
+  markdownContainer: HTMLElement,
+  theme: Extension,
+  aiConfig: AIFeatureConfig | undefined
+): Crepe {
   const { language } = args
-  const markdownContainer = document.createElement('div')
-  markdownContainer.classList.add('markdown-container')
-  shadow.appendChild(markdownContainer)
-
   const crepe = new Crepe({
     root: crepeRoot,
     defaultValue: args.defaultValue,
@@ -81,33 +76,15 @@ export function setup({ args, style, theme, aiConfig }: setupConfig) {
       [Crepe.Feature.BlockEdit]: {
         textGroup: {
           label: language === 'JA' ? 'テキスト' : 'Text',
-          text: {
-            label: language === 'JA' ? 'テキスト' : 'Text',
-          },
-          h1: {
-            label: language === 'JA' ? '見出し1' : 'Heading 1',
-          },
-          h2: {
-            label: language === 'JA' ? '見出し2' : 'Heading 2',
-          },
-          h3: {
-            label: language === 'JA' ? '見出し3' : 'Heading 3',
-          },
-          h4: {
-            label: language === 'JA' ? '見出し4' : 'Heading 4',
-          },
-          h5: {
-            label: language === 'JA' ? '見出し5' : 'Heading 5',
-          },
-          h6: {
-            label: language === 'JA' ? '見出し6' : 'Heading 6',
-          },
-          quote: {
-            label: language === 'JA' ? '引用' : 'Quote',
-          },
-          divider: {
-            label: language === 'JA' ? '区切り線' : 'Divider',
-          },
+          text: { label: language === 'JA' ? 'テキスト' : 'Text' },
+          h1: { label: language === 'JA' ? '見出し1' : 'Heading 1' },
+          h2: { label: language === 'JA' ? '見出し2' : 'Heading 2' },
+          h3: { label: language === 'JA' ? '見出し3' : 'Heading 3' },
+          h4: { label: language === 'JA' ? '見出し4' : 'Heading 4' },
+          h5: { label: language === 'JA' ? '見出し5' : 'Heading 5' },
+          h6: { label: language === 'JA' ? '見出し6' : 'Heading 6' },
+          quote: { label: language === 'JA' ? '引用' : 'Quote' },
+          divider: { label: language === 'JA' ? '区切り線' : 'Divider' },
         },
         listGroup: {
           label: language === 'JA' ? 'リスト' : 'List',
@@ -123,18 +100,10 @@ export function setup({ args, style, theme, aiConfig }: setupConfig) {
         },
         advancedGroup: {
           label: language === 'JA' ? '高度な機能' : 'Advanced',
-          image: {
-            label: language === 'JA' ? '画像' : 'Image',
-          },
-          codeBlock: {
-            label: language === 'JA' ? 'コード' : 'Code',
-          },
-          table: {
-            label: language === 'JA' ? '表' : 'Table',
-          },
-          math: {
-            label: language === 'JA' ? '数式' : 'Math',
-          },
+          image: { label: language === 'JA' ? '画像' : 'Image' },
+          codeBlock: { label: language === 'JA' ? 'コード' : 'Code' },
+          table: { label: language === 'JA' ? '表' : 'Table' },
+          math: { label: language === 'JA' ? '数式' : 'Math' },
         },
       },
       [Crepe.Feature.Placeholder]: {
@@ -161,9 +130,7 @@ export function setup({ args, style, theme, aiConfig }: setupConfig) {
     },
   })
 
-  if (args.defaultValue) {
-    injectMarkdown(args.defaultValue, markdownContainer)
-  }
+  if (args.defaultValue) injectMarkdown(args.defaultValue, markdownContainer)
 
   crepe
     .on((listener) => {
@@ -177,196 +144,202 @@ export function setup({ args, style, theme, aiConfig }: setupConfig) {
       args.instance = crepe
     })
     .catch(console.error)
+
+  return crepe
+}
+
+export function setup({ args, style, theme, aiConfig }: setupConfig) {
+  const {
+    wrapper: crepeRoot,
+    root,
+    shadow,
+  } = wrapInShadow([all, style, localStyle])
+  const markdownContainer = document.createElement('div')
+  markdownContainer.classList.add('markdown-container')
+  shadow.appendChild(markdownContainer)
+  createCrepeInstance(crepeRoot, args, markdownContainer, theme, aiConfig)
   return root
 }
 
-const aiDemoToolbarStyle = `
-.ai-demo-toolbar {
+// ---------------------------------------------------------------------------
+// AI demo: BYOK banner + real OpenAI/Anthropic providers.
+// ---------------------------------------------------------------------------
+
+const STORAGE_KEY_PREFIX = 'crepe-storybook-byok'
+const storageKey = (provider: Args['aiProvider']) =>
+  `${STORAGE_KEY_PREFIX}-${provider}`
+
+const aiDemoBannerStyle = `
+.byok-banner {
   display: flex;
+  flex-direction: column;
   gap: 8px;
-  flex-wrap: wrap;
-}
-.ai-demo-toolbar button {
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 6px;
   font-size: 13px;
-  padding: 4px 12px;
+  color: #78350f;
+}
+.byok-banner strong { color: #b45309; }
+.byok-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.byok-row label { font-weight: 500; font-size: 13px; color: #1f2937; }
+.byok-row input {
+  flex: 1;
+  min-width: 220px;
+  padding: 6px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 12px;
+}
+.byok-row button {
+  padding: 6px 14px;
+  background: #2563eb;
+  color: white;
+  border: 1px solid #1d4ed8;
   border-radius: 4px;
   cursor: pointer;
-  border: 1px solid;
+  font-size: 13px;
   font-weight: 500;
 }
-.ai-demo-toolbar button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.byok-row button:hover { background: #1d4ed8; }
+.byok-row button.byok-clear {
+  background: #e5e7eb;
+  color: #374151;
+  border-color: #d1d5db;
 }
-.ai-btn-start { background: #3b82f6; color: white; border-color: #2563eb; }
-.ai-btn-start:hover:not(:disabled) { background: #2563eb; }
-.ai-btn-stop, .ai-btn-accept { background: #22c55e; color: white; border-color: #16a34a; }
-.ai-btn-stop:hover:not(:disabled), .ai-btn-accept:hover:not(:disabled) { background: #16a34a; }
-.ai-btn-abort, .ai-btn-reject { background: #ef4444; color: white; border-color: #dc2626; }
-.ai-btn-abort:hover:not(:disabled), .ai-btn-reject:hover:not(:disabled) { background: #dc2626; }
-.ai-btn-clear { background: #e5e7eb; color: #374151; border-color: #d1d5db; }
-.ai-btn-clear:hover:not(:disabled) { background: #d1d5db; }
-.ai-separator {
-  width: 1px;
-  height: 24px;
-  background: #d1d5db;
-  margin: 0 4px;
+.byok-row button.byok-clear:hover { background: #d1d5db; }
+.byok-row button.byok-toggle {
+  background: transparent;
+  color: #4b5563;
+  border-color: #d1d5db;
+  padding: 6px 10px;
 }
+.byok-row button.byok-toggle:hover { background: #f3f4f6; }
+.byok-status { font-size: 12px; color: #4b5563; }
+.byok-hint { font-size: 12px; color: #6b7280; font-style: italic; }
 `
 
-/// Simulated AI provider that streams the instruction back as markdown
-/// in small chunks. Only uses `context.instruction`; ignores
-/// `document` and `selection`.
-async function* simulateAIProvider(
-  context: AIPromptContext,
-  signal: AbortSignal
-): AsyncGenerator<string> {
-  const chars = Array.from(context.instruction)
-  let idx = 0
-  while (idx < chars.length) {
-    if (signal.aborted) return
-    const chunkSize = Math.floor(Math.random() * 3) + 1
-    let chunk = ''
-    for (let j = 0; j < chunkSize && idx < chars.length; j++, idx++) {
-      chunk += chars[idx]
-    }
-    yield chunk
-    await new Promise((r) => setTimeout(r, 30))
+function buildProvider(args: Args, apiKey: string): AIProvider {
+  // Route through the storybook dev server's vite proxy (configured in
+  // storybook/vite.config.mts) to dodge CORS. The proxy is dev-only —
+  // the deployed static storybook build will get 404s here.
+  if (args.aiProvider === 'anthropic') {
+    return createAnthropicProvider({
+      apiKey,
+      baseURL: '/api/anthropic',
+      model: args.aiModel,
+      dangerouslyAllowBrowser: true,
+    })
   }
+  return createOpenAIProvider({
+    apiKey,
+    baseURL: '/api/openai',
+    model: args.aiModel,
+    dangerouslyAllowBrowser: true,
+  })
 }
 
-export function setupAIDemo(config: setupConfig) {
-  const root = setup({
-    ...config,
-    aiConfig: {
-      provider: simulateAIProvider,
-    },
-  })
-  const shadow = root.shadowRoot!
+export function setupAIDemo({ args, style, theme }: setupConfig) {
+  const {
+    wrapper: crepeRoot,
+    root,
+    shadow,
+  } = wrapInShadow([all, style, localStyle])
 
   const styleEl = document.createElement('style')
-  styleEl.textContent = aiDemoToolbarStyle
+  styleEl.textContent = aiDemoBannerStyle
   shadow.appendChild(styleEl)
 
-  const toolbar = document.createElement('div')
-  toolbar.classList.add('ai-demo-toolbar')
+  const providerLabel = args.aiProvider === 'anthropic' ? 'Anthropic' : 'OpenAI'
+  const placeholder = args.aiProvider === 'anthropic' ? 'sk-ant-...' : 'sk-...'
 
-  function createBtn(text: string, cls: string, disabled = false) {
-    const btn = document.createElement('button')
-    btn.textContent = text
-    btn.classList.add(cls)
-    btn.disabled = disabled
-    toolbar.appendChild(btn)
-    return btn
+  const banner = document.createElement('div')
+  banner.classList.add('byok-banner')
+  banner.innerHTML = `
+    <div><strong>BYOK demo.</strong> Your API key is stored in this browser's localStorage and sent to ${providerLabel} via the storybook dev proxy (CORS workaround). Only works with <code>pnpm start</code>; the deployed static storybook will 404. Do not use a production key here.</div>
+    <div class="byok-row">
+      <label for="byok-key">${providerLabel} API key:</label>
+      <input id="byok-key" type="password" placeholder="${placeholder}" autocomplete="off" />
+      <button class="byok-toggle" type="button" aria-label="Toggle key visibility">Show</button>
+      <button class="byok-save">Save &amp; load editor</button>
+      <button class="byok-clear">Clear</button>
+    </div>
+    <div class="byok-status"></div>
+    <div class="byok-hint">Tip: select some text, then click the AI button on the toolbar to open the instruction tooltip.</div>
+  `
+  shadow.appendChild(banner)
+
+  const markdownContainer = document.createElement('div')
+  markdownContainer.classList.add('markdown-container')
+  shadow.appendChild(markdownContainer)
+
+  const keyInput = banner.querySelector<HTMLInputElement>('#byok-key')!
+  const saveBtn = banner.querySelector<HTMLButtonElement>('.byok-save')!
+  const clearBtn = banner.querySelector<HTMLButtonElement>('.byok-clear')!
+  const toggleBtn = banner.querySelector<HTMLButtonElement>('.byok-toggle')!
+  const status = banner.querySelector<HTMLDivElement>('.byok-status')!
+
+  toggleBtn.addEventListener('click', () => {
+    const showing = keyInput.type === 'text'
+    keyInput.type = showing ? 'password' : 'text'
+    toggleBtn.textContent = showing ? 'Show' : 'Hide'
+  })
+
+  let crepeInstance: Crepe | null = null
+
+  function mount(apiKey: string) {
+    if (crepeInstance) {
+      void crepeInstance.destroy()
+      crepeInstance = null
+      markdownContainer.replaceChildren()
+      crepeRoot.replaceChildren()
+    }
+    crepeInstance = createCrepeInstance(
+      crepeRoot,
+      args,
+      markdownContainer,
+      theme,
+      {
+        provider: buildProvider(args, apiKey),
+      }
+    )
+    status.textContent = `Editor ready. Provider: ${args.aiProvider}, model: ${args.aiModel}.`
   }
 
-  const startBtn = createBtn('Run AI', 'ai-btn-start')
-  const abortBtn = createBtn('Abort', 'ai-btn-abort', true)
+  saveBtn.addEventListener('click', () => {
+    const key = keyInput.value.trim()
+    if (!key) {
+      status.textContent = 'Please enter an API key.'
+      return
+    }
+    localStorage.setItem(storageKey(args.aiProvider), key)
+    mount(key)
+  })
 
-  const sep = document.createElement('div')
-  sep.classList.add('ai-separator')
-  toolbar.appendChild(sep)
+  clearBtn.addEventListener('click', () => {
+    localStorage.removeItem(storageKey(args.aiProvider))
+    keyInput.value = ''
+    if (crepeInstance) {
+      void crepeInstance.destroy()
+      crepeInstance = null
+      markdownContainer.replaceChildren()
+      crepeRoot.replaceChildren()
+    }
+    status.textContent = 'API key cleared. Enter a new key to load the editor.'
+  })
 
-  const acceptBtn = createBtn('Accept All', 'ai-btn-accept', true)
-  const clearBtn = createBtn('Clear', 'ai-btn-clear', true)
-
-  waitForInstance(config.args, 5000)
-    .then((crepe) => {
-      const crepeWrapper = shadow.querySelector('.milkdown') as HTMLElement
-      if (crepeWrapper) {
-        crepeWrapper.parentElement!.insertBefore(toolbar, crepeWrapper)
-      } else {
-        shadow.insertBefore(toolbar, shadow.firstChild)
-      }
-
-      function setStreaming(active: boolean) {
-        startBtn.disabled = active
-        abortBtn.disabled = !active
-      }
-
-      function setDiffReview(active: boolean) {
-        acceptBtn.disabled = !active
-        clearBtn.disabled = !active
-      }
-
-      let pollTimer: ReturnType<typeof setInterval> | null = null
-
-      const readPluginState = () =>
-        crepe.editor.action((ctx) => {
-          const view = ctx.get(editorViewCtx)
-          return {
-            streaming: !!streamingPluginKey.getState(view.state)?.active,
-            diff: !!diffPluginKey.getState(view.state)?.active,
-          }
-        })
-
-      startBtn.addEventListener('click', () => {
-        setDiffReview(false)
-        const started = crepe.editor.action(
-          callCommand(runAICmd.key, {
-            instruction: config.args.modifiedValue,
-          })
-        )
-        if (!started) return
-        setStreaming(true)
-        // Poll the plugin states directly. The AI feature used to toggle
-        // a `.milkdown-ai-streaming` class on the root, but that signal
-        // was removed when the inline streaming indicator landed.
-        pollTimer = setInterval(() => {
-          const { streaming, diff } = readPluginState()
-          if (!streaming) {
-            clearInterval(pollTimer!)
-            pollTimer = null
-            setStreaming(false)
-            if (diff) setDiffReview(true)
-          }
-        }, 200)
-      })
-
-      abortBtn.addEventListener('click', () => {
-        if (pollTimer) {
-          clearInterval(pollTimer)
-          pollTimer = null
-        }
-        crepe.editor.action(callCommand(abortAICmd.key, { keep: false }))
-        setStreaming(false)
-        setDiffReview(false)
-      })
-
-      acceptBtn.addEventListener('click', () => {
-        crepe.editor.action(callCommand(acceptAllDiffsCmd.key))
-        setDiffReview(false)
-      })
-
-      clearBtn.addEventListener('click', () => {
-        crepe.editor.action(callCommand(clearDiffReviewCmd.key))
-        setDiffReview(false)
-      })
-    })
-    .catch(console.error)
+  const stored = localStorage.getItem(storageKey(args.aiProvider)) ?? ''
+  if (stored) {
+    keyInput.value = stored
+    mount(stored)
+  } else {
+    status.textContent = 'Enter your API key to load the editor.'
+  }
 
   return root
-}
-
-function waitForInstance(args: Args, timeoutMs: number): Promise<Crepe> {
-  return new Promise((resolve, reject) => {
-    let cancelled = false
-    const timeoutId = setTimeout(() => {
-      cancelled = true
-      reject(new Error(`Crepe instance not ready after ${timeoutMs}ms`))
-    }, timeoutMs)
-
-    const check = () => {
-      if (cancelled) return
-      if (args.instance) {
-        clearTimeout(timeoutId)
-        resolve(args.instance)
-      } else {
-        requestAnimationFrame(check)
-      }
-    }
-    requestAnimationFrame(check)
-  })
 }
 
 export const longContent = `
@@ -466,75 +439,4 @@ Pink Floyd were founded in 1965 by [Syd Barrett](https://en.wikipedia.org/wiki/S
 * *[A Momentary Lapse of Reason](https://en.wikipedia.org/wiki/A_Momentary_Lapse_of_Reason "A Momentary Lapse of Reason")* (1987)
 * *[The Division Bell](https://en.wikipedia.org/wiki/The_Division_Bell "The Division Bell")* (1994)
 * *[The Endless River](https://en.wikipedia.org/wiki/The_Endless_River "The Endless River")* (2014)
-`
-
-export const modifiedLongContent = `
-# Heading 1 Modified
-## Heading 2
-### Heading 3 Updated
-#### Heading 4
-##### Heading 5
-
-![1.0](https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png)
-
-![0.5](/milkdown-logo.png)
-
-\`\`\`typescript
-const crepe = new Crepe({
-  root: '#editor',
-  defaultValue: 'Hello World',
-})
-crepe.create()
-\`\`\`
-
-* List Item 1
-* List Item 2 Updated
-    * List Item 3
-    * List Item 4
-    * List Item 5 (new)
-* List Item 5
-* List Item 6
-
-1. List Item 1
-2. List Item 2
-    1. List Item 1
-    2. List Item 2
-    3. List Item 3 (new)
-3. List Item 3
-
-* [ ] List Item 1
-* [x] List Item 2 (completed)
-    * [x] List Item 1
-    * [x] List Item 2
-* [ ] List Item 3
-* [ ] List Item 4 (new task)
-
-> Is this the **real life**?
->
-> Is this just *fantasy*?
->
-> Caught in a \`landslide\`,
->
-> No escape from [reality](https://en.wikipedia.org/wiki/Bohemian_Rhapsody).
->
-> Any way the **wind** blows.
-
-The equation $E=mc^3$ describes mass-energy equivalence with a twist.
-
-$$
-\\sum_{i=1}^{n} i^2 = \\frac{n(n+1)(2n+1)}{6}
-$$
-
-Open your eyes, look up to the skies and see. You are not alone in this world.
-
-| Fruit | Animal | Vegetable | Color |
-| ----- | :----: | --------: | ----- |
-|   🍎 | 🐱  | 🥕 | Red |
-|   🍌 | 🐶  | 🥦 | Yellow |
-|   🍒 | 🐎  | 🎃 | Red |
-|   🍇 | 🐰  | 🥬 | Purple |
-
-## New Section
-
-This is a brand new section added at the end of the document.
 `

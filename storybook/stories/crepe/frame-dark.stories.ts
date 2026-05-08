@@ -8,7 +8,6 @@ import type { Args } from './setup'
 import {
   hideAIArgs,
   longContent,
-  modifiedLongContent,
   setup,
   setupAIDemo,
   wikiContent,
@@ -19,6 +18,11 @@ const meta: Meta = {
   argTypes: {
     language: {
       options: ['EN', 'JA'],
+      control: { type: 'radio' },
+    },
+
+    aiProvider: {
+      options: ['openai', 'anthropic'],
       control: { type: 'radio' },
     },
   },
@@ -34,7 +38,8 @@ const defaultArgs: Omit<Args, 'instance'> = {
   enableCodemirror: true,
   enableTopBar: false,
   language: 'EN',
-  modifiedValue: '',
+  aiProvider: 'openai',
+  aiModel: 'gpt-4o-mini',
   enableAI: false,
 }
 
@@ -75,7 +80,6 @@ export const AIDemo: Story = {
   args: {
     ...defaultArgs,
     defaultValue: longContent,
-    modifiedValue: modifiedLongContent,
     enableAI: true,
   },
 }

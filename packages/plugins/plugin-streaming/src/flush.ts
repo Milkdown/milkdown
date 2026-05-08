@@ -160,9 +160,30 @@ function applyPlainText(
   return { tr, applied: true, insertEndPos: from + textContent.length }
 }
 
-/// Split buffer at first newline: first line merges as text into the current
-/// block, remaining lines are parsed as markdown blocks inserted after the
-/// enclosing top-level ancestor via a Slice with openStart = depth.
+/// Parse a single markdown line and return its inline content (text
+/// nodes with marks, links, etc.) for merging into a textblock. Falls
+/// back to a plain text node when the parser produces nothing usable
+/// or yields a non-textblock first child (defensive — for typical AI
+/// streaming output the first block is always a paragraph).
+function parseInlineContent(
+  ctx: Ctx,
+  schema: Node['type']['schema'],
+  text: string
+): Fragment {
+  if (!text) return Fragment.empty
+  const parser = ctx.get(parserCtx)
+  const parsed = parser(text)
+  const firstBlock = parsed?.firstChild
+  if (firstBlock?.isTextblock && firstBlock.content.size > 0) {
+    return firstBlock.content
+  }
+  return Fragment.from(schema.text(text))
+}
+
+/// Split buffer at first newline: first line merges as inline markdown
+/// (preserving bold/italic/links/etc.) into the current block, remaining
+/// lines are parsed as markdown blocks inserted after the enclosing
+/// top-level ancestor via a Slice with openStart = depth.
 function applySplitBlock({
   ctx,
   tr,
@@ -174,11 +195,11 @@ function applySplitBlock({
   const schema = tr.doc.type.schema
   const firstNewline = buffer.indexOf('\n')
 
-  // Single line — just insert as plain text
+  // Single line — parse as inline markdown so marks/links survive.
   if (firstNewline < 0) {
-    const textNode = schema.text(buffer)
-    tr = tr.replaceWith(from, to, textNode)
-    return { tr, applied: true, insertEndPos: from + buffer.length }
+    const inlineContent = parseInlineContent(ctx, schema, buffer)
+    tr = tr.replaceWith(from, to, inlineContent)
+    return { tr, applied: true, insertEndPos: from + inlineContent.size }
   }
 
   const inlinePart = buffer.substring(0, firstNewline)
@@ -191,21 +212,22 @@ function applySplitBlock({
     ? stripTrailingEmptyParagraph(parsed.content)
     : Fragment.empty
 
-  // If block part didn't parse to anything, fall back to plain text
+  // If block part didn't parse to anything, fall back to inline-only.
   if (blockContent.childCount === 0) {
-    const textContent = buffer.replace(/\n/g, ' ')
-    const textNode = schema.text(textContent)
-    tr = tr.replaceWith(from, to, textNode)
-    return { tr, applied: true, insertEndPos: from + textContent.length }
+    const inlineContent = parseInlineContent(
+      ctx,
+      schema,
+      buffer.replace(/\n/g, ' ')
+    )
+    tr = tr.replaceWith(from, to, inlineContent)
+    return { tr, applied: true, insertEndPos: from + inlineContent.size }
   }
 
   // Build a Slice that bridges from the current nesting depth to top level.
-  // Wrap the inline text in matching parent nodes so ProseMirror can merge it
-  // with the existing structure via openStart.
+  // Wrap the inline content in matching parent nodes so ProseMirror can
+  // merge it with the existing structure via openStart.
   const depth = resolved.depth
-  let innerContent: Fragment = inlinePart
-    ? Fragment.from(schema.text(inlinePart))
-    : Fragment.empty
+  let innerContent: Fragment = parseInlineContent(ctx, schema, inlinePart)
 
   for (let d = depth; d > 0; d--) {
     innerContent = Fragment.from(resolved.node(d).copy(innerContent))

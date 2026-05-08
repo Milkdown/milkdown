@@ -14,6 +14,7 @@ const external = [
 const entry = ['index', 'builder']
 
 const featureEntry = [
+  'ai',
   'block-edit',
   'code-mirror',
   'cursor',
@@ -26,6 +27,8 @@ const featureEntry = [
   'toolbar',
   'top-bar',
 ]
+
+const providerEntry = ['openai', 'anthropic']
 
 export default () => {
   const jsPlugins = [
@@ -75,6 +78,30 @@ export default () => {
           input: `./src/feature/${name}/index.ts`,
           output: {
             dir: `lib/cjs/feature/${name}`,
+            format: 'cjs',
+            sourcemap: true,
+          },
+          external,
+          plugins: jsPlugins,
+        },
+      ]
+    }),
+    ...providerEntry.flatMap((name) => {
+      return [
+        {
+          input: `./src/providers/${name}.ts`,
+          output: {
+            dir: 'lib/esm/providers',
+            format: 'esm',
+            sourcemap: true,
+          },
+          external,
+          plugins: jsPlugins,
+        },
+        {
+          input: `./src/providers/${name}.ts`,
+          output: {
+            dir: 'lib/cjs/providers',
             format: 'cjs',
             sourcemap: true,
           },
