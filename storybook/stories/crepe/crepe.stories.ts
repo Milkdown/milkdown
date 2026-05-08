@@ -31,7 +31,7 @@ export default meta
 
 type Story = StoryObj<Args>
 
-const defaultArgs: Omit<Args, 'instance'> = {
+const defaultArgs: Args = {
   readonly: false,
   defaultValue: '',
   enableCodemirror: true,

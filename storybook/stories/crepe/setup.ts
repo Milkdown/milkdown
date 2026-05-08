@@ -10,8 +10,6 @@ import { injectMarkdown, wrapInShadow } from '../utils/shadow'
 import localStyle from './style.css?inline'
 
 export interface Args {
-  /// Set after `crepe.create()` resolves; not present at story-render time.
-  instance?: Crepe
   readonly: boolean
   defaultValue: string
   enableCodemirror: boolean
@@ -144,7 +142,6 @@ async function createCrepeInstance(
     .setReadonly(args.readonly)
 
   await crepe.create()
-  args.instance = crepe
   return crepe
 }
 

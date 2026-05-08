@@ -55,18 +55,30 @@ export interface BaseProviderConfig {
   dangerouslyAllowBrowser?: boolean
 }
 
-const isBrowser = typeof window !== 'undefined' && window.document !== undefined
+/// Detects any client-side execution context where the API key would
+/// be visible to user-controlled code: the main browser thread (DOM)
+/// and Web/Service/Shared/Worklet workers (`WorkerGlobalScope` is the
+/// global type in worker contexts). Node/SSR has neither.
+/// Computed on each call (rather than at module load) so tests can
+/// stub the relevant globals.
+function isBrowserLike(): boolean {
+  const g = globalThis as Record<string, unknown>
+  if (g.document !== undefined) return true
+  if (g.WorkerGlobalScope !== undefined) return true
+  return false
+}
 
-/// Throws when `apiKey` is set in a browser environment without
-/// explicit `dangerouslyAllowBrowser` opt-in. Routing through a backend
-/// proxy (no `apiKey`, with `baseURL` + `headers`) bypasses this check
-/// because the key never reaches the browser.
+/// Throws when `apiKey` is set in a client-side context (main browser
+/// thread or Worker) without explicit `dangerouslyAllowBrowser` opt-in.
+/// Routing through a backend proxy (no `apiKey`, with `baseURL` +
+/// `headers`) bypasses this check because the key never reaches the
+/// client.
 export function assertBrowserSafe(
   config: BaseProviderConfig,
   providerName: string
 ): void {
   if (!config.apiKey) return
-  if (!isBrowser) return
+  if (!isBrowserLike()) return
   if (config.dangerouslyAllowBrowser) return
   throw new Error(
     `[${providerName}] Refusing to send your API key from a browser. ` +

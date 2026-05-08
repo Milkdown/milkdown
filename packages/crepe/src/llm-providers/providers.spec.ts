@@ -149,6 +149,32 @@ describe('createOpenAIProvider', () => {
     ).not.toThrow()
   })
 
+  test('refuses apiKey in worker context (no DOM, WorkerGlobalScope present)', () => {
+    // Simulate Service/Web/Shared Worker: no `document`, but
+    // `WorkerGlobalScope` is the global type.
+    vi.stubGlobal('document', undefined)
+    vi.stubGlobal('WorkerGlobalScope', class {})
+    try {
+      expect(() =>
+        createOpenAIProvider({ apiKey: 'sk-test', model: 'gpt-4o-mini' })
+      ).toThrow(/Refusing to send your API key/)
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
+
+  test('does not flag Node/SSR (no DOM, no WorkerGlobalScope)', () => {
+    vi.stubGlobal('document', undefined)
+    vi.stubGlobal('WorkerGlobalScope', undefined)
+    try {
+      expect(() =>
+        createOpenAIProvider({ apiKey: 'sk-test', model: 'gpt-4o-mini' })
+      ).not.toThrow()
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
+
   test('streams text from delta.content and stops at [DONE]', async () => {
     const fetchMock = vi.fn<FetchSig>(async () =>
       sseResponse([
