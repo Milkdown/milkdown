@@ -788,23 +788,34 @@ their own subpaths and have no SDK dependencies (just `fetch`).
 import { createOpenAIProvider } from '@milkdown/crepe/llm-providers/openai'
 import { createAnthropicProvider } from '@milkdown/crepe/llm-providers/anthropic'
 
+// Server-side shape (no browser; `apiKey` reads from a real secret).
+// In the browser, see "Deployment modes" below — passing an `apiKey`
+// from a page or Worker throws unless you explicitly opt in.
 const openai = createOpenAIProvider({
-  apiKey: '...', // see "Deployment modes" below — never hard-code a key in browser builds
+  apiKey: '<your-openai-api-key>',
   model: 'gpt-4o-mini',
 })
 
 const anthropic = createAnthropicProvider({
-  apiKey: '...',
+  apiKey: '<your-anthropic-api-key>',
   model: 'claude-sonnet-4-5',
 })
 ```
 
-In browser builds the key has to come from somewhere safe: a value
-the user pastes (BYOK), an env var injected at build time by your
-bundler (e.g. `import.meta.env.VITE_OPENAI_KEY` for Vite), or — best —
-omit it entirely and route through your own backend (see below).
-`process.env` is Node-only and won't be defined in a typical browser
-build.
+There is no "secure" way to embed an API key in a browser bundle —
+build-time substitutions like Vite's `import.meta.env.VITE_*` end up
+as plain strings in the shipped JavaScript and are visible to anyone
+who can open DevTools. The two safe deployment modes are:
+
+- **BYOK**: each user provides their own key (typed into your UI,
+  read from desktop-app keychain, etc.) and accepts the exposure
+  for their own account. Set `dangerouslyAllowBrowser: true`.
+- **Backend proxy**: omit `apiKey` entirely and point `baseURL` at
+  your own server, which holds the real key and forwards requests.
+  This is the recommended pattern for multi-user web apps.
+
+`process.env` only works in Node/SSR; it won't be defined in a typical
+browser build.
 
 Both providers send a default system prompt that asks for raw markdown
 output (no preambles, no surrounding code fences) and assemble the user
@@ -861,7 +872,13 @@ your key into a context where any visitor could read it.
 
 ###### Shared configuration
 
+The two providers share these fields (the actual exported types are
+`OpenAIProviderConfig` and `AnthropicProviderConfig`; the interface
+below is illustrative — there is no `BaseProviderConfig` public
+export to import directly):
+
 ```typescript
+// Shape shared by `OpenAIProviderConfig` and `AnthropicProviderConfig`
 interface BaseProviderConfig {
   apiKey?: string
   baseURL?: string // defaults to the provider's official endpoint
