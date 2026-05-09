@@ -165,11 +165,13 @@ function applyPlainText(
 /// - `*`, `_`            emphasis / strong
 /// - `~`                 strikethrough (GFM)
 /// - `` ` ``             inline code
-/// - `[`, `]`            links / images
+/// - `[`                 links / images (`]` is omitted because any
+///                       valid link/image starts with `[`, so checking
+///                       the opener is enough)
 /// - `\`                 escape
 /// - `<`                 autolinks (`<https://...>`, `<a@b.com>`) and raw HTML
 /// Used by the fast-path check below.
-const INLINE_MARKDOWN_TOKENS = /[*_~`[\]\\<]/
+const INLINE_MARKDOWN_TOKENS = /[*_~`[\\<]/
 
 /// Parse a single markdown line and return its inline content (text
 /// nodes with marks, links, etc.) for merging into a textblock. Only

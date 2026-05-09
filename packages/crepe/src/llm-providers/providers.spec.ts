@@ -96,6 +96,17 @@ describe('shared helpers', () => {
     expect(out).toEqual(['hello', 'world'])
   })
 
+  test('parseSSE preserves significant whitespace in the trailing payload', async () => {
+    // No trailing newline — the buffer reaches the tail flush. The
+    // payload here intentionally contains leading and trailing spaces
+    // (a streamed token boundary the model emitted on purpose); the
+    // tail flush must not strip them.
+    const response = chunkedSseResponse(['data:  hello world  '])
+    const ac = new AbortController()
+    const out = await collect(parseSSE(response, ac.signal))
+    expect(out).toEqual([' hello world  '])
+  })
+
   test('parseSSE stops yielding after abort', async () => {
     const ac = new AbortController()
     const stream = new ReadableStream<Uint8Array>({

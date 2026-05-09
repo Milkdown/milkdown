@@ -130,7 +130,10 @@ export async function* parseSSE(
       }
     }
     // Flush any trailing data line that wasn't newline-terminated.
-    const tail = buffer.trim()
+    // Only strip a trailing `\r` (handle CRLF without an LF) — never
+    // `trim()` here, since the payload's leading/trailing whitespace
+    // is significant for streamed token content.
+    const tail = buffer.endsWith('\r') ? buffer.slice(0, -1) : buffer
     if (tail.startsWith('data: ')) yield tail.slice(6)
     else if (tail.startsWith('data:')) yield tail.slice(5)
   } finally {
