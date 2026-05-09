@@ -10,6 +10,7 @@ import {
   startStreamingCmd,
   streamingPluginKey,
 } from '@milkdown/kit/plugin/streaming'
+import { TextSelection } from '@milkdown/kit/prose/state'
 import { callCommand } from '@milkdown/kit/utils'
 import { describe, expect, test, vi } from 'vitest'
 import { nextTick } from 'vue'
@@ -183,6 +184,64 @@ describe('AI streaming inline markdown', () => {
         if (node.marks.some((m) => m.type.name === 'strong')) foundStrong = true
       })
       expect(foundStrong).toBe(true)
+    } finally {
+      await crepe.destroy()
+    }
+  })
+
+  // Regression: when the AI replaces the *whole inline content* of a
+  // paragraph at non-zero depth with multi-block content, the slice
+  // has openEnd:0 but `to` is at depth 1. ProseMirror's reconciliation
+  // of that depth mismatch used to drop the next sibling block.
+  // `applySplitBlock` now extends `to` past the parent close so the
+  // boundary matches the slice's openEnd. This test pins that
+  // behavior so future refactors don't reintroduce the drop.
+  test('multi-block replace covering whole paragraph keeps the next sibling', async () => {
+    const crepe = new Crepe({
+      defaultValue: 'first\n\nmiddle\n\nlast',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: {
+        [CrepeFeature.AI]: {
+          provider: async function* () {
+            yield 'replaced inline.\n\nNew block.'
+          },
+          diffReviewOnEnd: false,
+        },
+      },
+    })
+    await crepe.create()
+    try {
+      // Programmatically select the entire inline content of the
+      // "middle" paragraph (avoids platform-specific Shift+End
+      // behavior that affected the e2e test).
+      crepe.editor.action((ctx) => {
+        const view = ctx.get(editorViewCtx)
+        const doc = view.state.doc
+        let from = -1
+        let to = -1
+        doc.descendants((node, pos) => {
+          if (node.type.name === 'paragraph' && node.textContent === 'middle') {
+            from = pos + 1
+            to = pos + 1 + node.content.size
+            return false
+          }
+          return true
+        })
+        view.dispatch(
+          view.state.tr.setSelection(TextSelection.create(doc, from, to))
+        )
+      })
+
+      crepe.editor.action(callCommand(runAICmd.key, { instruction: 'go' }))
+      await flushStream()
+
+      const view = crepe.editor.action((ctx) => ctx.get(editorViewCtx))
+      const docText = view.state.doc.textContent
+      expect(docText).toContain('first')
+      expect(docText).toContain('replaced inline.')
+      expect(docText).toContain('New block.')
+      expect(docText).toContain('last')
+      expect(docText).not.toContain('middle')
     } finally {
       await crepe.destroy()
     }
