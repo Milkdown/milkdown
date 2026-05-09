@@ -875,12 +875,16 @@ replaces the default verbatim.
 // OpenAI: any chat-completions body fields (temperature, top_p, etc.)
 // can go in `body`. `buildMessages` lets you fully customize the
 // messages array — the defaults are passed in so you can wrap them.
+// `defaults.systemPrompt` is `string | null`: `null` means the user
+// asked to omit the system message, so don't coerce it to ''.
 createOpenAIProvider({
   apiKey,
   model: 'gpt-4o-mini',
   body: { temperature: 0.2 },
   buildMessages: (context, defaults) => [
-    { role: 'system', content: defaults.systemPrompt ?? '' },
+    ...(defaults.systemPrompt !== null
+      ? [{ role: 'system' as const, content: defaults.systemPrompt }]
+      : []),
     { role: 'user', content: defaults.userMessage },
   ],
 })
