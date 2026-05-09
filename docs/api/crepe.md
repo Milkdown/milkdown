@@ -789,15 +789,22 @@ import { createOpenAIProvider } from '@milkdown/crepe/llm-providers/openai'
 import { createAnthropicProvider } from '@milkdown/crepe/llm-providers/anthropic'
 
 const openai = createOpenAIProvider({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: '...', // see "Deployment modes" below — never hard-code a key in browser builds
   model: 'gpt-4o-mini',
 })
 
 const anthropic = createAnthropicProvider({
-  apiKey: process.env.ANTHROPIC_API_KEY,
+  apiKey: '...',
   model: 'claude-sonnet-4-5',
 })
 ```
+
+In browser builds the key has to come from somewhere safe: a value
+the user pastes (BYOK), an env var injected at build time by your
+bundler (e.g. `import.meta.env.VITE_OPENAI_KEY` for Vite), or — best —
+omit it entirely and route through your own backend (see below).
+`process.env` is Node-only and won't be defined in a typical browser
+build.
 
 Both providers send a default system prompt that asks for raw markdown
 output (no preambles, no surrounding code fences) and assemble the user
@@ -903,7 +910,9 @@ createAnthropicProvider({
 
 ###### CORS note for direct browser calls
 
-`api.openai.com/v1/chat/completions` doesn't return ACAO headers, and
+`api.openai.com/v1/chat/completions` doesn't return the
+`Access-Control-Allow-Origin` (ACAO) header that browsers require for
+cross-origin requests, and
 `api.anthropic.com/v1/messages` requires the
 `anthropic-dangerous-direct-browser-access` header (which the Anthropic
 provider sets automatically when `dangerouslyAllowBrowser: true`).
