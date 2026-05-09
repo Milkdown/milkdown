@@ -121,6 +121,36 @@ describe('AI streaming inline markdown', () => {
     }
   })
 
+  test('block markers survive even when the line also has inline marks', async () => {
+    // `# **bold**` parses as `heading(strong('bold'))`. Extracting
+    // the heading's content would lose the `# ` and rewrite the
+    // streamed text. The mid-paragraph insert should keep the
+    // literal characters as plain text.
+    const crepe = new Crepe({
+      defaultValue: 'pre',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: {
+        [CrepeFeature.AI]: {
+          provider: async function* () {
+            yield '# **bold**'
+          },
+          diffReviewOnEnd: false,
+        },
+      },
+    })
+    await crepe.create()
+    try {
+      crepe.editor.action(callCommand(runAICmd.key, { instruction: 'go' }))
+      await flushStream()
+
+      const view = crepe.editor.action((ctx) => ctx.get(editorViewCtx))
+      const docText = view.state.doc.textContent
+      expect(docText).toContain('# **bold**')
+    } finally {
+      await crepe.destroy()
+    }
+  })
+
   test('leading whitespace before inline marks is preserved', async () => {
     // CommonMark would strip the leading space when wrapping the line
     // in a paragraph; without explicit whitespace preservation the

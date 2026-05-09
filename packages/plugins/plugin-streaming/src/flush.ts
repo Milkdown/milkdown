@@ -198,7 +198,11 @@ function parseInlineContent(
   const parser = ctx.get(parserCtx)
   const parsed = parser(text)
   const firstBlock = parsed?.firstChild
-  if (!firstBlock?.isTextblock || firstBlock.content.size === 0) {
+  // Restrict to `paragraph` specifically: a heading (`# **bold**`),
+  // code block, etc. is also a textblock but extracting its content
+  // would silently drop the block marker (`# `, indent, ...) from the
+  // streamed text.
+  if (firstBlock?.type.name !== 'paragraph' || firstBlock.content.size === 0) {
     return Fragment.from(schema.text(text))
   }
   let hasInlineStructure = false
