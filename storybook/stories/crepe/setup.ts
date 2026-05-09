@@ -231,24 +231,40 @@ const aiDemoBannerStyle = `
 .byok-hint { font-size: 12px; color: #6b7280; font-style: italic; }
 `
 
+/// Per-provider fallback used when the `aiModel` arg is empty.
+/// Storybook controls can't react to `aiProvider` changes by also
+/// updating `aiModel`, so when no explicit model is set we pick a
+/// sensible default for the chosen provider — this prevents the
+/// demo from sending an OpenAI model id to Anthropic (or vice versa)
+/// after toggling the provider radio.
+export const DEFAULT_MODEL_FOR_PROVIDER: Record<Args['aiProvider'], string> = {
+  openai: 'gpt-4o-mini',
+  anthropic: 'claude-sonnet-4-5',
+}
+
+function resolveModel(args: Args): string {
+  return args.aiModel.trim() || DEFAULT_MODEL_FOR_PROVIDER[args.aiProvider]
+}
+
 function buildProvider(args: Args, apiKey: string): AIProvider {
   // Route through the storybook dev server's vite proxy (configured in
   // storybook/.storybook/main.ts via `viteFinal` — Storybook's vite
   // builder doesn't honor `server.proxy` in the user vite.config.mts)
   // to dodge CORS. The proxy is dev-only — the deployed static
   // storybook build will get 404s here.
+  const model = resolveModel(args)
   if (args.aiProvider === 'anthropic') {
     return createAnthropicProvider({
       apiKey,
       baseURL: '/api/anthropic',
-      model: args.aiModel,
+      model,
       dangerouslyAllowBrowser: true,
     })
   }
   return createOpenAIProvider({
     apiKey,
     baseURL: '/api/openai',
-    model: args.aiModel,
+    model,
     dangerouslyAllowBrowser: true,
   })
 }
@@ -382,7 +398,7 @@ export function setupAIDemo({ args, style, theme }: setupConfig) {
         theme,
         { provider: buildProvider(args, apiKey) }
       )
-      status.textContent = `Editor ready. Provider: ${args.aiProvider}, model: ${args.aiModel}.`
+      status.textContent = `Editor ready. Provider: ${args.aiProvider}, model: ${resolveModel(args)}.`
     } catch (err) {
       crepeInstance = null
       const message = err instanceof Error ? err.message : String(err)

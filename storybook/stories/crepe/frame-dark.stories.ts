@@ -25,6 +25,11 @@ const meta: Meta = {
       options: ['openai', 'anthropic'],
       control: { type: 'radio' },
     },
+    aiModel: {
+      control: { type: 'text' },
+      description:
+        'Override the model id. When empty, defaults to gpt-4o-mini (openai) or claude-sonnet-4-5 (anthropic).',
+    },
   },
 }
 
@@ -39,7 +44,7 @@ const defaultArgs: Args = {
   enableTopBar: false,
   language: 'EN',
   aiProvider: 'openai',
-  aiModel: 'gpt-4o-mini',
+  aiModel: '',
   enableAI: false,
 }
 
