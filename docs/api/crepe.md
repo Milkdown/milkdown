@@ -778,6 +778,166 @@ crepe.editor.action(
 crepe.editor.action(callCommand(abortAICmd.key, { keep: true }))
 ```
 
+##### Built-in Providers
+
+Crepe ships two ready-made `AIProvider` factories so you don't have to
+hand-roll SSE parsing, system prompts, or auth headers. Both live under
+their own subpaths and have no SDK dependencies (just `fetch`).
+
+```typescript
+import { createOpenAIProvider } from '@milkdown/crepe/llm-providers/openai'
+import { createAnthropicProvider } from '@milkdown/crepe/llm-providers/anthropic'
+
+// Server-side shape (no browser; `apiKey` reads from a real secret).
+// In the browser, see "Deployment modes" below — passing an `apiKey`
+// from a page or Worker throws unless you explicitly opt in.
+const openai = createOpenAIProvider({
+  apiKey: '<your-openai-api-key>',
+  model: 'gpt-4o-mini',
+})
+
+const anthropic = createAnthropicProvider({
+  apiKey: '<your-anthropic-api-key>',
+  model: 'claude-sonnet-4-5',
+})
+```
+
+There is no "secure" way to embed an API key in a browser bundle —
+build-time substitutions like Vite's `import.meta.env.VITE_*` end up
+as plain strings in the shipped JavaScript and are visible to anyone
+who can open DevTools. The two safe deployment modes are:
+
+- **BYOK**: each user provides their own key (typed into your UI,
+  read from desktop-app keychain, etc.) and accepts the exposure
+  for their own account. Set `dangerouslyAllowBrowser: true`.
+- **Backend proxy**: omit `apiKey` entirely and point `baseURL` at
+  your own server, which holds the real key and forwards requests.
+  This is the recommended pattern for multi-user web apps.
+
+`process.env` only works in Node/SSR; it won't be defined in a typical
+browser build.
+
+Both providers send a default system prompt that asks for raw markdown
+output (no preambles, no surrounding code fences) and assemble the user
+message from `AIPromptContext`:
+
+```
+<document>
+{full markdown}
+</document>
+
+<selection>            ← only when non-empty
+{selected markdown}
+</selection>
+
+<instruction>
+{user instruction}
+</instruction>
+```
+
+###### Deployment modes
+
+Pick the config combination that matches where the API key actually lives:
+
+```typescript
+// 1. Desktop / BYOK (each user supplies their own key)
+//    The key is in the page; opt in explicitly.
+createOpenAIProvider({
+  apiKey: userKey,
+  model: 'gpt-4o-mini',
+  dangerouslyAllowBrowser: true,
+})
+
+// 2. Production: route through your own backend.
+//    No `apiKey`; your server attaches the real key. The browser
+//    sends a session token instead. No `dangerouslyAllowBrowser`
+//    needed because the API key never reaches the client.
+createAnthropicProvider({
+  baseURL: '/api/anthropic',
+  headers: { Authorization: `Bearer ${sessionToken}` },
+  model: 'claude-sonnet-4-5',
+})
+
+// 3. Server-side / SSR
+//    No browser, so no opt-in needed.
+createOpenAIProvider({
+  apiKey: process.env.OPENAI_API_KEY,
+  model: 'gpt-4o-mini',
+})
+```
+
+Setting `apiKey` from the main browser thread or from a Worker without
+`dangerouslyAllowBrowser: true` throws — the provider refuses to leak
+your key into a context where any visitor could read it.
+
+###### Shared configuration
+
+The two providers share these fields (the actual exported types are
+`OpenAIProviderConfig` and `AnthropicProviderConfig`; the interface
+below is illustrative — there is no `BaseProviderConfig` public
+export to import directly):
+
+```typescript
+// Shape shared by `OpenAIProviderConfig` and `AnthropicProviderConfig`
+interface BaseProviderConfig {
+  apiKey?: string
+  baseURL?: string // defaults to the provider's official endpoint
+  headers?: Record<string, string>
+  model: string
+  systemPrompt?: string | null // string → use as-is (incl. ''); null → omit; undefined → default
+  dangerouslyAllowBrowser?: boolean
+}
+```
+
+`systemPrompt` semantics: `undefined` keeps the markdown-only default,
+`null` sends no system message at all, and any string (including `''`)
+replaces the default verbatim.
+
+###### Provider-specific options
+
+```typescript
+// OpenAI: any chat-completions body fields (temperature, top_p, etc.)
+// can go in `body`. `buildMessages` lets you fully customize the
+// messages array — the defaults are passed in so you can wrap them.
+// `defaults.systemPrompt` is `string | null`: `null` means the user
+// asked to omit the system message, so don't coerce it to ''.
+createOpenAIProvider({
+  apiKey,
+  model: 'gpt-4o-mini',
+  body: { temperature: 0.2 },
+  buildMessages: (context, defaults) => [
+    ...(defaults.systemPrompt !== null
+      ? [{ role: 'system' as const, content: defaults.systemPrompt }]
+      : []),
+    { role: 'user', content: defaults.userMessage },
+  ],
+})
+
+// Anthropic: `maxTokens` (default 4096), `anthropicVersion` (default
+// '2023-06-01'), and any `/v1/messages` body fields via `body`.
+// `buildMessages` returns `{ system, messages }` since Anthropic puts
+// the system prompt in a top-level field rather than the messages array.
+createAnthropicProvider({
+  apiKey,
+  model: 'claude-sonnet-4-5',
+  maxTokens: 2048,
+  body: { temperature: 0.5 },
+})
+```
+
+###### CORS note for direct browser calls
+
+`api.openai.com/v1/chat/completions` doesn't return the
+`Access-Control-Allow-Origin` (ACAO) header that browsers require for
+cross-origin requests, and
+`api.anthropic.com/v1/messages` requires the
+`anthropic-dangerous-direct-browser-access` header (which the Anthropic
+provider sets automatically when `dangerouslyAllowBrowser: true`).
+Direct browser → provider calls work in desktop apps (no CORS) but
+generally fail from regular web pages. The proxy mode above (`baseURL`
+pointing at your own backend) sidesteps CORS entirely and is the
+recommended deployment pattern.
+
 See [@milkdown/plugin-diff](./plugin-diff.md) and
 [@milkdown/plugin-streaming](./plugin-streaming.md) for the underlying
 plugin APIs.
