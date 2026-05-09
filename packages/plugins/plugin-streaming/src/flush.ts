@@ -304,10 +304,15 @@ function applySplitBlock({
   // depth N vs slice ending at depth 0) which, for multi-block
   // replacements covering the whole inline content, silently drops the
   // next sibling block.
+  // `depth > 0` guard: the default strategy resolver only returns
+  // `split-block` for depth >= 1, but a custom `streamingConfig.insertStrategy`
+  // could request `split-block` at depth 0, where `resolvedTo.after(0)`
+  // would throw.
   const docSize = tr.doc.content.size
   const resolvedTo = tr.doc.resolve(Math.min(to, docSize))
   let actualTo = to
   if (
+    depth > 0 &&
     resolvedTo.depth === depth &&
     resolvedTo.parentOffset === resolvedTo.parent.content.size
   ) {

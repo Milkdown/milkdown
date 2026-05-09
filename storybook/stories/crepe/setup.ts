@@ -173,6 +173,11 @@ const STORAGE_KEY_PREFIX = 'crepe-storybook-byok'
 const storageKey = (provider: Args['aiProvider']) =>
   `${STORAGE_KEY_PREFIX}-${provider}`
 
+// Per-setup counter so multiple BYOK demos rendered on the same page
+// (e.g. Storybook Docs view) don't collide on element IDs and break
+// label↔input association.
+let byokInputCounter = 0
+
 const aiDemoBannerStyle = `
 .byok-banner {
   display: flex;
@@ -290,12 +295,15 @@ export function setupAIDemo({ args, style, theme }: setupConfig) {
   const row = document.createElement('div')
   row.classList.add('byok-row')
 
+  byokInputCounter += 1
+  const keyInputId = `byok-key-${byokInputCounter}`
+
   const label = document.createElement('label')
-  label.htmlFor = 'byok-key'
+  label.htmlFor = keyInputId
   label.textContent = `${providerLabel} API key:`
 
   const keyInput = document.createElement('input')
-  keyInput.id = 'byok-key'
+  keyInput.id = keyInputId
   keyInput.type = 'password'
   keyInput.placeholder = placeholder
   keyInput.autocomplete = 'off'
