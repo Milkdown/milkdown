@@ -8,7 +8,6 @@ import type { Args } from './setup'
 import {
   hideAIArgs,
   longContent,
-  modifiedLongContent,
   setup,
   setupAIDemo,
   wikiContent,
@@ -21,6 +20,15 @@ const meta: Meta = {
       options: ['EN', 'JA'],
       control: { type: 'radio' },
     },
+    aiProvider: {
+      options: ['openai', 'anthropic'],
+      control: { type: 'radio' },
+    },
+    aiModel: {
+      control: { type: 'text' },
+      description:
+        'Override the model id. When empty, defaults to gpt-4o-mini (openai) or claude-sonnet-4-5 (anthropic).',
+    },
   },
 }
 
@@ -28,14 +36,15 @@ export default meta
 
 type Story = StoryObj<Args>
 
-const defaultArgs: Omit<Args, 'instance'> = {
+const defaultArgs: Args = {
   readonly: false,
   defaultValue: '',
   enableCodemirror: true,
   enableTopBar: false,
-  modifiedValue: '',
   enableAI: false,
   language: 'EN',
+  aiProvider: 'openai',
+  aiModel: '',
 }
 
 export const Empty: Story = {
@@ -75,7 +84,6 @@ export const AIDemo: Story = {
   args: {
     ...defaultArgs,
     defaultValue: longContent,
-    modifiedValue: modifiedLongContent,
     enableAI: true,
   },
 }

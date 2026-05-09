@@ -10,6 +10,7 @@ import {
   startStreamingCmd,
   streamingPluginKey,
 } from '@milkdown/kit/plugin/streaming'
+import { TextSelection } from '@milkdown/kit/prose/state'
 import { callCommand } from '@milkdown/kit/utils'
 import { describe, expect, test, vi } from 'vitest'
 import { nextTick } from 'vue'
@@ -51,6 +52,201 @@ function dispatchKeyDown(
     ) === true
   )
 }
+
+describe('AI streaming inline markdown', () => {
+  // Regression: replace-selection / insert-at-cursor flushes used to
+  // insert the buffer's first line as a plain text node, which left
+  // markdown syntax like **bold** and [link](url) visible in the
+  // document. The fix in plugin-streaming/flush.ts parses the first
+  // line as inline markdown so marks/links survive into the doc tree.
+  test('first line preserves strong and link marks across a paragraph break', async () => {
+    const crepe = new Crepe({
+      defaultValue: 'pre',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: {
+        [CrepeFeature.AI]: {
+          provider: async function* () {
+            yield '**bold** and [a](https://example.com).\n\nSecond block.'
+          },
+          diffReviewOnEnd: false,
+        },
+      },
+    })
+    await crepe.create()
+    try {
+      crepe.editor.action(callCommand(runAICmd.key, { instruction: 'go' }))
+      await flushStream()
+
+      const view = crepe.editor.action((ctx) => ctx.get(editorViewCtx))
+      const docText = view.state.doc.textContent
+      expect(docText).not.toContain('**')
+      expect(docText).not.toContain('](')
+
+      let foundStrong = false
+      let foundLink = false
+      view.state.doc.descendants((node) => {
+        if (node.marks.some((m) => m.type.name === 'strong')) foundStrong = true
+        if (node.marks.some((m) => m.type.name === 'link')) foundLink = true
+      })
+      expect(foundStrong).toBe(true)
+      expect(foundLink).toBe(true)
+    } finally {
+      await crepe.destroy()
+    }
+  })
+
+  test('single-line response parses inline marks instead of raw text', async () => {
+    const crepe = new Crepe({
+      defaultValue: 'pre',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: {
+        [CrepeFeature.AI]: {
+          provider: async function* () {
+            yield '**bold** and [a](https://example.com)'
+          },
+          diffReviewOnEnd: false,
+        },
+      },
+    })
+    await crepe.create()
+    try {
+      crepe.editor.action(callCommand(runAICmd.key, { instruction: 'go' }))
+      await flushStream()
+
+      const view = crepe.editor.action((ctx) => ctx.get(editorViewCtx))
+      const docText = view.state.doc.textContent
+      expect(docText).not.toContain('**')
+      expect(docText).not.toContain('](')
+    } finally {
+      await crepe.destroy()
+    }
+  })
+
+  test('block markers survive even when the line also has inline marks', async () => {
+    // `# **bold**` parses as `heading(strong('bold'))`. Extracting
+    // the heading's content would lose the `# ` and rewrite the
+    // streamed text. The mid-paragraph insert should keep the
+    // literal characters as plain text.
+    const crepe = new Crepe({
+      defaultValue: 'pre',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: {
+        [CrepeFeature.AI]: {
+          provider: async function* () {
+            yield '# **bold**'
+          },
+          diffReviewOnEnd: false,
+        },
+      },
+    })
+    await crepe.create()
+    try {
+      crepe.editor.action(callCommand(runAICmd.key, { instruction: 'go' }))
+      await flushStream()
+
+      const view = crepe.editor.action((ctx) => ctx.get(editorViewCtx))
+      const docText = view.state.doc.textContent
+      expect(docText).toContain('# **bold**')
+    } finally {
+      await crepe.destroy()
+    }
+  })
+
+  test('leading whitespace before inline marks is preserved', async () => {
+    // CommonMark would strip the leading space when wrapping the line
+    // in a paragraph; without explicit whitespace preservation the
+    // streamed token would collide with the preceding character once
+    // inserted mid-paragraph.
+    const crepe = new Crepe({
+      defaultValue: 'pre',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: {
+        [CrepeFeature.AI]: {
+          provider: async function* () {
+            yield ' **bold**'
+          },
+          diffReviewOnEnd: false,
+        },
+      },
+    })
+    await crepe.create()
+    try {
+      crepe.editor.action(callCommand(runAICmd.key, { instruction: 'go' }))
+      await flushStream()
+
+      const view = crepe.editor.action((ctx) => ctx.get(editorViewCtx))
+      const docText = view.state.doc.textContent
+      expect(docText).toContain(' bold')
+      expect(docText).not.toContain('prebold')
+
+      let foundStrong = false
+      view.state.doc.descendants((node) => {
+        if (node.marks.some((m) => m.type.name === 'strong')) foundStrong = true
+      })
+      expect(foundStrong).toBe(true)
+    } finally {
+      await crepe.destroy()
+    }
+  })
+
+  // Regression: when the AI replaces the *whole inline content* of a
+  // paragraph at non-zero depth with multi-block content, the slice
+  // has openEnd:0 but `to` is at depth 1. ProseMirror's reconciliation
+  // of that depth mismatch used to drop the next sibling block.
+  // `applySplitBlock` now extends `to` past the parent close so the
+  // boundary matches the slice's openEnd. This test pins that
+  // behavior so future refactors don't reintroduce the drop.
+  test('multi-block replace covering whole paragraph keeps the next sibling', async () => {
+    const crepe = new Crepe({
+      defaultValue: 'first\n\nmiddle\n\nlast',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: {
+        [CrepeFeature.AI]: {
+          provider: async function* () {
+            yield 'replaced inline.\n\nNew block.'
+          },
+          diffReviewOnEnd: false,
+        },
+      },
+    })
+    await crepe.create()
+    try {
+      // Programmatically select the entire inline content of the
+      // "middle" paragraph (avoids platform-specific Shift+End
+      // behavior that affected the e2e test).
+      crepe.editor.action((ctx) => {
+        const view = ctx.get(editorViewCtx)
+        const doc = view.state.doc
+        let from = -1
+        let to = -1
+        doc.descendants((node, pos) => {
+          if (node.type.name === 'paragraph' && node.textContent === 'middle') {
+            from = pos + 1
+            to = pos + 1 + node.content.size
+            return false
+          }
+          return true
+        })
+        view.dispatch(
+          view.state.tr.setSelection(TextSelection.create(doc, from, to))
+        )
+      })
+
+      crepe.editor.action(callCommand(runAICmd.key, { instruction: 'go' }))
+      await flushStream()
+
+      const view = crepe.editor.action((ctx) => ctx.get(editorViewCtx))
+      const docText = view.state.doc.textContent
+      expect(docText).toContain('first')
+      expect(docText).toContain('replaced inline.')
+      expect(docText).toContain('New block.')
+      expect(docText).toContain('last')
+      expect(docText).not.toContain('middle')
+    } finally {
+      await crepe.destroy()
+    }
+  })
+})
 
 describe('AI onError', () => {
   test('provider error triggers onError with aiProviderError code', async () => {

@@ -160,9 +160,91 @@ function applyPlainText(
   return { tr, applied: true, insertEndPos: from + textContent.length }
 }
 
-/// Split buffer at first newline: first line merges as text into the current
-/// block, remaining lines are parsed as markdown blocks inserted after the
-/// enclosing top-level ancestor via a Slice with openStart = depth.
+/// Characters that could trigger inline markdown parsing into marks
+/// or non-text nodes:
+/// - `*`, `_`            emphasis / strong
+/// - `~`                 strikethrough (GFM)
+/// - `` ` ``             inline code
+/// - `[`                 links / images (`]` is omitted because any
+///                       valid link/image starts with `[`, so checking
+///                       the opener is enough)
+/// - `\`                 escape
+/// - `<`                 autolinks (`<https://...>`, `<a@b.com>`) and raw HTML
+/// Used by the fast-path check below.
+const INLINE_MARKDOWN_TOKENS = /[*_~`[\\<]/
+
+/// Parse a single markdown line and return its inline content (text
+/// nodes with marks, links, etc.) for merging into a textblock. Only
+/// uses the parsed result when it actually contains inline *structure*
+/// (marks or non-text nodes); for plain-text-only output we fall back
+/// to the original string so that:
+/// - leading whitespace isn't stripped by CommonMark paragraph rules
+///   (e.g. `' Inserted.'` would otherwise become `'Inserted.'`)
+/// - block markers don't silently disappear when the line happens to
+///   parse as a different block type (e.g. `'# Heading'` parses as a
+///   heading, dropping the `# ` if we extracted heading.content)
+///
+/// Insert-mode flushes happen on every push, so we skip the parser
+/// entirely when the text contains no markdown-relevant tokens.
+function parseInlineContent(
+  ctx: Ctx,
+  schema: Node['type']['schema'],
+  text: string
+): Fragment {
+  if (!text) return Fragment.empty
+  if (!INLINE_MARKDOWN_TOKENS.test(text)) {
+    return Fragment.from(schema.text(text))
+  }
+  const parser = ctx.get(parserCtx)
+  const parsed = parser(text)
+  const firstBlock = parsed?.firstChild
+  // Restrict to `paragraph` specifically: a heading (`# **bold**`),
+  // code block, etc. is also a textblock but extracting its content
+  // would silently drop the block marker (`# `, indent, ...) from the
+  // streamed text.
+  if (firstBlock?.type.name !== 'paragraph' || firstBlock.content.size === 0) {
+    return Fragment.from(schema.text(text))
+  }
+  let hasInlineStructure = false
+  firstBlock.content.forEach((child) => {
+    if (!child.isText || child.marks.length > 0) {
+      hasInlineStructure = true
+    }
+  })
+  if (!hasInlineStructure) {
+    return Fragment.from(schema.text(text))
+  }
+  // CommonMark strips up to 3 leading and any trailing whitespace when
+  // wrapping inline content in a paragraph. For mid-paragraph inserts,
+  // that loss visibly concatenates words (e.g. ` **bold**` → `**bold**`
+  // collides with the previous character). Re-prepend / re-append the
+  // original whitespace if the parsed content didn't preserve it.
+  let content = firstBlock.content
+  const leading = /^\s+/.exec(text)?.[0]
+  if (leading) {
+    const firstText = content.firstChild?.isText
+      ? (content.firstChild.text ?? '')
+      : ''
+    if (!firstText.startsWith(leading)) {
+      content = Fragment.from(schema.text(leading)).append(content)
+    }
+  }
+  const trailing = /\s+$/.exec(text)?.[0]
+  if (trailing) {
+    const lastText = content.lastChild?.isText
+      ? (content.lastChild.text ?? '')
+      : ''
+    if (!lastText.endsWith(trailing)) {
+      content = content.append(Fragment.from(schema.text(trailing)))
+    }
+  }
+  return content
+}
+
+/// Split buffer at first newline: first line merges as inline markdown
+/// (preserving bold/italic/links/etc.) into the current block, remaining
+/// lines are parsed as markdown blocks inserted after the enclosing
+/// top-level ancestor via a Slice with openStart = depth.
 function applySplitBlock({
   ctx,
   tr,
@@ -174,11 +256,11 @@ function applySplitBlock({
   const schema = tr.doc.type.schema
   const firstNewline = buffer.indexOf('\n')
 
-  // Single line — just insert as plain text
+  // Single line — parse as inline markdown so marks/links survive.
   if (firstNewline < 0) {
-    const textNode = schema.text(buffer)
-    tr = tr.replaceWith(from, to, textNode)
-    return { tr, applied: true, insertEndPos: from + buffer.length }
+    const inlineContent = parseInlineContent(ctx, schema, buffer)
+    tr = tr.replaceWith(from, to, inlineContent)
+    return { tr, applied: true, insertEndPos: from + inlineContent.size }
   }
 
   const inlinePart = buffer.substring(0, firstNewline)
@@ -191,21 +273,22 @@ function applySplitBlock({
     ? stripTrailingEmptyParagraph(parsed.content)
     : Fragment.empty
 
-  // If block part didn't parse to anything, fall back to plain text
+  // If block part didn't parse to anything, fall back to inline-only.
   if (blockContent.childCount === 0) {
-    const textContent = buffer.replace(/\n/g, ' ')
-    const textNode = schema.text(textContent)
-    tr = tr.replaceWith(from, to, textNode)
-    return { tr, applied: true, insertEndPos: from + textContent.length }
+    const inlineContent = parseInlineContent(
+      ctx,
+      schema,
+      buffer.replace(/\n/g, ' ')
+    )
+    tr = tr.replaceWith(from, to, inlineContent)
+    return { tr, applied: true, insertEndPos: from + inlineContent.size }
   }
 
   // Build a Slice that bridges from the current nesting depth to top level.
-  // Wrap the inline text in matching parent nodes so ProseMirror can merge it
-  // with the existing structure via openStart.
+  // Wrap the inline content in matching parent nodes so ProseMirror can
+  // merge it with the existing structure via openStart.
   const depth = resolved.depth
-  let innerContent: Fragment = inlinePart
-    ? Fragment.from(schema.text(inlinePart))
-    : Fragment.empty
+  let innerContent: Fragment = parseInlineContent(ctx, schema, inlinePart)
 
   for (let d = depth; d > 0; d--) {
     innerContent = Fragment.from(resolved.node(d).copy(innerContent))
@@ -213,7 +296,30 @@ function applySplitBlock({
 
   const fullContent = innerContent.append(blockContent)
   const slice = new Slice(fullContent, depth, 0)
-  tr = tr.replace(from, to, slice)
+
+  // If `to` lands exactly at the end of the enclosing parent's inline
+  // content, extend it past the parent's close so the slice's
+  // `openEnd: 0` matches the right-boundary depth. Without this,
+  // ProseMirror has to reconcile a depth mismatch (right boundary at
+  // depth N vs slice ending at depth 0) which, for multi-block
+  // replacements covering the whole inline content, silently drops the
+  // next sibling block.
+  // `depth > 0` guard: the default strategy resolver only returns
+  // `split-block` for depth >= 1, but a custom `streamingConfig.insertStrategy`
+  // could request `split-block` at depth 0, where `resolvedTo.after(0)`
+  // would throw.
+  const docSize = tr.doc.content.size
+  const resolvedTo = tr.doc.resolve(Math.min(to, docSize))
+  let actualTo = to
+  if (
+    depth > 0 &&
+    resolvedTo.depth === depth &&
+    resolvedTo.parentOffset === resolvedTo.parent.content.size
+  ) {
+    actualTo = resolvedTo.after(depth)
+  }
+
+  tr = tr.replace(from, actualTo, slice)
 
   // Subtract depth because the open nodes merge into existing structure
   const insertedSize = fullContent.size - depth

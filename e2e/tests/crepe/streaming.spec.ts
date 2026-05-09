@@ -583,12 +583,17 @@ test.describe('replace-selection', () => {
     await setMarkdown(page, 'Start.\n\nMiddle paragraph.\n\nEnd.')
     await waitNextFrame(page)
 
-    // Select entire "Middle paragraph." text
+    // Select entire "Middle paragraph." text. Using Shift+ArrowRight by
+    // character count rather than Shift+End — the latter extends to
+    // end-of-document on macOS browsers (vs end-of-line on Linux/Windows),
+    // making the test platform-dependent.
     const editor = page.locator('.editor')
     await editor.locator('p').nth(1).click()
     await page.keyboard.press('Home')
     await page.keyboard.down('Shift')
-    await page.keyboard.press('End')
+    for (let i = 0; i < 'Middle paragraph.'.length; i++) {
+      await page.keyboard.press('ArrowRight')
+    }
     await page.keyboard.up('Shift')
     await waitNextFrame(page)
 
