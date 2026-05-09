@@ -53,7 +53,7 @@
     "oxfmt": "^0.48.0",
     "oxlint": "^1.8.0",
     "oxlint-tsgolint": "^0.22.0",
-    "pkg-pr-new": "^0.0.70",
+    "pkg-pr-new": "^0.0.71",
     "postcss": "^8.4.38",
     "postcss-cli": "^11.0.0",
     "postcss-nested": "^7.0.0",
