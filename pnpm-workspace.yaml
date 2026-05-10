@@ -6,3 +6,5 @@ packages:
   - storybook
   - dev
   - docs
+allowBuilds:
+  esbuild: true
