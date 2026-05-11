@@ -318,6 +318,58 @@ describe('AI onError', () => {
   })
 })
 
+describe('AI prompt context selection', () => {
+  // Regression: inline-only selections (e.g. selecting "bold" inside a
+  // single paragraph) used to fall through to `doc.textBetween` because
+  // `topNodeType.createAndFill` rejects inline content. That stripped
+  // marks before the selection ever reached the provider, so a single-
+  // paragraph translate would lose bold/italic/link formatting.
+  test('inline-only selection preserves marks in promptContext.selection', async () => {
+    const provider = vi.fn(async function* () {
+      yield 'unused'
+    })
+    const crepe = new Crepe({
+      defaultValue: '**bold** and *italic* text',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: {
+        [CrepeFeature.AI]: { provider, diffReviewOnEnd: false },
+      },
+    })
+    await crepe.create()
+    try {
+      crepe.editor.action((ctx) => {
+        const view = ctx.get(editorViewCtx)
+        const doc = view.state.doc
+        let from = -1
+        let to = -1
+        doc.descendants((node, pos) => {
+          if (node.type.name === 'paragraph') {
+            from = pos + 1
+            to = pos + 1 + node.content.size
+            return false
+          }
+          return true
+        })
+        view.dispatch(
+          view.state.tr.setSelection(TextSelection.create(doc, from, to))
+        )
+      })
+
+      crepe.editor.action(callCommand(runAICmd.key, { instruction: 'go' }))
+      await waitForAsync()
+
+      expect(provider).toHaveBeenCalled()
+      const [promptContext] = provider.mock.calls[0] as unknown as [
+        AIPromptContext,
+      ]
+      expect(promptContext.selection).toContain('**bold**')
+      expect(promptContext.selection).toContain('*italic*')
+    } finally {
+      await crepe.destroy()
+    }
+  })
+})
+
 describe('AI session retry metadata', () => {
   async function makeCrepe() {
     const crepe = new Crepe({

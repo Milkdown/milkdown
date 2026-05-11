@@ -22,16 +22,23 @@ export function defaultBuildContext(
   // For block-level selections (whole paragraphs, list items, etc.)
   // we wrap the slice content in a doc node and serialize it. For
   // inline-only selections (text inside a single paragraph),
-  // createAndFill returns null because inline content isn't valid as
-  // direct doc children — fall back to plain text via textBetween.
+  // createAndFill on the doc type returns null because inline content
+  // isn't valid as direct doc children — wrap it in a paragraph first
+  // so marks (bold, italic, links) survive into the markdown output.
   let selection = ''
   if (!state.selection.empty) {
     const { from, to } = state.selection
     const slice = state.doc.slice(from, to)
-    const wrapper = state.doc.type.schema.topNodeType.createAndFill(
-      null,
-      slice.content
-    )
+    const { schema } = state.doc.type
+    let wrapper = schema.topNodeType.createAndFill(null, slice.content)
+    if (!wrapper) {
+      const paragraph = schema.nodes.paragraph?.createAndFill(
+        null,
+        slice.content
+      )
+      if (paragraph)
+        wrapper = schema.topNodeType.createAndFill(null, paragraph)
+    }
     selection = wrapper ? serializer(wrapper) : state.doc.textBetween(from, to)
   }
 
