@@ -36,8 +36,7 @@ export function defaultBuildContext(
         null,
         slice.content
       )
-      if (paragraph)
-        wrapper = schema.topNodeType.createAndFill(null, paragraph)
+      if (paragraph) wrapper = schema.topNodeType.createAndFill(null, paragraph)
     }
     selection = wrapper ? serializer(wrapper) : state.doc.textBetween(from, to)
   }
