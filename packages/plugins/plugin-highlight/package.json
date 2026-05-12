@@ -36,6 +36,8 @@
     }
   },
   "publishConfig": {
+    "main": "./lib/index.js",
+    "types": "./lib/index.d.ts",
     "exports": {
       ".": {
         "import": "./lib/index.js",
@@ -57,9 +59,7 @@
         "import": "./lib/sugar-high.js",
         "types": "./lib/sugar-high.d.ts"
       }
-    },
-    "main": "./lib/index.js",
-    "types": "./lib/index.d.ts"
+    }
   },
   "scripts": {
     "build": "vite build"

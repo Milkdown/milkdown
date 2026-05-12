@@ -9,7 +9,6 @@
   The integration of AI features into the Milkdown editor.
 
   ## Feat
-
   - feat(crepe): add OpenAI and Anthropic AI providers (#2355)
   - feat: ship UI surfaces for the AI feature (#2350)
   - feat: expose onError callback for AI feature (#2338)
@@ -21,24 +20,20 @@
   - feat: add support for diff rendering, apply and reject (#2312)
 
   ## Fix
-
   - fix(crepe): preserve marks in AI selection for single-paragraph ranges (#2359)
   - fix(inline-latex): should not show edit tooltip for readonly mode (#2348)
   - fix(components): allow foreignObject in code block preview for Mermaid v11+ flowcharts (#2332)
   - fix: improve diff rendering for cross-boundary changes, empty widgets, and block deletions (#2324)
 
   ## Docs
-
   - docs(crepe): document built-in OpenAI / Anthropic providers (#2357)
   - docs(crepe): document AI feature UI surfaces and config (#2354)
   - docs: ✏️ fix crepe mismatch
 
   ## Refactor
-
   - refactor: remove broken config options from diff and streaming plugins (#2333)
 
   ## Perf
-
   - perf: lazy initialize CodeMirror for off-screen code blocks (#2313)
 
 ### Patch Changes

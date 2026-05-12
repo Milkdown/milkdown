@@ -78,6 +78,8 @@
     "./theme/frame-dark.css": "./src/theme/frame-dark/style.css"
   },
   "publishConfig": {
+    "main": "./lib/esm/index.js",
+    "types": "./lib/types/index.d.ts",
     "exports": {
       ".": {
         "import": "./lib/esm/index.js",
@@ -166,9 +168,7 @@
       "./theme/nord-dark.css": "./lib/theme/nord-dark/style.css",
       "./theme/frame.css": "./lib/theme/frame/style.css",
       "./theme/frame-dark.css": "./lib/theme/frame-dark/style.css"
-    },
-    "main": "./lib/esm/index.js",
-    "types": "./lib/types/index.d.ts"
+    }
   },
   "scripts": {
     "build": "pnpm run build:es && pnpm run build:theme && echo",
