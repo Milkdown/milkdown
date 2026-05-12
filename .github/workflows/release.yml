@@ -6,9 +6,6 @@ on:
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
-env:
-  CI: true
-
 jobs:
   prepare:
     runs-on: ubuntu-latest
