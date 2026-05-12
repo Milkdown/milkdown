@@ -21,15 +21,15 @@
     "./style.css": "./src/style.css"
   },
   "publishConfig": {
+    "main": "./lib/index.js",
+    "types": "./lib/index.d.ts",
     "exports": {
       ".": {
         "types": "./lib/index.d.ts",
         "import": "./lib/index.js"
       },
       "./style.css": "./lib/style.css"
-    },
-    "main": "./lib/index.js",
-    "types": "./lib/index.d.ts"
+    }
   },
   "scripts": {
     "build": "vite build"

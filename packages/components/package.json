@@ -45,6 +45,33 @@
     }
   },
   "publishConfig": {
+    "main": "./lib/index.js",
+    "types": "./lib/index.d.ts",
+    "typesVersions": {
+      "*": {
+        "image-block": [
+          "./lib/image-block/index.d.ts"
+        ],
+        "code-block": [
+          "./lib/code-block/index.d.ts"
+        ],
+        "list-item-block": [
+          "./lib/list-item-block/index.d.ts"
+        ],
+        "link-tooltip": [
+          "./lib/link-tooltip/index.d.ts"
+        ],
+        "image-inline": [
+          "./lib/image-inline/index.d.ts"
+        ],
+        "table-block": [
+          "./lib/table-block/index.d.ts"
+        ],
+        "diff": [
+          "./lib/diff/index.d.ts"
+        ]
+      }
+    },
     "exports": {
       ".": {
         "types": "./lib/index.d.ts",
@@ -77,33 +104,6 @@
       "./diff": {
         "types": "./lib/diff/index.d.ts",
         "import": "./lib/diff/index.js"
-      }
-    },
-    "main": "./lib/index.js",
-    "types": "./lib/index.d.ts",
-    "typesVersions": {
-      "*": {
-        "image-block": [
-          "./lib/image-block/index.d.ts"
-        ],
-        "code-block": [
-          "./lib/code-block/index.d.ts"
-        ],
-        "list-item-block": [
-          "./lib/list-item-block/index.d.ts"
-        ],
-        "link-tooltip": [
-          "./lib/link-tooltip/index.d.ts"
-        ],
-        "image-inline": [
-          "./lib/image-inline/index.d.ts"
-        ],
-        "table-block": [
-          "./lib/table-block/index.d.ts"
-        ],
-        "diff": [
-          "./lib/diff/index.d.ts"
-        ]
       }
     }
   },
