@@ -39,7 +39,13 @@ function createSvgAwareSanitizer() {
   return (dirty: string | Node) => purify.sanitize(dirty, config)
 }
 
-const sanitizeSvg = createSvgAwareSanitizer()
+// Lazily initialize the sanitizer so that importing this module under SSR
+// (where `DOMPurify()` returns a stub without `.addHook`) does not throw.
+let cachedSanitizer: ReturnType<typeof createSvgAwareSanitizer> | undefined
+function sanitizeSvg(dirty: string | Node) {
+  cachedSanitizer ??= createSvgAwareSanitizer()
+  return cachedSanitizer(dirty)
+}
 
 type PreviewPanelProps = Pick<
   CodeBlockProps,
