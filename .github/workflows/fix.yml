@@ -8,9 +8,6 @@ on:
 permissions:
   contents: read
 
-env:
-  CI: true
-
 jobs:
   fix:
     runs-on: ubuntu-latest
