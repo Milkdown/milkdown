@@ -87,9 +87,7 @@
       }
     ],
     "import/named": "error",
-    "import/order": "error",
     "import/no-duplicates": "error",
-    "import/no-import-assign": "error",
     "import/no-self-import": "error",
 
     "typescript/consistent-type-imports": "error",
