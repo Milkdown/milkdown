@@ -7,6 +7,7 @@ import {
   parseSSE,
   readErrorBody,
   resolveSystemPrompt,
+  stripTrailingSlashes,
 } from '../shared'
 
 const PROVIDER_NAME = 'milkdown/providers/openai'
@@ -54,7 +55,7 @@ export function createOpenAIProvider(config: OpenAIProviderConfig): AIProvider {
       ? config.buildMessages(context, { systemPrompt, userMessage })
       : defaultMessages(systemPrompt, userMessage)
 
-    const baseURL = (config.baseURL ?? DEFAULT_BASE_URL).replace(/\/+$/, '')
+    const baseURL = stripTrailingSlashes(config.baseURL ?? DEFAULT_BASE_URL)
     const url = `${baseURL}/v1/chat/completions`
 
     const headers: Record<string, string> = {
