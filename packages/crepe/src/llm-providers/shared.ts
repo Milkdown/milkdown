@@ -98,6 +98,16 @@ export function resolveSystemPrompt(
   return systemPrompt ?? DEFAULT_SYSTEM_PROMPT
 }
 
+/// Strip trailing `/` characters from a URL. Uses a linear scan instead
+/// of a regex like `/\/+$/` because the latter backtracks quadratically
+/// on caller-supplied input ending in many slashes followed by a
+/// non-slash (CodeQL js/polynomial-redos).
+export function stripTrailingSlashes(url: string): string {
+  let end = url.length
+  while (end > 0 && url.charCodeAt(end - 1) === 47 /* '/' */) end--
+  return end === url.length ? url : url.slice(0, end)
+}
+
 /// Parse an SSE stream from `response.body`. Yields the payload after
 /// `data: ` for each event; ignores `event:`, `id:`, `retry:`, and
 /// comment lines. Stops cleanly when the signal aborts or the stream

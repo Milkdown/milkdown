@@ -7,6 +7,7 @@ import {
   parseSSE,
   readErrorBody,
   resolveSystemPrompt,
+  stripTrailingSlashes,
 } from '../shared'
 
 const PROVIDER_NAME = 'milkdown/providers/anthropic'
@@ -75,7 +76,7 @@ export function createAnthropicProvider(
           ] satisfies AnthropicMessage[],
         }
 
-    const baseURL = (config.baseURL ?? DEFAULT_BASE_URL).replace(/\/+$/, '')
+    const baseURL = stripTrailingSlashes(config.baseURL ?? DEFAULT_BASE_URL)
     const url = `${baseURL}/v1/messages`
 
     const headers: Record<string, string> = {
