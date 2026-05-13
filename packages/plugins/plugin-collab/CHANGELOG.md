@@ -1,5 +1,26 @@
 # @milkdown/plugin-collaborative
 
+## 7.21.1
+
+### Patch Changes
+
+- a612984: Milkdown patch version release.
+
+  ## Fix
+  - fix(crepe): avoid polynomial ReDoS when normalizing provider baseURL (#2366)
+  - fix(components): lazy-init SVG sanitizer to keep preview-panel SSR-safe (#2365)
+
+  ## Chore
+  - chore(deps): bump fast-uri to 3.1.2 to patch GHSA-v39h-62p7-jpjc (#2367)
+  - chore: Pin dependencies (#2364)
+  - chore: config renovate to pin github actions (#2363)
+
+- Updated dependencies [a612984]
+  - @milkdown/core@7.21.1
+  - @milkdown/ctx@7.21.1
+  - @milkdown/exception@7.21.1
+  - @milkdown/prose@7.21.1
+
 ## 7.21.0
 
 ### Minor Changes
