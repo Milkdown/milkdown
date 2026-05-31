@@ -37,7 +37,6 @@ describe('link tooltip edit', () => {
     await crepe.create()
     await waitForAsync()
 
-    const view = crepe.editor.ctx.get(editorViewCtx)
     // Cursor between "h" and "ello" — empty selection.
     const cursorPos = 2
     crepe.editor.ctx.get(linkTooltipAPI.key).addLink(cursorPos, cursorPos)
