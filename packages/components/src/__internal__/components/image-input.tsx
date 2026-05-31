@@ -1,11 +1,11 @@
 import clsx from 'clsx'
 import { customAlphabet } from 'nanoid'
-import { defineComponent, ref, h, type Ref } from 'vue'
+import { defineComponent, ref, h, Fragment, type Ref } from 'vue'
 
 import { keepAlive } from '../keep-alive'
 import { Icon } from './icon'
 
-keepAlive(h)
+keepAlive(h, Fragment)
 
 const nanoid = customAlphabet('abcdefg', 8)
 
