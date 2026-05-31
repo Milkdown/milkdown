@@ -1,7 +1,7 @@
 import type { Ctx } from '@milkdown/kit/ctx'
 
 import { toggleLinkCommand } from '@milkdown/kit/component/link-tooltip'
-import { commandsCtx, editorViewCtx } from '@milkdown/kit/core'
+import { commandsCtx, editorViewCtx, schemaCtx } from '@milkdown/kit/core'
 import {
   emphasisSchema,
   inlineCodeSchema,
@@ -34,8 +34,7 @@ import {
 import { GroupBuilder } from '../../utils/group-builder'
 import { aiProviderConfig } from '../ai/commands'
 import { aiInstructionTooltipAPI } from '../ai/instruction-tooltip'
-import { toggleLatexCommand } from '../latex/command'
-import { mathInlineSchema } from '../latex/inline-latex'
+import { mathInlineId, toggleLatexCommandName } from '../latex/constants'
 
 export type ToolbarItem = {
   active: (ctx: Ctx) => boolean
@@ -110,14 +109,12 @@ export function getGroups(config?: ToolbarFeatureConfig, ctx?: Ctx) {
       icon: config?.latexIcon ?? functionsIcon,
       active: (ctx) => {
         const commands = ctx.get(commandsCtx)
-        return commands.call(
-          isNodeSelectedCommand.key,
-          mathInlineSchema.type(ctx)
-        )
+        const nodeType = ctx.get(schemaCtx).nodes[mathInlineId]
+        return commands.call(isNodeSelectedCommand.key, nodeType)
       },
       onRun: (ctx) => {
         const commands = ctx.get(commandsCtx)
-        commands.call(toggleLatexCommand.key)
+        commands.call(toggleLatexCommandName)
       },
     })
   }
