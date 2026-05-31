@@ -71,12 +71,32 @@ export class LinkEditTooltip implements PluginView {
   }
 
   #reset = () => {
+    this.#stopOutsideClickListener()
     this.#provider.hide()
     this.ctx.update(linkTooltipState.key, (state) => ({
       ...state,
       mode: 'preview' as const,
     }))
     this.#data = { ...defaultData }
+  }
+
+  #onOutsidePointerDown = (e: PointerEvent) => {
+    const target = e.target as Node | null
+    if (!target) return
+    if (this.#content.contains(target)) return
+    this.#reset()
+  }
+
+  #startOutsideClickListener = () => {
+    document.addEventListener('pointerdown', this.#onOutsidePointerDown, true)
+  }
+
+  #stopOutsideClickListener = () => {
+    document.removeEventListener(
+      'pointerdown',
+      this.#onOutsidePointerDown,
+      true
+    )
   }
 
   #confirmEdit = (href: string) => {
@@ -92,7 +112,17 @@ export class LinkEditTooltip implements PluginView {
     const tr = view.state.tr
     if (mark) tr.removeMark(from, to, mark)
 
-    tr.addMark(from, to, type.create({ href: link }))
+    if (from === to) {
+      if (!link) {
+        this.#reset()
+        return
+      }
+      const linkMark = type.create({ href: link })
+      tr.insertText(link, from)
+      tr.addMark(from, from + link.length, linkMark)
+    } else {
+      tr.addMark(from, to, type.create({ href: link }))
+    }
     view.dispatch(tr)
 
     this.#reset()
@@ -114,6 +144,7 @@ export class LinkEditTooltip implements PluginView {
       { getBoundingClientRect: () => posToDOMRect(view, from, to) },
       view
     )
+    this.#startOutsideClickListener()
     requestAnimationFrame(() => {
       this.#content.querySelector('input')?.focus()
     })
@@ -130,6 +161,7 @@ export class LinkEditTooltip implements PluginView {
   }
 
   destroy = () => {
+    this.#stopOutsideClickListener()
     this.#app.unmount()
     this.#provider.destroy()
     this.#content.remove()
