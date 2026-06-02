@@ -1,5 +1,21 @@
 # @milkdown/react
 
+## 7.21.2
+
+### Patch Changes
+
+- 3a54037: Milkdown patch version release.
+
+  ## Fix
+  - fix: import Fragment in image-input to fix paste link error (#2325) (#2386)
+  - fix: link tooltip empty-selection insert and outside-click dismiss (#2385)
+  - fix: cancel pending listener debounce on editor destroy (#2356) (#2384)
+  - fix: avoid importing katex in toolbar when latex feature is disabled (#2383)
+
+- Updated dependencies [3a54037]
+  - @milkdown/crepe@7.21.2
+  - @milkdown/kit@7.21.2
+
 ## 7.21.1
 
 ### Patch Changes

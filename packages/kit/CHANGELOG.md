@@ -1,5 +1,40 @@
 # @milkdown/kit
 
+## 7.21.2
+
+### Patch Changes
+
+- 3a54037: Milkdown patch version release.
+
+  ## Fix
+  - fix: import Fragment in image-input to fix paste link error (#2325) (#2386)
+  - fix: link tooltip empty-selection insert and outside-click dismiss (#2385)
+  - fix: cancel pending listener debounce on editor destroy (#2356) (#2384)
+  - fix: avoid importing katex in toolbar when latex feature is disabled (#2383)
+
+- Updated dependencies [3a54037]
+  - @milkdown/components@7.21.2
+  - @milkdown/core@7.21.2
+  - @milkdown/ctx@7.21.2
+  - @milkdown/exception@7.21.2
+  - @milkdown/plugin-block@7.21.2
+  - @milkdown/plugin-clipboard@7.21.2
+  - @milkdown/plugin-cursor@7.21.2
+  - @milkdown/plugin-diff@7.21.2
+  - @milkdown/plugin-history@7.21.2
+  - @milkdown/plugin-indent@7.21.2
+  - @milkdown/plugin-listener@7.21.2
+  - @milkdown/plugin-slash@7.21.2
+  - @milkdown/plugin-streaming@7.21.2
+  - @milkdown/plugin-tooltip@7.21.2
+  - @milkdown/plugin-trailing@7.21.2
+  - @milkdown/plugin-upload@7.21.2
+  - @milkdown/preset-commonmark@7.21.2
+  - @milkdown/preset-gfm@7.21.2
+  - @milkdown/prose@7.21.2
+  - @milkdown/transformer@7.21.2
+  - @milkdown/utils@7.21.2
+
 ## 7.21.1
 
 ### Patch Changes
