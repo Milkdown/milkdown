@@ -21,7 +21,7 @@
       "groupName": "all non-major dependencies",
       "groupSlug": "all-minor-patch",
       "matchUpdateTypes": ["minor", "patch"],
-      "matchPackageNames": ["*", "!/oxlint/", "!/prosemirror-*"]
+      "matchPackageNames": ["!oxlint", "!prosemirror-*"]
     }
   ],
   "commitMessagePrefix": "chore: ",
