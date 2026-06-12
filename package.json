@@ -50,7 +50,7 @@
     "jsdom": "^29.0.0",
     "knip": "^6.0.0",
     "lint-staged": "^17.0.0",
-    "oxfmt": "^0.53.0",
+    "oxfmt": "^0.54.0",
     "oxlint": "^1.8.0",
     "oxlint-tsgolint": "^0.23.0",
     "pkg-pr-new": "^0.0.75",
@@ -72,5 +72,5 @@
   "engines": {
     "node": ">=22"
   },
-  "packageManager": "pnpm@11.5.2"
+  "packageManager": "pnpm@11.6.0"
 }
