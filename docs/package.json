@@ -13,7 +13,7 @@
   "devDependencies": {
     "@milkdown/dev": "workspace:*",
     "@types/fs-extra": "^11.0.4",
-    "builddocs": "^1.0.8",
+    "builddocs": "^2.0.0",
     "fs-extra": "^11.3.0"
   }
 }
