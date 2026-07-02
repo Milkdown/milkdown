@@ -6,7 +6,9 @@ import {
   serializerCtx,
   commandsCtx,
 } from '@milkdown/core'
+import { getSelectionSnapshot, textOffsetToPos } from '@milkdown/prose'
 import { Slice } from '@milkdown/prose/model'
+import { TextSelection } from '@milkdown/prose/state'
 import { insert } from '@milkdown/utils'
 
 export async function setup(createEditor: () => Promise<Editor>) {
@@ -35,6 +37,19 @@ export async function setup(createEditor: () => Promise<Editor>) {
       const view = ctx.get(editorViewCtx)
       const serializer = ctx.get(serializerCtx)
       return serializer(view.state.doc)
+    })
+  globalThis.__getSelectionSnapshot__ = () =>
+    editor.action((ctx) => {
+      const view = ctx.get(editorViewCtx)
+      return getSelectionSnapshot(view.state)
+    })
+  globalThis.__setCaretByTextOffset__ = (offset: number) =>
+    editor.action((ctx) => {
+      const view = ctx.get(editorViewCtx)
+      const pos = textOffsetToPos(view.state.doc, offset)
+      const selection = TextSelection.near(view.state.doc.resolve(pos))
+      view.dispatch(view.state.tr.setSelection(selection))
+      view.focus()
     })
   globalThis.__inspect__ = () => editor.inspect()
   globalThis.__commandsCtx__ = commandsCtx
