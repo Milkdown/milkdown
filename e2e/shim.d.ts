@@ -18,6 +18,9 @@ declare global {
 
   var __inspect__: () => Telemetry[]
 
+  var __getSelectionSnapshot__: () => string
+  var __setCaretByTextOffset__: (offset: number) => void
+
   var __crepe__: Crepe
 
   var __beforeCrepeCreate__: (crepe: Crepe) => void
