@@ -52,7 +52,7 @@ export const listItemBlockView = $view(
         const anchorPos = view.state.doc.resolve(anchor)
         const headPos = view.state.doc.resolve(head)
         raf = requestAnimationFrame(() => {
-          cancelAnimationFrame(raf)
+          raf = 0
           if (!anchorPos.doc.eq(view.state.doc)) return
           const selection = new TextSelection(anchorPos, headPos)
           view.dispatch(view.state.tr.setSelection(selection))
@@ -114,6 +114,7 @@ export const listItemBlockView = $view(
           selected.value = false
         },
         destroy: () => {
+          cancelAnimationFrame(raf)
           disposeSelectedWatcher()
           app.unmount()
           dom.remove()
