@@ -1,4 +1,5 @@
-import { defineComponent, type Ref, h } from 'vue'
+import { sanitizeLinkHref } from '@milkdown/preset-commonmark'
+import { computed, defineComponent, type Ref, h } from 'vue'
 
 import type { LinkTooltipConfig } from '../slices'
 
@@ -34,6 +35,11 @@ export const PreviewLink = defineComponent<PreviewLinkProps>({
     },
   },
   setup({ config, src, onEdit, onRemove }) {
+    // The preview anchor lives outside the contenteditable area, so a raw
+    // `javascript:` href would execute on click. Sanitize the navigable href
+    // while still showing the original value as text.
+    const safeHref = computed(() => sanitizeLinkHref(src.value))
+
     const onClickEditButton = (e: Event) => {
       e.preventDefault()
       e.stopPropagation()
@@ -67,7 +73,12 @@ export const PreviewLink = defineComponent<PreviewLinkProps>({
             icon={config.value.linkIcon}
             onClick={onClickPreview}
           />
-          <a href={src.value} target="_blank" class="link-display">
+          <a
+            href={safeHref.value}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link-display"
+          >
             {src.value}
           </a>
           <Icon

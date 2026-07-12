@@ -5,10 +5,9 @@ import type { EditorView } from '@milkdown/prose/view'
 
 import { editorViewCtx } from '@milkdown/core'
 import { TooltipProvider } from '@milkdown/plugin-tooltip'
-import { linkSchema } from '@milkdown/preset-commonmark'
+import { linkSchema, sanitizeLinkHref } from '@milkdown/preset-commonmark'
 import { posToDOMRect } from '@milkdown/prose'
 import { TextSelection } from '@milkdown/prose/state'
-import DOMPurify from 'dompurify'
 import { createApp, ref, type App, type Ref } from 'vue'
 
 import {
@@ -103,7 +102,9 @@ export class LinkEditTooltip implements PluginView {
     const view = this.ctx.get(editorViewCtx)
     const { from, to, mark } = this.#data
     const type = linkSchema.type(this.ctx)
-    const link = DOMPurify.sanitize(href)
+    // `DOMPurify.sanitize` is for HTML markup and passes bare URL strings
+    // through untouched; use a scheme allowlist to block `javascript:` etc.
+    const link = sanitizeLinkHref(href)
     if (mark && mark.attrs.href === link) {
       this.#reset()
       return
