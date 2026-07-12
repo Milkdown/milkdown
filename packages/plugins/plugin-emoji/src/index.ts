@@ -37,7 +37,9 @@ export const emojiSchema = $nodeSchema('emoji', (ctx) => ({
       getAttrs: (dom) => {
         if (!(dom instanceof HTMLElement)) throw expectDomTypeError(dom)
 
-        return { html: dom.innerHTML }
+        // Sanitize at the untrusted entry point (e.g. pasted HTML) so an
+        // unsanitized value never enters the document state.
+        return { html: DOMPurify.sanitize(dom.innerHTML) }
       },
     },
   ],
@@ -70,11 +72,13 @@ export const emojiSchema = $nodeSchema('emoji', (ctx) => ({
   toMarkdown: {
     match: (node) => node.type.name === 'emoji',
     runner: (state, node) => {
-      const span = document.createElement('span')
-      span.innerHTML = node.attrs.html
-      const img = span.querySelector('img')
+      // Parse via an inert `<template>`: unlike a live `<span>`, its content
+      // fragment never triggers resource loads, so an `<img onerror>` payload
+      // cannot fire during serialization. Sanitize as well for defense in depth.
+      const template = document.createElement('template')
+      template.innerHTML = DOMPurify.sanitize(node.attrs.html)
+      const img = template.content.querySelector('img')
       const title = img?.title || img?.alt
-      span.remove()
       state.addNode('text', undefined, title)
     },
   },
