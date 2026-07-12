@@ -1,5 +1,25 @@
 # @milkdown/plugin-highlight
 
+## 7.21.3
+
+### Patch Changes
+
+- 95b07b9: Milkdown fix version release.
+
+  ## Feat
+  - feat: add getMarkRange and selection snapshot test DSL to prose toolkit (#2406)
+
+  ## Fix
+  - fix: cancel list item RAF on destroy (#2409)
+  - fix: sanitize unsafe link hrefs and emoji html to prevent stored XSS (#2410)
+  - fix: serialize marks spanning multiple nodes as one continuous span (#2405)
+  - fix: renovate config
+
+- Updated dependencies [95b07b9]
+  - @milkdown/core@7.21.3
+  - @milkdown/ctx@7.21.3
+  - @milkdown/utils@7.21.3
+
 ## 7.21.2
 
 ### Patch Changes

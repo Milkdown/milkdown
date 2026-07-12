@@ -1,5 +1,43 @@
 # @milkdown/kit
 
+## 7.21.3
+
+### Patch Changes
+
+- 95b07b9: Milkdown fix version release.
+
+  ## Feat
+  - feat: add getMarkRange and selection snapshot test DSL to prose toolkit (#2406)
+
+  ## Fix
+  - fix: cancel list item RAF on destroy (#2409)
+  - fix: sanitize unsafe link hrefs and emoji html to prevent stored XSS (#2410)
+  - fix: serialize marks spanning multiple nodes as one continuous span (#2405)
+  - fix: renovate config
+
+- Updated dependencies [95b07b9]
+  - @milkdown/components@7.21.3
+  - @milkdown/core@7.21.3
+  - @milkdown/ctx@7.21.3
+  - @milkdown/exception@7.21.3
+  - @milkdown/plugin-block@7.21.3
+  - @milkdown/plugin-clipboard@7.21.3
+  - @milkdown/plugin-cursor@7.21.3
+  - @milkdown/plugin-diff@7.21.3
+  - @milkdown/plugin-history@7.21.3
+  - @milkdown/plugin-indent@7.21.3
+  - @milkdown/plugin-listener@7.21.3
+  - @milkdown/plugin-slash@7.21.3
+  - @milkdown/plugin-streaming@7.21.3
+  - @milkdown/plugin-tooltip@7.21.3
+  - @milkdown/plugin-trailing@7.21.3
+  - @milkdown/plugin-upload@7.21.3
+  - @milkdown/preset-commonmark@7.21.3
+  - @milkdown/preset-gfm@7.21.3
+  - @milkdown/prose@7.21.3
+  - @milkdown/transformer@7.21.3
+  - @milkdown/utils@7.21.3
+
 ## 7.21.2
 
 ### Patch Changes
@@ -1241,6 +1279,7 @@
   If you have a custom stylesheet, you'll need to change the selectors from `milkdown-xxx` to `.milkdown-xxx` because we don't use webcomponents anymore.
 
   Here's a list of all the class-based selectors currently in use that you should use instead of web components:
+
   - `.milkdown-code-block` - For code blocks
   - `.milkdown-image-block` - For image blocks
   - `.milkdown-image-inline` - For inline images
