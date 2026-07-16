@@ -2,9 +2,7 @@
 
 .milkdown {
   span[data-type='math_inline'] {
-    padding: 0 4px;
     display: inline-block;
-    vertical-align: bottom;
     color: var(--crepe-color-primary);
   }
 
