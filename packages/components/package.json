@@ -127,7 +127,7 @@
     "clsx": "^2.0.0",
     "dompurify": "^3.2.5",
     "lodash-es": "^4.17.21",
-    "nanoid": "^5.0.9",
+    "nanoid": "^6.0.0",
     "unist-util-visit": "^5.0.0",
     "vue": "^3.5.20"
   },
