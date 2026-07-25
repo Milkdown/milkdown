@@ -171,10 +171,11 @@ importers:
         version: 4.18.1
 
   docs:
-    devDependencies:
+    dependencies:
       '@milkdown/dev':
         specifier: workspace:*
         version: link:../dev
+    devDependencies:
       '@types/fs-extra':
         specifier: ^11.0.4
         version: 11.0.4
