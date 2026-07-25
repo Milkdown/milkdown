@@ -70,7 +70,7 @@ export class CommandManager {
   }
 
   /// Remove a command from the manager.
-  remove<T extends CmdKey<any>>(slice: string): void
+  remove(slice: string): void
   remove<T>(slice: CmdKey<T>): void
   remove(slice: string | CmdKey<any>): void
   remove(slice: string | CmdKey<any>): void {
