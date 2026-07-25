@@ -5,7 +5,6 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import copy from 'rollup-plugin-copy'
-import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
 
 import pkg from './package.json' with { type: 'json' }
@@ -16,16 +15,6 @@ const external = [
 ]
 
 const main = [
-  {
-    input: './src/index.ts',
-    output: {
-      file: 'lib/index.d.ts',
-      format: 'esm',
-      sourcemap: true,
-    },
-    external,
-    plugins: [dts({ respectExternal: true })],
-  },
   {
     input: './src/index.ts',
     output: {
@@ -64,16 +53,6 @@ const main = [
 function proseModule(name) {
   const input = `./src/${name}.ts`
   return [
-    {
-      input,
-      output: {
-        file: `lib/${name}.d.ts`,
-        format: 'esm',
-        sourcemap: true,
-      },
-      external,
-      plugins: [dts({ respectExternal: true })],
-    },
     {
       input,
       output: {
