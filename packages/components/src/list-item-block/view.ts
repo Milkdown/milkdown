@@ -49,14 +49,16 @@ export const listItemBlockView = $view(
         const { anchor, head } = view.state.selection
         div.appendChild(contentDOM)
         // put the cursor to the new created list item
-        const anchorPos = view.state.doc.resolve(anchor)
-        const headPos = view.state.doc.resolve(head)
         raf = requestAnimationFrame(() => {
           raf = 0
           if (view.isDestroyed) return
-          if (!anchorPos.doc.eq(view.state.doc)) return
+          const { state } = view
+          const docSize = state.doc.content.size
+          if (anchor > docSize || head > docSize) return
+          const anchorPos = state.doc.resolve(anchor)
+          const headPos = state.doc.resolve(head)
           const selection = new TextSelection(anchorPos, headPos)
-          view.dispatch(view.state.tr.setSelection(selection))
+          view.dispatch(state.tr.setSelection(selection))
         })
       }
 
