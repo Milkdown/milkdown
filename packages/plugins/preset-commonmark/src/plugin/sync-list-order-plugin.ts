@@ -56,7 +56,7 @@ export const syncListOrderPlugin = $prose((ctx) => {
             base.attrs.listType === 'ordered'
           ) {
             needDispatch = true
-            tr.setNodeMarkup(pos, orderedListType, { spread: 'true' })
+            tr.setNodeMarkup(pos, orderedListType, { spread: true })
 
             node.descendants(
               (
