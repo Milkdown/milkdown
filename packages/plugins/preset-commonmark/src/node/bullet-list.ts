@@ -56,7 +56,7 @@ export const bulletListSchema = $nodeSchema('bullet_list', (ctx) => {
     parseMarkdown: {
       match: ({ type, ordered }) => type === 'list' && !ordered,
       runner: (state, node, type) => {
-        const spread = node.spread != null ? `${node.spread}` : 'false'
+        const spread = node.spread ?? false
         state.openNode(type, { spread }).next(node.children).closeNode()
       },
     },

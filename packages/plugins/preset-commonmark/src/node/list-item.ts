@@ -69,7 +69,7 @@ export const listItemSchema = $nodeSchema('list_item', (ctx) => ({
     runner: (state, node, type) => {
       const label = node.label != null ? `${node.label}.` : '•'
       const listType = node.label != null ? 'ordered' : 'bullet'
-      const spread = node.spread != null ? `${node.spread}` : 'true'
+      const spread = node.spread ?? true
       state.openNode(type, { label, listType, spread })
       state.next(node.children)
       state.closeNode()

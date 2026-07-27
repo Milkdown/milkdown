@@ -41,7 +41,7 @@ export const orderedListSchema = $nodeSchema('ordered_list', (ctx) => ({
         if (!(dom instanceof HTMLElement)) throw expectDomTypeError(dom)
 
         return {
-          spread: dom.dataset.spread,
+          spread: dom.dataset.spread === 'true',
           order: dom.hasAttribute('start')
             ? Number(dom.getAttribute('start'))
             : 1,
@@ -61,7 +61,7 @@ export const orderedListSchema = $nodeSchema('ordered_list', (ctx) => ({
   parseMarkdown: {
     match: ({ type, ordered }) => type === 'list' && !!ordered,
     runner: (state, node, type) => {
-      const spread = node.spread != null ? `${node.spread}` : 'true'
+      const spread = node.spread ?? true
       state
         .openNode(type, { spread, order: node.start ?? 1 })
         .next(node.children)
@@ -74,7 +74,7 @@ export const orderedListSchema = $nodeSchema('ordered_list', (ctx) => ({
       state.openNode('list', undefined, {
         ordered: true,
         start: node.attrs.order ?? 1,
-        spread: node.attrs.spread === 'true',
+        spread: node.attrs.spread,
       })
       state.next(node.content)
       state.closeNode()

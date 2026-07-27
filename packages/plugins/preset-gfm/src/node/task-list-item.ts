@@ -28,7 +28,7 @@ export const extendListItemSchemaForTask = listItemSchema.extendSchema(
               return {
                 label: dom.dataset.label,
                 listType: dom.dataset.listType,
-                spread: dom.dataset.spread,
+                spread: dom.dataset.spread === 'true',
                 checked: dom.dataset.checked
                   ? dom.dataset.checked === 'true'
                   : null,
@@ -64,7 +64,7 @@ export const extendListItemSchemaForTask = listItemSchema.extendSchema(
             const label = node.label != null ? `${node.label}.` : '•'
             const checked = node.checked != null ? Boolean(node.checked) : null
             const listType = node.label != null ? 'ordered' : 'bullet'
-            const spread = node.spread != null ? `${node.spread}` : 'true'
+            const spread = node.spread ?? true
 
             state.openNode(type, { label, listType, spread, checked })
             state.next(node.children)
@@ -81,7 +81,7 @@ export const extendListItemSchemaForTask = listItemSchema.extendSchema(
 
             const label = node.attrs.label
             const listType = node.attrs.listType
-            const spread = node.attrs.spread === 'true'
+            const spread = node.attrs.spread
             const checked = node.attrs.checked
 
             state.openNode('listItem', undefined, {
