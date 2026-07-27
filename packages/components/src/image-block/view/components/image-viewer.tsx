@@ -4,6 +4,7 @@ import type { MilkdownImageBlockProps } from './image-block'
 
 import { Icon } from '../../../__internal__/components/icon'
 import { keepAlive } from '../../../__internal__/keep-alive'
+import { inputId } from '../../../__internal__/unique-id'
 import { IMAGE_DATA_TYPE } from '../../schema'
 
 keepAlive(h, Fragment)
@@ -43,6 +44,7 @@ export const ImageViewer = defineComponent<MilkdownImageBlockProps>({
     const imageRef = ref<HTMLImageElement>()
     const resizeHandle = ref<HTMLDivElement>()
     const showCaption = ref(Boolean(caption.value?.length))
+    const captionId = inputId('milkdown-image-caption')
     const timer = ref(0)
 
     const onImageLoad = () => {
@@ -167,13 +169,13 @@ export const ImageViewer = defineComponent<MilkdownImageBlockProps>({
           </div>
           {showCaption.value && (
             <input
+              id={captionId}
               draggable="true"
               onDragstart={(e) => {
                 e.preventDefault()
                 e.stopPropagation()
               }}
               class="caption-input"
-              name="milkdown-image-caption"
               placeholder={config?.captionPlaceholderText}
               onInput={onInputCaption}
               onBlur={onBlurCaption}

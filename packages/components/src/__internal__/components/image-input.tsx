@@ -1,13 +1,11 @@
 import clsx from 'clsx'
-import { customAlphabet } from 'nanoid'
 import { defineComponent, ref, h, Fragment, type Ref } from 'vue'
 
 import { keepAlive } from '../keep-alive'
+import { inputId } from '../unique-id'
 import { Icon } from './icon'
 
 keepAlive(h, Fragment)
-
-const nanoid = customAlphabet('abcdefg', 8)
 
 type ImageInputProps = {
   src: Ref<string | undefined>
@@ -84,7 +82,8 @@ export const ImageInput = defineComponent<ImageInputProps>({
     const focusLinkInput = ref(false)
     const linkInputRef = ref<HTMLInputElement>()
     const currentLink = ref(src.value ?? '')
-    const uuid = ref(nanoid())
+    const linkId = inputId('milkdown-image-link')
+    const fileInputId = inputId('milkdown-image-upload')
     const hidePlaceholder = ref(src.value?.length !== 0)
     const onEditLink = (e: Event) => {
       const target = e.target as HTMLInputElement
@@ -126,6 +125,7 @@ export const ImageInput = defineComponent<ImageInputProps>({
           <Icon icon={imageIcon} class="image-icon" />
           <div class={clsx('link-importer', focusLinkInput.value && 'focus')}>
             <input
+              id={linkId}
               ref={linkInputRef}
               draggable="true"
               onDragstart={(e) => {
@@ -134,7 +134,6 @@ export const ImageInput = defineComponent<ImageInputProps>({
               }}
               disabled={readonly.value}
               class="link-input-area"
-              name="milkdown-image-link"
               value={currentLink.value}
               onInput={onEditLink}
               onKeydown={onKeydown}
@@ -146,12 +145,12 @@ export const ImageInput = defineComponent<ImageInputProps>({
                 <input
                   disabled={readonly.value}
                   class="hidden"
-                  id={uuid.value}
+                  id={fileInputId}
                   type="file"
                   accept="image/*"
                   onChange={onUploadFile}
                 />
-                <label class="uploader" for={uuid.value}>
+                <label class="uploader" for={fileInputId}>
                   <Icon icon={uploadButton} />
                 </label>
                 <span class="text" onClick={() => linkInputRef.value?.focus()}>

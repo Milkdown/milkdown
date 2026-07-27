@@ -95,6 +95,9 @@ export const AIInstructionInput = defineComponent<AIInstructionInputProps>({
     // through the suggestions with the arrow keys.
     const listboxId = `ai-instruction-list-${Math.random().toString(36).slice(2, 9)}`
     const optionId = (idx: number) => `${listboxId}-opt-${idx}`
+    // Unique id so host pages pass Chrome's "form field should have an id or
+    // name" audit, without a shared `name` leaking into host form submissions.
+    const inputId = `ai-instruction-input-${Math.random().toString(36).slice(2, 9)}`
 
     watch(resetSignal, () => {
       inputValue.value = ''
@@ -280,8 +283,8 @@ export const AIInstructionInput = defineComponent<AIInstructionInputProps>({
             </span>
             <input
               ref={inputRef}
+              id={inputId}
               class="ai-instruction-input-field"
-              name="milkdown-ai-instruction"
               role="combobox"
               aria-expanded="true"
               aria-autocomplete="list"

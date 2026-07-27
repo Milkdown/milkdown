@@ -4,6 +4,7 @@ import type { LinkTooltipConfig } from '../slices'
 
 import { Icon } from '../../__internal__/components/icon'
 import { keepAlive } from '../../__internal__/keep-alive'
+import { inputId } from '../../__internal__/unique-id'
 
 keepAlive(h)
 
@@ -35,6 +36,7 @@ export const EditLink = defineComponent<EditLinkProps>({
   },
   setup({ config, src, onConfirm, onCancel }) {
     const link = ref(src)
+    const id = inputId('milkdown-link-edit')
 
     watch(src, (value) => {
       link.value = value
@@ -60,8 +62,8 @@ export const EditLink = defineComponent<EditLinkProps>({
       return (
         <div class="link-edit">
           <input
+            id={id}
             class="input-area"
-            name="milkdown-link-edit"
             placeholder={config.value.inputPlaceholder}
             onKeydown={onKeydown}
             onInput={(e: Event) => {

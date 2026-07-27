@@ -15,6 +15,7 @@ import type { CodeBlockProps } from './code-block'
 
 import { Icon } from '../../../__internal__/components/icon'
 import { keepAlive } from '../../../__internal__/keep-alive'
+import { inputId } from '../../../__internal__/unique-id'
 
 keepAlive(h, Fragment)
 
@@ -50,6 +51,7 @@ export const LanguagePicker = defineComponent<LanguagePickerProps>({
     const triggerRef = ref<HTMLButtonElement>()
     const showPicker = ref(false)
     const searchRef = ref<HTMLInputElement>()
+    const searchId = inputId('milkdown-code-language-search')
     const pickerRef = ref<HTMLDivElement>()
     const filter = ref('')
 
@@ -166,9 +168,9 @@ export const LanguagePicker = defineComponent<LanguagePickerProps>({
                     <Icon icon={config.searchIcon} />
                   </div>
                   <input
+                    id={searchId}
                     ref={searchRef}
                     class="search-input"
-                    name="milkdown-code-language-search"
                     placeholder={config.searchPlaceholder}
                     value={filter.value}
                     onInput={changeFilter}
