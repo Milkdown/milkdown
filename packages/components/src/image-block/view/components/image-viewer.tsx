@@ -173,6 +173,7 @@ export const ImageViewer = defineComponent<MilkdownImageBlockProps>({
                 e.stopPropagation()
               }}
               class="caption-input"
+              name="milkdown-image-caption"
               placeholder={config?.captionPlaceholderText}
               onInput={onInputCaption}
               onBlur={onBlurCaption}

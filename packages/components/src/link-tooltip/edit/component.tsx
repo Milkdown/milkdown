@@ -61,6 +61,7 @@ export const EditLink = defineComponent<EditLinkProps>({
         <div class="link-edit">
           <input
             class="input-area"
+            name="milkdown-link-edit"
             placeholder={config.value.inputPlaceholder}
             onKeydown={onKeydown}
             onInput={(e: Event) => {

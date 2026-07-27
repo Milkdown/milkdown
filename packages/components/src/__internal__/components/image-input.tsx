@@ -134,6 +134,7 @@ export const ImageInput = defineComponent<ImageInputProps>({
               }}
               disabled={readonly.value}
               class="link-input-area"
+              name="milkdown-image-link"
               value={currentLink.value}
               onInput={onEditLink}
               onKeydown={onKeydown}

@@ -281,6 +281,7 @@ export const AIInstructionInput = defineComponent<AIInstructionInputProps>({
             <input
               ref={inputRef}
               class="ai-instruction-input-field"
+              name="milkdown-ai-instruction"
               role="combobox"
               aria-expanded="true"
               aria-autocomplete="list"

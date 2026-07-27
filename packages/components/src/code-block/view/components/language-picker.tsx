@@ -168,6 +168,7 @@ export const LanguagePicker = defineComponent<LanguagePickerProps>({
                   <input
                     ref={searchRef}
                     class="search-input"
+                    name="milkdown-code-language-search"
                     placeholder={config.searchPlaceholder}
                     value={filter.value}
                     onInput={changeFilter}
