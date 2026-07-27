@@ -8,6 +8,8 @@ import { codeBlockConfig } from '../config'
 import { LanguageLoader } from './loader'
 import { CodeMirrorBlock } from './node-view'
 
+export { CodeMirrorBlock }
+
 export const codeBlockView = $view(
   codeBlockSchema.node,
   (ctx): NodeViewConstructor => {

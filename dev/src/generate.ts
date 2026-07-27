@@ -1,6 +1,6 @@
 import { applyEdits, modify } from 'jsonc-parser'
 import { readFileSync, writeFileSync } from 'node:fs'
-import { type BuiltInParserName, format } from 'prettier'
+import { format } from 'oxfmt'
 
 import type { Package } from './package'
 import type { Path } from './path'
@@ -30,11 +30,7 @@ export class Generator {
   }
 
   generateWorkspaceFiles = async () => {
-    const filesToGenerate: [
-      Path,
-      (prev: string) => string,
-      BuiltInParserName?,
-    ][] = [
+    const filesToGenerate: [Path, (prev: string) => string][] = [
       [this.workspace.join('tsconfig.json'), this.genProjectTsConfig, 'json'],
       ...this.workspace.packages
         .filter((p) => p.isTsProject)
@@ -48,22 +44,21 @@ export class Generator {
         ),
     ]
 
-    for (const [path, content, formatter] of filesToGenerate) {
+    for (const [path, content] of filesToGenerate) {
       this.logger.info(`Generating: ${path}`)
       const previous = readFileSync(path.value, 'utf-8')
       let file = content(previous)
-      if (formatter) {
-        file = await this.format(file, formatter)
-      }
+      file = await this.format(path.value, file)
       writeFileSync(path.value, file)
     }
   }
 
-  format = (content: string, parser: BuiltInParserName) => {
+  format = async (path: string, content: string) => {
     const config = JSON.parse(
-      readFileSync(this.workspace.join('.prettierrc').value, 'utf-8')
+      readFileSync(this.workspace.join('.oxfmtrc.json').value, 'utf-8')
     )
-    return format(content, { parser, ...config })
+    const output = await format(path, content, config)
+    return output.code
   }
 
   genProjectTsConfig = (prev: string) => {

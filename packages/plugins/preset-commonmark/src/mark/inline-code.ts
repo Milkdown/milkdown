@@ -38,6 +38,7 @@ export const inlineCodeSchema = $markSchema('inlineCode', (ctx) => ({
     match: (mark) => mark.type.name === 'inlineCode',
     runner: (state, mark, node) => {
       state.withMark(mark, 'inlineCode', node.text || '')
+      return true
     },
   },
 }))

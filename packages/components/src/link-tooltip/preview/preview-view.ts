@@ -14,7 +14,7 @@ import { PreviewLink } from './component'
 export class LinkPreviewTooltip implements PluginView {
   #content: HTMLElement
   #provider: TooltipProvider
-  #slice: Slice<LinkToolTipState> = this.ctx.use(linkTooltipState.key)
+  #slice: Slice<LinkToolTipState>
   #config: Ref<LinkTooltipConfig>
   #src = ref('')
   #onEdit = ref(() => {})

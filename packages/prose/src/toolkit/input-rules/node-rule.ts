@@ -39,7 +39,7 @@ export function nodeRule(
         node
       )
       options.beforeDispatch?.({
-        match: [fullMatch, group ?? ''],
+        match: [fullMatch, group],
         start,
         end,
         tr,

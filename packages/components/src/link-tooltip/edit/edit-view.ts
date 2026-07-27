@@ -5,10 +5,9 @@ import type { EditorView } from '@milkdown/prose/view'
 
 import { editorViewCtx } from '@milkdown/core'
 import { TooltipProvider } from '@milkdown/plugin-tooltip'
-import { linkSchema } from '@milkdown/preset-commonmark'
+import { linkSchema, sanitizeLinkHref } from '@milkdown/preset-commonmark'
 import { posToDOMRect } from '@milkdown/prose'
 import { TextSelection } from '@milkdown/prose/state'
-import DOMPurify from 'dompurify'
 import { createApp, ref, type App, type Ref } from 'vue'
 
 import {
@@ -71,6 +70,7 @@ export class LinkEditTooltip implements PluginView {
   }
 
   #reset = () => {
+    this.#stopOutsideClickListener()
     this.#provider.hide()
     this.ctx.update(linkTooltipState.key, (state) => ({
       ...state,
@@ -79,11 +79,32 @@ export class LinkEditTooltip implements PluginView {
     this.#data = { ...defaultData }
   }
 
+  #onOutsidePointerDown = (e: PointerEvent) => {
+    const target = e.target as Node | null
+    if (!target) return
+    if (this.#content.contains(target)) return
+    this.#reset()
+  }
+
+  #startOutsideClickListener = () => {
+    document.addEventListener('pointerdown', this.#onOutsidePointerDown, true)
+  }
+
+  #stopOutsideClickListener = () => {
+    document.removeEventListener(
+      'pointerdown',
+      this.#onOutsidePointerDown,
+      true
+    )
+  }
+
   #confirmEdit = (href: string) => {
     const view = this.ctx.get(editorViewCtx)
     const { from, to, mark } = this.#data
     const type = linkSchema.type(this.ctx)
-    const link = DOMPurify.sanitize(href)
+    // `DOMPurify.sanitize` is for HTML markup and passes bare URL strings
+    // through untouched; use a scheme allowlist to block `javascript:` etc.
+    const link = sanitizeLinkHref(href)
     if (mark && mark.attrs.href === link) {
       this.#reset()
       return
@@ -92,7 +113,17 @@ export class LinkEditTooltip implements PluginView {
     const tr = view.state.tr
     if (mark) tr.removeMark(from, to, mark)
 
-    tr.addMark(from, to, type.create({ href: link }))
+    if (from === to) {
+      if (!link) {
+        this.#reset()
+        return
+      }
+      const linkMark = type.create({ href: link })
+      tr.insertText(link, from)
+      tr.addMark(from, from + link.length, linkMark)
+    } else {
+      tr.addMark(from, to, type.create({ href: link }))
+    }
     view.dispatch(tr)
 
     this.#reset()
@@ -114,6 +145,7 @@ export class LinkEditTooltip implements PluginView {
       { getBoundingClientRect: () => posToDOMRect(view, from, to) },
       view
     )
+    this.#startOutsideClickListener()
     requestAnimationFrame(() => {
       this.#content.querySelector('input')?.focus()
     })
@@ -130,6 +162,7 @@ export class LinkEditTooltip implements PluginView {
   }
 
   destroy = () => {
+    this.#stopOutsideClickListener()
     this.#app.unmount()
     this.#provider.destroy()
     this.#content.remove()

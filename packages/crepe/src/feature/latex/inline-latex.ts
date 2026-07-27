@@ -1,7 +1,9 @@
 import { $nodeSchema } from '@milkdown/kit/utils'
 import katex from 'katex'
 
-export const mathInlineId = 'math_inline'
+import { mathInlineId } from './constants'
+
+export { mathInlineId }
 
 /// Schema for inline math node.
 /// Add support for:

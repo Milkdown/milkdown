@@ -3,7 +3,7 @@ import type { Ctx } from '@milkdown/kit/ctx'
 type MenuItem<T> = {
   index: number
   key: string
-  onRun: (ctx: Ctx) => void
+  onRun?: (ctx: Ctx) => void
 } & T
 
 type WithRange<T, HasIndex extends true | false = true> = HasIndex extends true

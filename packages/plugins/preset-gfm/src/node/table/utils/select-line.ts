@@ -32,8 +32,10 @@ export function selectLine(type: 'row' | 'col') {
         const $lastCell = tr.doc.resolve(table.from + lastCell)
 
         const createCellSelection = isRowSelection
-          ? CellSelection.rowSelection
-          : CellSelection.colSelection
+          ? // oxlint-disable-next-line typescript/unbound-method
+            CellSelection.rowSelection
+          : // oxlint-disable-next-line typescript/unbound-method
+            CellSelection.colSelection
 
         const firstCell = map.positionAt(
           isRowSelection ? index : 0,

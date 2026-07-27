@@ -1,24 +1,30 @@
 {
   "name": "@milkdown/kit",
-  "type": "module",
-  "version": "7.19.0",
+  "version": "7.21.3",
+  "keywords": [
+    "WYSIWYG",
+    "editor",
+    "markdown",
+    "milkdown",
+    "milkdown plugin"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Milkdown/milkdown.git",
     "directory": "packages/milkdown"
   },
-  "keywords": [
-    "milkdown",
-    "milkdown plugin",
-    "markdown",
-    "WYSIWYG",
-    "editor"
+  "files": [
+    "lib",
+    "src"
   ],
+  "type": "module",
   "sideEffects": false,
+  "main": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
     "./core": "./src/core.ts",
+    "./exception": "./src/exception.ts",
     "./ctx": "./src/ctx.ts",
     "./transformer": "./src/transformer.ts",
     "./utils": "./src/utils.ts",
@@ -51,18 +57,150 @@
     "./plugin/tooltip": "./src/plugin/tooltip.ts",
     "./plugin/trailing": "./src/plugin/trailing.ts",
     "./plugin/upload": "./src/plugin/upload.ts",
+    "./plugin/diff": "./src/plugin/diff.ts",
+    "./plugin/streaming": "./src/plugin/streaming.ts",
     "./component": "./src/component/index.ts",
     "./component/code-block": "./src/component/code-block.ts",
     "./component/image-block": "./src/component/image-block.ts",
     "./component/image-inline": "./src/component/image-inline.ts",
     "./component/link-tooltip": "./src/component/link-tooltip.ts",
     "./component/list-item-block": "./src/component/list-item-block.ts",
-    "./component/table-block": "./src/component/table-block.ts"
+    "./component/table-block": "./src/component/table-block.ts",
+    "./component/diff": "./src/component/diff.ts"
   },
-  "main": "./src/index.ts",
   "publishConfig": {
     "main": "./lib/index.js",
     "types": "./lib/index.d.ts",
+    "typesVersions": {
+      "*": {
+        ".": [
+          "lib/index.d.ts"
+        ],
+        "core": [
+          "lib/core.d.ts"
+        ],
+        "exception": [
+          "lib/exception.d.ts"
+        ],
+        "ctx": [
+          "lib/ctx.d.ts"
+        ],
+        "transformer": [
+          "lib/transformer.d.ts"
+        ],
+        "utils": [
+          "lib/utils.d.ts"
+        ],
+        "prose": [
+          "lib/prose/index.d.ts"
+        ],
+        "prose/changeset": [
+          "lib/prose/changeset.d.ts"
+        ],
+        "prose/commands": [
+          "lib/prose/commands.d.ts"
+        ],
+        "prose/dropcursor": [
+          "lib/prose/dropcursor.d.ts"
+        ],
+        "prose/gapcursor": [
+          "lib/prose/gapcursor.d.ts"
+        ],
+        "prose/history": [
+          "lib/prose/history.d.ts"
+        ],
+        "prose/inputrules": [
+          "lib/prose/inputrules.d.ts"
+        ],
+        "prose/keymap": [
+          "lib/prose/keymap.d.ts"
+        ],
+        "prose/model": [
+          "lib/prose/model.d.ts"
+        ],
+        "prose/schema-list": [
+          "lib/prose/schema-list.d.ts"
+        ],
+        "prose/state": [
+          "lib/prose/state.d.ts"
+        ],
+        "prose/transform": [
+          "lib/prose/transform.d.ts"
+        ],
+        "prose/view": [
+          "lib/prose/view.d.ts"
+        ],
+        "prose/tables": [
+          "lib/prose/tables.d.ts"
+        ],
+        "preset/commonmark": [
+          "lib/preset/commonmark.d.ts"
+        ],
+        "preset/gfm": [
+          "lib/preset/gfm.d.ts"
+        ],
+        "plugin/block": [
+          "lib/plugin/block.d.ts"
+        ],
+        "plugin/clipboard": [
+          "lib/plugin/clipboard.d.ts"
+        ],
+        "plugin/cursor": [
+          "lib/plugin/cursor.d.ts"
+        ],
+        "plugin/history": [
+          "lib/plugin/history.d.ts"
+        ],
+        "plugin/indent": [
+          "lib/plugin/indent.d.ts"
+        ],
+        "plugin/listener": [
+          "lib/plugin/listener.d.ts"
+        ],
+        "plugin/slash": [
+          "lib/plugin/slash.d.ts"
+        ],
+        "plugin/tooltip": [
+          "lib/plugin/tooltip.d.ts"
+        ],
+        "plugin/trailing": [
+          "lib/plugin/trailing.d.ts"
+        ],
+        "plugin/upload": [
+          "lib/plugin/upload.d.ts"
+        ],
+        "component": [
+          "lib/component/index.d.ts"
+        ],
+        "component/code-block": [
+          "lib/component/code-block.d.ts"
+        ],
+        "component/image-block": [
+          "lib/component/image-block.d.ts"
+        ],
+        "component/image-inline": [
+          "lib/component/image-inline.d.ts"
+        ],
+        "component/link-tooltip": [
+          "lib/component/link-tooltip.d.ts"
+        ],
+        "component/list-item-block": [
+          "lib/component/list-item-block.d.ts"
+        ],
+        "component/table-block": [
+          "lib/component/table-block.d.ts"
+        ],
+        "plugin/diff": [
+          "lib/plugin/diff.d.ts"
+        ],
+        "plugin/streaming": [
+          "lib/plugin/streaming.d.ts"
+        ],
+        "component/diff": [
+          "lib/component/diff.d.ts"
+        ]
+      }
+    },
     "exports": {
       ".": {
         "import": "./lib/index.js",
@@ -71,6 +209,10 @@
       "./core": {
         "types": "./lib/core.d.ts",
         "import": "./lib/core.js"
+      },
+      "./exception": {
+        "types": "./lib/exception.d.ts",
+        "import": "./lib/exception.js"
       },
       "./ctx": {
         "types": "./lib/ctx.d.ts",
@@ -191,6 +333,14 @@
         "types": "./lib/plugin/upload.d.ts",
         "import": "./lib/plugin/upload.js"
       },
+      "./plugin/diff": {
+        "types": "./lib/plugin/diff.d.ts",
+        "import": "./lib/plugin/diff.js"
+      },
+      "./plugin/streaming": {
+        "types": "./lib/plugin/streaming.d.ts",
+        "import": "./lib/plugin/streaming.js"
+      },
       "./component": {
         "types": "./lib/component/index.d.ts",
         "import": "./lib/component/index.js"
@@ -218,131 +368,13 @@
       "./component/table-block": {
         "types": "./lib/component/table-block.d.ts",
         "import": "./lib/component/table-block.js"
-      }
-    },
-    "typesVersions": {
-      "*": {
-        ".": [
-          "lib/index.d.ts"
-        ],
-        "core": [
-          "lib/core.d.ts"
-        ],
-        "ctx": [
-          "lib/ctx.d.ts"
-        ],
-        "transformer": [
-          "lib/transformer.d.ts"
-        ],
-        "utils": [
-          "lib/utils.d.ts"
-        ],
-        "prose": [
-          "lib/prose/index.d.ts"
-        ],
-        "prose/changeset": [
-          "lib/prose/changeset.d.ts"
-        ],
-        "prose/commands": [
-          "lib/prose/commands.d.ts"
-        ],
-        "prose/dropcursor": [
-          "lib/prose/dropcursor.d.ts"
-        ],
-        "prose/gapcursor": [
-          "lib/prose/gapcursor.d.ts"
-        ],
-        "prose/history": [
-          "lib/prose/history.d.ts"
-        ],
-        "prose/inputrules": [
-          "lib/prose/inputrules.d.ts"
-        ],
-        "prose/keymap": [
-          "lib/prose/keymap.d.ts"
-        ],
-        "prose/model": [
-          "lib/prose/model.d.ts"
-        ],
-        "prose/schema-list": [
-          "lib/prose/schema-list.d.ts"
-        ],
-        "prose/state": [
-          "lib/prose/state.d.ts"
-        ],
-        "prose/transform": [
-          "lib/prose/transform.d.ts"
-        ],
-        "prose/view": [
-          "lib/prose/view.d.ts"
-        ],
-        "prose/tables": [
-          "lib/prose/tables.d.ts"
-        ],
-        "preset/commonmark": [
-          "lib/preset/commonmark.d.ts"
-        ],
-        "preset/gfm": [
-          "lib/preset/gfm.d.ts"
-        ],
-        "plugin/block": [
-          "lib/plugin/block.d.ts"
-        ],
-        "plugin/clipboard": [
-          "lib/plugin/clipboard.d.ts"
-        ],
-        "plugin/cursor": [
-          "lib/plugin/cursor.d.ts"
-        ],
-        "plugin/history": [
-          "lib/plugin/history.d.ts"
-        ],
-        "plugin/indent": [
-          "lib/plugin/indent.d.ts"
-        ],
-        "plugin/listener": [
-          "lib/plugin/listener.d.ts"
-        ],
-        "plugin/slash": [
-          "lib/plugin/slash.d.ts"
-        ],
-        "plugin/tooltip": [
-          "lib/plugin/tooltip.d.ts"
-        ],
-        "plugin/trailing": [
-          "lib/plugin/trailing.d.ts"
-        ],
-        "plugin/upload": [
-          "lib/plugin/upload.d.ts"
-        ],
-        "component": [
-          "lib/component/index.d.ts"
-        ],
-        "component/code-block": [
-          "lib/component/code-block.d.ts"
-        ],
-        "component/image-block": [
-          "lib/component/image-block.d.ts"
-        ],
-        "component/image-inline": [
-          "lib/component/image-inline.d.ts"
-        ],
-        "component/link-tooltip": [
-          "lib/component/link-tooltip.d.ts"
-        ],
-        "component/list-item-block": [
-          "lib/component/list-item-block.d.ts"
-        ],
-        "component/table-block": [
-          "lib/component/table-block.d.ts"
-        ]
+      },
+      "./component/diff": {
+        "types": "./lib/component/diff.d.ts",
+        "import": "./lib/component/diff.js"
       }
     }
   },
-  "files": [
-    "lib",
-    "src"
-  ],
   "scripts": {
     "build": "postcss src --base src --dir lib"
   },
@@ -350,13 +382,16 @@
     "@milkdown/components": "workspace:*",
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
+    "@milkdown/exception": "workspace:*",
     "@milkdown/plugin-block": "workspace:*",
     "@milkdown/plugin-clipboard": "workspace:*",
     "@milkdown/plugin-cursor": "workspace:*",
+    "@milkdown/plugin-diff": "workspace:*",
     "@milkdown/plugin-history": "workspace:*",
     "@milkdown/plugin-indent": "workspace:*",
     "@milkdown/plugin-listener": "workspace:*",
     "@milkdown/plugin-slash": "workspace:*",
+    "@milkdown/plugin-streaming": "workspace:*",
     "@milkdown/plugin-tooltip": "workspace:*",
     "@milkdown/plugin-trailing": "workspace:*",
     "@milkdown/plugin-upload": "workspace:*",

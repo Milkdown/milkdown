@@ -189,6 +189,7 @@ export const listener: MilkdownPlugin = (ctx) => {
       view: () => {
         return {
           destroy: () => {
+            debouncedHandler.cancel()
             listeners.destroy.forEach((fn) => fn(ctx))
           },
         }

@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import { focusEditor, loadFixture, setMarkdown } from '../misc'
+import { focusEditor, getMarkdown, loadFixture, setMarkdown } from '../misc'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/preset-commonmark/')
@@ -30,4 +30,16 @@ test('list', async ({ page }) => {
   expect(await page.locator('.editor>ul:last-child li').count()).toBe(8)
   expect(await page.locator('.editor>ul:last-child ul').count()).toBe(1)
   expect(await page.locator('.editor>ul:last-child ol').count()).toBe(2)
+})
+
+test('ordered list with custom start number', async ({ page }) => {
+  await focusEditor(page)
+  const markdown = await loadFixture('ordered-list-custom-start.md')
+  await setMarkdown(page, markdown)
+
+  await expect(page.locator('.editor>ol')).toHaveAttribute('start', '5')
+  expect(await page.locator('.editor>ol>li').count()).toBe(3)
+
+  const output = await getMarkdown(page)
+  expect(output).toBe(markdown)
 })

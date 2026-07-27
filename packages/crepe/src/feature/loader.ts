@@ -1,5 +1,6 @@
 import type { Editor } from '@milkdown/kit/core'
 
+import { ai } from './ai'
 import { blockEdit } from './block-edit'
 import { codeMirror } from './code-mirror'
 import { cursor } from './cursor'
@@ -11,6 +12,7 @@ import { listItem } from './list-item'
 import { placeholder } from './placeholder'
 import { table } from './table'
 import { toolbar } from './toolbar'
+import { topBar } from './top-bar'
 
 export function loadFeature(
   feature: CrepeFeature,
@@ -47,6 +49,12 @@ export function loadFeature(
     }
     case CrepeFeature.Latex: {
       return latex(editor, config)
+    }
+    case CrepeFeature.TopBar: {
+      return topBar(editor, config)
+    }
+    case CrepeFeature.AI: {
+      return ai(editor, config)
     }
   }
 }

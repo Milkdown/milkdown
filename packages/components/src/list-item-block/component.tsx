@@ -4,8 +4,9 @@ import { computed, defineComponent, type Ref, h, type VNodeRef } from 'vue'
 import type { ListItemBlockConfig } from './config'
 
 import { Icon } from '../__internal__/components/icon'
+import { keepAlive } from '../__internal__/keep-alive'
 
-h
+keepAlive(h)
 
 interface Attrs {
   label: string

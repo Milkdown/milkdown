@@ -2,6 +2,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import resolve from '@rollup/plugin-node-resolve'
 import esbuild from 'rollup-plugin-esbuild'
+
 import pkg from './package.json' with { type: 'json' }
 
 const external = [
@@ -13,6 +14,7 @@ const external = [
 const entry = ['index', 'builder']
 
 const featureEntry = [
+  'ai',
   'block-edit',
   'code-mirror',
   'cursor',
@@ -23,7 +25,10 @@ const featureEntry = [
   'placeholder',
   'table',
   'toolbar',
+  'top-bar',
 ]
+
+const llmProviderEntry = ['openai', 'anthropic']
 
 export default () => {
   const jsPlugins = [
@@ -73,6 +78,30 @@ export default () => {
           input: `./src/feature/${name}/index.ts`,
           output: {
             dir: `lib/cjs/feature/${name}`,
+            format: 'cjs',
+            sourcemap: true,
+          },
+          external,
+          plugins: jsPlugins,
+        },
+      ]
+    }),
+    ...llmProviderEntry.flatMap((name) => {
+      return [
+        {
+          input: `./src/llm-providers/${name}/index.ts`,
+          output: {
+            dir: `lib/esm/llm-providers/${name}`,
+            format: 'esm',
+            sourcemap: true,
+          },
+          external,
+          plugins: jsPlugins,
+        },
+        {
+          input: `./src/llm-providers/${name}/index.ts`,
+          output: {
+            dir: `lib/cjs/llm-providers/${name}`,
             format: 'cjs',
             sourcemap: true,
           },

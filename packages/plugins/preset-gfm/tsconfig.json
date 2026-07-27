@@ -10,10 +10,10 @@
   "references": [
     { "path": "../../core" },
     { "path": "../../ctx" },
-    { "path": "../../prose" },
-    { "path": "../preset-commonmark" },
-    { "path": "../../transformer" },
     { "path": "../../exception" },
+    { "path": "../preset-commonmark" },
+    { "path": "../../prose" },
+    { "path": "../../transformer" },
     { "path": "../../utils" }
   ]
 }

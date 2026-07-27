@@ -6,6 +6,7 @@ import { TextSelection } from '@milkdown/prose/state'
 import { $command, $markAttr, $markSchema } from '@milkdown/utils'
 
 import { withMeta } from '../__internal__'
+import { sanitizeLinkHref } from './sanitize-href'
 
 /// HTML attributes for the link mark.
 export const linkAttr = $markAttr('link')
@@ -34,7 +35,16 @@ export const linkSchema = $markSchema('link', (ctx) => ({
       },
     },
   ],
-  toDOM: (mark) => ['a', { ...ctx.get(linkAttr.key)(mark), ...mark.attrs }],
+  toDOM: (mark) => [
+    'a',
+    {
+      ...ctx.get(linkAttr.key)(mark),
+      ...mark.attrs,
+      // Neutralize `javascript:`/`data:` and other unsafe schemes before
+      // they become a real, clickable anchor (also covers `getHTML()`).
+      href: sanitizeLinkHref(mark.attrs.href),
+    },
+  ],
   parseMarkdown: {
     match: (node) => node.type === 'link',
     runner: (state, node, markType) => {

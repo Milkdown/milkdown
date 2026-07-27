@@ -1,7 +1,12 @@
 import { commandsCtx } from '@milkdown/core'
 import { paragraphSchema } from '@milkdown/preset-commonmark'
 import { InputRule } from '@milkdown/prose/inputrules'
-import { Fragment, Slice } from '@milkdown/prose/model'
+import {
+  type Fragment as FragmentType,
+  Fragment,
+  type Node as ProsemirrorNode,
+  Slice,
+} from '@milkdown/prose/model'
 import { TextSelection } from '@milkdown/prose/state'
 import { $inputRule, $pasteRule, $useKeymap } from '@milkdown/utils'
 
@@ -11,7 +16,12 @@ import {
   goToNextTableCellCommand,
   goToPrevTableCellCommand,
 } from './command'
-import { tableHeaderSchema, tableSchema } from './schema'
+import {
+  tableHeaderRowSchema,
+  tableHeaderSchema,
+  tableRowSchema,
+  tableSchema,
+} from './schema'
 import { createTable } from './utils'
 
 /// A input rule for creating table.
@@ -52,35 +62,53 @@ withMeta(insertTableInputRule, {
 /// A paste rule for fixing tables without header cells.
 /// This is a workaround for some editors (e.g. Google Docs) which allow creating tables without header cells,
 /// which is not supported by Markdown schema.
-/// This paste rule will add header cells to the first row if it's missing.
+/// This paste rule will promote the first data row to header, or add empty header cells as a fallback.
 export const tablePasteRule = $pasteRule((ctx) => ({
   run: (slice, _view, isPlainText) => {
     if (isPlainText) {
       return slice
     }
-    let fragment = slice.content
 
-    slice.content.forEach((node, _offset, index) => {
-      if (node?.type !== tableSchema.type(ctx)) {
-        return
-      }
+    function fixTable(node: ProsemirrorNode): ProsemirrorNode {
       const rowsCount = node.childCount
       const colsCount = node.lastChild?.childCount ?? 0
       if (rowsCount === 0 || colsCount === 0) {
-        fragment = fragment.replaceChild(
-          index,
-          paragraphSchema.type(ctx).create()
-        )
-        return
+        return paragraphSchema.type(ctx).create()
       }
 
       const headerRow = node.firstChild
       const needToFixHeaderRow =
         colsCount > 0 && headerRow && headerRow.childCount === 0
       if (!needToFixHeaderRow) {
-        return
+        return node
       }
-      // Fix for tables with rows but no cells in the first row
+
+      // If there are 2+ data rows (3+ total: empty header + 2+ data rows),
+      // promote the first data row to header
+      if (rowsCount >= 3) {
+        const firstDataRow = node.child(1)
+        const headerCells: ProsemirrorNode[] = []
+        for (let i = 0; i < firstDataRow.childCount; i++) {
+          const cell = firstDataRow.child(i)
+          headerCells.push(
+            tableHeaderSchema
+              .type(ctx)
+              .create(cell.attrs, cell.content, cell.marks)
+          )
+        }
+        const newHeaderRow = headerRow.type.create(headerRow.attrs, headerCells)
+
+        // Collect remaining data rows (skip promoted row at index 1)
+        const remainingRows: ProsemirrorNode[] = []
+        for (let i = 2; i < rowsCount; i++) {
+          remainingRows.push(node.child(i))
+        }
+
+        return node.type.create(node.attrs, [newHeaderRow, ...remainingRows])
+      }
+
+      // Fallback: only 1 data row, can't promote (would leave 0 data rows).
+      // Fill the empty header with blank cells.
       const headerCells = Array(colsCount)
         .fill(0)
         .map(() => tableHeaderSchema.type(ctx).createAndFill()!)
@@ -93,9 +121,97 @@ export const tablePasteRule = $pasteRule((ctx) => ({
         headerRow.nodeSize,
         new Slice(Fragment.from(newHeaderRow), 0, 0)
       )
-      fragment = fragment.replaceChild(index, newTable)
-    })
+      return newTable
+    }
 
+    // Wrap consecutive orphaned table_row nodes (at the top level of a fragment)
+    // into a proper table. This happens when ProseMirror's parseSlice breaks
+    // a table apart (e.g. when pasting multiple tables from Google Docs).
+    function wrapOrphanedRows(fragment: FragmentType): FragmentType {
+      const rowType = tableRowSchema.type(ctx)
+      const nodes: ProsemirrorNode[] = []
+      let pendingRows: ProsemirrorNode[] = []
+      let hasOrphans = false
+
+      function flushPendingRows() {
+        if (pendingRows.length === 0) return
+
+        // Create an empty table_header_row, then fixTable will promote the first data row
+        const emptyHeaderRow = tableHeaderRowSchema.type(ctx).createAndFill()!
+        const table = tableSchema
+          .type(ctx)
+          .create(null, [emptyHeaderRow, ...pendingRows])
+        nodes.push(fixTable(table))
+        pendingRows = []
+      }
+
+      fragment.forEach((node) => {
+        if (node.type === rowType) {
+          hasOrphans = true
+          pendingRows.push(node)
+        } else {
+          flushPendingRows()
+          nodes.push(node)
+        }
+      })
+      flushPendingRows()
+
+      return hasOrphans ? Fragment.from(nodes) : fragment
+    }
+
+    function fixFragment(fragment: FragmentType): FragmentType {
+      // First, wrap any orphaned table_row nodes into tables
+      let result = wrapOrphanedRows(fragment)
+
+      // Then fix existing tables and recurse into children
+      let changed = result !== fragment
+      const fixed: ProsemirrorNode[] = []
+      result.forEach((node) => {
+        if (node.type === tableSchema.type(ctx)) {
+          const fixedNode = fixTable(node)
+          if (fixedNode !== node) changed = true
+          fixed.push(fixedNode)
+        } else if (node.childCount > 0) {
+          const fixedContent = fixFragment(node.content)
+          if (fixedContent !== node.content) {
+            changed = true
+            fixed.push(node.copy(fixedContent))
+          } else {
+            fixed.push(node)
+          }
+        } else {
+          fixed.push(node)
+        }
+      })
+      return changed ? Fragment.from(fixed) : fragment
+    }
+
+    // Remove empty paragraphs that directly precede a table
+    // (artifacts of broken table parsing from Google Docs)
+    function cleanEmptyParagraphs(fragment: FragmentType): FragmentType {
+      const nodes: ProsemirrorNode[] = []
+      const allNodes: ProsemirrorNode[] = []
+      fragment.forEach((node) => allNodes.push(node))
+
+      for (let i = 0; i < allNodes.length; i++) {
+        const node = allNodes[i]!
+        const next = allNodes[i + 1]
+        if (
+          node.type === paragraphSchema.type(ctx) &&
+          node.content.size === 0 &&
+          next &&
+          next.type === tableSchema.type(ctx)
+        ) {
+          continue // skip empty paragraph before table
+        }
+        nodes.push(node)
+      }
+
+      return nodes.length < allNodes.length ? Fragment.from(nodes) : fragment
+    }
+
+    let fragment = fixFragment(slice.content)
+    fragment = cleanEmptyParagraphs(fragment)
     return new Slice(Fragment.from(fragment), slice.openStart, slice.openEnd)
   },
 }))

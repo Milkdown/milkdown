@@ -1,8 +1,9 @@
 import { Icon } from '@milkdown/kit/component'
 import { defineComponent, ref, h, Fragment } from 'vue'
 
-h
-Fragment
+import { keepAlive } from '../../../utils/keep-alive'
+
+keepAlive(h, Fragment)
 
 interface BlockHandleProps {
   onAdd: () => void

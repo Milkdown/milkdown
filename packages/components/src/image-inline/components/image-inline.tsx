@@ -3,9 +3,9 @@ import { h, Fragment, type Ref, defineComponent } from 'vue'
 import type { InlineImageConfig } from '../config'
 
 import { ImageInput } from '../../__internal__/components/image-input'
+import { keepAlive } from '../../__internal__/keep-alive'
 
-h
-Fragment
+keepAlive(h, Fragment)
 
 type Attrs = {
   src: string

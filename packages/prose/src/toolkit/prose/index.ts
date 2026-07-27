@@ -1,4 +1,6 @@
 export * from './helper'
+export * from './mark'
 export * from './node'
 export * from './schema'
 export * from './selection'
+export * from './snapshot'

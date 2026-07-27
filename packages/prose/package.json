@@ -1,14 +1,19 @@
 {
   "name": "@milkdown/prose",
-  "type": "module",
-  "version": "7.19.0",
+  "version": "7.21.3",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Milkdown/milkdown.git",
     "directory": "packages/prose"
   },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "type": "module",
   "sideEffects": false,
+  "main": "./src/index.ts",
   "exports": {
     ".": {
       "import": "./src/index.ts"
@@ -56,8 +61,52 @@
     "./tables/style/tables.css": "./lib/style/tables.css",
     "./gapcursor/style/gapcursor.css": "./lib/style/gapcursor.css"
   },
-  "main": "./src/index.ts",
   "publishConfig": {
+    "main": "./lib/index.js",
+    "types": "./lib/index.d.ts",
+    "typesVersions": {
+      "*": {
+        "changeset": [
+          "lib/changeset.d.ts"
+        ],
+        "commands": [
+          "lib/commands.d.ts"
+        ],
+        "dropcursor": [
+          "lib/dropcursor.d.ts"
+        ],
+        "gapcursor": [
+          "lib/gapcursor.d.ts"
+        ],
+        "history": [
+          "lib/history.d.ts"
+        ],
+        "inputrules": [
+          "lib/inputrules.d.ts"
+        ],
+        "keymap": [
+          "lib/keymap.d.ts"
+        ],
+        "model": [
+          "lib/model.d.ts"
+        ],
+        "schema-list": [
+          "lib/schema-list.d.ts"
+        ],
+        "state": [
+          "lib/state.d.ts"
+        ],
+        "transform": [
+          "lib/transform.d.ts"
+        ],
+        "view": [
+          "lib/view.d.ts"
+        ],
+        "tables": [
+          "lib/tables.d.ts"
+        ]
+      }
+    },
     "exports": {
       ".": {
         "types": "./lib/index.d.ts",
@@ -118,57 +167,8 @@
       "./view/style/prosemirror.css": "./lib/style/prosemirror.css",
       "./tables/style/tables.css": "./lib/style/tables.css",
       "./gapcursor/style/gapcursor.css": "./lib/style/gapcursor.css"
-    },
-    "main": "./lib/index.js",
-    "types": "./lib/index.d.ts",
-    "typesVersions": {
-      "*": {
-        "changeset": [
-          "lib/changeset.d.ts"
-        ],
-        "commands": [
-          "lib/commands.d.ts"
-        ],
-        "dropcursor": [
-          "lib/dropcursor.d.ts"
-        ],
-        "gapcursor": [
-          "lib/gapcursor.d.ts"
-        ],
-        "history": [
-          "lib/history.d.ts"
-        ],
-        "inputrules": [
-          "lib/inputrules.d.ts"
-        ],
-        "keymap": [
-          "lib/keymap.d.ts"
-        ],
-        "model": [
-          "lib/model.d.ts"
-        ],
-        "schema-list": [
-          "lib/schema-list.d.ts"
-        ],
-        "state": [
-          "lib/state.d.ts"
-        ],
-        "transform": [
-          "lib/transform.d.ts"
-        ],
-        "view": [
-          "lib/view.d.ts"
-        ],
-        "tables": [
-          "lib/tables.d.ts"
-        ]
-      }
     }
   },
-  "files": [
-    "lib",
-    "src"
-  ],
   "scripts": {
     "build": "rollup -c"
   },

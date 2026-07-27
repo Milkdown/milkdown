@@ -18,7 +18,7 @@ export function findParentNodeClosestToPos(predicate: Predicate) {
       const node = $pos.node(i)
       if (predicate(node)) {
         return {
-          pos: i > 0 ? $pos.before(i) : 0,
+          pos: $pos.before(i),
           start: $pos.start(i),
           depth: i,
           node,

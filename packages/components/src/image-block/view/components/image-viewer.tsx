@@ -3,10 +3,10 @@ import { defineComponent, ref, h, Fragment } from 'vue'
 import type { MilkdownImageBlockProps } from './image-block'
 
 import { Icon } from '../../../__internal__/components/icon'
+import { keepAlive } from '../../../__internal__/keep-alive'
 import { IMAGE_DATA_TYPE } from '../../schema'
 
-h
-Fragment
+keepAlive(h, Fragment)
 
 export const ImageViewer = defineComponent<MilkdownImageBlockProps>({
   props: {
@@ -51,17 +51,26 @@ export const ImageViewer = defineComponent<MilkdownImageBlockProps>({
       const host = image.closest('.milkdown-image-block')
       if (!host) return
 
-      const maxWidth = host.getBoundingClientRect().width
+      let maxWidth = host.getBoundingClientRect().width
       if (!maxWidth) return
 
-      const height = image.height
-      const width = image.width
-      const transformedHeight =
+      if (config.maxWidth && config.maxWidth < maxWidth)
+        maxWidth = config.maxWidth
+
+      const height = image.naturalHeight
+      const width = image.naturalWidth
+      let transformedHeight =
         width < maxWidth ? height : maxWidth * (height / width)
+
+      if (config.maxHeight && transformedHeight > config.maxHeight)
+        transformedHeight = config.maxHeight
+
       const h = (transformedHeight * (ratio.value ?? 1)).toFixed(2)
       image.dataset.origin = transformedHeight.toFixed(2)
       image.dataset.height = h
       image.style.height = `${h}px`
+
+      if (config.maxWidth) image.style.maxWidth = `${config.maxWidth}px`
     }
 
     const onToggleCaption = (e: PointerEvent) => {
@@ -97,8 +106,11 @@ export const ImageViewer = defineComponent<MilkdownImageBlockProps>({
       const image = imageRef.value
       if (!image) return
       const top = image.getBoundingClientRect().top
-      const height = e.clientY - top
-      const h = Number(height < 100 ? 100 : height).toFixed(2)
+      let height = e.clientY - top
+      if (height < 100) height = 100
+      if (config.maxHeight && height > config.maxHeight)
+        height = config.maxHeight
+      const h = Number(height).toFixed(2)
       image.dataset.height = h
       image.style.height = `${h}px`
     }

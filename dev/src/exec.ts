@@ -8,8 +8,12 @@ export function exec(
   { silent }: { silent: boolean } = { silent: false }
 ): string {
   const logger = new Logger(tag)
-  !silent && logger.info(cmd)
+  if (!silent) {
+    logger.info(cmd)
+  }
   const result = execSync(cmd, { encoding: 'utf8' }).trim()
-  !silent && logger.log(result)
+  if (!silent) {
+    logger.log(result)
+  }
   return result
 }

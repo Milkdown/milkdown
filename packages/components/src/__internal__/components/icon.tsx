@@ -2,7 +2,9 @@ import clsx from 'clsx'
 import DOMPurify from 'dompurify'
 import { h } from 'vue'
 
-h
+import { keepAlive } from '../keep-alive'
+
+keepAlive(h)
 
 type IconProps = {
   icon?: string | null

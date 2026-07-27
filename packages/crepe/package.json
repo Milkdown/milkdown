@@ -1,26 +1,34 @@
 {
   "name": "@milkdown/crepe",
-  "type": "module",
-  "version": "7.19.0",
+  "version": "7.21.3",
+  "keywords": [
+    "crepe",
+    "editor",
+    "milkdown",
+    "milkdown plugin"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Milkdown/milkdown.git",
     "directory": "packages/crepe"
   },
-  "keywords": [
-    "milkdown",
-    "milkdown plugin",
-    "crepe",
-    "editor"
+  "files": [
+    "lib",
+    "src"
   ],
+  "type": "module",
   "sideEffects": false,
+  "main": "./src/index.ts",
   "exports": {
     ".": {
       "import": "./src/index.ts"
     },
     "./builder": {
       "import": "./src/builder.ts"
+    },
+    "./feature/ai": {
+      "import": "./src/feature/ai/index.ts"
     },
     "./feature/block-edit": {
       "import": "./src/feature/block-edit/index.ts"
@@ -52,6 +60,15 @@
     "./feature/toolbar": {
       "import": "./src/feature/toolbar/index.ts"
     },
+    "./feature/top-bar": {
+      "import": "./src/feature/top-bar/index.ts"
+    },
+    "./llm-providers/openai": {
+      "import": "./src/llm-providers/openai/index.ts"
+    },
+    "./llm-providers/anthropic": {
+      "import": "./src/llm-providers/anthropic/index.ts"
+    },
     "./theme/common/*": "./src/theme/common/*",
     "./theme/classic.css": "./src/theme/crepe/style.css",
     "./theme/classic-dark.css": "./src/theme/crepe-dark/style.css",
@@ -60,7 +77,6 @@
     "./theme/frame.css": "./src/theme/frame/style.css",
     "./theme/frame-dark.css": "./src/theme/frame-dark/style.css"
   },
-  "main": "./src/index.ts",
   "publishConfig": {
     "main": "./lib/esm/index.js",
     "types": "./lib/types/index.d.ts",
@@ -74,6 +90,11 @@
         "import": "./lib/esm/builder.js",
         "require": "./lib/cjs/builder.js",
         "types": "./lib/types/builder.d.ts"
+      },
+      "./feature/ai": {
+        "import": "./lib/esm/feature/ai/index.js",
+        "require": "./lib/cjs/feature/ai/index.js",
+        "types": "./lib/types/feature/ai/index.d.ts"
       },
       "./feature/block-edit": {
         "import": "./lib/esm/feature/block-edit/index.js",
@@ -125,6 +146,21 @@
         "require": "./lib/cjs/feature/toolbar/index.js",
         "types": "./lib/types/feature/toolbar/index.d.ts"
       },
+      "./feature/top-bar": {
+        "import": "./lib/esm/feature/top-bar/index.js",
+        "require": "./lib/cjs/feature/top-bar/index.js",
+        "types": "./lib/types/feature/top-bar/index.d.ts"
+      },
+      "./llm-providers/openai": {
+        "import": "./lib/esm/llm-providers/openai/index.js",
+        "require": "./lib/cjs/llm-providers/openai/index.js",
+        "types": "./lib/types/llm-providers/openai/index.d.ts"
+      },
+      "./llm-providers/anthropic": {
+        "import": "./lib/esm/llm-providers/anthropic/index.js",
+        "require": "./lib/cjs/llm-providers/anthropic/index.js",
+        "types": "./lib/types/llm-providers/anthropic/index.d.ts"
+      },
       "./theme/common/*": "./lib/theme/common/*",
       "./theme/classic.css": "./lib/theme/crepe/style.css",
       "./theme/classic-dark.css": "./lib/theme/crepe-dark/style.css",
@@ -134,10 +170,6 @@
       "./theme/frame-dark.css": "./lib/theme/frame-dark/style.css"
     }
   },
-  "files": [
-    "lib",
-    "src"
-  ],
   "scripts": {
     "build": "pnpm run build:es && pnpm run build:theme && echo",
     "build:es": "rollup -c",
@@ -154,7 +186,8 @@
     "@types/lodash-es": "^4.17.12",
     "clsx": "^2.0.0",
     "codemirror": "^6.0.1",
-    "katex": "^0.16.0",
+    "dompurify": "^3.2.5",
+    "katex": "^0.17.0",
     "lodash-es": "^4.17.21",
     "prosemirror-virtual-cursor": "^0.4.2",
     "remark-math": "^6.0.0",

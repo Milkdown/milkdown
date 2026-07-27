@@ -53,7 +53,7 @@ export const orderedListSchema = $nodeSchema('ordered_list', (ctx) => ({
     'ol',
     {
       ...ctx.get(orderedListAttr.key)(node),
-      ...(node.attrs.order === 1 ? {} : node.attrs.order),
+      ...(node.attrs.order === 1 ? {} : { start: node.attrs.order }),
       'data-spread': node.attrs.spread,
     },
     0,
@@ -62,7 +62,10 @@ export const orderedListSchema = $nodeSchema('ordered_list', (ctx) => ({
     match: ({ type, ordered }) => type === 'list' && !!ordered,
     runner: (state, node, type) => {
       const spread = node.spread != null ? `${node.spread}` : 'true'
-      state.openNode(type, { spread }).next(node.children).closeNode()
+      state
+        .openNode(type, { spread, order: node.start ?? 1 })
+        .next(node.children)
+        .closeNode()
     },
   },
   toMarkdown: {
@@ -70,7 +73,7 @@ export const orderedListSchema = $nodeSchema('ordered_list', (ctx) => ({
     runner: (state, node) => {
       state.openNode('list', undefined, {
         ordered: true,
-        start: 1,
+        start: node.attrs.order ?? 1,
         spread: node.attrs.spread === 'true',
       })
       state.next(node.content)

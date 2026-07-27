@@ -31,6 +31,8 @@ interface ImageBlockConfig {
   blockUploadPlaceholderText: string
   blockOnUpload: (file: File) => Promise<string>
   onImageLoadError: (event: Event) => void | Promise<void>
+  maxWidth: number
+  maxHeight: number
 }
 
 export type ImageBlockFeatureConfig = Partial<ImageBlockConfig>
@@ -63,6 +65,8 @@ export const imageBlock: DefineFeature<ImageBlockFeatureConfig> = (
         onUpload: config?.blockOnUpload ?? config?.onUpload ?? value.onUpload,
         proxyDomURL: config?.proxyDomURL,
         onImageLoadError: config?.onImageLoadError ?? value.onImageLoadError,
+        maxWidth: config?.maxWidth,
+        maxHeight: config?.maxHeight,
       }))
     })
     .use(imageBlockComponent)

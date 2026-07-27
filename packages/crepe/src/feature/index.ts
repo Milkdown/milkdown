@@ -1,3 +1,4 @@
+import type { AIFeatureConfig } from './ai'
 import type { BlockEditFeatureConfig } from './block-edit'
 import type { CodeMirrorFeatureConfig } from './code-mirror'
 import type { CursorFeatureConfig } from './cursor'
@@ -8,10 +9,11 @@ import type { ListItemFeatureConfig } from './list-item'
 import type { PlaceholderFeatureConfig } from './placeholder'
 import type { TableFeatureConfig } from './table'
 import type { ToolbarFeatureConfig } from './toolbar'
+import type { TopBarFeatureConfig } from './top-bar'
 
 /// The crepe editor feature flags.
-/// Every feature is enabled by default.
-/// Every feature is a string literal type.
+/// Most features are enabled by default; `TopBar` and `AI` are opt-in.
+/// See `defaultFeatures` for the per-flag default.
 export enum CrepeFeature {
   /// Syntax highlighting and editing for code blocks with language support, theme customization, and preview capabilities.
   CodeMirror = 'code-mirror',
@@ -42,6 +44,12 @@ export enum CrepeFeature {
 
   /// Mathematical formula support with both inline and block math rendering using KaTeX.
   Latex = 'latex',
+
+  /// Fixed top toolbar with heading selector, formatting buttons, insert actions, and block commands.
+  TopBar = 'top-bar',
+
+  /// AI-assisted editing: streaming input, diff review, and provider integration.
+  AI = 'ai',
 }
 
 export interface CrepeFeatureConfig {
@@ -55,6 +63,8 @@ export interface CrepeFeatureConfig {
   [CrepeFeature.CodeMirror]?: CodeMirrorFeatureConfig
   [CrepeFeature.Table]?: TableFeatureConfig
   [CrepeFeature.Latex]?: LatexFeatureConfig
+  [CrepeFeature.TopBar]?: TopBarFeatureConfig
+  [CrepeFeature.AI]?: AIFeatureConfig
 }
 
 export const defaultFeatures: Record<CrepeFeature, boolean> = {
@@ -68,4 +78,6 @@ export const defaultFeatures: Record<CrepeFeature, boolean> = {
   [CrepeFeature.CodeMirror]: true,
   [CrepeFeature.Table]: true,
   [CrepeFeature.Latex]: true,
+  [CrepeFeature.TopBar]: false,
+  [CrepeFeature.AI]: false,
 }

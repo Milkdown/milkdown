@@ -17,7 +17,7 @@ export function markRule(
     let fullMatch = match[0]
     let initialStoredMarks: readonly Mark[] = []
 
-    let markEnd = end
+    let markEnd: number
 
     const captured: Captured = {
       group,

@@ -1,4 +1,4 @@
-import type { Node as ProsemirrorNode } from '@milkdown/prose/model'
+import type { EditorView } from '@milkdown/prose/view'
 
 import {
   editorViewOptionsCtx,
@@ -7,12 +7,32 @@ import {
   serializerCtx,
 } from '@milkdown/core'
 import { getNodeFromSchema, isTextOnlySlice } from '@milkdown/prose'
-import { DOMParser, DOMSerializer } from '@milkdown/prose/model'
+import {
+  DOMParser,
+  DOMSerializer,
+  type Node as ProsemirrorNode,
+  type Slice,
+} from '@milkdown/prose/model'
 import { Plugin, PluginKey, TextSelection } from '@milkdown/prose/state'
 import { $prose } from '@milkdown/utils'
 
 import { isPureText } from './__internal__/is-pure-text'
 import { withMeta } from './__internal__/with-meta'
+
+function dispatchPasteSlice(view: EditorView, slice: Slice): boolean {
+  const node = isTextOnlySlice(slice)
+  if (node) {
+    view.dispatch(view.state.tr.replaceSelectionWith(node, true))
+    return true
+  }
+
+  try {
+    view.dispatch(view.state.tr.replaceSelection(slice))
+    return true
+  } catch {
+    return false
+  }
+}
 
 /// The prosemirror plugin for clipboard.
 export const clipboard = $prose((ctx) => {
@@ -22,13 +42,32 @@ export const clipboard = $prose((ctx) => {
   ctx.update(editorViewOptionsCtx, (prev) => ({
     ...prev,
     editable: prev.editable ?? (() => true),
+    transformPastedHTML: (html: string, view: EditorView) => {
+      const prevTransform = prev.transformPastedHTML
+      if (prevTransform) html = prevTransform(html, view)
+
+      // Google Docs wraps pasted content in <b style="font-weight:normal;" id="docs-internal-guid-...">
+      // This wrapper causes ProseMirror's parser to fail when parsing multiple tables.
+      // Strip it so block content is at the top level.
+      if (html.includes('docs-internal-guid')) {
+        html = html.replace(
+          /<b[^>]*id="docs-internal-guid[^"]*"[^>]*>([\s\S]*)<\/b>/,
+          '$1'
+        )
+        // Also unwrap <div> elements that wrap tables.
+        // Google Docs wraps each table in <div dir="ltr" ...><table>...</table></div>
+        // These wrappers interfere with ProseMirror's parseSlice for multiple tables.
+        html = html.replace(/<div[^>]*>(<table[\s\S]*?<\/table>)<\/div>/g, '$1')
+      }
+      return html
+    },
   }))
 
   const key = new PluginKey('MILKDOWN_CLIPBOARD')
   const plugin = new Plugin({
     key,
     props: {
-      handlePaste: (view, event) => {
+      handlePaste: (view, event, preProcessedSlice) => {
         const parser = ctx.get(parserCtx)
         const editable = view.props.editable?.(view.state)
         const { clipboardData } = event
@@ -64,6 +103,14 @@ export const clipboard = $prose((ctx) => {
         const html = clipboardData.getData('text/html')
         if (html.length === 0 && text.length === 0) return false
 
+        // When HTML is present, use the pre-processed Slice from ProseMirror.
+        // ProseMirror's parseFromClipboard already ran transformPastedHTML
+        // (e.g. Google Docs wrapper stripping) and transformPasted (paste rules
+        // like table header fix), producing a better Slice than re-parsing here.
+        if (html.length > 0 && preProcessedSlice) {
+          return dispatchPasteSlice(view, preProcessedSlice)
+        }
+
         const domParser = DOMParser.fromSchema(schema)
         let dom: Node
         if (html.length === 0) {
@@ -81,18 +128,7 @@ export const clipboard = $prose((ctx) => {
         }
 
         const slice = domParser.parseSlice(dom)
-        const node = isTextOnlySlice(slice)
-        if (node) {
-          view.dispatch(view.state.tr.replaceSelectionWith(node, true))
-          return true
-        }
-
-        try {
-          view.dispatch(view.state.tr.replaceSelection(slice))
-          return true
-        } catch {
-          return false
-        }
+        return dispatchPasteSlice(view, slice)
       },
       clipboardTextSerializer: (slice) => {
         const serializer = ctx.get(serializerCtx)

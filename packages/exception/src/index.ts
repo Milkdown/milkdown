@@ -1,6 +1,9 @@
 import { ErrorCode } from './code'
 import { MilkdownError } from './error'
 
+export { ErrorCode } from './code'
+export { MilkdownError } from './error'
+
 const functionReplacer = (_: string, value: unknown) =>
   typeof value === 'function' ? '[Function]' : value
 
@@ -182,5 +185,31 @@ export function missingYjsDoc() {
   return new MilkdownError(
     ErrorCode.missingYjsDoc,
     'Missing yjs doc, please make sure you have bind one.'
+  )
+}
+
+function safeStringify(value: unknown): string {
+  try {
+    return stringify(value)
+  } catch {
+    return '[Unserializable]'
+  }
+}
+
+export function aiProviderError(cause: unknown) {
+  const message = cause instanceof Error ? cause.message : safeStringify(cause)
+  return new MilkdownError(
+    ErrorCode.aiProviderError,
+    `AI provider error: ${message}`,
+    { cause }
+  )
+}
+
+export function aiBuildContextError(cause: unknown) {
+  const message = cause instanceof Error ? cause.message : safeStringify(cause)
+  return new MilkdownError(
+    ErrorCode.aiBuildContextError,
+    `AI buildContext failed: ${message}`,
+    { cause }
   )
 }

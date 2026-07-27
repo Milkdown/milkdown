@@ -1,20 +1,24 @@
 {
   "name": "@milkdown/exception",
-  "type": "module",
-  "version": "7.19.0",
+  "version": "7.21.3",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Milkdown/milkdown.git",
     "directory": "packages/exception"
   },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "type": "module",
   "sideEffects": false,
+  "main": "./src/index.ts",
   "exports": {
     ".": {
       "import": "./src/index.ts"
     }
   },
-  "main": "./src/index.ts",
   "publishConfig": {
     "main": "./lib/index.js",
     "types": "./lib/index.d.ts",
@@ -27,9 +31,5 @@
   },
   "scripts": {
     "build": "vite build"
-  },
-  "files": [
-    "lib",
-    "src"
-  ]
+  }
 }

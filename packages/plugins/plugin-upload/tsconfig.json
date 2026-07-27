@@ -10,8 +10,8 @@
   "references": [
     { "path": "../../core" },
     { "path": "../../ctx" },
-    { "path": "../../prose" },
     { "path": "../../exception" },
+    { "path": "../../prose" },
     { "path": "../../utils" }
   ]
 }

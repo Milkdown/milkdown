@@ -1,3 +1,4 @@
+import { imageBlockConfig } from '@milkdown/kit/component/image-block'
 import {
   type DefaultValue,
   defaultValueCtx,
@@ -16,14 +17,16 @@ import {
   type ListenerManager,
 } from '@milkdown/kit/plugin/listener'
 import { trailing } from '@milkdown/kit/plugin/trailing'
+import { upload, uploadConfig } from '@milkdown/kit/plugin/upload'
 import { commonmark } from '@milkdown/kit/preset/commonmark'
 import { gfm } from '@milkdown/kit/preset/gfm'
 import { getMarkdown } from '@milkdown/kit/utils'
 
-import type { CrepeFeature, CrepeFeatureConfig } from '../feature'
+import type { CrepeFeatureConfig } from '../feature'
 import type { DefineFeature } from '../feature/shared'
 
-import { CrepeCtx, FeaturesCtx } from './slice'
+import { CrepeFeature } from '../feature'
+import { CrepeCtx, FeaturesCtx, useCrepeFeatures } from './slice'
 
 /// The crepe builder configuration.
 export interface CrepeBuilderConfig {
@@ -69,6 +72,39 @@ export class CrepeBuilder {
           ...value,
           size: 4,
         }))
+        ctx.update(uploadConfig.key, (prev) => ({
+          ...prev,
+          uploader: async (files, schema, ctx) => {
+            const features = useCrepeFeatures(ctx).get()
+            const hasImageBlock = features.includes(CrepeFeature.ImageBlock)
+            const nodeType = hasImageBlock
+              ? schema.nodes['image-block']
+              : schema.nodes['image']
+
+            if (!nodeType) return []
+
+            const onUpload = hasImageBlock
+              ? ctx.get(imageBlockConfig.key).onUpload
+              : undefined
+
+            const images: File[] = []
+            for (let i = 0; i < files.length; i++) {
+              const file = files.item(i)
+              if (file && file.type.includes('image')) images.push(file)
+            }
+
+            const nodes = await Promise.all(
+              images.map(async (file) => {
+                const src = onUpload
+                  ? await onUpload(file)
+                  : URL.createObjectURL(file)
+                return nodeType.createAndFill({ src })!
+              })
+            )
+
+            return nodes
+          },
+        }))
       })
       .use(commonmark)
       .use(listener)
@@ -76,6 +112,7 @@ export class CrepeBuilder {
       .use(indent)
       .use(trailing)
       .use(clipboard)
+      .use(upload)
       .use(gfm)
   }
 

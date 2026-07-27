@@ -1,24 +1,28 @@
 {
   "name": "@milkdown/plugin-clipboard",
-  "type": "module",
-  "version": "7.19.0",
+  "version": "7.21.3",
+  "keywords": [
+    "milkdown",
+    "milkdown plugin"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Milkdown/milkdown.git",
     "directory": "packages/plugins/plugin-clipboard"
   },
-  "keywords": [
-    "milkdown",
-    "milkdown plugin"
+  "files": [
+    "lib",
+    "src"
   ],
+  "type": "module",
   "sideEffects": false,
+  "main": "./src/index.ts",
   "exports": {
     ".": {
       "import": "./src/index.ts"
     }
   },
-  "main": "./src/index.ts",
   "publishConfig": {
     "main": "./lib/index.js",
     "types": "./lib/index.d.ts",
@@ -32,10 +36,6 @@
   "scripts": {
     "build": "vite build"
   },
-  "files": [
-    "lib",
-    "src"
-  ],
   "dependencies": {
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",

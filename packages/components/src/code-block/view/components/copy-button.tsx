@@ -1,9 +1,9 @@
 import { defineComponent, h, Fragment } from 'vue'
 
 import { Icon } from '../../../__internal__/components/icon'
+import { keepAlive } from '../../../__internal__/keep-alive'
 
-h
-Fragment
+keepAlive(h, Fragment)
 
 type CopyButtonProps = {
   copyText: string

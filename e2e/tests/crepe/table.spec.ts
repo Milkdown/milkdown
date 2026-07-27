@@ -1,6 +1,11 @@
 import { expect, test } from '@playwright/test'
-import { focusEditor, getMarkdown, paste, waitNextFrame } from 'tests/misc'
 
+import {
+  focusEditor,
+  getMarkdown,
+  paste,
+  waitNextFrame,
+} from '../../tests/misc'
 import { TablePageObjectModel } from './table.pom'
 
 test.beforeEach(async ({ page }) => {
@@ -155,11 +160,10 @@ const googleDocsTableWithoutHeader = `
 `.trim()
 
 const expectedMarkdown = `
-| <br /> | <br /> | <br /> |
-| :----- | :----- | :----- |
-| 111    | 222    | 333    |
-| 444    | 555    | 666    |
-| 777    | aaa    | bbb    |
+| 111 | 222 | 333 |
+| :-- | :-- | :-- |
+| 444 | 555 | 666 |
+| 777 | aaa | bbb |
 `.trim()
 
 test('paste missing header tables', async ({ page }) => {
@@ -176,4 +180,92 @@ test('paste missing header tables', async ({ page }) => {
   await firstCell.click()
   await page.keyboard.type('First Header Cell')
   await expect(firstCell).toContainText('First Header Cell')
+})
+
+const googleDocsThreeRowTable = `
+<meta charset='utf-8'><meta charset="utf-8"><b style="font-weight:normal;" id="docs-internal-guid-test"><div dir="ltr" style="margin-left:0pt;" align="left"><table style="border:none;border-collapse:collapse;table-layout:fixed;width:468pt"><colgroup><col /><col /><col /></colgroup><tbody><tr style="height:0pt"><td style="border:solid #000000 1pt;vertical-align:top;padding:5pt;"><p dir="ltr"><span>A1</span></p></td><td style="border:solid #000000 1pt;vertical-align:top;padding:5pt;"><p dir="ltr"><span>B1</span></p></td><td style="border:solid #000000 1pt;vertical-align:top;padding:5pt;"><p dir="ltr"><span>C1</span></p></td></tr><tr style="height:0pt"><td style="border:solid #000000 1pt;vertical-align:top;padding:5pt;"><p dir="ltr"><span>A2</span></p></td><td style="border:solid #000000 1pt;vertical-align:top;padding:5pt;"><p dir="ltr"><span>B2</span></p></td><td style="border:solid #000000 1pt;vertical-align:top;padding:5pt;"><p dir="ltr"><span>C2</span></p></td></tr><tr style="height:0pt"><td style="border:solid #000000 1pt;vertical-align:top;padding:5pt;"><p dir="ltr"><span>A3</span></p></td><td style="border:solid #000000 1pt;vertical-align:top;padding:5pt;"><p dir="ltr"><span>B3</span></p></td><td style="border:solid #000000 1pt;vertical-align:top;padding:5pt;"><p dir="ltr"><span>C3</span></p></td></tr></tbody></table></div></b>
+`.trim()
+
+test('paste google docs table promotes first row to header', async ({
+  page,
+}) => {
+  await focusEditor(page)
+  await paste(page, {
+    'text/html': googleDocsThreeRowTable,
+  })
+  await waitNextFrame(page)
+  const md = await getMarkdown(page)
+  expect(md.includes('| A1 | B1 | C1 |')).toBeTruthy()
+  expect(md.includes('| A2 | B2 | C2 |')).toBeTruthy()
+  expect(md.includes('| A3 | B3 | C3 |')).toBeTruthy()
+  // First row should be header, no empty <br /> headers
+  expect(md.includes('<br />')).toBeFalsy()
+})
+
+test('paste google docs table promotes first row even when nested in wrapper', async ({
+  page,
+}) => {
+  // Google Docs wraps tables in <b><div>...<table>...</table>...</div></b>
+  // This tests that the paste rule traverses into wrapper nodes
+  await focusEditor(page)
+  await paste(page, {
+    'text/html': googleDocsTableWithoutHeader,
+  })
+  await waitNextFrame(page)
+  const md = await getMarkdown(page)
+  // The table from googleDocsTableWithoutHeader is nested inside <b><div>
+  // The paste rule should still find and fix it
+  expect(md.includes('| 111 | 222 | 333 |')).toBeTruthy()
+  expect(md.includes('| 444 | 555 | 666 |')).toBeTruthy()
+  expect(md.includes('| 777 | aaa | bbb |')).toBeTruthy()
+  // First row should be promoted to header, no empty <br /> headers
+  expect(md.includes('<br />')).toBeFalsy()
+})
+
+const googleDocsSingleRowTable = `
+<meta charset='utf-8'><meta charset="utf-8"><b style="font-weight:normal;" id="docs-internal-guid-single"><div dir="ltr" style="margin-left:0pt;" align="left"><table style="border:none;border-collapse:collapse;table-layout:fixed;width:468pt"><colgroup><col /><col /></colgroup><tbody><tr style="height:0pt"><td style="border:solid #000000 1pt;vertical-align:top;padding:5pt;"><p dir="ltr"><span>Only1</span></p></td><td style="border:solid #000000 1pt;vertical-align:top;padding:5pt;"><p dir="ltr"><span>Only2</span></p></td></tr></tbody></table></div></b>
+`.trim()
+
+test('paste single row google docs table keeps empty header', async ({
+  page,
+}) => {
+  await focusEditor(page)
+  await paste(page, {
+    'text/html': googleDocsSingleRowTable,
+  })
+  await waitNextFrame(page)
+  const md = await getMarkdown(page)
+  // Single row can't be promoted (would leave 0 data rows), so empty header is kept
+  expect(md.includes('<br />')).toBeTruthy()
+  expect(md.includes('Only1')).toBeTruthy()
+  expect(md.includes('Only2')).toBeTruthy()
+})
+
+// Case B: Real Google Docs HTML with multiple tables and text
+const googleDocsMultiTableDocument = `<meta charset='utf-8'><meta charset="utf-8"><b style="font-weight:normal;" id="docs-internal-guid-384d1cc7-7fff-bf64-4250-19e95cb0e0ca"><div dir="ltr" style="margin-left:0pt;" align="left"><table style="border:none;border-collapse:collapse;table-layout:fixed;width:468pt"><colgroup><col /><col /><col /></colgroup><tbody><tr style="height:0pt"><td style="border-left:solid #000000 1pt;border-right:solid #000000 1pt;border-bottom:solid #000000 1pt;border-top:solid #000000 1pt;vertical-align:top;padding:5pt 5pt 5pt 5pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">111</span></p></td><td style="border-left:solid #000000 1pt;border-right:solid #000000 1pt;border-bottom:solid #000000 1pt;border-top:solid #000000 1pt;vertical-align:top;padding:5pt 5pt 5pt 5pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">222</span></p></td><td style="border-left:solid #000000 1pt;border-right:solid #000000 1pt;border-bottom:solid #000000 1pt;border-top:solid #000000 1pt;vertical-align:top;padding:5pt 5pt 5pt 5pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">333</span></p></td></tr><tr style="height:0pt"><td style="border-left:solid #000000 1pt;border-right:solid #000000 1pt;border-bottom:solid #000000 1pt;border-top:solid #000000 1pt;vertical-align:top;padding:5pt 5pt 5pt 5pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">444</span></p></td><td style="border-left:solid #000000 1pt;border-right:solid #000000 1pt;border-bottom:solid #000000 1pt;border-top:solid #000000 1pt;vertical-align:top;padding:5pt 5pt 5pt 5pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">555</span></p></td><td style="border-left:solid #000000 1pt;border-right:solid #000000 1pt;border-bottom:solid #000000 1pt;border-top:solid #000000 1pt;vertical-align:top;padding:5pt 5pt 5pt 5pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">666</span></p></td></tr><tr style="height:0pt"><td style="border-left:solid #000000 1pt;border-right:solid #000000 1pt;border-bottom:solid #000000 1pt;border-top:solid #000000 1pt;vertical-align:top;padding:5pt 5pt 5pt 5pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">777</span></p></td><td style="border-left:solid #000000 1pt;border-right:solid #000000 1pt;border-bottom:solid #000000 1pt;border-top:solid #000000 1pt;vertical-align:top;padding:5pt 5pt 5pt 5pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">aaa</span></p></td><td style="border-left:solid #000000 1pt;border-right:solid #000000 1pt;border-bottom:solid #000000 1pt;border-top:solid #000000 1pt;vertical-align:top;padding:5pt 5pt 5pt 5pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">bbb</span></p></td></tr></tbody></table></div><br /><br /><div dir="ltr" style="margin-left:0pt;" align="left"><table style="border:none;border-collapse:collapse;table-layout:fixed;width:468pt"><colgroup><col /><col /><col /></colgroup><tbody><tr style="height:0pt"><td style="border-left:solid #000000 1pt;border-right:solid #000000 1pt;border-bottom:solid #000000 1pt;border-top:solid #000000 1pt;vertical-align:top;padding:5pt 5pt 5pt 5pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">111</span></p></td><td style="border-left:solid #000000 1pt;border-right:solid #000000 1pt;border-bottom:solid #000000 1pt;border-top:solid #000000 1pt;vertical-align:top;padding:5pt 5pt 5pt 5pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">222</span></p></td><td style="border-left:solid #000000 1pt;border-right:solid #000000 1pt;border-bottom:solid #000000 1pt;border-top:solid #000000 1pt;vertical-align:top;padding:5pt 5pt 5pt 5pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">333</span></p></td></tr><tr style="height:0pt"><td style="border-left:solid #000000 1pt;border-right:solid #000000 1pt;border-bottom:solid #000000 1pt;border-top:solid #000000 1pt;vertical-align:top;padding:5pt 5pt 5pt 5pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">444</span></p></td><td style="border-left:solid #000000 1pt;border-right:solid #000000 1pt;border-bottom:solid #000000 1pt;border-top:solid #000000 1pt;vertical-align:top;padding:5pt 5pt 5pt 5pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">555</span></p></td><td style="border-left:solid #000000 1pt;border-right:solid #000000 1pt;border-bottom:solid #000000 1pt;border-top:solid #000000 1pt;vertical-align:top;padding:5pt 5pt 5pt 5pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">666</span></p></td></tr><tr style="height:0pt"><td style="border-left:solid #000000 1pt;border-right:solid #000000 1pt;border-bottom:solid #000000 1pt;border-top:solid #000000 1pt;vertical-align:top;padding:5pt 5pt 5pt 5pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">777</span></p></td><td style="border-left:solid #000000 1pt;border-right:solid #000000 1pt;border-bottom:solid #000000 1pt;border-top:solid #000000 1pt;vertical-align:top;padding:5pt 5pt 5pt 5pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">aaa</span></p></td><td style="border-left:solid #000000 1pt;border-right:solid #000000 1pt;border-bottom:solid #000000 1pt;border-top:solid #000000 1pt;vertical-align:top;padding:5pt 5pt 5pt 5pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.2;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">bbb</span></p></td></tr></tbody></table></div><br /><p dir="ltr" style="line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">123</span></p></b><br class="Apple-interchange-newline">`
+
+test('paste google docs document with multiple tables (Case B)', async ({
+  page,
+}) => {
+  await focusEditor(page)
+  await paste(page, {
+    'text/html': googleDocsMultiTableDocument,
+  })
+  await waitNextFrame(page)
+  const md = await getMarkdown(page)
+
+  // Both tables should be rendered as markdown tables
+  // Count the number of table separators (| :-- |)
+  const separatorMatches = md.match(/\| :--/g)
+  expect(separatorMatches?.length).toBeGreaterThanOrEqual(6) // 3 cols x 2 tables
+
+  // Text "123" should be present
+  expect(md.includes('123')).toBeTruthy()
+
+  // No empty <br /> header rows in tables
+  const lines = md.split('\n')
+  const headerLines = lines.filter(
+    (l) => l.includes('<br />') && l.includes('|')
+  )
+  expect(headerLines.length).toBe(0)
 })

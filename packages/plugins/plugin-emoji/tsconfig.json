@@ -8,11 +8,11 @@
   },
   "include": ["src"],
   "references": [
-    { "path": "../../exception" },
-    { "path": "../../utils" },
     { "path": "../../core" },
     { "path": "../../ctx" },
+    { "path": "../../exception" },
     { "path": "../../prose" },
-    { "path": "../../transformer" }
+    { "path": "../../transformer" },
+    { "path": "../../utils" }
   ]
 }

@@ -170,7 +170,7 @@ export class TooltipProvider {
   }
 
   /// @internal
-  #_shouldShow(view: EditorView): boolean {
+  #_shouldShow = (view: EditorView): boolean => {
     const { doc, selection } = view.state
     const { empty, from, to } = selection
 

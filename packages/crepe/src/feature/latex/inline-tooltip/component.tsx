@@ -5,13 +5,15 @@ import { defineComponent, type ShallowRef, type VNodeRef, h } from 'vue'
 
 import type { LatexConfig } from '..'
 
+import { keepAlive } from '../../../utils/keep-alive'
+
+keepAlive(h)
+
 type LatexTooltipProps = {
   config: Partial<LatexConfig>
   innerView: ShallowRef<EditorView | null>
   updateValue: ShallowRef<() => void>
 }
-
-h
 
 export const LatexTooltip = defineComponent<LatexTooltipProps>({
   props: {

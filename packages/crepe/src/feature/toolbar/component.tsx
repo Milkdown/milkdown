@@ -15,10 +15,10 @@ import {
 
 import type { ToolbarFeatureConfig } from '.'
 
+import { keepAlive } from '../../utils/keep-alive'
 import { getGroups, type ToolbarItem } from './config'
 
-h
-Fragment
+keepAlive(h, Fragment)
 
 type ToolbarProps = {
   ctx: Ctx
@@ -54,14 +54,16 @@ export const Toolbar = defineComponent<ToolbarProps>({
   setup(props) {
     const { ctx, config } = props
 
-    const onClick = (fn: (ctx: Ctx) => void) => (e: MouseEvent) => {
+    const onClick = (fn?: (ctx: Ctx) => void) => (e: MouseEvent) => {
       e.preventDefault()
-      ctx && fn(ctx)
+      if (ctx) {
+        fn?.(ctx)
+      }
     }
 
     function checkActive(checker: ToolbarItem['active']) {
       // make sure the function subscribed to vue reactive
-      props.selection.value
+      keepAlive(props.selection.value)
       // Check if the edtior is ready
       const status = ctx.get(editorCtx).status
       if (status !== EditorStatus.Created) return false

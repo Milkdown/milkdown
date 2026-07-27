@@ -1,6 +1,8 @@
 /* oxlint-disable no-var */
+/// <reference types="node" />
 /// <reference types="vite/client" />
 
+import type { CodeMirrorBlock } from '@milkdown/components/code-block'
 import type { Editor, commandsCtx } from '@milkdown/core'
 import type { Crepe } from '@milkdown/crepe'
 import type { Telemetry } from '@milkdown/ctx'
@@ -16,10 +18,16 @@ declare global {
 
   var __inspect__: () => Telemetry[]
 
+  var __getSelectionSnapshot__: () => string
+  var __setCaretByTextOffset__: (offset: number) => void
+
   var __crepe__: Crepe
 
   var __beforeCrepeCreate__: (crepe: Crepe) => void
   var __afterCrepeCreated__: (crepe: Crepe) => void
+
+  var __imageBlockMaxWidth__: number | undefined
+  var __imageBlockMaxHeight__: number | undefined
   var __commandsCtx__: typeof commandsCtx
 
   var commands: {
@@ -32,4 +40,19 @@ declare global {
   var __macros__: {
     insert: typeof insert
   }
+
+  var __CodeMirrorBlock__: typeof CodeMirrorBlock
+
+  var __applyDiff__: (markdown: string) => boolean
+  var __acceptAll__: () => boolean
+  var __clearDiff__: () => boolean
+  var __acceptChunk__: (index: number) => boolean
+  var __rejectChunk__: (index: number) => boolean
+
+  var __startStreaming__: (options?: {
+    insertAt?: 'cursor' | 'selection' | number
+  }) => boolean
+  var __pushChunk__: (token: string) => boolean
+  var __endStreaming__: (options?: { diffReview?: boolean }) => boolean
+  var __abortStreaming__: (options?: { keep?: boolean }) => boolean
 }

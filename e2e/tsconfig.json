@@ -1,7 +1,6 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "rootDir": ".",
     "outDir": "lib",
     "jsx": "preserve",
@@ -19,6 +18,7 @@
     }
   },
   "references": [
+    { "path": "../packages/components" },
     { "path": "../packages/core" },
     { "path": "../packages/crepe" },
     { "path": "../packages/ctx" },

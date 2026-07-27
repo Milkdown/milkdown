@@ -8,8 +8,8 @@ import type { GetEditor } from './types'
 import { editorInfoCtxKey } from './consts'
 import { useGetEditor } from './use-get-editor'
 
-h
-Fragment
+function keepAlive(..._args: unknown[]) {}
+keepAlive(h, Fragment)
 
 export const Milkdown = defineComponent({
   name: 'Milkdown',

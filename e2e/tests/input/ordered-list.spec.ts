@@ -50,3 +50,24 @@ test('ordered list', async ({ page }) => {
     '1. First item\n2. Second item\n\n   1. Sub list item 1\n   2. Sub list item 2\n3. Third item\n'
   )
 })
+
+test('ordered list with custom start number', async ({ page }) => {
+  const editor = page.locator('.editor')
+  await focusEditor(page)
+  await page.keyboard.type('3. First item')
+  await expect(editor.locator('ol li')).toHaveText('First item')
+  await expect(editor.locator('ol')).toHaveAttribute('start', '3')
+  await expect(editor.locator('ol li')).toHaveAttribute('data-label', '3.')
+  let markdown = await getMarkdown(page)
+  expect(markdown).toBe('3. First item\n')
+
+  await page.keyboard.press('Enter')
+  await page.keyboard.type('Second item')
+  await expect(editor.locator('ol li:last-child')).toHaveText('Second item')
+  await expect(editor.locator('ol li:last-child')).toHaveAttribute(
+    'data-label',
+    '4.'
+  )
+  markdown = await getMarkdown(page)
+  expect(markdown).toBe('3. First item\n4. Second item\n')
+})

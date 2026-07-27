@@ -1,0 +1,196 @@
+.milkdown {
+  --crepe-color-diff-added: #22c55e;
+  --crepe-color-diff-removed: #ef4444;
+
+  --crepe-color-diff-added-bg: color-mix(
+    in srgb,
+    var(--crepe-color-diff-added),
+    transparent 88%
+  );
+  --crepe-color-diff-added-text: color-mix(
+    in srgb,
+    var(--crepe-color-diff-added),
+    var(--crepe-color-on-background) 40%
+  );
+  --crepe-color-diff-removed-bg: color-mix(
+    in srgb,
+    var(--crepe-color-diff-removed),
+    transparent 88%
+  );
+  --crepe-color-diff-removed-text: color-mix(
+    in srgb,
+    var(--crepe-color-diff-removed),
+    var(--crepe-color-on-background) 40%
+  );
+
+  /* Inline deletion: strikethrough */
+  .milkdown-diff-removed {
+    text-decoration: line-through;
+    background-color: var(--crepe-color-diff-removed-bg);
+    color: var(--crepe-color-diff-removed-text);
+  }
+
+  /* Block deletion: node-level overlay for custom node views */
+  .milkdown-diff-removed-block {
+    position: relative;
+    opacity: 0.45;
+    outline: 2px dashed var(--crepe-color-diff-removed) !important;
+    outline-offset: 2px;
+    border-radius: 4px;
+    background-color: var(--crepe-color-diff-removed-bg);
+  }
+
+  /* Inline insertion */
+  .milkdown-diff-added {
+    background-color: var(--crepe-color-diff-added-bg);
+    color: var(--crepe-color-diff-added-text);
+    padding: 0 2px;
+    border-radius: 2px;
+  }
+
+  /* Block insertion */
+  .milkdown-diff-added-block {
+    display: block;
+    background-color: var(--crepe-color-diff-added-bg);
+    border-left: 3px solid var(--crepe-color-diff-added);
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin: 8px 0;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: var(--crepe-color-diff-added-text);
+      margin: 4px 0;
+    }
+
+    p {
+      color: var(--crepe-color-diff-added-text);
+      margin: 4px 0;
+    }
+
+    ul,
+    ol {
+      color: var(--crepe-color-diff-added-text);
+      margin: 4px 0;
+      padding-left: 20px;
+    }
+
+    li {
+      margin: 2px 0;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 4px 0;
+    }
+
+    th,
+    td {
+      border: 1px solid
+        color-mix(in srgb, var(--crepe-color-diff-added), transparent 50%);
+      padding: 6px 12px;
+      text-align: left;
+    }
+
+    th {
+      font-weight: 600;
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 4px;
+    }
+
+    pre,
+    code {
+      background: color-mix(
+        in srgb,
+        var(--crepe-color-diff-added),
+        transparent 94%
+      );
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-family: var(--crepe-font-code);
+      font-size: 13px;
+      overflow-x: auto;
+      display: block;
+      white-space: pre;
+    }
+  }
+
+  /* Inline controls */
+  .milkdown-diff-controls {
+    display: inline-flex;
+    gap: 3px;
+    margin: 0 4px;
+    vertical-align: middle;
+    white-space: nowrap;
+
+    button {
+      font-family: var(--crepe-font-default);
+      font-size: 11px;
+      line-height: 1;
+      padding: 2px 6px;
+      border-radius: 3px;
+      cursor: pointer;
+      border: 1px solid;
+      font-weight: 500;
+    }
+  }
+
+  /* Block controls */
+  .milkdown-diff-controls-block {
+    display: flex;
+    gap: 4px;
+    margin: 4px 0;
+  }
+
+  .milkdown-diff-accept {
+    background-color: color-mix(
+      in srgb,
+      var(--crepe-color-diff-added),
+      var(--crepe-color-background) 85%
+    );
+    color: var(--crepe-color-diff-added-text);
+    border-color: color-mix(
+      in srgb,
+      var(--crepe-color-diff-added),
+      transparent 50%
+    );
+
+    &:hover {
+      background-color: color-mix(
+        in srgb,
+        var(--crepe-color-diff-added),
+        var(--crepe-color-background) 75%
+      );
+    }
+  }
+
+  .milkdown-diff-reject {
+    background-color: color-mix(
+      in srgb,
+      var(--crepe-color-diff-removed),
+      var(--crepe-color-background) 85%
+    );
+    color: var(--crepe-color-diff-removed-text);
+    border-color: color-mix(
+      in srgb,
+      var(--crepe-color-diff-removed),
+      transparent 50%
+    );
+
+    &:hover {
+      background-color: color-mix(
+        in srgb,
+        var(--crepe-color-diff-removed),
+        var(--crepe-color-background) 75%
+      );
+    }
+  }
+}

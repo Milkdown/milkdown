@@ -1,24 +1,28 @@
 {
   "name": "@milkdown/plugin-emoji",
-  "type": "module",
-  "version": "7.19.0",
+  "version": "7.21.3",
+  "keywords": [
+    "milkdown",
+    "milkdown plugin"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Milkdown/milkdown.git",
     "directory": "packages/plugins/plugin-emoji"
   },
-  "keywords": [
-    "milkdown",
-    "milkdown plugin"
+  "files": [
+    "lib",
+    "src"
   ],
+  "type": "module",
   "sideEffects": false,
+  "main": "./src/index.ts",
   "exports": {
     ".": {
       "import": "./src/index.ts"
     }
   },
-  "main": "./src/index.ts",
   "publishConfig": {
     "main": "./lib/index.js",
     "types": "./lib/index.d.ts",
@@ -32,17 +36,13 @@
   "scripts": {
     "build": "vite build"
   },
-  "files": [
-    "lib",
-    "src"
-  ],
   "dependencies": {
-    "@milkdown/exception": "workspace:*",
-    "@milkdown/utils": "workspace:*",
     "@milkdown/core": "workspace:*",
     "@milkdown/ctx": "workspace:*",
+    "@milkdown/exception": "workspace:*",
     "@milkdown/prose": "workspace:*",
     "@milkdown/transformer": "workspace:*",
+    "@milkdown/utils": "workspace:*",
     "dompurify": "^3.2.5",
     "emoji-regex": "^10.0.0",
     "node-emoji": "^2.1.3",

@@ -3,10 +3,10 @@ import { h, Fragment, type Ref, defineComponent } from 'vue'
 import type { ImageBlockConfig } from '../../config'
 
 import { ImageInput } from '../../../__internal__/components/image-input'
+import { keepAlive } from '../../../__internal__/keep-alive'
 import { ImageViewer } from './image-viewer'
 
-h
-Fragment
+keepAlive(h, Fragment)
 
 type Attrs = {
   src: string

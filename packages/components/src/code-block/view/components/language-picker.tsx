@@ -14,14 +14,15 @@ import {
 import type { CodeBlockProps } from './code-block'
 
 import { Icon } from '../../../__internal__/components/icon'
+import { keepAlive } from '../../../__internal__/keep-alive'
+
+keepAlive(h, Fragment)
 
 type LanguagePickerProps = Pick<
   CodeBlockProps,
   'language' | 'config' | 'setLanguage' | 'getAllLanguages' | 'getReadOnly'
 >
 
-h
-Fragment
 export const LanguagePicker = defineComponent<LanguagePickerProps>({
   props: {
     language: {

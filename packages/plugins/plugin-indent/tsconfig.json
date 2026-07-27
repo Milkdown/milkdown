@@ -8,8 +8,8 @@
   },
   "include": ["src"],
   "references": [
-    { "path": "../../utils" },
     { "path": "../../ctx" },
-    { "path": "../../prose" }
+    { "path": "../../prose" },
+    { "path": "../../utils" }
   ]
 }
