@@ -37,31 +37,38 @@ class BlockHandleView implements PluginView {
     app.mount(content)
     this.#app = app
     this.#content = content
-    const blockProviderOptions = config?.blockHandle ?? {}
+    const blockProviderOptions = (config?.blockHandle ??
+      {}) as Partial<BlockProviderOptions>
     this.#provider = new BlockProvider({
       ctx,
       content,
-      getOffset: () => 16,
-      getPlacement: ({ active, blockDom }) => {
-        if (active.node.type.name === 'heading') return 'left'
+      getOffset: blockProviderOptions.getOffset ?? (() => 16),
+      getPlacement:
+        blockProviderOptions.getPlacement ??
+        (({ active, blockDom }) => {
+          if (active.node.type.name === 'heading') return 'left'
 
-        let totalDescendant = 0
-        active.node.descendants((node) => {
-          totalDescendant += node.childCount
-        })
-        const dom = active.el
-        const domRect = dom.getBoundingClientRect()
-        const handleRect = blockDom.getBoundingClientRect()
-        const style = window.getComputedStyle(dom)
-        const paddingTop = Number.parseInt(style.paddingTop, 10) || 0
-        const paddingBottom = Number.parseInt(style.paddingBottom, 10) || 0
-        const height = domRect.height - paddingTop - paddingBottom
-        const handleHeight = handleRect.height
-        return totalDescendant > 2 || handleHeight < height
-          ? 'left-start'
-          : 'left'
-      },
-      ...(blockProviderOptions as Partial<BlockProviderOptions>),
+          let totalDescendant = 0
+          active.node.descendants((node) => {
+            totalDescendant += node.childCount
+          })
+          const dom = active.el
+          const domRect = dom.getBoundingClientRect()
+          const handleRect = blockDom.getBoundingClientRect()
+          const style = window.getComputedStyle(dom)
+          const paddingTop = Number.parseInt(style.paddingTop, 10) || 0
+          const paddingBottom = Number.parseInt(style.paddingBottom, 10) || 0
+          const height = domRect.height - paddingTop - paddingBottom
+          const handleHeight = handleRect.height
+          return totalDescendant > 2 || handleHeight < height
+            ? 'left-start'
+            : 'left'
+        }),
+      shouldShow: blockProviderOptions.shouldShow,
+      getPosition: blockProviderOptions.getPosition,
+      middleware: blockProviderOptions.middleware,
+      floatingUIOptions: blockProviderOptions.floatingUIOptions,
+      root: blockProviderOptions.root,
     })
     this.update()
   }
