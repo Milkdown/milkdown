@@ -1,7 +1,11 @@
 import type { Ctx } from '@milkdown/kit/ctx'
 import type { EditorView } from '@milkdown/kit/prose/view'
 
-import { SlashProvider, slashFactory } from '@milkdown/kit/plugin/slash'
+import {
+  SlashProvider,
+  slashFactory,
+  type SlashProviderOptions,
+} from '@milkdown/kit/plugin/slash'
 import {
   TextSelection,
   type PluginView,
@@ -112,6 +116,7 @@ class MenuView implements PluginView {
         return true
       },
       offset: 10,
+      ...((config?.slashMenu ?? {}) as Partial<SlashProviderOptions>),
     })
 
     this.#slashProvider.onShow = () => {
