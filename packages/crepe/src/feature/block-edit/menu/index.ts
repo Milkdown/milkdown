@@ -70,6 +70,8 @@ class MenuView implements PluginView {
     this.#content = content
     // oxlint-disable-next-line ts/no-this-alias
     const self = this
+    const slashMenuOptions = (config?.slashMenu ??
+      {}) as Partial<SlashProviderOptions>
     this.#slashProvider = new SlashProvider({
       content: this.#content,
       debounce: 20,
@@ -115,8 +117,10 @@ class MenuView implements PluginView {
 
         return true
       },
-      offset: 10,
-      ...((config?.slashMenu ?? {}) as Partial<SlashProviderOptions>),
+      offset: slashMenuOptions.offset ?? 10,
+      middleware: slashMenuOptions.middleware,
+      floatingUIOptions: slashMenuOptions.floatingUIOptions,
+      root: slashMenuOptions.root,
     })
 
     this.#slashProvider.onShow = () => {
