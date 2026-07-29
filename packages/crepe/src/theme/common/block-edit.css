@@ -68,7 +68,7 @@
 
         li {
           padding: 6px 10px;
-          font-size: 14px;
+          font-size: calc(var(--crepe-base-font-size, 16px) * 0.875);
           font-style: normal;
           font-weight: 600;
           line-height: 20px;
@@ -91,7 +91,7 @@
 
       .menu-group {
         h6 {
-          font-size: 14px;
+          font-size: calc(var(--crepe-base-font-size, 16px) * 0.875);
           font-style: normal;
           font-weight: 600;
           line-height: 20px;
@@ -125,7 +125,7 @@
             fill: var(--crepe-color-outline);
           }
           & > span {
-            font-size: 14px;
+            font-size: calc(var(--crepe-base-font-size, 16px) * 0.875);
             font-style: normal;
             font-weight: 600;
             line-height: 20px;

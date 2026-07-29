@@ -17,6 +17,7 @@
   --crepe-color-selected: #d5d5d5;
   --crepe-color-inline-area: #cacaca;
 
+  --crepe-base-font-size: 16px;
   --crepe-font-title: 'Noto Serif', Cambria, 'Times New Roman', Times, serif;
   --crepe-font-default: 'Noto Sans', Arial, Helvetica, sans-serif;
   --crepe-font-code:

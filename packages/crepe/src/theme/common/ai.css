@@ -19,7 +19,7 @@
   border-radius: 12px;
   box-shadow: var(--crepe-shadow-2);
   font-family: var(--crepe-font-default);
-  font-size: 14px;
+  font-size: calc(var(--crepe-base-font-size, 16px) * 0.875);
   color: var(--crepe-color-on-background);
   overflow: hidden;
 }
@@ -57,7 +57,7 @@
   border: none;
   background: transparent;
   font-family: inherit;
-  font-size: 14px;
+  font-size: calc(var(--crepe-base-font-size, 16px) * 0.875);
   line-height: 20px;
   color: var(--crepe-color-on-background);
   padding: 4px 0;
@@ -120,7 +120,7 @@
   padding: 6px 12px 4px;
   cursor: pointer;
   color: var(--crepe-color-outline);
-  font-size: 12px;
+  font-size: calc(var(--crepe-base-font-size, 16px) * 0.75);
   font-weight: 500;
   user-select: none;
 }
@@ -146,7 +146,7 @@
 
 .milkdown .ai-instruction-section-header {
   padding: 6px 16px 4px;
-  font-size: 11px;
+  font-size: calc(var(--crepe-base-font-size, 16px) * 0.6875);
   font-weight: 600;
   letter-spacing: 0.08em;
   color: var(--crepe-color-outline);
@@ -187,7 +187,7 @@
 
 .milkdown .ai-instruction-item-label {
   flex: 1;
-  font-size: 14px;
+  font-size: calc(var(--crepe-base-font-size, 16px) * 0.875);
   line-height: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -277,14 +277,14 @@
 }
 
 .milkdown .milkdown-ai-streaming-label {
-  font-size: 13px;
+  font-size: calc(var(--crepe-base-font-size, 16px) * 0.8125);
   line-height: 18px;
   color: var(--crepe-color-on-background);
 }
 
 .milkdown .milkdown-ai-streaming-esc {
   font-family: var(--crepe-font-code, ui-monospace, monospace);
-  font-size: 11px;
+  font-size: calc(var(--crepe-base-font-size, 16px) * 0.6875);
   line-height: 1;
   padding: 4px 8px;
   border-radius: 999px;
@@ -327,7 +327,7 @@
   border-radius: 999px;
   background: transparent;
   font-family: inherit;
-  font-size: 13px;
+  font-size: calc(var(--crepe-base-font-size, 16px) * 0.8125);
   font-weight: 500;
   line-height: 1;
   color: var(--crepe-color-on-background);
@@ -414,7 +414,7 @@
     transparent
   );
   font-family: var(--crepe-font-code, ui-monospace, monospace);
-  font-size: 11px;
+  font-size: calc(var(--crepe-base-font-size, 16px) * 0.6875);
   color: inherit;
 }
 

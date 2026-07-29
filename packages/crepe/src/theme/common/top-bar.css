@@ -53,7 +53,7 @@
 
       .top-bar-heading-label {
         font-family: var(--crepe-font-default);
-        font-size: 14px;
+        font-size: calc(var(--crepe-base-font-size, 16px) * 0.875);
         font-weight: 600;
         line-height: 20px;
         letter-spacing: 0.1px;
@@ -102,7 +102,7 @@
       border-radius: 4px;
       cursor: pointer;
       font-family: var(--crepe-font-default);
-      font-size: 14px;
+      font-size: calc(var(--crepe-base-font-size, 16px) * 0.875);
       font-weight: 400;
       line-height: 20px;
       color: var(--crepe-color-on-surface);

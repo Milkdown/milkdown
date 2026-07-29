@@ -25,7 +25,7 @@
       margin: 0;
       padding: 4px 0;
       font-family: var(--crepe-font-code, monospace);
-      font-size: 14px;
+      font-size: calc(var(--crepe-base-font-size, 16px) * 0.875);
       line-height: 1.5;
       white-space: pre-wrap;
       word-break: break-all;
@@ -125,7 +125,7 @@
           opacity: 0;
           cursor: pointer;
           border-radius: 4px;
-          font-size: 12px;
+          font-size: calc(var(--crepe-base-font-size, 16px) * 0.75);
           line-height: 16px;
           font-weight: 600;
           font-family: var(--crepe-font-default);
@@ -162,7 +162,7 @@
         background: var(--crepe-color-surface-low);
         color: var(--crepe-color-on-surface-variant);
         border-radius: 4px;
-        font-size: 12px;
+        font-size: calc(var(--crepe-base-font-size, 16px) * 0.75);
         font-weight: 600;
         line-height: 16px;
         margin-bottom: 8px;
@@ -231,7 +231,7 @@
       align-items: center;
       gap: 8px;
       padding: 4px 22px;
-      font-size: 14px;
+      font-size: calc(var(--crepe-base-font-size, 16px) * 0.875);
       font-weight: 600;
       line-height: 20px;
 
@@ -298,7 +298,7 @@
 
       input {
         font-family: var(--crepe-font-default);
-        font-size: 14px;
+        font-size: calc(var(--crepe-base-font-size, 16px) * 0.875);
         line-height: 20px;
         background: transparent;
       }
@@ -318,7 +318,7 @@
 
       .preview-label {
         margin: 6px 0;
-        font-size: 12px;
+        font-size: calc(var(--crepe-base-font-size, 16px) * 0.75);
         color: color-mix(
           in srgb,
           var(--crepe-color-on-surface),
