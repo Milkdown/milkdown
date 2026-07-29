@@ -71,7 +71,7 @@ withMeta(toggleStrikethroughCommand, {
 /// Input rule to create the strikethrough mark.
 export const strikethroughInputRule = $inputRule((ctx) => {
   return markRule(
-    /(?<![\w:/])(~{1,2})(.+?)\1(?!\w|\/)/,
+    /(?<![\w:/])(~{1,2})(.+?)\1(?!\w|\/)$/,
     strikethroughSchema.type(ctx)
   )
 })
