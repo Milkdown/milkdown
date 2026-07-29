@@ -6,6 +6,8 @@
     "group:all",
     "helpers:pinGitHubActionDigestsToSemver"
   ],
+  "minimumReleaseAge": "3 days",
+  "internalChecksFilter": "strict",
   "postUpdateOptions": ["pnpmDedupe"],
   "packageRules": [
     {
