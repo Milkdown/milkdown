@@ -1050,6 +1050,21 @@ import '@milkdown/crepe/theme/nord-dark.css'
 import '@milkdown/crepe/theme/frame-dark.css'
 ```
 
+### Customizing theme variables
+
+Every theme exposes CSS custom properties on the `.milkdown` element, so you can
+override them without touching the source. For example, to scale the whole editor's
+font size (default `16px`) in a single line:
+
+```css
+.milkdown {
+  --crepe-base-font-size: 14px;
+}
+```
+
+Other variables follow the same pattern, e.g. `--crepe-font-default`,
+`--crepe-font-title`, `--crepe-font-code` and the `--crepe-color-*` palette.
+
 ## API Reference
 
 @CrepeFeature

@@ -116,7 +116,7 @@
       border-radius: 4px;
       padding: 8px 12px;
       font-family: var(--crepe-font-code);
-      font-size: 13px;
+      font-size: calc(var(--crepe-base-font-size, 16px) * 0.8125);
       overflow-x: auto;
       display: block;
       white-space: pre;
@@ -133,7 +133,7 @@
 
     button {
       font-family: var(--crepe-font-default);
-      font-size: 11px;
+      font-size: calc(var(--crepe-base-font-size, 16px) * 0.6875);
       line-height: 1;
       padding: 2px 6px;
       border-radius: 3px;

@@ -17,6 +17,7 @@
   --crepe-color-selected: #e1e2e8;
   --crepe-color-inline-area: #d8dae0;
 
+  --crepe-base-font-size: 16px;
   --crepe-font-title: Rubik, Cambria, 'Times New Roman', Times, serif;
   --crepe-font-default: Inter, Arial, Helvetica, sans-serif;
   --crepe-font-code:
