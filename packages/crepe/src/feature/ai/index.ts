@@ -43,6 +43,13 @@ export type {
 } from './types'
 export { runAICmd, abortAICmd } from './commands'
 export { defaultBuildContext } from './context'
+/// Ctx slices a host needs to drive the AI feature from its own UI: whether a
+/// provider is configured (`aiProviderConfig`), and how to open the instruction
+/// palette over a range (`aiInstructionTooltipAPI`). Both are what Crepe's own
+/// toolbar button reads, so a replacement toolbar needs them too.
+export { aiProviderConfig } from './commands'
+export type { AIInstructionTooltipAPI } from './instruction-tooltip'
+export { aiInstructionTooltipAPI } from './instruction-tooltip'
 
 export const ai: DefineFeature<AIFeatureConfig> = (editor, config) => {
   const diffCfg = config?.diff ?? {}

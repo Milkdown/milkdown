@@ -988,6 +988,28 @@ See [@milkdown/plugin-diff](./plugin-diff.md) and
 [@milkdown/plugin-streaming](./plugin-streaming.md) for the underlying
 plugin APIs.
 
+##### Driving the AI feature from your own UI
+
+If you replace the toolbar, two ctx slices let you reproduce its AI button:
+
+```typescript
+import {
+  aiInstructionTooltipAPI,
+  aiProviderConfig,
+} from '@milkdown/crepe/feature/ai'
+
+// Only offer the action when a provider is actually configured — without one
+// the palette opens but every action is rejected.
+const { provider, aiIcon } = ctx.get(aiProviderConfig.key)
+if (provider) {
+  const { from, to } = ctx.get(editorViewCtx).state.selection
+  ctx.get(aiInstructionTooltipAPI.key).show(from, to)
+}
+```
+
+Both slices only exist once the AI feature is configured, so guard the lookup
+with `ctx.isInjected(aiProviderConfig.key)` if the feature may be disabled.
+
 ## Usage
 
 ### Using Crepe Editor
