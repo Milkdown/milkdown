@@ -42,11 +42,19 @@ export type ToolbarItem = {
   /// Accessible name for the button, rendered as `title` and `aria-label`.
   /// Without it the button exposes no name at all — its only content is an SVG.
   label?: string
-  /// Display form of the item's keyboard shortcut, e.g. `⌘B` or `Ctrl+B`.
-  /// Appended to the `title` and exposed as `aria-keyshortcuts`. Crepe sets no
-  /// default: the combo a host actually binds is the host's business, and
-  /// rendering it per platform is too.
+  /// Human-readable form of the item's keyboard shortcut, e.g. `⌘B` on macOS or
+  /// `Ctrl+B` elsewhere. Appended to the `title` for display only — it is never
+  /// used for `aria-keyshortcuts`, which has its own grammar.
   shortcut?: string
+  /// The same shortcut in `aria-keyshortcuts` grammar: `+`-joined modifiers from
+  /// `Alt` / `Control` / `Shift` / `Meta` / `AltGraph` plus a `KeyboardEvent.key`
+  /// value, e.g. `Meta+B` or `Control+Shift+H`. Kept separate from `shortcut`
+  /// because display glyphs (`⌘B`) and the abbreviation `Ctrl` are both invalid
+  /// here, and a single field cannot satisfy both readers.
+  ///
+  /// Crepe defaults neither: which combo is bound, and how it is spelled per
+  /// platform, is the host's business.
+  ariaKeyshortcuts?: string
 }
 
 export function getGroups(config?: ToolbarFeatureConfig, ctx?: Ctx) {

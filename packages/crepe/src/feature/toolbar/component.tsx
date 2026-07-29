@@ -96,7 +96,7 @@ export const Toolbar = defineComponent<ToolbarProps>({
                     data-toolbar-item={item.key}
                     title={tooltipFor(item)}
                     aria-label={item.label}
-                    aria-keyshortcuts={item.shortcut}
+                    aria-keyshortcuts={item.ariaKeyshortcuts}
                     onPointerdown={onClick(item.onRun)}
                   >
                     <Icon icon={item.icon} />

@@ -413,14 +413,35 @@ type ToolbarItem = {
   active: (ctx: Ctx) => boolean
   icon: string
   label?: string // title + aria-label
-  shortcut?: string // appended to the title, and exposed as aria-keyshortcuts
+  shortcut?: string // display only, appended to the title
+  ariaKeyshortcuts?: string // aria-keyshortcuts, in ARIA grammar
 }
 ```
 
 `label` is what gives the button a name — its only other content is an SVG.
-`shortcut` has no default: the combo a host binds, and how it is spelled per
-platform, is the host's business. Buttons also carry `data-toolbar-item="<key>"`,
-so consumers can target a specific one without relying on its position.
+
+The two shortcut fields are separate because they have different readers.
+`shortcut` is what a human reads in the tooltip, so it can be `⌘B` or `Ctrl+B`.
+`ariaKeyshortcuts` goes straight into the `aria-keyshortcuts` attribute, which
+has a defined grammar: `+`-joined modifiers drawn from `Alt`, `Control`,
+`Shift`, `Meta` and `AltGraph`, plus a `KeyboardEvent.key` value. Display glyphs
+and the abbreviation `Ctrl` are both invalid there, so one field cannot serve
+both:
+
+```typescript
+builder.addGroup('custom', 'Custom').addItem('highlight', {
+  icon: highlightIcon,
+  label: 'Highlight',
+  shortcut: isMac ? '⌘⇧H' : 'Ctrl+Shift+H', // shown to the user
+  ariaKeyshortcuts: isMac ? 'Meta+Shift+H' : 'Control+Shift+H', // for AT
+  active: (ctx) => …,
+  onRun: (ctx) => …,
+})
+```
+
+Neither has a default: which combo is bound, and how it is spelled per platform,
+is the host's business. Buttons also carry `data-toolbar-item="<key>"`, so
+consumers can target a specific one without relying on its position.
 
 #### TopBar Feature
 
