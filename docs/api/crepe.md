@@ -377,6 +377,14 @@ interface ToolbarFeatureConfig {
   strikethroughIcon?: string
   latexIcon?: string
   aiIcon?: string // Override only the toolbar's AI button (only renders when AI is enabled and a provider is configured)
+  // Accessible names, for localization. Each defaults to its English label.
+  boldLabel?: string
+  codeLabel?: string
+  italicLabel?: string
+  linkLabel?: string
+  strikethroughLabel?: string
+  latexLabel?: string
+  aiLabel?: string
   buildToolbar?: (builder: GroupBuilder<ToolbarItem>) => void
 }
 
@@ -389,6 +397,7 @@ const config: CrepeConfig = {
     [Crepe.Feature.Toolbar]: {
       boldIcon: customBoldIcon,
       italicIcon: customItalicIcon,
+      boldLabel: 'Fett',
       buildToolbar: (builder) => {
         // Custom toolbar building logic
       },
@@ -396,6 +405,22 @@ const config: CrepeConfig = {
   },
 }
 ```
+
+Each toolbar button is rendered with an accessible name and a stable key:
+
+```typescript
+type ToolbarItem = {
+  active: (ctx: Ctx) => boolean
+  icon: string
+  label?: string // title + aria-label
+  shortcut?: string // appended to the title, and exposed as aria-keyshortcuts
+}
+```
+
+`label` is what gives the button a name — its only other content is an SVG.
+`shortcut` has no default: the combo a host binds, and how it is spelled per
+platform, is the host's business. Buttons also carry `data-toolbar-item="<key>"`,
+so consumers can target a specific one without relying on its position.
 
 #### TopBar Feature
 
