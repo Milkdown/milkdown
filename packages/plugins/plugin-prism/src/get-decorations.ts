@@ -21,37 +21,51 @@ function flatNodes(nodes: RootContent[], className: string[] = []) {
   )
 }
 
-export function getDecorations(doc: Node, name: string, refractor: Refractor) {
-  const { highlight, listLanguages } = refractor
-  const allLanguages = listLanguages()
+export function getBlockDecorations(
+  node: Node,
+  pos: number,
+  refractor: Refractor,
+  // `listLanguages` allocates a fresh array, so a caller highlighting several
+  // blocks should build the list once and pass it in.
+  languages: string[] = refractor.listLanguages()
+): Decoration[] {
+  const { highlight } = refractor
+  const { language } = node.attrs
+  if (!language || !languages.includes(language)) {
+    console.warn(
+      'Unsupported language detected, this language has not been supported by current prism config: ',
+      language
+    )
+    return []
+  }
+
   const decorations: Decoration[] = []
+  let from = pos + 1
 
-  findChildren((node) => node.type.name === name)(doc).forEach((block) => {
-    let from = block.pos + 1
-    const { language } = block.node.attrs
-    if (!language || !allLanguages.includes(language)) {
-      console.warn(
-        'Unsupported language detected, this language has not been supported by current prism config: ',
-        language
-      )
-      return
-    }
-    const nodes = highlight(block.node.textContent, language)
+  flatNodes(highlight(node.textContent, language).children).forEach((child) => {
+    const to = from + child.text.length
 
-    flatNodes(nodes.children).forEach((node) => {
-      const to = from + node.text.length
-
-      if (node.className.length) {
-        const decoration = Decoration.inline(from, to, {
-          class: node.className.join(' '),
+    if (child.className.length) {
+      decorations.push(
+        Decoration.inline(from, to, {
+          class: child.className.join(' '),
         })
+      )
+    }
 
-        decorations.push(decoration)
-      }
-
-      from = to
-    })
+    from = to
   })
+
+  return decorations
+}
+
+export function getDecorations(doc: Node, name: string, refractor: Refractor) {
+  const languages = refractor.listLanguages()
+  const decorations = findChildren((node) => node.type.name === name)(
+    doc
+  ).flatMap((block) =>
+    getBlockDecorations(block.node, block.pos, refractor, languages)
+  )
 
   return DecorationSet.create(doc, decorations)
 }
