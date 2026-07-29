@@ -5,7 +5,7 @@ import type { MarkSchema } from '@milkdown/transformer'
 import { marksCtx, schemaCtx, schemaTimerCtx } from '@milkdown/core'
 import { missingMarkInSchema } from '@milkdown/exception'
 
-import { addTimer } from './utils'
+import { addTimer, upsertById } from './utils'
 
 /// @internal
 export type $Mark = MilkdownPlugin & {
@@ -25,10 +25,9 @@ export type $Mark = MilkdownPlugin & {
 export function $mark(id: string, schema: (ctx: Ctx) => MarkSchema): $Mark {
   const plugin: MilkdownPlugin = (ctx) => async () => {
     const markSchema = schema(ctx)
-    ctx.update(marksCtx, (ns) => [
-      ...ns.filter((n) => n[0] !== id),
-      [id, markSchema] as [string, MarkSchema],
-    ])
+    ctx.update(marksCtx, (ns) =>
+      upsertById(ns, id, [id, markSchema] as [string, MarkSchema])
+    )
     ;(<$Mark>plugin).id = id
     ;(<$Mark>plugin).schema = markSchema
 
@@ -60,10 +59,9 @@ export function $markAsync(
   const plugin = addTimer<$Mark>(
     async (ctx, plugin, done) => {
       const markSchema = await schema(ctx)
-      ctx.update(marksCtx, (ns) => [
-        ...ns.filter((n) => n[0] !== id),
-        [id, markSchema] as [string, MarkSchema],
-      ])
+      ctx.update(marksCtx, (ns) =>
+        upsertById(ns, id, [id, markSchema] as [string, MarkSchema])
+      )
 
       plugin.id = id
       plugin.schema = markSchema
