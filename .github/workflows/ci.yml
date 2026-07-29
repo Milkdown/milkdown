@@ -81,9 +81,34 @@ jobs:
           ./packages/kit
           ./packages/crepe
 
-  e2e:
+  cache-browsers:
+    # Download Playwright browser binaries once and populate the cache before the
+    # e2e shards start, so the shards restore instead of each downloading in parallel.
     runs-on: ubuntu-latest
     needs: install-deps
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
+
+      # Binaries only; system libraries are per-runner and re-installed in each shard.
+      - name: Download browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: pnpm --filter=@milkdown/e2e exec playwright install
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: cache-browsers
     strategy:
       fail-fast: false
       matrix:
@@ -101,11 +126,31 @@ jobs:
           pnpm --filter=@milkdown/prose run build
           pnpm --filter=@milkdown/e2e run build
 
-      - name: Install browsers
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Install browsers and system dependencies
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm --filter=@milkdown/e2e test:install
+
+      - name: Install browser system dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: pnpm --filter=@milkdown/e2e exec playwright install-deps
 
       - name: Run playwright
         run: pnpm test:e2e --forbid-only --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+
+      - name: Upload blob report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: blob-report-${{ matrix.shard }}
+          path: e2e/blob-report/
+          retention-days: 7
 
       - name: Upload test results
         if: ${{ failure() }}
@@ -115,9 +160,40 @@ jobs:
           path: e2e/test-results/
           retention-days: 7
 
+  merge-reports:
+    # Merge shard blob reports into one HTML report. Runs even if some shards failed,
+    # but not on cancellation. Report-only: does not gate the `summary` status.
+    if: ${{ !cancelled() }}
+    needs: e2e
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup
+
+      - name: Download blob reports
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          path: e2e/all-blob-reports
+          pattern: blob-report-*
+          merge-multiple: true
+
+      - name: Merge blob reports into HTML report
+        run: pnpm --filter=@milkdown/e2e exec playwright merge-reports --reporter html ./all-blob-reports
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-html-report
+          path: e2e/playwright-report/
+          retention-days: 14
+
   summary:
     if: ${{ always() }}
-    needs: [lint, unit, e2e, build]
+    needs: [install-deps, cache-browsers, lint, unit, e2e, build]
     runs-on: ubuntu-latest
     steps:
       - name: On error

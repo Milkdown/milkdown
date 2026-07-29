@@ -8,6 +8,9 @@ dist
 dist-ssr
 coverage
 test-results
+blob-report
+all-blob-reports
+playwright-report
 .pnpm-store
 .npmrc
 tsconfig.tsbuildinfo
