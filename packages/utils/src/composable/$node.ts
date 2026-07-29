@@ -5,7 +5,7 @@ import type { NodeSchema } from '@milkdown/transformer'
 import { nodesCtx, schemaCtx, schemaTimerCtx } from '@milkdown/core'
 import { missingNodeInSchema } from '@milkdown/exception'
 
-import { addTimer } from './utils'
+import { addTimer, upsertById } from './utils'
 
 /// @internal
 export type $Node = MilkdownPlugin & {
@@ -25,10 +25,9 @@ export type $Node = MilkdownPlugin & {
 export function $node(id: string, schema: (ctx: Ctx) => NodeSchema): $Node {
   const plugin: MilkdownPlugin = (ctx) => async () => {
     const nodeSchema = schema(ctx)
-    ctx.update(nodesCtx, (ns) => [
-      ...ns.filter((n) => n[0] !== id),
-      [id, nodeSchema] as [string, NodeSchema],
-    ])
+    ctx.update(nodesCtx, (ns) =>
+      upsertById(ns, id, [id, nodeSchema] as [string, NodeSchema])
+    )
     ;(<$Node>plugin).id = id
     ;(<$Node>plugin).schema = nodeSchema
 
@@ -62,10 +61,9 @@ export function $nodeAsync(
   const plugin = addTimer<$Node>(
     async (ctx, plugin, done) => {
       const nodeSchema = await schema(ctx)
-      ctx.update(nodesCtx, (ns) => [
-        ...ns.filter((n) => n[0] !== id),
-        [id, nodeSchema] as [string, NodeSchema],
-      ])
+      ctx.update(nodesCtx, (ns) =>
+        upsertById(ns, id, [id, nodeSchema] as [string, NodeSchema])
+      )
 
       plugin.id = id
       plugin.schema = nodeSchema
