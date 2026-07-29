@@ -81,9 +81,34 @@ jobs:
           ./packages/kit
           ./packages/crepe
 
-  e2e:
+  cache-browsers:
+    # Download Playwright browser binaries once and populate the cache before the
+    # e2e shards start, so the shards restore instead of each downloading in parallel.
     runs-on: ubuntu-latest
     needs: install-deps
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
+
+      # Binaries only; system libraries are per-runner and re-installed in each shard.
+      - name: Download browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: pnpm --filter=@milkdown/e2e exec playwright install
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: cache-browsers
     strategy:
       fail-fast: false
       matrix:
@@ -168,7 +193,7 @@ jobs:
 
   summary:
     if: ${{ always() }}
-    needs: [lint, unit, e2e, build]
+    needs: [install-deps, cache-browsers, lint, unit, e2e, build]
     runs-on: ubuntu-latest
     steps:
       - name: On error
