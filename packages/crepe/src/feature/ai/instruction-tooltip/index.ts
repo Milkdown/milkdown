@@ -28,10 +28,35 @@ const defaultAPI: AIInstructionTooltipAPI = {
   show: () => {},
 }
 
+/// Holds the imperative handle to the instruction palette. The tooltip view
+/// installs the real `show` on mount; until then the default is a no-op.
+/// Read it with `useAIInstructionTooltipAPI`.
 export const aiInstructionTooltipAPI = $ctx(
   { ...defaultAPI },
   'aiInstructionTooltipAPI'
 )
+
+/// Open the AI instruction palette over a document range — what Crepe's own
+/// toolbar button does on click. Read the range from the current selection at
+/// click time, not when the toolbar is built.
+///
+/// Throws if the AI feature is disabled, so gate the call on
+/// `useCrepeFeatures(ctx).get().includes(CrepeFeature.AI)`.
+///
+/// ```ts
+/// import { useAIInstructionTooltipAPI } from '@milkdown/crepe/feature/ai'
+/// crepe.editor.action((ctx) => {
+///   const { from, to } = ctx.get(editorViewCtx).state.selection
+///   useAIInstructionTooltipAPI(ctx).show(from, to)
+/// })
+/// ```
+export function useAIInstructionTooltipAPI(ctx: Ctx) {
+  // String slice, not `aiInstructionTooltipAPI.key` — see the note in
+  // `useAIProviderConfig`.
+  return ctx.get<AIInstructionTooltipAPI, 'aiInstructionTooltipAPI'>(
+    'aiInstructionTooltipAPI'
+  )
+}
 
 export const aiInstructionTooltip = tooltipFactory('CREPE_AI_INSTRUCTION')
 

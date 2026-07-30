@@ -41,15 +41,14 @@ export type {
   AISuggestionItem,
   AISuggestionsBuilder,
 } from './types'
-export { runAICmd, abortAICmd } from './commands'
+export type { AIProviderConfigValue } from './commands'
+export { runAICmd, abortAICmd, useAIProviderConfig } from './commands'
 export { defaultBuildContext } from './context'
-/// Ctx slices a host needs to drive the AI feature from its own UI: whether a
-/// provider is configured (`aiProviderConfig`), and how to open the instruction
-/// palette over a range (`aiInstructionTooltipAPI`). Both are what Crepe's own
-/// toolbar button reads, so a replacement toolbar needs them too.
-export { aiProviderConfig } from './commands'
 export type { AIInstructionTooltipAPI } from './instruction-tooltip'
-export { aiInstructionTooltipAPI } from './instruction-tooltip'
+export { useAIInstructionTooltipAPI } from './instruction-tooltip'
+// The SVG Crepe's own AI button falls back to, so a replacement toolbar can
+// match it. `AIFeatureConfig.aiIcon` overrides it for the built-in button.
+export { aiIcon as defaultAIIcon } from '../../icons'
 
 export const ai: DefineFeature<AIFeatureConfig> = (editor, config) => {
   const diffCfg = config?.diff ?? {}

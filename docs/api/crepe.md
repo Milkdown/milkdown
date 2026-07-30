@@ -990,25 +990,52 @@ plugin APIs.
 
 ##### Driving the AI feature from your own UI
 
-If you replace the toolbar, two ctx slices let you reproduce its AI button:
+If you replace the toolbar, two helpers let you reproduce its AI button —
+one to decide whether to show it, one to run it. They are separate calls
+because they happen at different moments: visibility once when you build the
+toolbar, the range read on every click.
 
 ```typescript
+import { editorViewCtx } from '@milkdown/kit/core'
+import { CrepeFeature, useCrepeFeatures } from '@milkdown/crepe'
 import {
-  aiInstructionTooltipAPI,
-  aiProviderConfig,
+  defaultAIIcon,
+  useAIInstructionTooltipAPI,
+  useAIProviderConfig,
 } from '@milkdown/crepe/feature/ai'
 
-// Only offer the action when a provider is actually configured — without one
-// the palette opens but every action is rejected.
-const { provider, aiIcon } = ctx.get(aiProviderConfig.key)
-if (provider) {
-  const { from, to } = ctx.get(editorViewCtx).state.selection
-  ctx.get(aiInstructionTooltipAPI.key).show(from, to)
+// Visibility — evaluate once while building your toolbar. Only offer the
+// action when a provider is actually configured: without one the palette
+// opens but every action is rejected.
+const showAIButton = crepe.editor.action((ctx) => {
+  // Both helpers throw when the AI feature is disabled, so ask the feature
+  // flags first.
+  if (!useCrepeFeatures(ctx).get().includes(CrepeFeature.AI)) return false
+  return Boolean(useAIProviderConfig(ctx).get().provider)
+})
+
+// Action — read the selection at click time, never earlier.
+function onAIButtonClick() {
+  crepe.editor.action((ctx) => {
+    const { from, to } = ctx.get(editorViewCtx).state.selection
+    useAIInstructionTooltipAPI(ctx).show(from, to)
+  })
 }
 ```
 
-Both slices only exist once the AI feature is configured, so guard the lookup
-with `ctx.isInjected(aiProviderConfig.key)` if the feature may be disabled.
+Use `defaultAIIcon` to match the built-in button's icon. `AIFeatureConfig.aiIcon`
+only overrides Crepe's own toolbar entry — it is `undefined` on
+`useAIProviderConfig(ctx).get()` unless the host set it, so don't rely on it as
+your default.
+
+Both helpers resolve their slice by name rather than by slice object, which is
+what makes them safe to import from `@milkdown/crepe/feature/ai` while `Crepe`
+comes from `@milkdown/crepe`: each package entry is bundled separately, so the
+two entries' slice _objects_ are not the same instance.
+
+⚠️ `useAIProviderConfig(ctx).get()` returns the live config, whose `provider` is
+a closure over your API key in BYOK deployments. Read the field you need; don't
+log or serialize the whole object.
 
 ## Usage
 
