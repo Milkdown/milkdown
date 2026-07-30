@@ -73,6 +73,13 @@ export const Toolbar = defineComponent<ToolbarProps>({
 
     const groupInfo = computed(() => getGroups(config, ctx))
 
+    /// The `title` shown on hover: the item's name, with its shortcut appended
+    /// when one was configured.
+    function tooltipFor(item: ToolbarItem) {
+      if (!item.label) return undefined
+      return item.shortcut ? `${item.label} (${item.shortcut})` : item.label
+    }
+
     return () => {
       return (
         <>
@@ -86,6 +93,10 @@ export const Toolbar = defineComponent<ToolbarProps>({
                       'toolbar-item',
                       ctx && checkActive(item.active) && 'active'
                     )}
+                    data-toolbar-item={item.key}
+                    title={tooltipFor(item)}
+                    aria-label={item.label}
+                    aria-keyshortcuts={item.ariaKeyshortcuts}
                     onPointerdown={onClick(item.onRun)}
                   >
                     <Icon icon={item.icon} />

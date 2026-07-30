@@ -377,6 +377,14 @@ interface ToolbarFeatureConfig {
   strikethroughIcon?: string
   latexIcon?: string
   aiIcon?: string // Override only the toolbar's AI button (only renders when AI is enabled and a provider is configured)
+  // Accessible names, for localization. Each defaults to its English label.
+  boldLabel?: string
+  codeLabel?: string
+  italicLabel?: string
+  linkLabel?: string
+  strikethroughLabel?: string
+  latexLabel?: string
+  aiLabel?: string
   buildToolbar?: (builder: GroupBuilder<ToolbarItem>) => void
 }
 
@@ -389,6 +397,7 @@ const config: CrepeConfig = {
     [Crepe.Feature.Toolbar]: {
       boldIcon: customBoldIcon,
       italicIcon: customItalicIcon,
+      boldLabel: 'Fett',
       buildToolbar: (builder) => {
         // Custom toolbar building logic
       },
@@ -396,6 +405,43 @@ const config: CrepeConfig = {
   },
 }
 ```
+
+Each toolbar button is rendered with an accessible name and a stable key:
+
+```typescript
+type ToolbarItem = {
+  active: (ctx: Ctx) => boolean
+  icon: string
+  label?: string // title + aria-label
+  shortcut?: string // display only, appended to the title
+  ariaKeyshortcuts?: string // aria-keyshortcuts, in ARIA grammar
+}
+```
+
+`label` is what gives the button a name — its only other content is an SVG.
+
+The two shortcut fields are separate because they have different readers.
+`shortcut` is what a human reads in the tooltip, so it can be `⌘B` or `Ctrl+B`.
+`ariaKeyshortcuts` goes straight into the `aria-keyshortcuts` attribute, which
+has a defined grammar: `+`-joined modifiers drawn from `Alt`, `Control`,
+`Shift`, `Meta` and `AltGraph`, plus a `KeyboardEvent.key` value. Display glyphs
+and the abbreviation `Ctrl` are both invalid there, so one field cannot serve
+both:
+
+```typescript
+builder.addGroup('custom', 'Custom').addItem('highlight', {
+  icon: highlightIcon,
+  label: 'Highlight',
+  shortcut: isMac ? '⌘⇧H' : 'Ctrl+Shift+H', // shown to the user
+  ariaKeyshortcuts: isMac ? 'Meta+Shift+H' : 'Control+Shift+H', // for AT
+  active: (ctx) => …,
+  onRun: (ctx) => …,
+})
+```
+
+Neither has a default: which combo is bound, and how it is spelled per platform,
+is the host's business. Buttons also carry `data-toolbar-item="<key>"`, so
+consumers can target a specific one without relying on its position.
 
 #### TopBar Feature
 

@@ -39,6 +39,22 @@ import { mathInlineId, toggleLatexCommandName } from '../latex/constants'
 export type ToolbarItem = {
   active: (ctx: Ctx) => boolean
   icon: string
+  /// Accessible name for the button, rendered as `title` and `aria-label`.
+  /// Without it the button exposes no name at all — its only content is an SVG.
+  label?: string
+  /// Human-readable form of the item's keyboard shortcut, e.g. `⌘B` on macOS or
+  /// `Ctrl+B` elsewhere. Appended to the `title` for display only — it is never
+  /// used for `aria-keyshortcuts`, which has its own grammar.
+  shortcut?: string
+  /// The same shortcut in `aria-keyshortcuts` grammar: `+`-joined modifiers from
+  /// `Alt` / `Control` / `Shift` / `Meta` / `AltGraph` plus a `KeyboardEvent.key`
+  /// value, e.g. `Meta+B` or `Control+Shift+H`. Kept separate from `shortcut`
+  /// because display glyphs (`⌘B`) and the abbreviation `Ctrl` are both invalid
+  /// here, and a single field cannot satisfy both readers.
+  ///
+  /// Crepe defaults neither: which combo is bound, and how it is spelled per
+  /// platform, is the host's business.
+  ariaKeyshortcuts?: string
 }
 
 export function getGroups(config?: ToolbarFeatureConfig, ctx?: Ctx) {
@@ -48,6 +64,7 @@ export function getGroups(config?: ToolbarFeatureConfig, ctx?: Ctx) {
     .addGroup('formatting', 'Formatting')
     .addItem('bold', {
       icon: config?.boldIcon ?? boldIcon,
+      label: config?.boldLabel ?? 'Bold',
       active: (ctx) => {
         const commands = ctx.get(commandsCtx)
         return commands.call(isMarkSelectedCommand.key, strongSchema.type(ctx))
@@ -59,6 +76,7 @@ export function getGroups(config?: ToolbarFeatureConfig, ctx?: Ctx) {
     })
     .addItem('italic', {
       icon: config?.italicIcon ?? italicIcon,
+      label: config?.italicLabel ?? 'Italic',
       active: (ctx) => {
         const commands = ctx.get(commandsCtx)
         return commands.call(
@@ -73,6 +91,7 @@ export function getGroups(config?: ToolbarFeatureConfig, ctx?: Ctx) {
     })
     .addItem('strikethrough', {
       icon: config?.strikethroughIcon ?? strikethroughIcon,
+      label: config?.strikethroughLabel ?? 'Strikethrough',
       active: (ctx) => {
         const commands = ctx.get(commandsCtx)
         return commands.call(
@@ -89,6 +108,7 @@ export function getGroups(config?: ToolbarFeatureConfig, ctx?: Ctx) {
   const functionGroup = groupBuilder.addGroup('function', 'Function')
   functionGroup.addItem('code', {
     icon: config?.codeIcon ?? codeIcon,
+    label: config?.codeLabel ?? 'Inline code',
     active: (ctx) => {
       const commands = ctx.get(commandsCtx)
       return commands.call(
@@ -107,6 +127,7 @@ export function getGroups(config?: ToolbarFeatureConfig, ctx?: Ctx) {
   if (isLatexEnabled) {
     functionGroup.addItem('latex', {
       icon: config?.latexIcon ?? functionsIcon,
+      label: config?.latexLabel ?? 'Inline math',
       active: (ctx) => {
         const commands = ctx.get(commandsCtx)
         const nodeType = ctx.get(schemaCtx).nodes[mathInlineId]
@@ -120,6 +141,7 @@ export function getGroups(config?: ToolbarFeatureConfig, ctx?: Ctx) {
   }
   functionGroup.addItem('link', {
     icon: config?.linkIcon ?? linkIcon,
+    label: config?.linkLabel ?? 'Link',
     active: (ctx) => {
       const commands = ctx.get(commandsCtx)
       return commands.call(isMarkSelectedCommand.key, linkSchema.type(ctx))
@@ -142,6 +164,7 @@ export function getGroups(config?: ToolbarFeatureConfig, ctx?: Ctx) {
     if (aiCfg.provider) {
       functionGroup.addItem('ai', {
         icon: config?.aiIcon ?? aiCfg.aiIcon ?? aiIcon,
+        label: config?.aiLabel ?? 'Ask AI',
         active: () => false,
         onRun: (ctx) => {
           const api = ctx.get(aiInstructionTooltipAPI.key)
