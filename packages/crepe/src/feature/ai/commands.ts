@@ -51,10 +51,10 @@ export const aiProviderConfig = $ctx<AIProviderConfigValue, 'aiProviderConfig'>(
   'aiProviderConfig'
 )
 
-/// Read or update the AI configuration — most usefully `provider`, which is
-/// `undefined` until the host configures one. A custom toolbar should hide
-/// its AI entry while it is unset: the palette would open but every action
-/// would be rejected.
+/// Read the AI configuration — most usefully `provider`, which is `undefined`
+/// until the host configures one. A custom toolbar should hide its AI entry
+/// while it is unset: the palette would open but every action would be
+/// rejected.
 ///
 /// Throws if the AI feature is disabled, so gate the call on
 /// `useCrepeFeatures(ctx).get().includes(CrepeFeature.AI)`.
@@ -62,7 +62,7 @@ export const aiProviderConfig = $ctx<AIProviderConfigValue, 'aiProviderConfig'>(
 /// ```ts
 /// import { useAIProviderConfig } from '@milkdown/crepe/feature/ai'
 /// const hasProvider = crepe.editor.action(
-///   (ctx) => !!useAIProviderConfig(ctx).get().provider
+///   (ctx) => !!useAIProviderConfig(ctx).provider
 /// )
 /// ```
 export function useAIProviderConfig(ctx: Ctx) {
@@ -71,7 +71,7 @@ export function useAIProviderConfig(ctx: Ctx) {
   // helper from `./feature/ai` holds two distinct slice objects. Name-based
   // lookup is the only one that survives that. Same reasoning as
   // `useCrepe` in `core/slice.ts`.
-  return ctx.use<AIProviderConfigValue, 'aiProviderConfig'>('aiProviderConfig')
+  return ctx.get<AIProviderConfigValue, 'aiProviderConfig'>('aiProviderConfig')
 }
 
 /// Holds the AbortController and active-form label for the current AI

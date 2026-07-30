@@ -1011,7 +1011,7 @@ const showAIButton = crepe.editor.action((ctx) => {
   // Both helpers throw when the AI feature is disabled, so ask the feature
   // flags first.
   if (!useCrepeFeatures(ctx).get().includes(CrepeFeature.AI)) return false
-  return Boolean(useAIProviderConfig(ctx).get().provider)
+  return Boolean(useAIProviderConfig(ctx).provider)
 })
 
 // Action — read the selection at click time, never earlier.
@@ -1025,7 +1025,7 @@ function onAIButtonClick() {
 
 Use `defaultAIIcon` to match the built-in button's icon. `AIFeatureConfig.aiIcon`
 only overrides Crepe's own toolbar entry — it is `undefined` on
-`useAIProviderConfig(ctx).get()` unless the host set it, so don't rely on it as
+`useAIProviderConfig(ctx)` unless the host set it, so don't rely on it as
 your default.
 
 Both helpers resolve their slice by name rather than by slice object, which is
@@ -1033,7 +1033,7 @@ what makes them safe to import from `@milkdown/crepe/feature/ai` while `Crepe`
 comes from `@milkdown/crepe`: each package entry is bundled separately, so the
 two entries' slice _objects_ are not the same instance.
 
-⚠️ `useAIProviderConfig(ctx).get()` returns the live config, whose `provider` is
+⚠️ `useAIProviderConfig(ctx)` returns the live config, whose `provider` is
 a closure over your API key in BYOK deployments. Read the field you need; don't
 log or serialize the whole object.
 
