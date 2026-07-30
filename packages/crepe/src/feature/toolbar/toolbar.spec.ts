@@ -1,10 +1,19 @@
+import { strongKeymap } from '@milkdown/kit/preset/commonmark'
+import { browser } from '@milkdown/kit/prose'
 import { test, expect, describe } from 'vitest'
 
 import type { ToolbarItem } from './config'
 
 import { Crepe } from '../../core'
 import { CrepeFeature } from '../../feature'
+import { formatKeymapShortcut, keymapRef } from '../../utils/keyboard-shortcut'
 import { getGroups } from './config'
+
+/// The shortcut strings a built-in should carry, computed the same way the
+/// resolver does so assertions hold on whatever platform the tests run on.
+function expectedShortcut(raw: string) {
+  return formatKeymapShortcut(raw, browser.mac)
+}
 
 type Config = Parameters<typeof getGroups>[0]
 type Ctx = Parameters<typeof getGroups>[1]
@@ -94,11 +103,90 @@ describe('toolbar item labels', () => {
 })
 
 describe('toolbar item shortcuts', () => {
-  test('neither shortcut field is set by default', () => {
-    // Crepe does not know which combos the host bound, so it advertises none.
+  test('without a ctx there is no binding to read, so none is derived', () => {
+    // The keymap slices live on the editor ctx; getGroups is also called
+    // ctx-less (e.g. to inspect labels), and then it advertises no shortcut.
     for (const item of itemsOf()) {
       expect(item.shortcut).toBeUndefined()
       expect(item.ariaKeyshortcuts).toBeUndefined()
+    }
+  })
+
+  test('built-in items derive their shortcut from the keymap', async () => {
+    const ctx = await ctxWithLatex()
+    const bold = itemByKey('bold', undefined, ctx)
+    expect(bold.shortcut).toBe(expectedShortcut('Mod-b').display)
+    expect(bold.ariaKeyshortcuts).toBe(expectedShortcut('Mod-b').aria)
+    expect(itemByKey('italic', undefined, ctx).ariaKeyshortcuts).toBe(
+      expectedShortcut('Mod-i').aria
+    )
+    expect(itemByKey('code', undefined, ctx).ariaKeyshortcuts).toBe(
+      expectedShortcut('Mod-e').aria
+    )
+    expect(itemByKey('strikethrough', undefined, ctx).ariaKeyshortcuts).toBe(
+      expectedShortcut('Mod-Alt-x').aria
+    )
+  })
+
+  test('a host rebinding flows through — single source of truth', async () => {
+    const ctx = await ctxWithLatex()
+    ctx.set(strongKeymap.key, { ToggleBold: { shortcuts: ['Mod-Alt-b'] } })
+    const bold = itemByKey('bold', undefined, ctx)
+    expect(bold.shortcut).toBe(expectedShortcut('Mod-Alt-b').display)
+    expect(bold.ariaKeyshortcuts).toBe(expectedShortcut('Mod-Alt-b').aria)
+  })
+
+  test('an explicit string overrides the derived one', async () => {
+    const ctx = await ctxWithLatex()
+    const items = itemsOf(
+      {
+        buildToolbar: (builder) => {
+          builder.addGroup('custom', 'Custom').addItem('override', {
+            icon: '<svg />',
+            label: 'Override',
+            keymap: keymapRef(strongKeymap.key, 'ToggleBold'),
+            shortcut: '⌘B',
+            ariaKeyshortcuts: 'Meta+B',
+            active: () => false,
+            onRun: () => {},
+          })
+        },
+      },
+      ctx
+    )
+    const override = items.find((item) => item.key === 'override')
+    expect(override?.shortcut).toBe('⌘B')
+    expect(override?.ariaKeyshortcuts).toBe('Meta+B')
+  })
+
+  test('a custom item can point at a keymap instead of re-spelling it', async () => {
+    // The whole reason keymap refs exist: a second UI entry for the same
+    // command reuses the one binding rather than hand-writing the string again.
+    const ctx = await ctxWithLatex()
+    const items = itemsOf(
+      {
+        buildToolbar: (builder) => {
+          builder.addGroup('custom', 'Custom').addItem('bold-again', {
+            icon: '<svg />',
+            label: 'Bold again',
+            keymap: keymapRef(strongKeymap.key, 'ToggleBold'),
+            active: () => false,
+            onRun: () => {},
+          })
+        },
+      },
+      ctx
+    )
+    const item = items.find((candidate) => candidate.key === 'bold-again')
+    expect(item?.ariaKeyshortcuts).toBe(expectedShortcut('Mod-b').aria)
+  })
+
+  test('items with no keymap advertise no shortcut', async () => {
+    const ctx = await ctxWithAI()
+    for (const key of ['link', 'latex', 'ai']) {
+      const item = itemByKey(key, undefined, ctx)
+      expect(item.shortcut, `${key} shortcut`).toBeUndefined()
+      expect(item.ariaKeyshortcuts, `${key} ariaKeyshortcuts`).toBeUndefined()
     }
   })
 

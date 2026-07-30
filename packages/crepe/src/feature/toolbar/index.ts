@@ -18,6 +18,10 @@ import { crepeFeatureConfig } from '../../core/slice'
 import { CrepeFeature } from '../../feature'
 import { Toolbar } from './component'
 
+export { keymapRef } from '../../utils/keyboard-shortcut'
+export type { KeymapRef } from '../../utils/keyboard-shortcut'
+export type { ToolbarItem } from './config'
+
 interface ToolbarConfig {
   boldIcon: string
   codeIcon: string
