@@ -413,6 +413,7 @@ type ToolbarItem = {
   active: (ctx: Ctx) => boolean
   icon: string
   label?: string // title + aria-label
+  keymap?: KeymapRef // where the shortcut is bound; both fields below derive from it
   shortcut?: string // display only, appended to the title
   ariaKeyshortcuts?: string // aria-keyshortcuts, in ARIA grammar
 }
@@ -420,13 +421,37 @@ type ToolbarItem = {
 
 `label` is what gives the button a name — its only other content is an SVG.
 
-The two shortcut fields are separate because they have different readers.
-`shortcut` is what a human reads in the tooltip, so it can be `⌘B` or `Ctrl+B`.
-`ariaKeyshortcuts` goes straight into the `aria-keyshortcuts` attribute, which
-has a defined grammar: `+`-joined modifiers drawn from `Alt`, `Control`,
-`Shift`, `Meta` and `AltGraph`, plus a `KeyboardEvent.key` value. Display glyphs
-and the abbreviation `Ctrl` are both invalid there, so one field cannot serve
-both:
+A shortcut has two readers. `shortcut` is what a human reads in the tooltip, so
+it is `⌘B` or `Ctrl+B`. `ariaKeyshortcuts` goes into the `aria-keyshortcuts`
+attribute, which has a defined grammar: `+`-joined modifiers from `Alt`,
+`Control`, `Shift`, `Meta` and `AltGraph`, plus a `KeyboardEvent.key` value.
+Display glyphs and the abbreviation `Ctrl` are both invalid there, so one field
+cannot serve both.
+
+You should not spell either by hand. A shortcut is bound in exactly one place —
+its keymap — so point the item at that keymap with `keymap` and both strings are
+derived for you, per platform, and stay correct when the host rebinds the key.
+The built-in formatting buttons already do this, and a custom button for a
+command that has a keymap does the same:
+
+```typescript
+import { keymapRef } from '@milkdown/crepe/feature/toolbar'
+import { strongKeymap } from '@milkdown/kit/preset/commonmark'
+
+// A second entry for an existing command reuses the one binding — no need to
+// re-spell ⌘B here or anywhere else it appears.
+builder.addGroup('custom', 'Custom').addItem('bold', {
+  icon: boldIcon,
+  label: 'Bold',
+  keymap: keymapRef(strongKeymap.key, 'ToggleBold'),
+  active: (ctx) => isBoldActive(ctx),
+  onRun: (ctx) => toggleBold(ctx),
+})
+```
+
+`shortcut` / `ariaKeyshortcuts`, when set explicitly, win over the derived
+values — the escape hatch for a shortcut that is not backed by a milkdown
+keymap:
 
 ```typescript
 builder.addGroup('custom', 'Custom').addItem('highlight', {
@@ -434,14 +459,13 @@ builder.addGroup('custom', 'Custom').addItem('highlight', {
   label: 'Highlight',
   shortcut: isMac ? '⌘⇧H' : 'Ctrl+Shift+H', // shown to the user
   ariaKeyshortcuts: isMac ? 'Meta+Shift+H' : 'Control+Shift+H', // for AT
-  active: (ctx) => …,
-  onRun: (ctx) => …,
+  active: (ctx) => isHighlightActive(ctx),
+  onRun: (ctx) => toggleHighlight(ctx),
 })
 ```
 
-Neither has a default: which combo is bound, and how it is spelled per platform,
-is the host's business. Buttons also carry `data-toolbar-item="<key>"`, so
-consumers can target a specific one without relying on its position.
+Buttons also carry `data-toolbar-item="<key>"`, so consumers can target a
+specific one without relying on its position.
 
 #### TopBar Feature
 
