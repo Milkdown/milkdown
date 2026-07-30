@@ -1,5 +1,6 @@
 import { strongKeymap } from '@milkdown/kit/preset/commonmark'
 import { browser } from '@milkdown/kit/prose'
+import { $useKeymap } from '@milkdown/kit/utils'
 import { test, expect, describe } from 'vitest'
 
 import type { ToolbarItem } from './config'
@@ -179,6 +180,32 @@ describe('toolbar item shortcuts', () => {
     )
     const item = items.find((candidate) => candidate.key === 'bold-again')
     expect(item?.ariaKeyshortcuts).toBe(expectedShortcut('Mod-b').aria)
+  })
+
+  test('a keymap ref to an uninjected slice is ignored, not thrown', async () => {
+    // A custom item may reference a keymap whose plugin this editor never
+    // loaded; reading the missing slice must not crash toolbar construction.
+    const orphanKeymap = $useKeymap('orphanKeymap', {
+      Foo: { shortcuts: 'Mod-j', command: () => () => false },
+    })
+    const ctx = await ctxWithLatex()
+    const items = itemsOf(
+      {
+        buildToolbar: (builder) => {
+          builder.addGroup('custom', 'Custom').addItem('orphan', {
+            icon: '<svg />',
+            label: 'Orphan',
+            keymap: keymapRef(orphanKeymap.key, 'Foo'),
+            active: () => false,
+            onRun: () => {},
+          })
+        },
+      },
+      ctx
+    )
+    const orphan = items.find((item) => item.key === 'orphan')
+    expect(orphan?.shortcut).toBeUndefined()
+    expect(orphan?.ariaKeyshortcuts).toBeUndefined()
   })
 
   test('items with no keymap advertise no shortcut', async () => {

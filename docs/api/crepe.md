@@ -444,8 +444,8 @@ builder.addGroup('custom', 'Custom').addItem('bold', {
   icon: boldIcon,
   label: 'Bold',
   keymap: keymapRef(strongKeymap.key, 'ToggleBold'),
-  active: (ctx) => …,
-  onRun: (ctx) => …,
+  active: (ctx) => isBoldActive(ctx),
+  onRun: (ctx) => toggleBold(ctx),
 })
 ```
 
@@ -459,8 +459,8 @@ builder.addGroup('custom', 'Custom').addItem('highlight', {
   label: 'Highlight',
   shortcut: isMac ? '⌘⇧H' : 'Ctrl+Shift+H', // shown to the user
   ariaKeyshortcuts: isMac ? 'Meta+Shift+H' : 'Control+Shift+H', // for AT
-  active: (ctx) => …,
-  onRun: (ctx) => …,
+  active: (ctx) => isHighlightActive(ctx),
+  onRun: (ctx) => toggleHighlight(ctx),
 })
 ```
 

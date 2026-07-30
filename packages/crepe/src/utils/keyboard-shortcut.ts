@@ -143,6 +143,10 @@ export function resolveKeymapShortcut(
   ctx: Ctx,
   ref: KeymapRef
 ): ResolvedShortcut | undefined {
+  // A custom item may point at a keymap whose plugin isn't loaded in this
+  // editor; reading a missing slice throws, which would break toolbar
+  // construction, so treat it as "no shortcut" instead.
+  if (!ctx.isInjected(ref.slice)) return undefined
   const entry = ctx.get(ref.slice)[ref.entry]
   const shortcut = entry ? [entry.shortcuts].flat()[0] : undefined
   if (!shortcut) return undefined
