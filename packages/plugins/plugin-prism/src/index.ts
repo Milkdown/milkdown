@@ -97,8 +97,15 @@ export const prismPlugin = $prose((ctx) => {
             )
             return (
               oldNode.length !== newNode.length ||
-              oldNode[0]?.node.attrs.language !==
-                newNode[0]?.node.attrs.language ||
+              // A language change goes through `setNodeAttribute`, whose
+              // `AttrStep` carries no `from`/`to` and maps to an empty step map,
+              // so the step scan below misses it. Compare every block by index
+              // rather than only the first, or a change to any but the first
+              // block leaves its highlighting stale.
+              oldNode.some(
+                (entry, i) =>
+                  entry.node.attrs.language !== newNode[i]?.node.attrs.language
+              ) ||
               transaction.steps.some((step) => {
                 const s = step as unknown as { from: number; to: number }
                 return (
