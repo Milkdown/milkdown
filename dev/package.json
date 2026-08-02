@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@types/lodash-es": "^4.17.12",
-    "chalk": "^5.4.1",
+    "chalk": "^6.0.0",
     "jsonc-parser": "^3.3.1",
     "lodash-es": "^4.17.21"
   }
