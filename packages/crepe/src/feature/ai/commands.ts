@@ -21,24 +21,58 @@ import { defaultBuildContext } from './context'
 // Context slices
 // ---------------------------------------------------------------------------
 
+/// The resolved AI configuration held by the `aiProviderConfig` slice.
+/// Read it with `useAIProviderConfig`.
+///
+/// ⚠️ In BYOK deployments `provider` is a closure over the user's API key,
+/// so don't log or serialize this object wholesale.
+export interface AIProviderConfigValue {
+  provider: AIProvider | undefined
+  buildContext: ((ctx: Ctx, instruction: string) => AIPromptContext) | undefined
+  diffReviewOnEnd: boolean
+  onError: (error: MilkdownError) => void
+  aiIcon: string | undefined
+}
+
 /// Holds the user-supplied provider and prompt builder. Populated by
 /// the AI feature's setup function from `AIFeatureConfig`. `aiIcon`
 /// lives here too so that other features (notably the toolbar) can pick
 /// up the AI feature's icon override at render time.
-export const aiProviderConfig = $ctx(
+export const aiProviderConfig = $ctx<AIProviderConfigValue, 'aiProviderConfig'>(
   {
-    provider: undefined as AIProvider | undefined,
-    buildContext: undefined as
-      | ((ctx: Ctx, instruction: string) => AIPromptContext)
-      | undefined,
+    provider: undefined,
+    buildContext: undefined,
     diffReviewOnEnd: true,
     onError: (error: MilkdownError) => {
       console.error(`[milkdown/ai] [${error.code}]`, error)
     },
-    aiIcon: undefined as string | undefined,
+    aiIcon: undefined,
   },
   'aiProviderConfig'
 )
+
+/// Read the AI configuration — most usefully `provider`, which is `undefined`
+/// until the host configures one. A custom toolbar should hide its AI entry
+/// while it is unset: the palette would open but every action would be
+/// rejected.
+///
+/// Throws if the AI feature is disabled, so gate the call on
+/// `useCrepeFeatures(ctx).get().includes(CrepeFeature.AI)`.
+///
+/// ```ts
+/// import { useAIProviderConfig } from '@milkdown/crepe/feature/ai'
+/// const hasProvider = crepe.editor.action(
+///   (ctx) => !!useAIProviderConfig(ctx).provider
+/// )
+/// ```
+export function useAIProviderConfig(ctx: Ctx) {
+  // String slice, not `aiProviderConfig.key`: every package entry is
+  // bundled on its own, so a host importing `Crepe` from the root and this
+  // helper from `./feature/ai` holds two distinct slice objects. Name-based
+  // lookup is the only one that survives that. Same reasoning as
+  // `useCrepe` in `core/slice.ts`.
+  return ctx.get<AIProviderConfigValue, 'aiProviderConfig'>('aiProviderConfig')
+}
 
 /// Holds the AbortController and active-form label for the current AI
 /// session (null/empty when idle). `label` is shown in the streaming
