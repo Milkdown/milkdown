@@ -65,6 +65,9 @@ jobs:
       - name: Build packages
         run: pnpm build
 
+      - name: Build API docs
+        run: pnpm --filter=@milkdown/docs run build
+
       - name: Publish snapshot
         if: ${{ github.event_name == 'pull_request' }}
         run: >

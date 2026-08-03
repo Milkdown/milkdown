@@ -166,6 +166,7 @@ Editor.make()
 @linkSchema
 @toggleLinkCommand
 @updateLinkCommand
+@sanitizeLinkHref
 
 ---
 
