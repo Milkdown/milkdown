@@ -32,7 +32,7 @@ const logError = (error: unknown) => {
 const write = readdirSync(apiDir)
   .filter((dir) => dir !== '.DS_Store')
   .map((pathname) => parse(pathname).name)
-  .map(async (name) => {
+  .map(async (name): Promise<boolean> => {
     const main = resolve(apiDir, `${name}.md`)
     const out = resolve(apiOutDir, `${name}.md`)
 
@@ -51,9 +51,11 @@ const write = readdirSync(apiDir)
         })
         await writeFile(out, markdown)
         logger.info(`Build module: @milkdown/${name} finished.`)
+        return true
       } catch (error) {
         logger.error(`Build module: @milkdown/${name} failed.`)
         logError(error)
+        return false
       }
     } catch {
       // copy the main file to out
@@ -61,17 +63,26 @@ const write = readdirSync(apiDir)
       try {
         await copyFile(main, out)
         logger.info(`Copy module: @milkdown/${name} finished.`)
+        return true
       } catch (error) {
         logger.error(`Copy module: @milkdown/${name} failed.`)
         logError(error)
+        return false
       }
     }
   })
 
 Promise.all(write)
-  .then(() => {
+  .then((results) => {
+    const failed = results.filter((ok) => !ok).length
+    if (failed > 0) {
+      logger.error(`Build api failed: ${failed} module(s) could not be built.`)
+      process.exitCode = 1
+      return
+    }
     logger.info('Build api done.')
   })
   .catch((error) => {
-    throw error
+    logError(error)
+    process.exitCode = 1
   })
