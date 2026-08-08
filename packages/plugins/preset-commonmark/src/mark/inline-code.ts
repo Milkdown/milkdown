@@ -24,6 +24,11 @@ withMeta(inlineCodeAttr, {
 export const inlineCodeSchema = $markSchema('inlineCode', (ctx) => ({
   priority: 100,
   code: true,
+  // A code span has a closed end: text typed after it is not part of it, and
+  // typing is the only way to leave a span that ends a block. It also keeps a
+  // code mark on a delimiter meaningful, since the delimiter is then genuinely
+  // inside the span — the mark input rules key their decisions off that.
+  inclusive: false,
   parseDOM: [{ tag: 'code' }],
   toDOM: (mark) => ['code', ctx.get(inlineCodeAttr.key)(mark)],
   parseMarkdown: {
