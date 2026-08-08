@@ -23,20 +23,16 @@ function rangeHasCodeMark(state: EditorState, from: number, to: number) {
   return found
 }
 
-// A code mark is inclusive, so text typed right after a code span inherits it.
-// Such text only belongs to the code span when the span continues after it.
-function codeSpanContinuesAfter(state: EditorState, pos: number) {
-  const { nodeAfter } = state.doc.resolve(pos)
-  return !!nodeAfter && hasCodeMark(nodeAfter.marks)
-}
-
-function delimiterInCodeSpan(state: EditorState, from: number, to: number) {
-  return rangeHasCodeMark(state, from, to) && codeSpanContinuesAfter(state, to)
-}
-
+// The character being typed carries no marks of its own yet, so they have to be
+// inferred from the insertion point. A code mark is inclusive, which means the
+// position right after a code span still reports one: the character only lands
+// inside the span when the span continues after it.
 function typedCharInCodeSpan(state: EditorState, pos: number) {
   const marks = state.storedMarks ?? state.doc.resolve(pos).marks()
-  return hasCodeMark(marks) && codeSpanContinuesAfter(state, pos)
+  if (!hasCodeMark(marks)) return false
+
+  const { nodeAfter } = state.doc.resolve(pos)
+  return !!nodeAfter && hasCodeMark(nodeAfter.marks)
 }
 
 /// Create an input rule for a mark.
@@ -76,17 +72,19 @@ export function markRule(
       const textEnd = textStart + group.length
 
       // Delimiters inside inline code are literal, but an inline code mark can
-      // still be valid content inside an outer mark such as *`code`*.
-      const openingDelimiterInCodeSpan = delimiterInCodeSpan(
+      // still be valid content inside an outer mark such as *`code`*. Delimiters
+      // already in the document are rejected on their marks alone, wherever they
+      // sit inside the span.
+      const openingDelimiterHasCodeMark = rangeHasCodeMark(
         state,
         start + startSpaces,
         textStart
       )
-      const closingDelimiterInCodeSpan =
-        textEnd < end && delimiterInCodeSpan(state, textEnd, end)
+      const closingDelimiterHasCodeMark =
+        textEnd < end && rangeHasCodeMark(state, textEnd, end)
       if (
-        openingDelimiterInCodeSpan ||
-        closingDelimiterInCodeSpan ||
+        openingDelimiterHasCodeMark ||
+        closingDelimiterHasCodeMark ||
         typedCharInCodeSpan(state, end)
       )
         return null

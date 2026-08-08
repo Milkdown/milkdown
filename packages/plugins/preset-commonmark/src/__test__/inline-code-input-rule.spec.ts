@@ -87,9 +87,7 @@ describe('mark input rules around inline code', () => {
 
   it.each([
     ['*`code`', '*'],
-    ['**`code`', '**'],
     ['_`code`', '_'],
-    ['__`code`', '__'],
   ])(
     'still creates an outer mark for %s%s when the caret moved',
     async (typed, closingDelimiter) => {
@@ -105,4 +103,54 @@ describe('mark input rules around inline code', () => {
       expect(editor.action(getMarkdown())).toBe(`${typed}${closingDelimiter}\n`)
     }
   )
+
+  // The inline code mark is inclusive, so once the caret has moved, the first
+  // half of a two character delimiter typed at the end of a code span joins that
+  // span. It is then literal code content, and closing the mark would delete it.
+  it.each([
+    ['**`code`', '**'],
+    ['__`code`', '__'],
+  ])(
+    'keeps %s%s literal when the caret moved',
+    async (typed, closingDelimiter) => {
+      const user = userEvent.setup()
+      const editor = await createEditor()
+      const view = editor.ctx.get(editorViewCtx)
+
+      await user.type(view.dom, typed)
+      moveCaret(editor)
+      await user.type(view.dom, closingDelimiter)
+
+      expect(textWithMark(editor, 'inlineCode')).toEqual([
+        `code${closingDelimiter}`,
+      ])
+      expect(textWithMark(editor, 'strong')).toEqual([])
+    }
+  )
+
+  it.each([
+    ['`foo*`bar*', 'foo*'],
+    ['`foo~~`bar~~', 'foo~~'],
+  ])(
+    'keeps the code span intact when its last character is a delimiter (%s)',
+    async (typed, code) => {
+      const user = userEvent.setup()
+      const editor = await createEditor()
+
+      await user.type(editor.ctx.get(editorViewCtx).dom, typed)
+
+      expect(textWithMark(editor, 'inlineCode')).toEqual([code])
+      expect(textWithMark(editor, 'emphasis')).toEqual([])
+    }
+  )
+
+  it('keeps a code span whose last character closes a delimiter pair', async () => {
+    const user = userEvent.setup()
+    const editor = await createEditor()
+
+    await user.type(editor.ctx.get(editorViewCtx).dom, '**bar`x*`*')
+
+    expect(textWithMark(editor, 'inlineCode')).toEqual(['x*'])
+    expect(textWithMark(editor, 'strong')).toEqual([])
+  })
 })
