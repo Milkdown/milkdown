@@ -280,7 +280,7 @@ importers:
         version: 2.1.1
       dompurify:
         specifier: ^3.2.5
-        version: 3.4.12
+        version: 3.4.13
       lodash-es:
         specifier: ^4.17.21
         version: 4.18.1
@@ -371,7 +371,7 @@ importers:
         version: 6.0.2
       dompurify:
         specifier: ^3.2.5
-        version: 3.4.12
+        version: 3.4.13
       katex:
         specifier: ^0.18.0
         version: 0.18.1
@@ -640,7 +640,7 @@ importers:
         version: link:../../utils
       dompurify:
         specifier: ^3.2.5
-        version: 3.4.12
+        version: 3.4.13
       emoji-regex:
         specifier: ^10.0.0
         version: 10.6.0
@@ -3719,8 +3719,8 @@ packages:
   dom-accessibility-api@0.6.3:
     resolution: {integrity: sha512-7ZgogeTnjuHbo+ct10G9Ffp0mif17idi0IyWNVA/wcwcm7NPOD/WEHVP3n7n3MhXqxoIYm8d6MuZohYWIZ4T3w==}
 
-  dompurify@3.4.12:
-    resolution: {integrity: sha512-zQvGet8Z2sWbQhCmfFz/T5QWH2oBmjnqK3qvOjaqaNLrLEF912WamU+ohnTp0TCep/MFVHpdJuCZEdFOdTnEFg==}
+  dompurify@3.4.13:
+    resolution: {integrity: sha512-2vmYIoqjze2d+kakP8S/nS5shfsl587kzwEjcGlTdiksUVgFHnFCsLYDVj/JNqJVOQZGSYBTmuycv0PodwmnMQ==}
 
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
@@ -8285,7 +8285,7 @@ snapshots:
 
   dom-accessibility-api@0.6.3: {}
 
-  dompurify@3.4.12:
+  dompurify@3.4.13:
     optionalDependencies:
       '@types/trusted-types': 2.0.7
 
