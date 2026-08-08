@@ -1,7 +1,39 @@
 import type { Mark, MarkType } from '../../model'
+import type { EditorState } from '../../state'
 import type { Captured, Options } from './common'
 
 import { InputRule } from '../../inputrules'
+
+// `MarkSpec.code` declares that the content of a span is literal.
+// `prosemirror-inputrules` keys its own `inCodeMark` barrier off the same flag.
+function hasCodeMark(marks: readonly Mark[]) {
+  return marks.some((mark) => mark.type.spec.code)
+}
+
+function rangeHasCodeMark(state: EditorState, from: number, to: number) {
+  // `nodesBetween` on an empty range still visits the node containing the
+  // position, which would report a code mark that the range does not cover.
+  if (from >= to) return false
+
+  let found = false
+  state.doc.nodesBetween(from, to, (node) => {
+    if (node.isInline && hasCodeMark(node.marks)) found = true
+    return !found
+  })
+  return found
+}
+
+// The character being typed carries no marks of its own yet, so they have to be
+// inferred from the insertion point. A code mark is inclusive, which means the
+// position right after a code span still reports one: the character only lands
+// inside the span when the span continues after it.
+function typedCharInCodeSpan(state: EditorState, pos: number) {
+  const marks = state.storedMarks ?? state.doc.resolve(pos).marks()
+  if (!hasCodeMark(marks)) return false
+
+  const { nodeAfter } = state.doc.resolve(pos)
+  return !!nodeAfter && hasCodeMark(nodeAfter.marks)
+}
 
 /// Create an input rule for a mark.
 export function markRule(
@@ -38,6 +70,24 @@ export function markRule(
       const startSpaces = fullMatch.search(/\S/)
       const textStart = start + fullMatch.indexOf(group)
       const textEnd = textStart + group.length
+
+      // Delimiters inside inline code are literal, but an inline code mark can
+      // still be valid content inside an outer mark such as *`code`*. Delimiters
+      // already in the document are rejected on their marks alone, wherever they
+      // sit inside the span.
+      const openingDelimiterHasCodeMark = rangeHasCodeMark(
+        state,
+        start + startSpaces,
+        textStart
+      )
+      const closingDelimiterHasCodeMark =
+        textEnd < end && rangeHasCodeMark(state, textEnd, end)
+      if (
+        openingDelimiterHasCodeMark ||
+        closingDelimiterHasCodeMark ||
+        typedCharInCodeSpan(state, end)
+      )
+        return null
 
       initialStoredMarks = tr.storedMarks ?? []
 
