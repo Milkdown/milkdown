@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/vitest'
 import { Editor, editorViewCtx } from '@milkdown/core'
+import { TextSelection } from '@milkdown/prose/state'
 import { getMarkdown } from '@milkdown/utils'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
@@ -11,6 +12,18 @@ async function createEditor() {
   editor.use(commonmark)
   await editor.create()
   return editor
+}
+
+// Moving the caret drops the stored marks, so the input rule can no longer rely
+// on them to tell whether the next character lands inside an inline code span.
+function moveCaret(editor: Editor, pos?: number) {
+  const view = editor.ctx.get(editorViewCtx)
+  const { state } = view
+  view.dispatch(
+    state.tr.setSelection(
+      TextSelection.create(state.doc, pos ?? state.selection.from)
+    )
+  )
 }
 
 function textWithMark(editor: Editor, markName: string) {
@@ -40,6 +53,22 @@ describe('mark input rules around inline code', () => {
     expect(editor.action(getMarkdown())).toBe('`*_mm`and`*_nn`\n')
   })
 
+  it('keeps delimiters typed inside an existing inline code literal', async () => {
+    const user = userEvent.setup()
+    const editor = await createEditor()
+    const view = editor.ctx.get(editorViewCtx)
+
+    await user.type(view.dom, '`ab`')
+    // put the caret between `a` and `b`, inside the code span
+    view.focus()
+    moveCaret(editor, 2)
+    await user.keyboard('*x*')
+
+    expect(textWithMark(editor, 'inlineCode')).toEqual(['a*x*b'])
+    expect(textWithMark(editor, 'emphasis')).toEqual([])
+    expect(editor.action(getMarkdown())).toBe('`a*x*b`\n')
+  })
+
   it.each(['*`code`*', '**`code`**', '*a `code` b*'])(
     'still creates an outer mark for %s',
     async (markdown) => {
@@ -49,6 +78,25 @@ describe('mark input rules around inline code', () => {
       await user.type(editor.ctx.get(editorViewCtx).dom, markdown)
 
       expect(editor.action(getMarkdown())).toBe(`${markdown}\n`)
+    }
+  )
+
+  it.each([
+    ['*`code`', '*'],
+    ['**`code`', '**'],
+  ])(
+    'still creates an outer mark for %s%s when the caret moved',
+    async (typed, closingDelimiter) => {
+      const user = userEvent.setup()
+      const editor = await createEditor()
+      const view = editor.ctx.get(editorViewCtx)
+
+      await user.type(view.dom, typed)
+      moveCaret(editor)
+      await user.type(view.dom, closingDelimiter)
+
+      expect(textWithMark(editor, 'inlineCode')).toEqual(['code'])
+      expect(editor.action(getMarkdown())).toBe(`${typed}${closingDelimiter}\n`)
     }
   )
 })
