@@ -69,21 +69,27 @@ describe('mark input rules around inline code', () => {
     expect(editor.action(getMarkdown())).toBe('`a*x*b`\n')
   })
 
-  it.each(['*`code`*', '**`code`**', '*a `code` b*'])(
-    'still creates an outer mark for %s',
-    async (markdown) => {
-      const user = userEvent.setup()
-      const editor = await createEditor()
+  it.each([
+    '*`code`*',
+    '**`code`**',
+    '*a `code` b*',
+    '_`code`_',
+    '__`code`__',
+    '_a `code` b_',
+  ])('still creates an outer mark for %s', async (markdown) => {
+    const user = userEvent.setup()
+    const editor = await createEditor()
 
-      await user.type(editor.ctx.get(editorViewCtx).dom, markdown)
+    await user.type(editor.ctx.get(editorViewCtx).dom, markdown)
 
-      expect(editor.action(getMarkdown())).toBe(`${markdown}\n`)
-    }
-  )
+    expect(editor.action(getMarkdown())).toBe(`${markdown}\n`)
+  })
 
   it.each([
     ['*`code`', '*'],
     ['**`code`', '**'],
+    ['_`code`', '_'],
+    ['__`code`', '__'],
   ])(
     'still creates an outer mark for %s%s when the caret moved',
     async (typed, closingDelimiter) => {
