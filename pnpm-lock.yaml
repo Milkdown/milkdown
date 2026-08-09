@@ -113,8 +113,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.2001
       pkg-pr-new:
-        specifier: ^0.0.86
-        version: 0.0.86
+        specifier: ^0.0.87
+        version: 0.0.87
       postcss:
         specifier: ^8.4.38
         version: 8.5.25
@@ -4812,8 +4812,8 @@ packages:
     resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
     engines: {node: '>=6'}
 
-  pkg-pr-new@0.0.86:
-    resolution: {integrity: sha512-BwPsw/e1Be7F0SfpxhNc2VSxX7uHgCy46Ck+2Z/vqCwXoePhUBrX/VbcawpAlZgMvQe2iwGbZIQ6HSj9bmCk8A==}
+  pkg-pr-new@0.0.87:
+    resolution: {integrity: sha512-nm+30Py1csXWfyMH1ueQyTR11IZGHS5oW8Qok/MxMwjPx9g1jX3wMRrJf8TgEvNo0a0M4i14T0zQsEPWdZfAhg==}
     hasBin: true
 
   playwright-core@1.62.1:
@@ -9595,7 +9595,7 @@ snapshots:
 
   pify@4.0.1: {}
 
-  pkg-pr-new@0.0.86: {}
+  pkg-pr-new@0.0.87: {}
 
   playwright-core@1.62.1: {}
 
