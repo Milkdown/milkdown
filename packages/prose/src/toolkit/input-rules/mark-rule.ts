@@ -24,15 +24,12 @@ function rangeHasCodeMark(state: EditorState, from: number, to: number) {
 }
 
 // The character being typed carries no marks of its own yet, so they have to be
-// inferred from the insertion point. A code mark is inclusive, which means the
-// position right after a code span still reports one: the character only lands
-// inside the span when the span continues after it.
+// inferred from the insertion point, exactly like the editor does when it
+// inserts the text. A non-inclusive code mark is already dropped by `marks()`
+// at the end of a span, so the position only reports one while the caret is
+// inside the span.
 function typedCharInCodeSpan(state: EditorState, pos: number) {
-  const marks = state.storedMarks ?? state.doc.resolve(pos).marks()
-  if (!hasCodeMark(marks)) return false
-
-  const { nodeAfter } = state.doc.resolve(pos)
-  return !!nodeAfter && hasCodeMark(nodeAfter.marks)
+  return hasCodeMark(state.storedMarks ?? state.doc.resolve(pos).marks())
 }
 
 /// Create an input rule for a mark.

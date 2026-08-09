@@ -85,9 +85,14 @@ describe('mark input rules around inline code', () => {
     expect(editor.action(getMarkdown())).toBe(`${markdown}\n`)
   })
 
+  // The inline code mark is not inclusive, so a delimiter typed at the end of a
+  // code span stays outside it and can still close an outer mark, however many
+  // characters it has.
   it.each([
     ['*`code`', '*'],
     ['_`code`', '_'],
+    ['**`code`', '**'],
+    ['__`code`', '__'],
   ])(
     'still creates an outer mark for %s%s when the caret moved',
     async (typed, closingDelimiter) => {
@@ -101,30 +106,6 @@ describe('mark input rules around inline code', () => {
 
       expect(textWithMark(editor, 'inlineCode')).toEqual(['code'])
       expect(editor.action(getMarkdown())).toBe(`${typed}${closingDelimiter}\n`)
-    }
-  )
-
-  // The inline code mark is inclusive, so once the caret has moved, the first
-  // half of a two character delimiter typed at the end of a code span joins that
-  // span. It is then literal code content, and closing the mark would delete it.
-  it.each([
-    ['**`code`', '**'],
-    ['__`code`', '__'],
-  ])(
-    'keeps %s%s literal when the caret moved',
-    async (typed, closingDelimiter) => {
-      const user = userEvent.setup()
-      const editor = await createEditor()
-      const view = editor.ctx.get(editorViewCtx)
-
-      await user.type(view.dom, typed)
-      moveCaret(editor)
-      await user.type(view.dom, closingDelimiter)
-
-      expect(textWithMark(editor, 'inlineCode')).toEqual([
-        `code${closingDelimiter}`,
-      ])
-      expect(textWithMark(editor, 'strong')).toEqual([])
     }
   )
 
