@@ -45,7 +45,15 @@ export const listItemBlockView = $view(
         }
       })
       let raf = 0
+      let mountedDiv: HTMLElement | null = null
       const onMount = (div: HTMLElement) => {
+        // Vue invokes function refs on every patch, not only on mount.
+        // Re-running this would dispatch a text selection over whatever is
+        // currently selected, clobbering the node selection created by the
+        // block handle.
+        if (div === mountedDiv) return
+        mountedDiv = div
+
         const { anchor, head } = view.state.selection
         div.appendChild(contentDOM)
         // put the cursor to the new created list item
