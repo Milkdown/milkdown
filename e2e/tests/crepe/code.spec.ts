@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import { focusEditor } from '../misc'
+import { focusEditor, setMarkdown } from '../misc'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/crepe/')
@@ -62,6 +62,28 @@ test('should not be able to change language in readonly mode', async ({
 
   await languagePicker.click()
   await expect(languagePickerMenu).toBeVisible()
+})
+
+test('should apply programmatic code block updates in readonly mode', async ({
+  page,
+}) => {
+  const before = "const status = 'before'"
+  const after = "const status = 'after'"
+  await setMarkdown(page, `\`\`\`ts\n${before}\n\`\`\``)
+
+  const codeBlockContentArea = page.locator('.cm-content')
+  await expect(codeBlockContentArea).toHaveText(before)
+
+  await page.evaluate(() => {
+    window.__crepe__.setReadonly(true)
+  })
+  await setMarkdown(page, `\`\`\`ts\n${after}\n\`\`\``)
+
+  await expect(codeBlockContentArea).toHaveText(after)
+
+  await codeBlockContentArea.focus()
+  await page.keyboard.type(' ignored')
+  await expect(codeBlockContentArea).toHaveText(after)
 })
 
 test('should copy code block content', async ({ page, browserName }) => {

@@ -346,6 +346,7 @@ export class CodeMirrorBlock implements NodeView {
       this.cm.dispatch({
         changes: { from: change.from, to: change.to, insert: change.text },
         scrollIntoView: true,
+        filter: false,
       })
       this.updating = false
     }
