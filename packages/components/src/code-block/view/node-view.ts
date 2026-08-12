@@ -122,7 +122,9 @@ export class CodeMirrorBlock implements NodeView {
         drawSelection(),
         cmKeymap.of(this.codeMirrorKeymap()),
         this.languageConf.of([]),
-        EditorState.changeFilter.of(() => this.view.editable),
+        // Block user edits when the editor is not editable, but always let
+        // updates we sync from ProseMirror through.
+        EditorState.changeFilter.of(() => this.view.editable || this.updating),
         ...this.config.extensions,
         CodeMirror.updateListener.of(this.forwardUpdate),
       ],
@@ -307,8 +309,11 @@ export class CodeMirrorBlock implements NodeView {
 
     this.cm.focus()
     this.updating = true
-    this.cm.dispatch({ selection: { anchor, head } })
-    this.updating = false
+    try {
+      this.cm.dispatch({ selection: { anchor, head } })
+    } finally {
+      this.updating = false
+    }
   }
 
   update(node: Node) {
@@ -343,12 +348,16 @@ export class CodeMirrorBlock implements NodeView {
     const change = computeChange(this.cm.state.doc.toString(), node.textContent)
     if (change) {
       this.updating = true
-      this.cm.dispatch({
-        changes: { from: change.from, to: change.to, insert: change.text },
-        scrollIntoView: true,
-        filter: false,
-      })
-      this.updating = false
+      try {
+        this.cm.dispatch({
+          changes: { from: change.from, to: change.to, insert: change.text },
+          // Only follow the change when the user can actually be editing here,
+          // so programmatic updates don't scroll a readonly editor around.
+          scrollIntoView: this.view.editable,
+        })
+      } finally {
+        this.updating = false
+      }
     }
     return true
   }
