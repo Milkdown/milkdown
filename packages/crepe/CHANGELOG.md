@@ -1,5 +1,27 @@
 # @milkdown/crepe
 
+## 7.22.1
+
+### Patch Changes
+
+- 2c5f128: Milkdown patch version release.
+
+  ## Fix
+  - fix(components): sync readonly code block updates (#2455)
+  - fix: keep the dragged node on view.dragging when using the block handle (#2452)
+  - fix(preset-commonmark): make the inline code mark not inclusive (#2451)
+  - fix(prose): respect inline code in mark input rules (#2445)
+
+  ## Chore
+  - chore: Lock file maintenance (#2453)
+  - chore: bump up pkg-pr-new version to ^0.0.87 (#2450)
+  - chore: bump up dompurify version to v3.4.13 [SECURITY] (#2448)
+  - chore: bump up all non-major dependencies (#2444)
+  - chore: bump up pnpm to v11.19.0 (#2443)
+
+- Updated dependencies [2c5f128]
+  - @milkdown/kit@7.22.1
+
 ## 7.22.0
 
 ### Minor Changes
