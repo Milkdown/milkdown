@@ -1,6 +1,6 @@
 {
   "name": "@milkdown/plugin-prism",
-  "version": "7.21.3",
+  "version": "7.22.0",
   "keywords": [
     "milkdown",
     "milkdown plugin"
@@ -42,5 +42,9 @@
     "@milkdown/utils": "workspace:*",
     "@types/hast": "^3.0.4",
     "refractor": "^5.0.0"
+  },
+  "devDependencies": {
+    "@milkdown/core": "workspace:*",
+    "@milkdown/preset-commonmark": "workspace:*"
   }
 }

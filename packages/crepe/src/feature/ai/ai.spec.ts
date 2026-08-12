@@ -11,15 +11,22 @@ import {
   streamingPluginKey,
 } from '@milkdown/kit/plugin/streaming'
 import { TextSelection } from '@milkdown/kit/prose/state'
-import { callCommand } from '@milkdown/kit/utils'
+import { $ctx, callCommand } from '@milkdown/kit/utils'
 import { describe, expect, test, vi } from 'vitest'
 import { nextTick } from 'vue'
 
-import type { AIPromptContext } from './types'
+import type { AIProviderConfigValue } from './index'
+import type { AIPromptContext, AIProvider } from './types'
 
-import { Crepe } from '../../core'
+import { Crepe, useCrepeFeatures } from '../../core'
 import { CrepeFeature } from '../index'
-import { aiSessionCtx, runAICmd } from './commands'
+import { aiProviderConfig, aiSessionCtx, runAICmd } from './commands'
+// Imported through the package's public entry on purpose: these are the
+// helpers a host with its own toolbar gets, so the tests exercise the same
+// path a consumer does rather than the internal modules.
+import { useAIInstructionTooltipAPI, useAIProviderConfig } from './index'
+// The slice objects themselves stay internal — imported here only to assert
+// the name-based helpers land on the very instance the feature registers.
 import { aiInstructionTooltipAPI } from './instruction-tooltip'
 
 function waitForAsync() {
@@ -723,7 +730,7 @@ describe('AI instruction palette', () => {
     })
     await crepe.create()
     try {
-      crepe.editor.ctx.get(aiInstructionTooltipAPI.key).show(0, 0)
+      useAIInstructionTooltipAPI(crepe.editor.ctx).show(0, 0)
       await nextTick()
 
       // Scope the lookup to this editor's `.milkdown` host so a stale
@@ -735,6 +742,123 @@ describe('AI instruction palette', () => {
         '.milkdown-ai-instruction input'
       )
       expect(input).not.toBeNull()
+    } finally {
+      await crepe.destroy()
+    }
+  })
+})
+
+describe('public AI feature surface', () => {
+  // A host that renders its own toolbar needs to reach the AI feature the
+  // way Crepe's own button does: check whether a provider is configured,
+  // then open the instruction palette over a range. These two helpers are
+  // that public surface.
+  //
+  // They must resolve their slice by *name*, never by slice object. Each
+  // package entry is bundled independently (see rollup.config.js), so a
+  // host importing `Crepe` from `@milkdown/crepe` and these helpers from
+  // `@milkdown/crepe/feature/ai` ends up with two distinct slice objects
+  // and an object lookup would miss the registered one. Resolution is by
+  // name in `Container.get`, which is why it survives the duplication.
+  // `core/slice.ts` uses the same trick for `useCrepe`.
+  // Never `.use()`d, so never registered — they only need the same slice
+  // *names* as the real ones. Their values are never read.
+  const duplicateProviderConfig = $ctx(
+    {} as AIProviderConfigValue,
+    'aiProviderConfig'
+  )
+  const duplicateTooltipAPI = $ctx(
+    { show: () => {} },
+    'aiInstructionTooltipAPI'
+  )
+
+  async function createAICrepe(provider: AIProvider) {
+    const crepe = new Crepe({
+      defaultValue: 'hello',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: { [CrepeFeature.AI]: { provider } },
+    })
+    await crepe.create()
+    return crepe
+  }
+
+  test('the helpers resolve against a live editor', async () => {
+    const provider: AIProvider = async function* () {
+      yield 'unused'
+    }
+    const crepe = await createAICrepe(provider)
+    try {
+      const { ctx } = crepe.editor
+      expect(useAIProviderConfig(ctx).provider).toBe(provider)
+      expect(typeof useAIInstructionTooltipAPI(ctx).show).toBe('function')
+    } finally {
+      await crepe.destroy()
+    }
+  })
+
+  test('name-based lookup lands on the instance the feature registers', async () => {
+    const provider: AIProvider = async function* () {
+      yield 'unused'
+    }
+    const crepe = await createAICrepe(provider)
+    try {
+      const { ctx } = crepe.editor
+      // If the slice were renamed, the helpers would resolve to nothing
+      // while the object lookup kept working — this catches that skew.
+      expect(useAIProviderConfig(ctx)).toBe(ctx.get(aiProviderConfig.key))
+      expect(useAIInstructionTooltipAPI(ctx)).toBe(
+        ctx.get(aiInstructionTooltipAPI.key)
+      )
+    } finally {
+      await crepe.destroy()
+    }
+  })
+
+  test('the helpers resolve by name, not by slice object identity', async () => {
+    // Reproduces what the published package does to a host: register slices
+    // that carry the real names but are *different objects* — the copies a
+    // separately-bundled entry constructs — and leave the module-internal
+    // objects unregistered. Name lookup still lands; reverting either helper
+    // to `ctx.get(<slice>.key)` makes this test throw, which is the whole
+    // reason the helpers exist.
+    const crepe = new Crepe({
+      defaultValue: 'hello',
+      features: { [CrepeFeature.AI]: false },
+    })
+    crepe.editor.use(duplicateProviderConfig).use(duplicateTooltipAPI)
+    await crepe.create()
+    try {
+      const { ctx } = crepe.editor
+      // The objects this module holds are absent from the container — this is
+      // the host's situation, not a contrived one.
+      expect(() => ctx.get(aiProviderConfig.key)).toThrow(/aiProviderConfig/)
+      expect(() => ctx.get(aiInstructionTooltipAPI.key)).toThrow(
+        /aiInstructionTooltipAPI/
+      )
+      // The helpers find the registered copies regardless.
+      expect(useAIProviderConfig(ctx)).toBe(
+        ctx.get(duplicateProviderConfig.key)
+      )
+      expect(useAIInstructionTooltipAPI(ctx)).toBe(
+        ctx.get(duplicateTooltipAPI.key)
+      )
+    } finally {
+      await crepe.destroy()
+    }
+  })
+
+  test('the helpers throw when the AI feature is disabled', async () => {
+    const crepe = new Crepe({
+      defaultValue: 'hello',
+      features: { [CrepeFeature.AI]: false },
+    })
+    await crepe.create()
+    try {
+      const { ctx } = crepe.editor
+      // The documented guard: ask the feature flags, not the slice.
+      expect(useCrepeFeatures(ctx).get()).not.toContain(CrepeFeature.AI)
+      expect(() => useAIProviderConfig(ctx)).toThrow()
+      expect(() => useAIInstructionTooltipAPI(ctx)).toThrow()
     } finally {
       await crepe.destroy()
     }

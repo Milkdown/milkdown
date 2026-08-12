@@ -1,3 +1,5 @@
+import type { SlashProviderOptions } from '@milkdown/kit/plugin/slash'
+
 import { block, type BlockProviderOptions } from '@milkdown/kit/plugin/block'
 
 import type { DeepPartial } from '../../utils'
@@ -24,6 +26,11 @@ interface BlockEditConfig {
     | 'middleware'
     | 'floatingUIOptions'
     | 'root'
+  >
+
+  slashMenu: Pick<
+    SlashProviderOptions,
+    'root' | 'offset' | 'middleware' | 'floatingUIOptions'
   >
 
   textGroup: {

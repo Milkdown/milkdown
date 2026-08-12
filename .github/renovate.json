@@ -6,6 +6,8 @@
     "group:all",
     "helpers:pinGitHubActionDigestsToSemver"
   ],
+  "minimumReleaseAge": "3 days",
+  "internalChecksFilter": "strict",
   "postUpdateOptions": ["pnpmDedupe"],
   "packageRules": [
     {
@@ -16,6 +18,12 @@
     {
       "matchDepNames": ["prosemirror-*"],
       "groupName": "prosemirror"
+    },
+    {
+      "matchDepNames": ["builddocs"],
+      "description": "builddocs 2.x is an incompatible rewrite (HTML output, no markdown/templates); stay on 1.x",
+      "matchUpdateTypes": ["major"],
+      "enabled": false
     },
     {
       "groupName": "all non-major dependencies",

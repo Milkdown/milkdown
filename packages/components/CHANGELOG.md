@@ -1,5 +1,55 @@
 # @milkdown/components
 
+## 7.22.0
+
+### Minor Changes
+
+- bd890e0: Milkdown minor release.
+
+  ## Feat
+  - feat(crepe): expose the AI feature to a custom toolbar (#2438)
+  - feat(crepe): derive toolbar shortcuts from keymaps (#2437)
+  - feat(crepe): give toolbar items an accessible name (#2435)
+  - feat(crepe): add --crepe-base-font-size theme variable (#2432)
+  - feat(crepe): allow configuring slash menu root and floating options (#2426)
+
+  ## Fix
+  - fix(docs): pin builddocs to 1.x to fix api docs build (#2442)
+  - fix(prism): re-highlight non-first code blocks on language change (#2440)
+  - fix(preset): anchor mark input rules to the cursor to prevent paste corruption (#2433)
+  - fix: preserve schema registration order in extendSchema (#2370) (#2429)
+  - fix: track innerView.value for reactive re-render in latex inline tooltip (#2425)
+  - fix: give internal input elements a unique id (#2416) (#2424)
+  - fix: store list spread attribute as boolean (#2419) (#2423)
+  - fix: use TextSelection.between for list item cursor placement (#2422)
+  - fix: resolve list item selection against current doc (#2412)
+
+  ## Refactor
+  - refactor(crepe): forward block handle options explicitly (#2427)
+
+  ## Perf
+  - perf: reduce per-keystroke cost in keepTableAlignPlugin and prismPlugin (#2436)
+
+  ## Build
+  - build: upgrade to typescript 7 native compiler (#2418)
+
+  ## Ci
+  - ci(e2e): cache Playwright browsers and merge shard reports (#2431)
+
+### Patch Changes
+
+- Updated dependencies [bd890e0]
+  - @milkdown/core@7.22.0
+  - @milkdown/ctx@7.22.0
+  - @milkdown/exception@7.22.0
+  - @milkdown/plugin-diff@7.22.0
+  - @milkdown/plugin-tooltip@7.22.0
+  - @milkdown/preset-commonmark@7.22.0
+  - @milkdown/preset-gfm@7.22.0
+  - @milkdown/prose@7.22.0
+  - @milkdown/transformer@7.22.0
+  - @milkdown/utils@7.22.0
+
 ## 7.21.3
 
 ### Patch Changes

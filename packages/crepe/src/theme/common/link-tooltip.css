@@ -45,7 +45,7 @@
         line-height: 24px;
         overflow: hidden;
         text-overflow: ellipsis;
-        font-size: 14px;
+        font-size: calc(var(--crepe-base-font-size, 16px) * 0.875);
         white-space: nowrap;
         &:hover {
           text-decoration: underline;
@@ -89,7 +89,7 @@
         outline: none;
         background: transparent;
         width: 200px;
-        font-size: 14px;
+        font-size: calc(var(--crepe-base-font-size, 16px) * 0.875);
         color: var(--crepe-color-on-background);
       }
 
@@ -103,7 +103,7 @@
         padding: 3px;
         cursor: pointer;
         border-radius: 8px;
-        font-size: 12px;
+        font-size: calc(var(--crepe-base-font-size, 16px) * 0.75);
         line-height: 24px;
         &:hover {
           background: var(--crepe-color-hover);

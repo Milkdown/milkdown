@@ -33,6 +33,10 @@ export const cursor: DefineFeature<CursorFeatureConfig> = (editor, config) => {
     return
   }
 
-  const virtualCursor = createVirtualCursor()
+  // `inlineCode` is deliberately not inclusive, so that typing at the end of a
+  // code span leaves it. The virtual cursor handles that boundary rather than
+  // being broken by it: it renders which side the caret is on, and the arrow
+  // keys move between the two. So its warning about the mark does not apply.
+  const virtualCursor = createVirtualCursor({ skipWarning: ['inlineCode'] })
   editor.use($prose(() => virtualCursor))
 }

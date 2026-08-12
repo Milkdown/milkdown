@@ -10,10 +10,12 @@
   "scripts": {
     "build": "tsx -C import ./src/index.ts"
   },
+  "dependencies": {
+    "@milkdown/dev": "workspace:*"
+  },
   "devDependencies": {
-    "@milkdown/dev": "workspace:*",
     "@types/fs-extra": "^11.0.4",
-    "builddocs": "^1.0.8",
+    "builddocs": "^1.0.9",
     "fs-extra": "^11.3.0"
   }
 }

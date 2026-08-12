@@ -18,6 +18,10 @@ import { crepeFeatureConfig } from '../../core/slice'
 import { CrepeFeature } from '../../feature'
 import { Toolbar } from './component'
 
+export { keymapRef } from '../../utils/keyboard-shortcut'
+export type { KeymapRef } from '../../utils/keyboard-shortcut'
+export type { ToolbarItem } from './config'
+
 interface ToolbarConfig {
   boldIcon: string
   codeIcon: string
@@ -26,6 +30,15 @@ interface ToolbarConfig {
   strikethroughIcon: string
   latexIcon: string
   aiIcon: string
+  /// Accessible names for the built-in items, for localization. Each defaults to
+  /// its English label.
+  boldLabel: string
+  codeLabel: string
+  italicLabel: string
+  linkLabel: string
+  strikethroughLabel: string
+  latexLabel: string
+  aiLabel: string
   buildToolbar: (builder: GroupBuilder<ToolbarItem>) => void
 }
 

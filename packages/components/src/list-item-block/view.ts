@@ -45,18 +45,30 @@ export const listItemBlockView = $view(
         }
       })
       let raf = 0
+      let mountedDiv: HTMLElement | null = null
       const onMount = (div: HTMLElement) => {
+        // Vue invokes function refs on every patch, not only on mount.
+        // Re-running this would dispatch a text selection over whatever is
+        // currently selected, clobbering the node selection created by the
+        // block handle.
+        if (div === mountedDiv) return
+        mountedDiv = div
+
         const { anchor, head } = view.state.selection
         div.appendChild(contentDOM)
         // put the cursor to the new created list item
-        const anchorPos = view.state.doc.resolve(anchor)
-        const headPos = view.state.doc.resolve(head)
         raf = requestAnimationFrame(() => {
           raf = 0
           if (view.isDestroyed) return
-          if (!anchorPos.doc.eq(view.state.doc)) return
-          const selection = new TextSelection(anchorPos, headPos)
-          view.dispatch(view.state.tr.setSelection(selection))
+          const { state } = view
+          const docSize = state.doc.content.size
+          if (anchor > docSize || head > docSize) return
+          const anchorPos = state.doc.resolve(anchor)
+          const headPos = state.doc.resolve(head)
+          // Use `between` so we fall back to the nearest valid selection when
+          // the resolved positions no longer sit inside a textblock.
+          const selection = TextSelection.between(anchorPos, headPos)
+          view.dispatch(state.tr.setSelection(selection))
         })
       }
 

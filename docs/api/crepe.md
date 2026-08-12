@@ -377,6 +377,14 @@ interface ToolbarFeatureConfig {
   strikethroughIcon?: string
   latexIcon?: string
   aiIcon?: string // Override only the toolbar's AI button (only renders when AI is enabled and a provider is configured)
+  // Accessible names, for localization. Each defaults to its English label.
+  boldLabel?: string
+  codeLabel?: string
+  italicLabel?: string
+  linkLabel?: string
+  strikethroughLabel?: string
+  latexLabel?: string
+  aiLabel?: string
   buildToolbar?: (builder: GroupBuilder<ToolbarItem>) => void
 }
 
@@ -389,6 +397,7 @@ const config: CrepeConfig = {
     [Crepe.Feature.Toolbar]: {
       boldIcon: customBoldIcon,
       italicIcon: customItalicIcon,
+      boldLabel: 'Fett',
       buildToolbar: (builder) => {
         // Custom toolbar building logic
       },
@@ -396,6 +405,67 @@ const config: CrepeConfig = {
   },
 }
 ```
+
+Each toolbar button is rendered with an accessible name and a stable key:
+
+```typescript
+type ToolbarItem = {
+  active: (ctx: Ctx) => boolean
+  icon: string
+  label?: string // title + aria-label
+  keymap?: KeymapRef // where the shortcut is bound; both fields below derive from it
+  shortcut?: string // display only, appended to the title
+  ariaKeyshortcuts?: string // aria-keyshortcuts, in ARIA grammar
+}
+```
+
+`label` is what gives the button a name — its only other content is an SVG.
+
+A shortcut has two readers. `shortcut` is what a human reads in the tooltip, so
+it is `⌘B` or `Ctrl+B`. `ariaKeyshortcuts` goes into the `aria-keyshortcuts`
+attribute, which has a defined grammar: `+`-joined modifiers from `Alt`,
+`Control`, `Shift`, `Meta` and `AltGraph`, plus a `KeyboardEvent.key` value.
+Display glyphs and the abbreviation `Ctrl` are both invalid there, so one field
+cannot serve both.
+
+You should not spell either by hand. A shortcut is bound in exactly one place —
+its keymap — so point the item at that keymap with `keymap` and both strings are
+derived for you, per platform, and stay correct when the host rebinds the key.
+The built-in formatting buttons already do this, and a custom button for a
+command that has a keymap does the same:
+
+```typescript
+import { keymapRef } from '@milkdown/crepe/feature/toolbar'
+import { strongKeymap } from '@milkdown/kit/preset/commonmark'
+
+// A second entry for an existing command reuses the one binding — no need to
+// re-spell ⌘B here or anywhere else it appears.
+builder.addGroup('custom', 'Custom').addItem('bold', {
+  icon: boldIcon,
+  label: 'Bold',
+  keymap: keymapRef(strongKeymap.key, 'ToggleBold'),
+  active: (ctx) => isBoldActive(ctx),
+  onRun: (ctx) => toggleBold(ctx),
+})
+```
+
+`shortcut` / `ariaKeyshortcuts`, when set explicitly, win over the derived
+values — the escape hatch for a shortcut that is not backed by a milkdown
+keymap:
+
+```typescript
+builder.addGroup('custom', 'Custom').addItem('highlight', {
+  icon: highlightIcon,
+  label: 'Highlight',
+  shortcut: isMac ? '⌘⇧H' : 'Ctrl+Shift+H', // shown to the user
+  ariaKeyshortcuts: isMac ? 'Meta+Shift+H' : 'Control+Shift+H', // for AT
+  active: (ctx) => isHighlightActive(ctx),
+  onRun: (ctx) => toggleHighlight(ctx),
+})
+```
+
+Buttons also carry `data-toolbar-item="<key>"`, so consumers can target a
+specific one without relying on its position.
 
 #### TopBar Feature
 
@@ -942,6 +1012,55 @@ See [@milkdown/plugin-diff](./plugin-diff.md) and
 [@milkdown/plugin-streaming](./plugin-streaming.md) for the underlying
 plugin APIs.
 
+##### Driving the AI feature from your own UI
+
+If you replace the toolbar, two helpers let you reproduce its AI button —
+one to decide whether to show it, one to run it. They are separate calls
+because they happen at different moments: visibility once when you build the
+toolbar, the range read on every click.
+
+```typescript
+import { editorViewCtx } from '@milkdown/kit/core'
+import { CrepeFeature, useCrepeFeatures } from '@milkdown/crepe'
+import {
+  defaultAIIcon,
+  useAIInstructionTooltipAPI,
+  useAIProviderConfig,
+} from '@milkdown/crepe/feature/ai'
+
+// Visibility — evaluate once while building your toolbar. Only offer the
+// action when a provider is actually configured: without one the palette
+// opens but every action is rejected.
+const showAIButton = crepe.editor.action((ctx) => {
+  // Both helpers throw when the AI feature is disabled, so ask the feature
+  // flags first.
+  if (!useCrepeFeatures(ctx).get().includes(CrepeFeature.AI)) return false
+  return Boolean(useAIProviderConfig(ctx).provider)
+})
+
+// Action — read the selection at click time, never earlier.
+function onAIButtonClick() {
+  crepe.editor.action((ctx) => {
+    const { from, to } = ctx.get(editorViewCtx).state.selection
+    useAIInstructionTooltipAPI(ctx).show(from, to)
+  })
+}
+```
+
+Use `defaultAIIcon` to match the built-in button's icon. `AIFeatureConfig.aiIcon`
+only overrides Crepe's own toolbar entry — it is `undefined` on
+`useAIProviderConfig(ctx)` unless the host set it, so don't rely on it as
+your default.
+
+Both helpers resolve their slice by name rather than by slice object, which is
+what makes them safe to import from `@milkdown/crepe/feature/ai` while `Crepe`
+comes from `@milkdown/crepe`: each package entry is bundled separately, so the
+two entries' slice _objects_ are not the same instance.
+
+⚠️ `useAIProviderConfig(ctx)` returns the live config, whose `provider` is
+a closure over your API key in BYOK deployments. Read the field you need; don't
+log or serialize the whole object.
+
 ## Usage
 
 ### Using Crepe Editor
@@ -1049,6 +1168,21 @@ import '@milkdown/crepe/theme/crepe-dark.css'
 import '@milkdown/crepe/theme/nord-dark.css'
 import '@milkdown/crepe/theme/frame-dark.css'
 ```
+
+### Customizing theme variables
+
+Every theme exposes CSS custom properties on the `.milkdown` element, so you can
+override them without touching the source. For example, to scale the whole editor's
+font size (default `16px`) in a single line:
+
+```css
+.milkdown {
+  --crepe-base-font-size: 14px;
+}
+```
+
+Other variables follow the same pattern, e.g. `--crepe-font-default`,
+`--crepe-font-title`, `--crepe-font-code` and the `--crepe-color-*` palette.
 
 ## API Reference
 

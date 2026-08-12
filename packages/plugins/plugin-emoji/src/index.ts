@@ -56,10 +56,21 @@ export const emojiSchema = $nodeSchema('emoji', (ctx) => ({
 
     const dom = firstChild.cloneNode()
     tmp.remove()
-    if (dom && dom instanceof HTMLElement)
-      Object.entries<string>(attrs.img).forEach(([key, value]) =>
-        dom.setAttribute(key, value)
-      )
+
+    // Non-element content, e.g. plain-text symbols like ™ or © that twemoji
+    // leaves untouched. prosemirror-model 1.25.5+ only accepts element nodes
+    // as DOM spec children, so render the text through a string child instead.
+    if (!(dom instanceof HTMLElement)) {
+      return [
+        'span',
+        { ...attrs.container, 'data-type': 'emoji' },
+        dom.textContent ?? '',
+      ]
+    }
+
+    Object.entries<string>(attrs.img).forEach(([key, value]) =>
+      dom.setAttribute(key, value)
+    )
 
     return ['span', { ...attrs.container, 'data-type': 'emoji' }, dom]
   },

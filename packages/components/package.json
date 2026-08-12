@@ -1,6 +1,6 @@
 {
   "name": "@milkdown/components",
-  "version": "7.21.3",
+  "version": "7.22.0",
   "keywords": [
     "milkdown",
     "milkdown plugin"
@@ -127,7 +127,7 @@
     "clsx": "^2.0.0",
     "dompurify": "^3.2.5",
     "lodash-es": "^4.17.21",
-    "nanoid": "^5.0.9",
+    "nanoid": "^6.0.0",
     "unist-util-visit": "^5.0.0",
     "vue": "^3.5.20"
   },
@@ -136,7 +136,7 @@
     "@codemirror/state": "^6.4.1",
     "@codemirror/view": "^6.26.0",
     "@testing-library/vue": "^8.1.0",
-    "jsdom": "^29.0.0",
+    "jsdom": "^30.0.0",
     "vitest": "^4.0.0"
   },
   "peerDependencies": {

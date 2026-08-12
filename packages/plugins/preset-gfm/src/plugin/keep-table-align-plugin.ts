@@ -16,14 +16,31 @@ function getChildIndex(node: Node, parent: Node) {
   return index
 }
 
+// The span that differs between the two docs, in `next` coordinates, or `null`
+// when they are value-identical. Both scans compare children by reference
+// before looking inside them.
+function changedRange(prev: Node, next: Node) {
+  const from = prev.content.findDiffStart(next.content)
+  if (from == null) return null
+
+  const diff = prev.content.findDiffEnd(next.content)
+  if (!diff) return null
+
+  // Repeated content ("aa" -> "aaa") lets the end scan overrun the start.
+  return { from, to: Math.max(diff.b, from) }
+}
+
 export const keepTableAlignPlugin = $prose(() => {
   return new Plugin({
     key: pluginKey,
     appendTransaction: (_tr, oldState, state) => {
+      if (oldState.doc === state.doc) return
+
+      const range = changedRange(oldState.doc, state.doc)
+      if (!range) return
+
       let tr: Transaction | undefined
       const check = (node: Node, pos: number) => {
-        if (!tr) tr = state.tr
-
         if (node.type.name !== 'table_cell') return
 
         const $pos = state.doc.resolve(pos)
@@ -40,9 +57,22 @@ export const keepTableAlignPlugin = $prose(() => {
         const currentAlign = node.attrs.alignment
         if (align === currentAlign) return
 
+        // Creating `tr` any earlier appends an empty transaction to every
+        // document change.
+        if (!tr) tr = state.tr
         tr.setNodeMarkup(pos, undefined, { ...node.attrs, alignment: align })
       }
-      if (oldState.doc !== state.doc) state.doc.descendants(check)
+
+      // `nodesBetween` reports the range's ancestors, so an edit deep inside a
+      // cell still reaches its table. Each table it finds is checked in full,
+      // because a header cell reaches body cells outside the range.
+      state.doc.nodesBetween(range.from, range.to, (node, pos) => {
+        if (node.type.name !== 'table') return true
+
+        state.doc.nodesBetween(pos, pos + node.nodeSize, check)
+        // Tables do not nest.
+        return false
+      })
 
       return tr
     },
