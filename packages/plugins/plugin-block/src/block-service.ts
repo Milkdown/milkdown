@@ -117,8 +117,11 @@ export class BlockService {
   bind = (ctx: Ctx, notify: BlockServiceMessage) => {
     this.#ctx = ctx
     this.#notify = notify
-    const delay = ctx.get(blockConfig.key).mousemoveThrottle
-    this.#mousemoveCallback = throttle(this.#mousemoveHandler, delay)
+    this.#mousemoveCallback.cancel()
+    this.#mousemoveCallback = throttle(
+      this.#onMousemove,
+      ctx.get(blockConfig.key).mousemoveThrottle
+    )
   }
 
   /// Add mouse event to the dom.
@@ -139,13 +142,39 @@ export class BlockService {
 
   /// Unbind the notify function.
   unBind = () => {
-    this.#cancelPendingHoverRaf()
+    if (this.#rafId !== null) {
+      cancelAnimationFrame(this.#rafId)
+      this.#rafId = null
+    }
+    this.#mousemoveCallback.cancel()
     this.#notify = undefined
   }
 
   /// @internal
   #handleMouseDown = () => {
-    this.#ensureActiveForPointer()
+    const view = this.#view
+    if (view && this.#lastMouseY >= 0) {
+      if (this.#rafId !== null) {
+        cancelAnimationFrame(this.#rafId)
+        this.#rafId = null
+      }
+      // Prefer the block already shown on the handle; only resolve from the
+      // pointer when hover has not established one yet.
+      if (this.#active) {
+        const filterNodes = this.#filterNodes
+        if (filterNodes) {
+          const rect = this.#active.el.getBoundingClientRect()
+          const result = selectRootNodeByDom(
+            view,
+            { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 },
+            filterNodes
+          )
+          if (result?.el === this.#active.el) this.#active = result
+        }
+      } else {
+        this.#resolveHover(view, this.#lastMouseY)
+      }
+    }
     this.#activeDOMRect = this.#active?.el.getBoundingClientRect()
     this.#createSelection()
   }
@@ -252,25 +281,26 @@ export class BlockService {
   #onMousemove = (view: EditorView, event: MouseEvent) => {
     if (!view.editable) return
 
-    const mouseY = event.clientY
     // Skip tiny Y jitter while still inside the active block; leaving its
     // vertical bounds always resolves so adjacent blocks are not missed.
-    if (this.#active && Math.abs(mouseY - this.#lastMouseY) < 5) {
+    if (this.#active && Math.abs(event.clientY - this.#lastMouseY) < 5) {
       const activeRect = this.#active.el.getBoundingClientRect()
-      if (mouseY >= activeRect.top && mouseY <= activeRect.bottom) return
+      if (event.clientY >= activeRect.top && event.clientY <= activeRect.bottom)
+        return
     }
-    this.#lastMouseY = mouseY
+    this.#lastMouseY = event.clientY
 
     if (this.#rafId !== null) cancelAnimationFrame(this.#rafId)
     this.#rafId = requestAnimationFrame(() => {
       this.#rafId = null
-      this.#resolveHover(view, mouseY)
+      this.#resolveHover(view, event.clientY)
     })
   }
 
   /// @internal
-  #mousemoveCallback: DebouncedFunc<(view: EditorView, event: MouseEvent) => void> =
-    throttle(() => {}, 50)
+  #mousemoveCallback: DebouncedFunc<
+    (view: EditorView, event: MouseEvent) => void
+  > = throttle(() => {}, 50)
 
   /// @internal
   mousemoveCallback = (view: EditorView, event: MouseEvent) => {
