@@ -4,7 +4,7 @@ import type { EditorView } from '@milkdown/prose/view'
 import { editorViewCtx } from '@milkdown/core'
 import { browser } from '@milkdown/prose'
 import { NodeSelection } from '@milkdown/prose/state'
-import { throttle } from 'lodash-es'
+import { throttle, type DebouncedFunc } from 'lodash-es'
 
 import type { FilterNodes } from './block-config'
 import type { ActiveNode } from './types'
@@ -227,53 +227,12 @@ export class BlockService {
   }
 
   /// @internal
-  #mousemoveCallback: (view: EditorView, event: MouseEvent) => void = () => {}
-
-  /// @internal
-  #mousemoveHandler = (view: EditorView, event: MouseEvent) => {
-    if (!view.editable) return
-
-    // Early exit if mouse Y hasn't changed significantly (reduces work for horizontal movement)
-    const mouseY = event.clientY
-    if (Math.abs(mouseY - this.#lastMouseY) < 5 && this.#active) {
-      return
-    }
-    this.#lastMouseY = mouseY
-
-    // Cancel pending RAF if new event arrives
-    this.#cancelPendingHoverRaf()
-
-    // Batch expensive work in RAF to align with paint cycles
-    this.#rafId = requestAnimationFrame(() => {
-      this.#rafId = null
-      this.#updateActiveFromMouseY(view, mouseY)
-    })
-  }
-
-  /// @internal
-  #cancelPendingHoverRaf = () => {
-    if (this.#rafId !== null) {
-      cancelAnimationFrame(this.#rafId)
-      this.#rafId = null
-    }
-  }
-
-  /// @internal
-  /// Resolve the block under the pointer. Used from RAF for hover updates and
-  /// synchronously on mousedown when hover detection has not painted yet.
-  #updateActiveFromMouseY = (view: EditorView, mouseY: number) => {
+  #resolveHover = (view: EditorView, mouseY: number) => {
     const rect = view.dom.getBoundingClientRect()
     const x = rect.left + rect.width / 2
     const dom = view.root.elementFromPoint(x, mouseY)
     if (!(dom instanceof Element)) {
-      if (this.#active) {
-        this.#hide()
-      }
-      return
-    }
-
-    // Early exit if still over the same element
-    if (this.#active && this.#active.el === dom) {
+      this.#hide()
       return
     }
 
@@ -283,38 +242,35 @@ export class BlockService {
     const result = selectRootNodeByDom(view, { x, y: mouseY }, filterNodes)
 
     if (!result) {
-      if (this.#active) {
-        this.#hide()
-      }
+      this.#hide()
       return
     }
-
-    // Only update if result changed (different element or position)
-    if (
-      !this.#active ||
-      this.#active.el !== result.el ||
-      this.#active.$pos.pos !== result.$pos.pos
-    ) {
-      this.#show(result)
-    }
+    this.#show(result)
   }
 
   /// @internal
-  #ensureActiveForPointer = () => {
-    const view = this.#view
-    if (!view || this.#lastMouseY < 0) return
+  #onMousemove = (view: EditorView, event: MouseEvent) => {
+    if (!view.editable) return
 
-    const hasPendingHover = this.#rafId !== null
-    if (hasPendingHover) {
-      this.#cancelPendingHoverRaf()
-      this.#updateActiveFromMouseY(view, this.#lastMouseY)
-      return
+    const mouseY = event.clientY
+    // Skip tiny Y jitter while still inside the active block; leaving its
+    // vertical bounds always resolves so adjacent blocks are not missed.
+    if (this.#active && Math.abs(mouseY - this.#lastMouseY) < 5) {
+      const activeRect = this.#active.el.getBoundingClientRect()
+      if (mouseY >= activeRect.top && mouseY <= activeRect.bottom) return
     }
+    this.#lastMouseY = mouseY
 
-    if (!this.#active) {
-      this.#updateActiveFromMouseY(view, this.#lastMouseY)
-    }
+    if (this.#rafId !== null) cancelAnimationFrame(this.#rafId)
+    this.#rafId = requestAnimationFrame(() => {
+      this.#rafId = null
+      this.#resolveHover(view, mouseY)
+    })
   }
+
+  /// @internal
+  #mousemoveCallback: DebouncedFunc<(view: EditorView, event: MouseEvent) => void> =
+    throttle(() => {}, 50)
 
   /// @internal
   mousemoveCallback = (view: EditorView, event: MouseEvent) => {
