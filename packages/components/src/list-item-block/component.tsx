@@ -10,7 +10,8 @@ keepAlive(h)
 
 interface Attrs {
   label: string
-  checked: boolean
+  // Non-task items use the schema's null default.
+  checked: boolean | null
   listType: string
 }
 
@@ -77,10 +78,12 @@ export const ListItem = defineComponent<ListItemProps>({
     }
 
     const onClickLabel = (e: Event) => {
+      // Non-interactive markers must allow native selection handling.
+      if (checked.value == null) return
+
       e.stopPropagation()
       e.preventDefault()
 
-      if (checked.value == null) return
       setAttr('checked', !checked.value)
     }
 
