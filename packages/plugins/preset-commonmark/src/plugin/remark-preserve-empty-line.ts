@@ -22,6 +22,11 @@ function visitEmptyLine(ast: Node) {
       const index = parent.children.indexOf(node)
       if (index === -1) return
 
+      // A bare <br> that is the sole child of its parent is the empty-line
+      // placeholder this plugin's serializer emits. A <br> with siblings is
+      // user-authored inline HTML and must be kept.
+      if (parent.children.length !== 1) return
+
       parent.children.splice(index, 1)
     },
     true
