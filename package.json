@@ -28,7 +28,7 @@
     "knip": "knip"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.22.0",
+    "@changesets/cli": "^3.0.0",
     "@commitlint/cli": "^21.0.1",
     "@commitlint/config-conventional": "^21.0.1",
     "@milkdown/dev": "workspace:*",
