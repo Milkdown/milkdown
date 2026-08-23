@@ -170,8 +170,14 @@ function applyPlainText(
 ///                       the opener is enough)
 /// - `\`                 escape
 /// - `<`                 autolinks (`<https://...>`, `<a@b.com>`) and raw HTML
+/// - `$`                 inline math, when `@milkdown/plugin-math` is used
+///
+/// The set has to cover syntax added by remark plugins too, not just
+/// CommonMark/GFM: a token that is missing here makes the fast path return
+/// the raw string, so the construct is silently streamed in as literal text
+/// and never reaches the parser.
 /// Used by the fast-path check below.
-const INLINE_MARKDOWN_TOKENS = /[*_~`[\\<]/
+const INLINE_MARKDOWN_TOKENS = /[*_~`[\\<$]/
 
 /// Parse a single markdown line and return its inline content (text
 /// nodes with marks, links, etc.) for merging into a textblock. Only
