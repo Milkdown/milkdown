@@ -1,16 +1,17 @@
+import type { Ctx } from '@milkdown/ctx'
+import type { Node } from '@milkdown/prose/model'
+
 import { parserCtx } from '@milkdown/core'
 import { Schema } from '@milkdown/prose/model'
 import { EditorState } from '@milkdown/prose/state'
 import { describe, expect, it } from 'vitest'
 
-import type { Ctx } from '@milkdown/ctx'
-import type { Node } from '@milkdown/prose/model'
-
 import { flushBufferInsert } from '../flush'
 import { streamingConfig } from '../streaming-config'
 
-/// Mirrors the shape `@milkdown/plugin-math` adds to the schema:
-/// `math_inline` is an inline atom whose LaTeX source lives in a text child.
+/// Mirrors the shape `@milkdown/crepe`'s latex feature adds to the schema:
+/// `math_inline` is an inline atom holding its LaTeX source in a `value`
+/// attribute, so it contributes no text of its own to the document.
 const schema = new Schema({
   nodes: {
     doc: { content: 'block+' },
@@ -19,8 +20,12 @@ const schema = new Schema({
       group: 'inline',
       inline: true,
       atom: true,
-      content: 'text*',
-      toDOM: () => ['span', 0],
+      draggable: true,
+      attrs: { value: { default: '' } },
+      toDOM: (node) => [
+        'span',
+        { 'data-type': 'math_inline', 'data-value': node.attrs.value },
+      ],
     },
     text: { group: 'inline' },
   },
@@ -37,7 +42,7 @@ function mathParser(markdown: string): Node {
     const match = pattern.exec(rest)
     if (!match) break
     if (match.index > 0) content.push(schema.text(rest.slice(0, match.index)))
-    content.push(schema.node('math_inline', null, [schema.text(match[1]!)]))
+    content.push(schema.node('math_inline', { value: match[1]! }))
     rest = rest.slice(match.index + match[0].length)
   }
   if (rest) content.push(schema.text(rest))
@@ -45,21 +50,25 @@ function mathParser(markdown: string): Node {
   return schema.node('doc', null, [schema.node('paragraph', null, content)])
 }
 
+/// `flush.ts` only reads the parser and the streaming config off the ctx,
+/// so a two-slice stub is enough.
 function createCtx(): Ctx {
   return {
-    get: (slice: unknown) =>
-      slice === parserCtx
-        ? mathParser
-        : { throttleMs: 0, scrollFollow: false, diffReviewOnEnd: false },
+    get: (slice: unknown) => {
+      if (slice === parserCtx) return mathParser
+      if (slice === streamingConfig.key)
+        return { throttleMs: 0, scrollFollow: false, diffReviewOnEnd: false }
+      throw new Error('unexpected slice requested from the test ctx')
+    },
   } as unknown as Ctx
 }
 
-function countMathNodes(doc: Node): number {
-  let count = 0
+function mathValues(doc: Node): string[] {
+  const values: string[] = []
   doc.descendants((node) => {
-    if (node.type.name === 'math_inline') count += 1
+    if (node.type.name === 'math_inline') values.push(node.attrs.value)
   })
-  return count
+  return values
 }
 
 function flush(buffer: string) {
@@ -81,18 +90,18 @@ function flush(buffer: string) {
 describe('inline math in streamed content', () => {
   it('parses inline math when the line has no other markdown tokens', () => {
     const doc = flush(' Let $a^2 + b^2 = c^2$ hold.')
-    expect(countMathNodes(doc)).toBe(1)
+    expect(mathValues(doc)).toEqual(['a^2 + b^2 = c^2'])
     expect(doc.textContent).not.toContain('$')
   })
 
   it('parses inline math alongside other inline markdown', () => {
     const doc = flush(' See `code` and $x$ together.')
-    expect(countMathNodes(doc)).toBe(1)
+    expect(mathValues(doc)).toEqual(['x'])
   })
 
   it('leaves a lone dollar sign as plain text', () => {
     const doc = flush(' It costs $5 today.')
-    expect(countMathNodes(doc)).toBe(0)
+    expect(mathValues(doc)).toEqual([])
     expect(doc.textContent).toContain('$5')
   })
 })

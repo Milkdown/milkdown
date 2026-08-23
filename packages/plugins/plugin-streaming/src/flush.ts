@@ -170,7 +170,8 @@ function applyPlainText(
 ///                       the opener is enough)
 /// - `\`                 escape
 /// - `<`                 autolinks (`<https://...>`, `<a@b.com>`) and raw HTML
-/// - `$`                 inline math, when `@milkdown/plugin-math` is used
+/// - `$`                 inline math, when a `remark-math` based feature is
+///                       used (`@milkdown/crepe`'s latex feature)
 ///
 /// The set has to cover syntax added by remark plugins too, not just
 /// CommonMark/GFM: a token that is missing here makes the fast path return
