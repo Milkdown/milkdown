@@ -40,7 +40,12 @@ function flatMapWithDepth(
 
 // List of container node types that can contain block-level content
 // and thus may need HTML content to be wrapped in paragraphs
-const BLOCK_CONTAINER_TYPES = ['root', 'blockquote', 'listItem']
+const BLOCK_CONTAINER_TYPES = [
+  'root',
+  'blockquote',
+  'listItem',
+  'footnoteDefinition',
+]
 
 /// @internal
 /// This plugin should be deprecated after we support HTML.

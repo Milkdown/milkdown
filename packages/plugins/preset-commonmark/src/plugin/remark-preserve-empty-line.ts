@@ -5,6 +5,11 @@ import { visitParents } from 'unist-util-visit-parents'
 
 import { withMeta } from '../__internal__'
 
+// Serializer empty-line placeholders are a lone <br> inside a paragraph
+// (or a table cell). A lone <br> under heading/link/emphasis is user HTML
+// and must be kept.
+const EMPTY_LINE_BR_PARENTS = new Set(['paragraph', 'tableCell'])
+
 function visitEmptyLine(ast: Node) {
   return visitParents(
     ast,
@@ -19,15 +24,10 @@ function visitEmptyLine(ast: Node) {
         | (Node & { children: Node[] })
         | undefined
       if (!parent) return
-      const index = parent.children.indexOf(node)
-      if (index === -1) return
+      if (parent.children.length !== 1 || parent.children[0] !== node) return
+      if (!EMPTY_LINE_BR_PARENTS.has(parent.type)) return
 
-      // A bare <br> that is the sole child of its parent is the empty-line
-      // placeholder this plugin's serializer emits. A <br> with siblings is
-      // user-authored inline HTML and must be kept.
-      if (parent.children.length !== 1) return
-
-      parent.children.splice(index, 1)
+      parent.children.splice(0, 1)
     },
     true
   )

@@ -39,4 +39,16 @@ describe('inline br round-trip (#2428)', () => {
     const output = await roundTrip('para one\n\n<br>\n\npara two\n')
     expect(output).toBe('para one\n\n<br />\n\npara two\n')
   })
+
+  it('keeps a lone <br> inside a heading', async () => {
+    const output = await roundTrip('# <br>\n')
+    expect(output).toContain('<br')
+    expect(output.startsWith('#')).toBe(true)
+  })
+
+  it('keeps a lone <br> inside a link', async () => {
+    const output = await roundTrip('[<br>](https://example.com)\n')
+    expect(output).toContain('https://example.com')
+    expect(output).toContain('<br')
+  })
 })
