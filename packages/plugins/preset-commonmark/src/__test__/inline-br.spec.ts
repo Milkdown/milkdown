@@ -20,6 +20,14 @@ async function roundTrip(markdown: string) {
   return editor.action(getMarkdown())
 }
 
+function expectKeepsBr(output: string, ...pieces: (string | RegExp)[]) {
+  expect(output).toMatch(/<br\s*\/?>/i)
+  for (const piece of pieces) {
+    if (typeof piece === 'string') expect(output).toContain(piece)
+    else expect(output).toMatch(piece)
+  }
+}
+
 // https://github.com/Milkdown/milkdown/issues/2428
 // remarkPreserveEmptyLinePlugin used to splice every html <br> out of the
 // mdast, including user-authored inline breaks. Only a lone <br> that marks
@@ -40,15 +48,95 @@ describe('inline br round-trip (#2428)', () => {
     expect(output).toBe('para one\n\n<br />\n\npara two\n')
   })
 
-  it('keeps a lone <br> inside a heading', async () => {
+  it.each([
+    ['<br>', 'foo<br> bar\n'],
+    ['<br/>', 'foo<br/> bar\n'],
+    ['<br />', 'foo<br /> bar\n'],
+    ['<br >', 'foo<br > bar\n'],
+  ] as const)('keeps sibling text around inline %s', async (_tag, input) => {
+    const output = await roundTrip(input)
+    expectKeepsBr(output, 'foo', 'bar')
+  })
+
+  it('keeps consecutive inline breaks in foo<br><br>bar', async () => {
+    const output = await roundTrip('foo<br><br>bar\n')
+    expect(output).toContain('foo')
+    expect(output).toContain('bar')
+    const breaks = output.match(/<br\s*\/?>/gi) ?? []
+    expect(breaks.length).toBeGreaterThanOrEqual(2)
+  })
+
+  it('keeps a lone <br> inside an ATX heading', async () => {
     const output = await roundTrip('# <br>\n')
-    expect(output).toContain('<br')
+    expectKeepsBr(output)
+    expect(output.startsWith('#')).toBe(true)
+  })
+
+  it('keeps a lone <br> inside a level-2 heading', async () => {
+    const output = await roundTrip('## <br>\n')
+    expectKeepsBr(output)
+    expect(output.startsWith('##')).toBe(true)
+  })
+
+  it('keeps an inline <br> inside a heading with siblings', async () => {
+    const output = await roundTrip('# title<br>more\n')
+    expectKeepsBr(output, 'title', 'more')
     expect(output.startsWith('#')).toBe(true)
   })
 
   it('keeps a lone <br> inside a link', async () => {
     const output = await roundTrip('[<br>](https://example.com)\n')
-    expect(output).toContain('https://example.com')
-    expect(output).toContain('<br')
+    expectKeepsBr(output, 'https://example.com')
+  })
+
+  it('keeps an inline <br> between link text siblings', async () => {
+    const output = await roundTrip('[foo<br>bar](https://example.com)\n')
+    expectKeepsBr(output, 'foo', 'bar', 'https://example.com')
+  })
+
+  it('keeps a lone <br> inside emphasis', async () => {
+    const output = await roundTrip('*<br>*\n')
+    expectKeepsBr(output)
+    expect(output).toMatch(/\*|_|<em>/)
+  })
+
+  it('keeps a lone <br> inside strong', async () => {
+    const output = await roundTrip('**<br>**\n')
+    expectKeepsBr(output)
+    expect(output).toMatch(/\*\*|__|<strong>/)
+  })
+
+  it('keeps an inline <br> between strong siblings', async () => {
+    const output = await roundTrip('**foo<br>bar**\n')
+    expectKeepsBr(output, 'foo', 'bar')
+    expect(output).toMatch(/\*\*|__|<strong>/)
+  })
+
+  it('still preserves an empty line inside a blockquote', async () => {
+    const output = await roundTrip('> foo\n>\n> <br>\n>\n> bar\n')
+    expect(output).toContain('foo')
+    expect(output).toContain('bar')
+    expect(output).toMatch(/^>/m)
+    expect(output).toMatch(/<br\s*\/?>/i)
+  })
+
+  it('still preserves an empty line inside a list item', async () => {
+    const output = await roundTrip('* foo\n\n  <br>\n\n  bar\n')
+    expect(output).toContain('foo')
+    expect(output).toContain('bar')
+    expect(output).toMatch(/^(\*|-|\d+\.)/m)
+    expect(output).toMatch(/<br\s*\/?>/i)
+  })
+
+  it('keeps an inline <br> inside a list item', async () => {
+    const output = await roundTrip('* foo<br>bar\n')
+    expectKeepsBr(output, 'foo', 'bar')
+    expect(output).toMatch(/^(\*|-|\d+\.)/m)
+  })
+
+  it('keeps an inline <br> inside a blockquote', async () => {
+    const output = await roundTrip('> foo<br>bar\n')
+    expectKeepsBr(output, 'foo', 'bar')
+    expect(output).toMatch(/^>/m)
   })
 })
