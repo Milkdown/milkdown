@@ -22,7 +22,7 @@ export function flushBuffer(
   buffer: string
 ): { tr: Transaction; newDoc: Node | null } {
   const parser = ctx.get(parserCtx)
-  const newDoc = parser(buffer)
+  const newDoc = tryParse(parser, buffer)
   if (!newDoc) return { tr, newDoc: null }
 
   const config = ctx.get(streamingConfig.key)
@@ -160,8 +160,8 @@ function applyPlainText(
   return { tr, applied: true, insertEndPos: from + textContent.length }
 }
 
-/// Characters that could trigger inline markdown parsing into marks
-/// or non-text nodes:
+/// Patterns that could trigger inline markdown parsing into marks,
+/// non-text nodes, or text that differs from the raw source:
 /// - `*`, `_`            emphasis / strong
 /// - `~`                 strikethrough (GFM)
 /// - `` ` ``             inline code
@@ -170,80 +170,118 @@ function applyPlainText(
 ///                       the opener is enough)
 /// - `\`                 escape
 /// - `<`                 autolinks (`<https://...>`, `<a@b.com>`) and raw HTML
-/// - `$`                 inline math, when a `remark-math` based feature is
-///                       used (`@milkdown/crepe`'s latex feature)
+/// - `https://`, `www.`, `x@x`
+///                       GFM autolink literals (`https://a.com`,
+///                       `www.a.com`, `a@b.com`) have no bracket or angle
+///                       bracket, so they need their own triggers
+/// - `&` + entity start  character references (`&amp;`, `&#35;`)
 ///
 /// The set has to cover syntax added by remark plugins too, not just
-/// CommonMark/GFM: a token that is missing here makes the fast path return
-/// the raw string, so the construct is silently streamed in as literal text
-/// and never reaches the parser.
-/// Used by the fast-path check below.
-const INLINE_MARKDOWN_TOKENS = /[*_~`[\\<$]/
+/// CommonMark/GFM: a pattern that is missing here makes the fast path
+/// return the raw string, so the construct is silently streamed in as
+/// literal text and never reaches the parser. Plugin syntax whose trigger
+/// characters are too common in plain prose to test unconditionally
+/// (inline math, emoji shortcodes) is only consulted when the schema
+/// actually has the corresponding node — see `hasInlineMarkdownSyntax`.
+const INLINE_MARKDOWN_TOKENS =
+  /[*_~`[\\<]|https?:\/\/|www\.|[\w.+-]@\w|&[a-zA-Z#]/
+
+/// `remark-math` inline span, for schemas with a `math_inline` node
+/// (`@milkdown/crepe`'s latex feature). Deliberately stricter than
+/// `remark-math` itself, which pairs a `$` with the next `$` on the line
+/// even across prose like `$5 and $10`: here the opener must not be
+/// followed by whitespace, and the closer must not be preceded by
+/// whitespace nor followed by a digit. Streamed text about prices
+/// (`$5 ($6 with tax)`), env vars (`$PATH and $HOME`) or shell arguments
+/// (`$1 $2`) keeps the fast path instead of collapsing into a math atom
+/// mid-stream, while `$a^2 + b^2 = c^2$` reaches the parser.
+const INLINE_MATH_SPAN = /\$(?!\s)(?:[^$\n]*[^\s$])?\$(?!\d)/
+
+/// `:shortcode:` for schemas with an `emoji` node
+/// (`@milkdown/plugin-emoji`).
+const EMOJI_SHORTCODE = /:[\w+-]+:/
+
+/// Fast-path gate: decide whether a line may contain inline markdown
+/// syntax and needs the full parser. Base tokens are always checked;
+/// schema-gated patterns only run when the corresponding node exists in
+/// the schema, so editors without the feature never pay for the parse —
+/// and never have prose reinterpreted by a syntax they don't render.
+function hasInlineMarkdownSyntax(
+  schema: Node['type']['schema'],
+  text: string
+): boolean {
+  if (INLINE_MARKDOWN_TOKENS.test(text)) return true
+  if (schema.nodes.math_inline && INLINE_MATH_SPAN.test(text)) return true
+  if (schema.nodes.emoji && EMOJI_SHORTCODE.test(text)) return true
+  return false
+}
+
+/// `parser` throws when a remark plugin emits an mdast node that no
+/// schema runner matches (e.g. `remark-math` registered without a math
+/// node schema). A streamed buffer must never let that throw escape the
+/// flush loop: the streaming state would stay active and its
+/// `filterTransaction` would keep rejecting user edits, so parse
+/// failures degrade to `null` and the callers fall back to raw text.
+function tryParse(
+  parser: (text: string) => Node | null | undefined,
+  text: string
+): Node | null {
+  try {
+    return parser(text) ?? null
+  } catch {
+    return null
+  }
+}
 
 /// Parse a single markdown line and return its inline content (text
-/// nodes with marks, links, etc.) for merging into a textblock. Only
-/// uses the parsed result when it actually contains inline *structure*
-/// (marks or non-text nodes); for plain-text-only output we fall back
-/// to the original string so that:
-/// - leading whitespace isn't stripped by CommonMark paragraph rules
-///   (e.g. `' Inserted.'` would otherwise become `'Inserted.'`)
-/// - block markers don't silently disappear when the line happens to
-///   parse as a different block type (e.g. `'# Heading'` parses as a
-///   heading, dropping the `# ` if we extracted heading.content)
+/// nodes with marks, links, etc.) for merging into a textblock. Falls
+/// back to the original string when:
+/// - the text contains no markdown-relevant syntax (fast path —
+///   insert-mode flushes reparse the current line on every throttled
+///   flush, so plain prose shouldn't pay for a full parse)
+/// - the line parses as a non-paragraph block: a heading (`# **bold**`),
+///   code block, etc. is also a textblock but extracting its content
+///   would silently drop the block marker (`# `, indent, ...) from the
+///   streamed text
+/// - the parser fails (see `tryParse`)
 ///
-/// Insert-mode flushes happen on every push, so we skip the parser
-/// entirely when the text contains no markdown-relevant tokens.
+/// When the line does parse as a paragraph, the parsed content is used
+/// as-is — including text-only results, so entity references (`&amp;`)
+/// and escapes (`\*`) render with their final semantics instead of
+/// flipping between raw and decoded depending on what else is on the
+/// line.
 function parseInlineContent(
   ctx: Ctx,
   schema: Node['type']['schema'],
   text: string
 ): Fragment {
   if (!text) return Fragment.empty
-  if (!INLINE_MARKDOWN_TOKENS.test(text)) {
+  if (!hasInlineMarkdownSyntax(schema, text)) {
     return Fragment.from(schema.text(text))
   }
   const parser = ctx.get(parserCtx)
-  const parsed = parser(text)
+  const parsed = tryParse(parser, text)
   const firstBlock = parsed?.firstChild
-  // Restrict to `paragraph` specifically: a heading (`# **bold**`),
-  // code block, etc. is also a textblock but extracting its content
-  // would silently drop the block marker (`# `, indent, ...) from the
-  // streamed text.
   if (firstBlock?.type.name !== 'paragraph' || firstBlock.content.size === 0) {
     return Fragment.from(schema.text(text))
   }
-  let hasInlineStructure = false
-  firstBlock.content.forEach((child) => {
-    if (!child.isText || child.marks.length > 0) {
-      hasInlineStructure = true
-    }
-  })
-  if (!hasInlineStructure) {
-    return Fragment.from(schema.text(text))
-  }
-  // CommonMark strips up to 3 leading and any trailing whitespace when
-  // wrapping inline content in a paragraph. For mid-paragraph inserts,
-  // that loss visibly concatenates words (e.g. ` **bold**` → `**bold**`
-  // collides with the previous character). Re-prepend / re-append the
-  // original whitespace if the parsed content didn't preserve it.
+  // CommonMark strips leading indentation and trailing spaces/tabs from
+  // a paragraph line, and the parsed inline content never keeps them.
+  // For mid-paragraph inserts that loss visibly concatenates words
+  // (` **bold**` after `foo` renders as `foo**bold**`), so re-attach
+  // exactly what CommonMark strips: ASCII spaces and tabs at the edges.
+  // Only those — non-ASCII whitespace (e.g. U+3000) survives the parse
+  // and must not be duplicated. Lines indented far enough to become an
+  // indented code block never reach this point (non-paragraph fallback
+  // above), so the stripped edges are unconditionally safe to restore.
   let content = firstBlock.content
-  const leading = /^\s+/.exec(text)?.[0]
+  const leading = /^[ \t]+/.exec(text)?.[0]
   if (leading) {
-    const firstText = content.firstChild?.isText
-      ? (content.firstChild.text ?? '')
-      : ''
-    if (!firstText.startsWith(leading)) {
-      content = Fragment.from(schema.text(leading)).append(content)
-    }
+    content = Fragment.from(schema.text(leading)).append(content)
   }
-  const trailing = /\s+$/.exec(text)?.[0]
+  const trailing = /[ \t]+$/.exec(text)?.[0]
   if (trailing) {
-    const lastText = content.lastChild?.isText
-      ? (content.lastChild.text ?? '')
-      : ''
-    if (!lastText.endsWith(trailing)) {
-      content = content.append(Fragment.from(schema.text(trailing)))
-    }
+    content = content.append(Fragment.from(schema.text(trailing)))
   }
   return content
 }
@@ -275,7 +313,7 @@ function applySplitBlock({
 
   // Try to parse the block part as markdown
   const parser = ctx.get(parserCtx)
-  const parsed = blockPart.trim() ? parser(blockPart) : null
+  const parsed = blockPart.trim() ? tryParse(parser, blockPart) : null
   const blockContent = parsed
     ? stripTrailingEmptyParagraph(parsed.content)
     : Fragment.empty
@@ -336,7 +374,7 @@ function applySplitBlock({
 /// Parse entire buffer as markdown and insert as top-level blocks.
 function applyBlock({ ctx, tr, buffer, from, to }: ApplyArgs): InsertResult {
   const parser = ctx.get(parserCtx)
-  const parsed = parser(buffer)
+  const parsed = tryParse(parser, buffer)
   if (!parsed) return { tr, applied: false, insertEndPos: to }
 
   const content = stripTrailingEmptyParagraph(parsed.content)

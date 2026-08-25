@@ -20,6 +20,7 @@ import type { AIPromptContext, AIProvider } from './types'
 
 import { Crepe, useCrepeFeatures } from '../../core'
 import { CrepeFeature } from '../index'
+import { mathInlineId } from '../latex/constants'
 import { aiProviderConfig, aiSessionCtx, runAICmd } from './commands'
 // Imported through the package's public entry on purpose: these are the
 // helpers a host with its own toolbar gets, so the tests exercise the same
@@ -191,6 +192,77 @@ describe('AI streaming inline markdown', () => {
         if (node.marks.some((m) => m.type.name === 'strong')) foundStrong = true
       })
       expect(foundStrong).toBe(true)
+    } finally {
+      await crepe.destroy()
+    }
+  })
+
+  test('inline math survives streaming through the real remark pipeline', async () => {
+    // The latex feature (on by default) parses `$...$` via remark-math.
+    // `$` is not an unconditional fast-path token in plugin-streaming —
+    // math detection is gated on the schema having a math node — so this
+    // pins the whole chain end to end.
+    const crepe = new Crepe({
+      defaultValue: 'pre',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: {
+        [CrepeFeature.AI]: {
+          provider: async function* () {
+            yield 'The formula $a^2 + b^2 = c^2$ holds.'
+          },
+          diffReviewOnEnd: false,
+        },
+      },
+    })
+    await crepe.create()
+    try {
+      crepe.editor.action(callCommand(runAICmd.key, { instruction: 'go' }))
+      await flushStream()
+
+      const view = crepe.editor.action((ctx) => ctx.get(editorViewCtx))
+      expect(view.state.doc.textContent).not.toContain('$')
+
+      const values: string[] = []
+      view.state.doc.descendants((node) => {
+        if (node.type.name === mathInlineId)
+          values.push(node.attrs.value as string)
+      })
+      expect(values).toEqual(['a^2 + b^2 = c^2'])
+    } finally {
+      await crepe.destroy()
+    }
+  })
+
+  test('two-dollar prose streams in literally instead of becoming math', async () => {
+    // remark-math (default `singleDollarTextMath`) would greedily pair
+    // `$5 ... $10` into one inlineMath node, destroying the sentence
+    // into an uneditable atom mid-stream. The streaming fast path must
+    // keep such prose literal.
+    const crepe = new Crepe({
+      defaultValue: 'pre',
+      features: { [CrepeFeature.AI]: true },
+      featureConfigs: {
+        [CrepeFeature.AI]: {
+          provider: async function* () {
+            yield 'It costs $5 and I paid $10.'
+          },
+          diffReviewOnEnd: false,
+        },
+      },
+    })
+    await crepe.create()
+    try {
+      crepe.editor.action(callCommand(runAICmd.key, { instruction: 'go' }))
+      await flushStream()
+
+      const view = crepe.editor.action((ctx) => ctx.get(editorViewCtx))
+      expect(view.state.doc.textContent).toContain('$5 and I paid $10.')
+
+      let mathCount = 0
+      view.state.doc.descendants((node) => {
+        if (node.type.name === mathInlineId) mathCount++
+      })
+      expect(mathCount).toBe(0)
     } finally {
       await crepe.destroy()
     }
