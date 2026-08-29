@@ -1,31 +1,7 @@
-import '@testing-library/jest-dom/vitest'
-import {
-  defaultValueCtx,
-  Editor,
-  editorViewCtx,
-  schemaCtx,
-} from '@milkdown/core'
-import { commonmark } from '@milkdown/preset-commonmark'
-import { getMarkdown } from '@milkdown/utils'
+import { editorViewCtx, schemaCtx } from '@milkdown/core'
 import { describe, expect, it } from 'vitest'
 
-import { gfm } from '..'
-
-async function createEditor(defaultValue: string) {
-  const editor = Editor.make()
-  editor.config((ctx) => {
-    ctx.set(defaultValueCtx, defaultValue)
-  })
-  editor.use(commonmark)
-  editor.use(gfm)
-  await editor.create()
-  return editor
-}
-
-async function roundTrip(markdown: string) {
-  const editor = await createEditor(markdown)
-  return editor.action(getMarkdown())
-}
+import { roundTrip, withEditor } from './test-utils'
 
 // https://github.com/Milkdown/milkdown/issues/2419
 // Tight task lists must round-trip as tight, and the checkbox syntax
@@ -59,12 +35,13 @@ describe('task list spread round-trip (#2419)', () => {
   // does not throw on documents containing task lists.
   cases.forEach((markdown) => {
     it(`should round-trip through nodeFromJSON for ${JSON.stringify(markdown)}`, async () => {
-      const editor = await createEditor(markdown)
-      const doc = editor.ctx.get(editorViewCtx).state.doc
-      const schema = editor.ctx.get(schemaCtx)
-      const json = doc.toJSON()
-      expect(() => schema.nodeFromJSON(json)).not.toThrow()
-      expect(schema.nodeFromJSON(json).eq(doc)).toBe(true)
+      await withEditor(markdown, (editor) => {
+        const doc = editor.ctx.get(editorViewCtx).state.doc
+        const schema = editor.ctx.get(schemaCtx)
+        const json = doc.toJSON()
+        expect(() => schema.nodeFromJSON(json)).not.toThrow()
+        expect(schema.nodeFromJSON(json).eq(doc)).toBe(true)
+      })
     })
   })
 })

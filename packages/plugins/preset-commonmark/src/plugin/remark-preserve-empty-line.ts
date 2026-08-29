@@ -1,19 +1,21 @@
 import type { Node } from '@milkdown/transformer'
 
 import { $remark } from '@milkdown/utils'
-import { visitParents } from 'unist-util-visit-parents'
+import { SKIP, visitParents } from 'unist-util-visit-parents'
 
-import { cloneNodeWithPosition, isBrHtmlValue, withMeta } from '../__internal__'
+import {
+  BLOCK_CONTAINER_TYPES,
+  cloneLeaf,
+  isBrHtmlValue,
+  withMeta,
+} from '../__internal__'
 
 type ParentNode = Node & { children: Node[] }
 
-// A lone <br> inside a paragraph or table cell is the serializer's
-// empty-line placeholder (see `paragraphSchema`). Under every other
-// phrasing parent (heading, link, emphasis, ...) a lone <br> is
-// user-authored HTML and must be kept.
-const PLACEHOLDER_PARENTS = new Set(['paragraph', 'tableCell'])
+// Phrasing parents where a <br> is always user-authored inline HTML.
+// A lone <br> directly inside a paragraph is the serializer's empty-line
+// placeholder instead and is handled separately.
 const PHRASING_PARENTS = new Set([
-  'paragraph',
   'heading',
   'tableCell',
   'link',
@@ -37,40 +39,49 @@ function visitEmptyLine(ast: Node) {
       const parent = parents[parents.length - 1] as ParentNode | undefined
       if (!parent) return
 
-      if (PLACEHOLDER_PARENTS.has(parent.type)) {
+      if (parent.type === 'paragraph') {
         if (parent.children.length !== 1) return
-        // The serializer never re-emits a placeholder for the document's
-        // last paragraph, so a trailing lone <br> can only be user content:
-        // keep it, or it would be lost on the next serialize.
+        // The serializer never emits a placeholder into the trailing run of
+        // empty paragraphs (see `paragraphSchema`), so a trailing lone <br>
+        // can only be user content: keep it, or it would be lost on the
+        // next serialize.
         const grandparent = parents[parents.length - 2] as
           | ParentNode
           | undefined
-        if (
-          parent.type === 'paragraph' &&
-          grandparent?.type === 'root' &&
-          isLastChild(grandparent, parent)
-        )
+        if (grandparent?.type === 'root' && isLastChild(grandparent, parent))
           return
         parent.children = []
         return
       }
 
+      if (BLOCK_CONTAINER_TYPES.has(parent.type)) {
+        // The <br> sits directly in block content, which only happens when
+        // `remarkHtmlTransformer` has not wrapped it (standalone
+        // composition). Left alone it would be an inline atom in a
+        // block-only position and the parser would drop the entire
+        // container, so rewrite it into the paragraph shape the branch
+        // above expects; SKIP so the rewritten node is not revisited.
+        const mutable = node as ParentNode & { value?: string }
+        if (parent.type === 'root' && isLastChild(parent, node)) {
+          mutable.children = [cloneLeaf(node)]
+        } else {
+          mutable.children = []
+        }
+        delete mutable.value
+        mutable.type = 'paragraph'
+        return SKIP
+      }
+
       if (PHRASING_PARENTS.has(parent.type)) return
 
-      // The <br> sits directly in block content: either its container is
-      // not wrapped by `remarkHtmlTransformer` (which only knows a fixed
-      // set of containers), or this plugin runs without the transformer.
-      // Left alone it would be an inline atom in a block-only position and
-      // the parser would drop the entire container, so rewrite it into the
-      // paragraph shape the placeholder branch understands.
-      const mutable = node as ParentNode & { value?: string }
-      if (parent.type === 'root' && isLastChild(parent, node)) {
-        mutable.children = [cloneNodeWithPosition(node)]
-      } else {
-        mutable.children = []
-      }
-      delete mutable.value
-      mutable.type = 'paragraph'
+      // Unknown parent (e.g. a third-party remark container): we cannot
+      // know whether it holds phrasing or flow content, and a wrong guess
+      // corrupts the container either way. Removing the <br> is the only
+      // structurally safe option and the historical behavior.
+      const index = parent.children.indexOf(node)
+      if (index < 0) return
+      parent.children.splice(index, 1)
+      return index
     }
   )
 }
@@ -78,11 +89,13 @@ function visitEmptyLine(ast: Node) {
 /// This plugin makes the serializer's empty-line placeholders round-trip.
 /// The serializer represents a preserved empty paragraph as a lone
 /// `<br />` (see `paragraphSchema`); on load this plugin folds such a
-/// placeholder — a `<br>` that is the sole child of a paragraph or table
-/// cell, or a `<br>` sitting on its own between blocks — back into an
-/// empty paragraph. User-authored `<br>`s are kept: any `<br>` with
-/// siblings, inside another phrasing parent (heading, link, emphasis,
-/// ...), or trailing at the end of the document.
+/// placeholder — a `<br>` that is the sole child of a paragraph, or a
+/// `<br>` sitting on its own between blocks — back into an empty
+/// paragraph. User-authored `<br>`s are kept: any `<br>` with siblings,
+/// inside another phrasing parent (heading, link, emphasis, table cell,
+/// ...), or trailing at the end of the document (where the serializer
+/// never emits a placeholder). Inside unknown containers the `<br>` is
+/// removed, the only structurally safe default.
 ///
 /// In the composed presets `remarkHtmlTransformer` runs first and wraps
 /// block-level HTML into paragraphs; this plugin also handles unwrapped

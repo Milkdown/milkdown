@@ -235,8 +235,10 @@ test('paste single row google docs table keeps empty header', async ({
   })
   await waitNextFrame(page)
   const md = await getMarkdown(page)
-  // Single row can't be promoted (would leave 0 data rows), so empty header is kept
-  expect(md.includes('<br />')).toBeTruthy()
+  // Single row can't be promoted (would leave 0 data rows), so an empty
+  // header row is kept. Empty cells serialize without a <br /> placeholder.
+  expect(md.includes('<br />')).toBeFalsy()
+  expect(/^\|\s+\|\s+\|$/m.test(md)).toBeTruthy()
   expect(md.includes('Only1')).toBeTruthy()
   expect(md.includes('Only2')).toBeTruthy()
 })

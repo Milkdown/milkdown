@@ -41,8 +41,17 @@ export class SerializerState extends Stack<
 > {
   /// @internal
   #openMarks: OpenMark[] = []
+  /// @internal
+  #rootNode: Node | null = null
   /// Get the schema of state.
   readonly schema: Schema
+
+  /// The root prosemirror node of the tree currently being serialized.
+  /// Unlike the editor view's document, this is also correct when a
+  /// synthetic document (e.g. a clipboard slice) is serialized.
+  get rootNode(): Node | null {
+    return this.#rootNode
+  }
 
   /// Create a serializer from schema and remark instance.
   ///
@@ -336,6 +345,10 @@ export class SerializerState extends Stack<
     do doc = this.#closeNodeAndPush()
     while (this.size())
 
+    // An mdast root must always carry a children array, even when nothing
+    // was serialized (e.g. a document of only empty paragraphs).
+    if (!doc.children) doc.children = []
+
     return doc
   }
 
@@ -361,6 +374,7 @@ export class SerializerState extends Stack<
   /// Transform a prosemirror node tree into remark AST.
   run = (tree: Node) => {
     this.#openMarks = []
+    this.#rootNode = tree
     this.next(tree)
 
     return this

@@ -24,7 +24,7 @@ test('preserve empty line', async ({ page }) => {
   expect(markdownOutput.trim()).toBe(markdown.trim())
 })
 
-test('should not preserve last empty line', async ({ page }) => {
+test('should not preserve trailing empty lines', async ({ page }) => {
   await focusEditor(page)
 
   await page.keyboard.press('Enter')
@@ -33,7 +33,15 @@ test('should not preserve last empty line', async ({ page }) => {
   let markdownOutput = await getMarkdown(page)
   expect(markdownOutput.trim()).toBe('')
 
+  // A placeholder in the trailing run of empty paragraphs would be read
+  // back as a literal user <br />, so none is emitted there.
+  await page.keyboard.press('Enter')
   await page.keyboard.press('Enter')
   markdownOutput = await getMarkdown(page)
-  expect(markdownOutput.trim()).toBe('<br />')
+  expect(markdownOutput.trim()).toBe('')
+
+  // Empty paragraphs before content still serialize as placeholders.
+  await page.keyboard.type('tail')
+  markdownOutput = await getMarkdown(page)
+  expect(markdownOutput.trim()).toBe('<br />\n\n<br />\n\ntail')
 })

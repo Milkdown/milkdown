@@ -1,29 +1,8 @@
-import '@testing-library/jest-dom/vitest'
-import {
-  defaultValueCtx,
-  Editor,
-  editorViewCtx,
-  parserCtx,
-} from '@milkdown/core'
+import { editorViewCtx, parserCtx } from '@milkdown/core'
 import { getMarkdown } from '@milkdown/utils'
 import { describe, expect, it } from 'vitest'
 
-import { commonmark } from '..'
-
-async function createEditor(defaultValue: string) {
-  const editor = Editor.make()
-  editor.config((ctx) => {
-    ctx.set(defaultValueCtx, defaultValue)
-  })
-  editor.use(commonmark)
-  await editor.create()
-  return editor
-}
-
-async function roundTrip(markdown: string) {
-  const editor = await createEditor(markdown)
-  return editor.action(getMarkdown())
-}
+import { roundTrip, withEditor } from './test-utils'
 
 // https://github.com/Milkdown/milkdown/issues/2403
 // A mark spanning multiple text leaves (because a nested mark splits it)
@@ -57,14 +36,16 @@ describe('nested mark round-trip (#2403)', () => {
   // This tolerates cosmetic reflow but catches any corruption.
   cases.forEach((markdown) => {
     it(`should keep the document stable for ${JSON.stringify(markdown)}`, async () => {
-      const editor = await createEditor(markdown)
-      const doc = editor.ctx.get(editorViewCtx).state.doc
-      const output = editor.action(getMarkdown())
-      const parser = editor.ctx.get(parserCtx)
-      const reparsed = parser(output)
-      expect(reparsed.eq(doc), `serialized to ${JSON.stringify(output)}`).toBe(
-        true
-      )
+      await withEditor(markdown, (editor) => {
+        const doc = editor.ctx.get(editorViewCtx).state.doc
+        const output = editor.action(getMarkdown())
+        const parser = editor.ctx.get(parserCtx)
+        const reparsed = parser(output)
+        expect(
+          reparsed.eq(doc),
+          `serialized to ${JSON.stringify(output)}`
+        ).toBe(true)
+      })
     })
   })
 })
