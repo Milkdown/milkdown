@@ -11,9 +11,24 @@ import { withMeta } from '../../__internal__'
 /// paragraph's inline content keeps the paragraph serializer (and its
 /// empty-line placeholder) out of table cells — the mirror of the parse
 /// runners, which wrap the flat cell content in a paragraph.
+///
+/// Like `serializeText` in the paragraph runner, a trailing hardbreak is
+/// dropped: mdast renders it as a trailing space inside a cell, which
+/// the next parse trims, so keeping it makes consecutive saves diverge.
+/// Cells that are not a single paragraph (schema-invalid but loadable
+/// from JSON documents) are serialized as-is instead of losing children.
 function serializeCellContent(state: SerializerState, node: Node) {
   const paragraph = node.content.firstChild
-  if (paragraph) state.next(paragraph.content)
+  if (node.childCount !== 1 || paragraph?.type.name !== 'paragraph') {
+    state.next(node.content)
+    return
+  }
+  const last = paragraph.lastChild
+  const content =
+    last?.type.name === 'hardbreak'
+      ? paragraph.content.cut(0, paragraph.content.size - last.nodeSize)
+      : paragraph.content
+  state.next(content)
 }
 
 const originalSchema = tableNodes({

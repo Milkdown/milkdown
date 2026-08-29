@@ -53,7 +53,9 @@ export const paragraphSchema = $nodeSchema('paragraph', (ctx) => ({
 }))
 
 function shouldPreserveEmptyLine(ctx: Ctx) {
-  return ctx.isInjected(remarkPreserveEmptyLinePlugin.id)
+  // The slice type, not the string id: string lookups scan every
+  // registered slice.
+  return ctx.isInjected(remarkPreserveEmptyLinePlugin.options.key)
 }
 
 withMeta(paragraphSchema.node, {

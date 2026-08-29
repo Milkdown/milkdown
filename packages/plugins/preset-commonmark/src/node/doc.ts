@@ -1,6 +1,3 @@
-import type { Node } from '@milkdown/prose/model'
-
-import { Fragment } from '@milkdown/prose/model'
 import { $node } from '@milkdown/utils'
 
 import { withMeta } from '../__internal__'
@@ -20,18 +17,16 @@ export const docSchema = $node('doc', () => ({
       state.openNode('root')
       // The last empty paragraph is the typing area, not content: skip it
       // so it does not serialize as an empty-line placeholder (see
-      // `paragraphSchema`). By index, so synthetic documents (clipboard
-      // slices, ranged getMarkdown) behave the same as the editor's.
-      let end = node.childCount
-      const last = end > 0 ? node.child(end - 1) : null
-      if (last?.type.name === 'paragraph' && last.content.size === 0) end--
-      if (end === node.childCount) {
-        state.next(node.content)
-      } else {
-        const children: Node[] = []
-        for (let i = 0; i < end; i++) children.push(node.child(i))
-        state.next(Fragment.fromArray(children))
-      }
+      // `paragraphSchema`). By index, so it applies equally to synthetic
+      // documents (clipboard slices, ranged getMarkdown) — a selection
+      // that ends with a blank line deliberately drops that blank line
+      // from the output.
+      const last = node.childCount > 0 ? node.child(node.childCount - 1) : null
+      const content =
+        last?.type.name === 'paragraph' && last.content.size === 0
+          ? node.content.cut(0, node.content.size - last.nodeSize)
+          : node.content
+      state.next(content)
     },
   },
 }))

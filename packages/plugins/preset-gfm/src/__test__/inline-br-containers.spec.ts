@@ -1,6 +1,8 @@
+import { editorViewCtx } from '@milkdown/core'
+import { getMarkdown } from '@milkdown/utils'
 import { describe, expect, it } from 'vitest'
 
-import { countBrAtomsIn, roundTrip } from './test-utils'
+import { countBrAtomsIn, roundTrip, withEditor } from './test-utils'
 
 describe('inline br in gfm containers', () => {
   it('does not drop a footnote whose definition has a block <br>', async () => {
@@ -60,6 +62,36 @@ describe('inline br in gfm containers', () => {
     expect(await countBrAtomsIn(input)).toBe(1)
     const output = await roundTrip(input)
     expect(output).toBe('| a<br>b | c |\n| ------ | - |\n| x      | y |\n')
+  })
+
+  // A trailing hardbreak in a cell (reachable via HTML paste) must be
+  // dropped like the paragraph serializer does, or it renders as a
+  // trailing space that the next parse trims — making consecutive saves
+  // diverge.
+  it('drops a trailing hardbreak in a cell so saves stay stable', async () => {
+    const output = await withEditor(
+      '| a | c |\n| --- | --- |\n| x | y |\n',
+      (editor) =>
+        editor.action((ctx) => {
+          const view = ctx.get(editorViewCtx)
+          const { state } = view
+          const hardbreak = state.schema.nodes.hardbreak
+          if (!hardbreak) throw new Error('hardbreak type missing')
+          let pos = -1
+          state.doc.descendants((node, nodePos) => {
+            if (
+              pos === -1 &&
+              node.type.name === 'paragraph' &&
+              node.textContent === 'a'
+            )
+              pos = nodePos + node.nodeSize - 1
+            return pos === -1
+          })
+          view.dispatch(state.tr.insert(pos, hardbreak.create()))
+          return getMarkdown()(ctx)
+        })
+    )
+    expect(output).toBe('| a | c |\n| - | - |\n| x | y |\n')
   })
 
   it('keeps a lone <br> inside strikethrough', async () => {
