@@ -1,10 +1,35 @@
-import type { NodeType } from '@milkdown/prose/model'
-import type { MarkdownNode } from '@milkdown/transformer'
+import type { Node, NodeType } from '@milkdown/prose/model'
+import type { MarkdownNode, SerializerState } from '@milkdown/transformer'
 
 import { tableNodes } from '@milkdown/prose/tables'
 import { $nodeSchema } from '@milkdown/utils'
 
 import { withMeta } from '../../__internal__'
+
+/// A cell holds exactly one paragraph (see `cellContent` below), while an
+/// mdast tableCell holds phrasing content directly. Serializing the
+/// paragraph's inline content keeps the paragraph serializer (and its
+/// empty-line placeholder) out of table cells — the mirror of the parse
+/// runners, which wrap the flat cell content in a paragraph.
+///
+/// Like `serializeText` in the paragraph runner, a trailing hardbreak is
+/// dropped: mdast renders it as a trailing space inside a cell, which
+/// the next parse trims, so keeping it makes consecutive saves diverge.
+/// Cells that are not a single paragraph (schema-invalid but loadable
+/// from JSON documents) are serialized as-is instead of losing children.
+function serializeCellContent(state: SerializerState, node: Node) {
+  const paragraph = node.content.firstChild
+  if (node.childCount !== 1 || paragraph?.type.name !== 'paragraph') {
+    state.next(node.content)
+    return
+  }
+  const last = paragraph.lastChild
+  const content =
+    last?.type.name === 'hardbreak'
+      ? paragraph.content.cut(0, paragraph.content.size - last.nodeSize)
+      : paragraph.content
+  state.next(content)
+}
 
 const originalSchema = tableNodes({
   tableGroup: 'block',
@@ -188,7 +213,9 @@ export const tableCellSchema = $nodeSchema('table_cell', () => ({
   toMarkdown: {
     match: (node) => node.type.name === 'table_cell',
     runner: (state, node) => {
-      state.openNode('tableCell').next(node.content).closeNode()
+      state.openNode('tableCell')
+      serializeCellContent(state, node)
+      state.closeNode()
     },
   },
 }))
@@ -222,7 +249,7 @@ export const tableHeaderSchema = $nodeSchema('table_header', () => ({
     match: (node) => node.type.name === 'table_header',
     runner: (state, node) => {
       state.openNode('tableCell')
-      state.next(node.content)
+      serializeCellContent(state, node)
       state.closeNode()
     },
   },

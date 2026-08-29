@@ -15,7 +15,18 @@ export const docSchema = $node('doc', () => ({
     match: (node) => node.type.name === 'doc',
     runner: (state, node) => {
       state.openNode('root')
-      state.next(node.content)
+      // The last empty paragraph is the typing area, not content: skip it
+      // so it does not serialize as an empty-line placeholder (see
+      // `paragraphSchema`). By index, so it applies equally to synthetic
+      // documents (clipboard slices, ranged getMarkdown) — a selection
+      // that ends with a blank line deliberately drops that blank line
+      // from the output.
+      const last = node.childCount > 0 ? node.child(node.childCount - 1) : null
+      const content =
+        last?.type.name === 'paragraph' && last.content.size === 0
+          ? node.content.cut(0, node.content.size - last.nodeSize)
+          : node.content
+      state.next(content)
     },
   },
 }))

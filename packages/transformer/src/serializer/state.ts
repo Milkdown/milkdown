@@ -336,6 +336,10 @@ export class SerializerState extends Stack<
     do doc = this.#closeNodeAndPush()
     while (this.size())
 
+    // An mdast root must always carry a children array, even when nothing
+    // was serialized (e.g. a document of only empty paragraphs).
+    if (!doc.children) doc.children = []
+
     return doc
   }
 
