@@ -1,9 +1,33 @@
-import { editorViewCtx } from '@milkdown/core'
+import { editorViewCtx, parserCtx } from '@milkdown/core'
 import { getMarkdown } from '@milkdown/utils'
 import { describe, expect, it } from 'vitest'
 
-import { remarkPreserveEmptyLinePlugin, schema } from '..'
+import { blockContainerTypes, remarkPreserveEmptyLinePlugin, schema } from '..'
 import { roundTrip, withEditor } from './test-utils'
+
+// footnoteDefinition is a GFM type deliberately shipped in this preset's
+// defaults so cherry-picked footnote compositions round-trip without
+// registering anything (see block-container-types.ts).
+describe('blockContainerTypes defaults', () => {
+  it('ships footnoteDefinition for cherry-picked gfm compositions', async () => {
+    await withEditor('', (editor) =>
+      editor.action((ctx) => {
+        expect(ctx.get(blockContainerTypes.key)).toContain('footnoteDefinition')
+      })
+    )
+  })
+
+  it('ignores a registered phrasing type instead of corrupting documents', async () => {
+    await withEditor('', (editor) =>
+      editor.action((ctx) => {
+        ctx.update(blockContainerTypes.key, (types) => [...types, 'paragraph'])
+        const parser = ctx.get(parserCtx)
+        const doc = parser('foo<br>bar\n')
+        expect(doc?.textContent).toBe('foobar')
+      })
+    )
+  })
+})
 
 // https://github.com/Milkdown/milkdown/issues/2428
 // remarkPreserveEmptyLinePlugin used to splice every html <br> out of the

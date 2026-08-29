@@ -1,6 +1,7 @@
 import type { MilkdownPlugin } from '@milkdown/ctx'
 
 import {
+  blockContainerTypes,
   hardbreakClearMarkPlugin,
   hardbreakFilterNodes,
   hardbreakFilterPlugin,
@@ -23,6 +24,7 @@ export const plugins: MilkdownPlugin[] = [
 
   inlineNodesCursorPlugin,
 
+  blockContainerTypes,
   remarkAddOrderInListPlugin,
   remarkInlineLinkPlugin,
   remarkLineBreak,
