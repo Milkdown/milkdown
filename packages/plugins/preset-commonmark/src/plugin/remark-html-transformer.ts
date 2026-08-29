@@ -2,7 +2,7 @@ import type { Node } from '@milkdown/transformer'
 
 import { $remark } from '@milkdown/utils'
 
-import { withMeta } from '../__internal__'
+import { cloneNodeWithPosition, withMeta } from '../__internal__'
 
 const isParent = (node: Node): node is Node & { children: Node[] } =>
   !!(node as Node & { children: Node[] }).children
@@ -38,14 +38,16 @@ function flatMapWithDepth(
   }
 }
 
-// List of container node types that can contain block-level content
-// and thus may need HTML content to be wrapped in paragraphs
-const BLOCK_CONTAINER_TYPES = [
+// Container node types that can contain block-level content and thus may
+// need HTML content to be wrapped in paragraphs. Containers missing from
+// this set do not break `<br>` handling: `remarkPreserveEmptyLinePlugin`
+// folds any block-level `<br>` on its own.
+const BLOCK_CONTAINER_TYPES = new Set([
   'root',
   'blockquote',
   'listItem',
   'footnoteDefinition',
-]
+])
 
 /// @internal
 /// This plugin should be deprecated after we support HTML.
@@ -57,8 +59,8 @@ export const remarkHtmlTransformer = $remark(
 
       // If the parent is a block container that expects block content,
       // wrap the HTML in a paragraph node
-      if (parent && BLOCK_CONTAINER_TYPES.includes(parent.type)) {
-        node.children = [{ ...node }]
+      if (parent && BLOCK_CONTAINER_TYPES.has(parent.type)) {
+        node.children = [cloneNodeWithPosition(node)]
         delete node.value
         ;(node as { type: string }).type = 'paragraph'
       }

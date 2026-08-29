@@ -1,2 +1,4 @@
+export { cloneNodeWithPosition } from './clone-node'
+export { EMPTY_LINE_PLACEHOLDER, isBrHtmlValue } from './empty-line-br'
 export { serializeText } from './serialize-text'
 export { withMeta } from './with-meta'
