@@ -238,7 +238,7 @@ test('paste single row google docs table keeps empty header', async ({
   // Single row can't be promoted (would leave 0 data rows), so an empty
   // header row is kept. Empty cells serialize without a <br /> placeholder.
   expect(md.includes('<br />')).toBeFalsy()
-  expect(/^\|\s+\|\s+\|$/m.test(md)).toBeTruthy()
+  expect(/^\| +\| +\|$/m.test(md)).toBeTruthy()
   expect(md.includes('Only1')).toBeTruthy()
   expect(md.includes('Only2')).toBeTruthy()
 })

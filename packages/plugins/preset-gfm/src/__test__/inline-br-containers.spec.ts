@@ -22,14 +22,21 @@ describe('inline br in gfm containers', () => {
     expect(output).toBe('[^note]: foo<br>bar\n')
   })
 
-  // A lone <br> in a table cell is user content. The serializer no longer
-  // emits an empty-line placeholder inside cells (GFM serializes an empty
-  // cell fine), so nothing needs to be folded there on load.
-  it('keeps a lone <br> inside a table cell', async () => {
+  // A lone <br> in a table cell is byte-identical to the placeholder the
+  // old serializer emitted for every empty cell, so it folds into an
+  // empty cell; the serializer no longer emits placeholders inside cells.
+  it('folds a lone table-cell <br> into an empty cell', async () => {
     const input = '| <br> | c |\n| --- | --- |\n| x | y |\n'
-    expect(await countBrAtomsIn(input)).toBe(1)
+    expect(await countBrAtomsIn(input)).toBe(0)
     const output = await roundTrip(input)
-    expect(output).toBe('| <br> | c |\n| ---- | - |\n| x    | y |\n')
+    expect(output).toBe('|   | c |\n| - | - |\n| x | y |\n')
+  })
+
+  it('loads a legacy empty-cell placeholder as an empty cell', async () => {
+    const input = '| <br /> | c |\n| --- | --- |\n| x | y |\n'
+    expect(await countBrAtomsIn(input)).toBe(0)
+    const output = await roundTrip(input)
+    expect(output).toBe('|   | c |\n| - | - |\n| x | y |\n')
   })
 
   it('round-trips an empty table cell without a placeholder', async () => {
@@ -42,6 +49,10 @@ describe('inline br in gfm containers', () => {
   it('keeps consecutive <br>s inside a table cell as atoms', async () => {
     const input = '| <br><br> | c |\n| --- | --- |\n| x | y |\n'
     expect(await countBrAtomsIn(input)).toBe(2)
+    const output = await roundTrip(input)
+    expect(output).toBe(
+      '| <br><br> | c |\n| -------- | - |\n| x        | y |\n'
+    )
   })
 
   it('keeps sibling text and an inline <br> inside a table cell', async () => {

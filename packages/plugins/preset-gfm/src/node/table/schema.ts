@@ -1,10 +1,20 @@
-import type { NodeType } from '@milkdown/prose/model'
-import type { MarkdownNode } from '@milkdown/transformer'
+import type { Node, NodeType } from '@milkdown/prose/model'
+import type { MarkdownNode, SerializerState } from '@milkdown/transformer'
 
 import { tableNodes } from '@milkdown/prose/tables'
 import { $nodeSchema } from '@milkdown/utils'
 
 import { withMeta } from '../../__internal__'
+
+/// A cell holds exactly one paragraph (see `cellContent` below), while an
+/// mdast tableCell holds phrasing content directly. Serializing the
+/// paragraph's inline content keeps the paragraph serializer (and its
+/// empty-line placeholder) out of table cells — the mirror of the parse
+/// runners, which wrap the flat cell content in a paragraph.
+function serializeCellContent(state: SerializerState, node: Node) {
+  const paragraph = node.content.firstChild
+  if (paragraph) state.next(paragraph.content)
+}
 
 const originalSchema = tableNodes({
   tableGroup: 'block',
@@ -188,7 +198,9 @@ export const tableCellSchema = $nodeSchema('table_cell', () => ({
   toMarkdown: {
     match: (node) => node.type.name === 'table_cell',
     runner: (state, node) => {
-      state.openNode('tableCell').next(node.content).closeNode()
+      state.openNode('tableCell')
+      serializeCellContent(state, node)
+      state.closeNode()
     },
   },
 }))
@@ -222,7 +234,7 @@ export const tableHeaderSchema = $nodeSchema('table_header', () => ({
     match: (node) => node.type.name === 'table_header',
     runner: (state, node) => {
       state.openNode('tableCell')
-      state.next(node.content)
+      serializeCellContent(state, node)
       state.closeNode()
     },
   },

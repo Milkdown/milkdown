@@ -14,6 +14,10 @@ export * from './mark'
 export * from './plugin'
 export * from './composed'
 export * from './commands'
+export {
+  EMPTY_LINE_PLACEHOLDER,
+  isBrHtmlValue,
+} from './__internal__/empty-line-br'
 
 /// The commonmark preset, includes all the plugins.
 export const commonmark: MilkdownPlugin[] = [

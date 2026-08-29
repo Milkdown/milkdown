@@ -103,31 +103,36 @@ describe('inline br round-trip (#2428)', () => {
   })
 })
 
-// The serializer never emits an empty-line placeholder into the trailing
-// run of empty paragraphs, so a trailing lone <br> can only be user
-// content and must survive the round-trip instead of being folded and
-// then dropped.
+// A trailing lone <br> is byte-identical to the serializer's own
+// empty-line placeholder (documents saved by older versions routinely end
+// with one), so it folds into an empty paragraph like everywhere else —
+// which the trailing trim in `docSchema` then drops from the output.
 describe('trailing <br> at the end of the document', () => {
-  it('keeps a trailing lone <br>', async () => {
+  it('folds a trailing lone <br> into an empty paragraph', async () => {
     const output = await roundTrip('foo\n\n<br>\n')
-    expect(output).toBe('foo\n\n<br>\n')
+    expect(output).toBe('foo\n')
   })
 
-  it('keeps a document that is only a <br>', async () => {
+  it('loads a legacy trailing placeholder without a literal atom', async () => {
+    await withEditor('foo\n\n<br />\n', (editor) =>
+      editor.action((ctx) => {
+        const doc = ctx.get(editorViewCtx).state.doc
+        expect(doc.childCount).toBe(2)
+        expect(doc.child(1).type.name).toBe('paragraph')
+        expect(doc.child(1).content.size).toBe(0)
+      })
+    )
+  })
+
+  it('folds away a document that is only a <br>', async () => {
     const output = await roundTrip('<br>\n')
-    expect(output).toBe('<br>\n')
-  })
-
-  it('is stable across a second round-trip', async () => {
-    const once = await roundTrip('foo\n\n<br>\n')
-    const twice = await roundTrip(once)
-    expect(twice).toBe(once)
+    expect(output).toBe('')
   })
 })
 
-// The serializer half of the contract above: a placeholder must never end
-// up trailing in the output, or reloading the editor's own output would
-// show a literal <br /> atom where the user had empty paragraphs.
+// The serializer side: the last empty paragraph is the typing area and is
+// skipped (by index, in `docSchema`), while empty paragraphs before
+// content still serialize as placeholders.
 describe('trailing empty paragraphs', () => {
   const serializeWithTrailingEmptyParagraphs = (
     markdown: string,
@@ -146,12 +151,12 @@ describe('trailing empty paragraphs', () => {
       })
     )
 
-  it('emits no placeholder for the trailing run of empty paragraphs', async () => {
+  it('skips only the last trailing empty paragraph', async () => {
     const output = await serializeWithTrailingEmptyParagraphs('foo\n', 2)
-    expect(output).toBe('foo\n')
+    expect(output).toBe('foo\n\n<br />\n')
   })
 
-  it('reloading its own output adds no <br /> artifact', async () => {
+  it('round-trips its own output without artifacts', async () => {
     const output = await serializeWithTrailingEmptyParagraphs('foo\n', 2)
     expect(await roundTrip(output)).toBe('foo\n')
   })
@@ -159,6 +164,20 @@ describe('trailing empty paragraphs', () => {
   it('still emits a placeholder for an empty paragraph before content', async () => {
     const output = await roundTrip('<br />\n\ntext\n')
     expect(output).toBe('<br />\n\ntext\n')
+  })
+
+  // The trim works by index, so an empty paragraph that shares its node
+  // instance with the trailing one must still serialize as a placeholder.
+  it('is not confused by aliased empty paragraph instances', async () => {
+    const output = await withEditor('a\n\n<br />\n\nb\n', (editor) =>
+      editor.action((ctx) => {
+        const view = ctx.get(editorViewCtx)
+        const empty = view.state.doc.child(1)
+        view.dispatch(view.state.tr.insert(view.state.doc.content.size, empty))
+        return getMarkdown()(ctx)
+      })
+    )
+    expect(output).toBe('a\n\n<br />\n\nb\n')
   })
 })
 
@@ -185,8 +204,8 @@ describe('standalone composition without remarkHtmlTransformer', () => {
     expect(output).toBe('para one\n\n<br />\n\npara two\n')
   })
 
-  it('keeps a trailing lone <br>', async () => {
+  it('folds a trailing lone <br> like the composed preset', async () => {
     const output = await roundTripStandalone('foo\n\n<br>\n')
-    expect(output).toBe('foo\n\n<br>\n')
+    expect(output).toBe('foo\n')
   })
 })
