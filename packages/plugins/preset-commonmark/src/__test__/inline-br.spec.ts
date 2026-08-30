@@ -205,6 +205,36 @@ describe('trailing empty paragraphs', () => {
   })
 })
 
+// Ranged serialization wraps the slice in a synthetic document, which
+// goes through the same trailing trim as the editor's own doc. This is
+// deliberate: a trailing blank line cannot survive a save cycle anyway
+// (folded back into an empty paragraph, it becomes the target document's
+// trailing paragraph and is trimmed on the next serialization), Select-All
+// sweeps the typing area in without the user choosing it, and a collapsed
+// range must never conjure content out of the fill paragraph. Known cost,
+// also deliberate: copying a range that stops exactly at a mid-document
+// blank line drops that blank line from the plain-text clipboard —
+// distinguishing it would require threading serialization intent through
+// the serializer API.
+describe('ranged serialization', () => {
+  it('trims or keeps a blank line by where the range ends', async () => {
+    // Loads as [p('a') 0..3, p() 3..5, p('b') 5..8, p() 8..10] — the
+    // trailing placeholder folds into a real typing-area paragraph.
+    await withEditor('a\n\n<br />\n\nb\n\n<br />\n', (editor) =>
+      editor.action((ctx) => {
+        // A mid-selection blank line round-trips.
+        expect(getMarkdown({ from: 0, to: 8 })(ctx)).toBe('a\n\n<br />\n\nb\n')
+        // A selection-trailing blank line is trimmed like the doc tail.
+        expect(getMarkdown({ from: 0, to: 5 })(ctx)).toBe('a\n')
+        // A lone selected blank line serializes to nothing.
+        expect(getMarkdown({ from: 3, to: 5 })(ctx)).toBe('')
+        // A caret inside the typing-area paragraph conjures nothing.
+        expect(getMarkdown({ from: 9, to: 9 })(ctx)).toBe('')
+      })
+    )
+  })
+})
+
 // The placeholder matcher must treat every spelling of <br> alike;
 // otherwise equivalent inputs produce different documents.
 describe('placeholder spelling variants', () => {
