@@ -1,4 +1,3 @@
-export { BLOCK_CONTAINER_TYPES } from './block-containers'
 export { cloneLeaf } from './clone-node'
 export { EMPTY_LINE_PLACEHOLDER, isBrHtmlValue } from './empty-line-br'
 export { serializeText } from './serialize-text'

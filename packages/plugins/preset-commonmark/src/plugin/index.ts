@@ -1,6 +1,7 @@
 export * from './remark-add-order-in-list-plugin'
 export * from './remark-line-break'
 export * from './remark-inline-link-plugin'
+export { blockContainerTypes } from './block-container-types'
 export * from './remark-html-transformer'
 export * from './remark-marker-plugin'
 export * from './remark-preserve-empty-line'

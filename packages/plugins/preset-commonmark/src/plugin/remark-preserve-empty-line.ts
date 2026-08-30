@@ -3,7 +3,8 @@ import type { Node } from '@milkdown/transformer'
 import { $remark } from '@milkdown/utils'
 import { SKIP, visitParents } from 'unist-util-visit-parents'
 
-import { BLOCK_CONTAINER_TYPES, isBrHtmlValue, withMeta } from '../__internal__'
+import { isBrHtmlValue, withMeta } from '../__internal__'
+import { getBlockContainerTypes } from './block-container-types'
 
 type ParentNode = Node & { children: Node[] }
 
@@ -13,9 +14,17 @@ type ParentNode = Node & { children: Node[] }
 // <br /> directly inside a block container. This plugin folds exactly
 // those shapes back into empty paragraphs and keeps every other <br> as
 // user-authored inline HTML.
+//
+// 'tableCell' is a GFM type shipped here for the same compat pragmatism
+// as `blockContainerTypes`' defaults. Unlike flow containers, phrasing
+// containers have no registration point, deliberately: the placeholder
+// shapes are defined by this preset's serializer, and a third-party
+// phrasing container that emits its own placeholders can fold them in
+// its own remark plugin. Do NOT add phrasing types to
+// `blockContainerTypes` (see its doc comment).
 const PLACEHOLDER_PARENTS = new Set(['paragraph', 'tableCell'])
 
-function visitEmptyLine(ast: Node) {
+function visitEmptyLine(ast: Node, blockContainers: ReadonlySet<string>) {
   return visitParents(
     ast,
     (node: Node) =>
@@ -30,7 +39,7 @@ function visitEmptyLine(ast: Node) {
         return undefined
       }
 
-      if (BLOCK_CONTAINER_TYPES.has(parent.type)) {
+      if (blockContainers.has(parent.type)) {
         // The <br> sits directly in block content, which only happens when
         // `remarkHtmlTransformer` has not wrapped it (standalone
         // composition). Left alone it would be an inline atom in a
@@ -66,7 +75,9 @@ function visitEmptyLine(ast: Node) {
 /// block-level `<br>`s itself, so it stays safe without the transformer.
 export const remarkPreserveEmptyLinePlugin = $remark(
   'remark-preserve-empty-line',
-  () => () => visitEmptyLine
+  (ctx) => () => (ast: Node) =>
+    // Read per run so containers registered after setup are picked up.
+    visitEmptyLine(ast, getBlockContainerTypes(ctx))
 )
 
 withMeta(remarkPreserveEmptyLinePlugin.plugin, {
