@@ -33,9 +33,9 @@ export class Ctx {
     return this.#inspector
   }
 
-  /// Produce a new ctx with metadata.
-  /// The new ctx will link to the same container and clock with the current ctx.
-  /// If the metadata is empty, it will return the current ctx.
+  /// Produce a new ctx with metadata. The new ctx will link to the same
+  /// container and clock with the current ctx. If the metadata is empty, it
+  /// will return the current ctx.
   readonly produce = (meta?: Meta) => {
     if (meta && Object.keys(meta).length)
       return new Ctx(this.#container, this.#clock, { ...meta })
@@ -124,8 +124,8 @@ export class Ctx {
     return promise
   }
 
-  /// Start a list of timers from the ctx, the list is stored in a slice in the ctx.
-  /// This is equivalent to
+  /// Start a list of timers from the ctx, the list is stored in a slice in the
+  /// ctx. This is equivalent to
   ///
   /// ```typescript
   /// Promise.all(ctx.get(slice).map(x => ctx.wait(x))).

@@ -37,10 +37,10 @@ export type $UserKeymap<N extends string, Key extends string> = [
   shortcuts: $Shortcut
 }
 
-/// Create a keymap which can be customized by user.
-/// It takes two arguments:
+/// Create a keymap which can be customized by user. It takes two arguments:
 /// - `name`: The name of the keymap.
-/// - `userKeymap`: The keymap config which contains the shortcuts and the command.
+/// - `userKeymap`: The keymap config which contains the shortcuts and the
+///   command.
 export function $useKeymap<N extends string, Key extends string>(
   name: N,
   userKeymap: UserKeymapConfig<Key>

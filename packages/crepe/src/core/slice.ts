@@ -5,16 +5,17 @@ import type { CrepeBuilder } from './builder'
 
 /// @internal
 /// The feature flags context.
-/// ⚠️ Most of the time, you should use `useCrepeFeatures` to get the features.
+/// ⚠️ In most cases, call `useCrepeFeatures` to get the features.
 export const FeaturesCtx = createSlice([] as CrepeFeature[], 'FeaturesCtx')
 
 /// @internal
 /// The crepe editor context.
-/// ⚠️ Most of the time, you should use `useCrepe` to get the crepe editor instance.
+/// ⚠️ In most cases, call `useCrepe` to get the crepe editor instance.
 export const CrepeCtx = createSlice({} as CrepeBuilder, 'CrepeCtx')
 
 /// The crepe editor context.
-/// You can use this context to access the crepe editor instance within Milkdown plugins.
+/// Use this context to access the crepe editor instance inside a
+/// Milkdown plugin.
 /// ```ts
 /// import { crepeCtx } from '@milkdown/crepe'
 /// const plugin = (ctx: Ctx) => {
@@ -25,7 +26,7 @@ export const CrepeCtx = createSlice({} as CrepeBuilder, 'CrepeCtx')
 /// }
 /// ```
 export function useCrepe(ctx: Ctx) {
-  // We should use string slice here to avoid the slice to be bundled in multiple entries
+  // The string form keeps the slice out of more than one bundle entry.
   return ctx.get<CrepeBuilder, 'CrepeCtx'>('CrepeCtx')
 }
 
@@ -38,8 +39,9 @@ export function useCrepe(ctx: Ctx) {
 ///     // Do something with CodeMirror
 ///   }
 /// }
+/// ```
 export function useCrepeFeatures(ctx: Ctx) {
-  // We should use string slice here to avoid the slice to be bundled in multiple entries
+  // The string form keeps the slice out of more than one bundle entry.
   return ctx.use<CrepeFeature[], 'FeaturesCtx'>('FeaturesCtx')
 }
 

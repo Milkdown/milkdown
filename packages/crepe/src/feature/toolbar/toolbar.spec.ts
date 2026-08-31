@@ -54,8 +54,8 @@ async function ctxWithAI() {
 
 describe('toolbar item labels', () => {
   test('every built-in item ships an accessible name', () => {
-    // Without a label the button exposes no name at all — its only child is an
-    // SVG — so a missing one is an accessibility regression, not a nicety.
+    // Without a label the button exposes no name, because its only child
+    // is an SVG. A missing label is an accessibility regression.
     for (const item of itemsOf()) {
       expect(item.label, `item ${item.key} has no label`).toBeTruthy()
     }
@@ -218,8 +218,8 @@ describe('toolbar item shortcuts', () => {
   })
 
   test('display glyphs and the ARIA value are carried separately', () => {
-    // `⌘⇧H` is what a macOS user should read, but it is not valid
-    // `aria-keyshortcuts` — hence the two fields.
+    // A macOS user reads `⌘⇧H`, which is invalid in
+    // `aria-keyshortcuts`. That gap is why the two fields exist.
     const items = itemsOf({
       buildToolbar: (builder) => {
         builder.addGroup('custom', 'Custom').addItem('highlight', {

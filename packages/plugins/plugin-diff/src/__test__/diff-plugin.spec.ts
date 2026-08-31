@@ -92,7 +92,6 @@ describe('getPendingChanges', () => {
 
     expect(state.changes.length).toBeGreaterThanOrEqual(2)
 
-    // Reject the first change
     const firstChange = state.changes[0]!
     const stateWithRejection: DiffState = {
       ...state,
@@ -101,7 +100,6 @@ describe('getPendingChanges', () => {
 
     const pending = getPendingChanges(stateWithRejection)
     expect(pending.length).toBeLessThan(state.changes.length)
-    // Rejected change should not be in pending
     expect(pending.every((c) => c !== firstChange)).toBe(true)
   })
 
@@ -209,7 +207,6 @@ describe('sequential reject (regression: index drift)', () => {
     const totalChanges = state.changes.length
     expect(totalChanges).toBeGreaterThanOrEqual(3)
 
-    // Reject the first pending change
     const firstPending = getPendingChanges(state)[0]!
     const afterReject: DiffState = {
       ...state,
@@ -219,7 +216,7 @@ describe('sequential reject (regression: index drift)', () => {
     // After one rejection, pending count decreases by 1
     expect(getPendingChanges(afterReject).length).toBe(totalChanges - 1)
 
-    // The remaining pending changes should all be different from the rejected one
+    // Every remaining pending change differs from the rejected one.
     for (const c of getPendingChanges(afterReject)) {
       const overlaps = c.fromB < firstPending.toB && c.toB > firstPending.fromB
       expect(overlaps).toBe(false)

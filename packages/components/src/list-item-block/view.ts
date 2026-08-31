@@ -65,8 +65,8 @@ export const listItemBlockView = $view(
           if (anchor > docSize || head > docSize) return
           const anchorPos = state.doc.resolve(anchor)
           const headPos = state.doc.resolve(head)
-          // Use `between` so we fall back to the nearest valid selection when
-          // the resolved positions no longer sit inside a textblock.
+          // `between` falls back to the nearest valid selection when the
+          // resolved positions no longer sit inside a textblock.
           const selection = TextSelection.between(anchorPos, headPos)
           view.dispatch(state.tr.setSelection(selection))
         })

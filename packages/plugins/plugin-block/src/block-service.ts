@@ -36,7 +36,7 @@ export type BlockServiceMessage = (message: BlockServiceMessageType) => void
 /// `NodeSelection` of the node being dragged. Both prosemirror-view and
 /// prosemirror-drop-indicator use it in `handleDrop` to remove exactly that
 /// node, and fall back to `tr.deleteSelection()` when it is absent. The field
-/// is missing from the published types, so we widen it here.
+/// is missing from the published types, so this type widens it.
 type Dragging = NonNullable<EditorView['dragging']> & {
   node?: NodeSelection
 }
@@ -177,10 +177,10 @@ export class BlockService {
       const activeEl = this.#active?.el
       if (activeEl) event.dataTransfer.setDragImage(activeEl, 0, 0)
 
-      // Hand prosemirror the node selection we captured on mousedown so the
-      // move deletes exactly the node we picked up. Without it prosemirror
-      // falls back to `tr.deleteSelection()` on whatever the live selection is
-      // at drop time, which may only strip the text and leave an empty block.
+      // Pass prosemirror the node selection captured on mousedown, so
+      // the move deletes that node. Without it prosemirror falls back to
+      // `tr.deleteSelection()` on the live selection at drop time, which
+      // can strip the text and leave an empty block.
       const dragging: Dragging = {
         slice,
         move: true,

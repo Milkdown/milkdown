@@ -194,14 +194,15 @@ export class ParserState extends Stack<Node, ParserStackElement> {
     return doc
   }
 
-  /// Give the node or node list back to the state and
-  /// the state will find a proper runner (by `match` method in parser spec) to handle it.
+  /// Give the node or node list back to the state and the state will find a
+  /// proper runner (by `match` method in parser spec) to handle it.
   next = (nodes: MarkdownNode | MarkdownNode[] = []) => {
     ;[nodes].flat().forEach((node) => this.#runNode(node))
     return this
   }
 
-  /// Build the current state into a [prosemirror document](https://prosemirror.net/docs/ref/#model.Document_Structure).
+  /// Build the current state into a
+  /// [prosemirror document](https://prosemirror.net/docs/ref/#model.Document_Structure).
   toDoc = () => this.build()
 
   /// Transform a markdown string into prosemirror state.

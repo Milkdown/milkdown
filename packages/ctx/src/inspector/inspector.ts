@@ -10,7 +10,8 @@ export interface Telemetry {
   waitTimers: { name: string; duration: number; status: TimerStatus }[]
 }
 
-/// The inspector object that is used to inspect the runtime environment of a ctx.
+/// The inspector object that is used to inspect the runtime environment of a
+/// ctx.
 export class Inspector {
   /// @internal
   readonly #meta: Meta

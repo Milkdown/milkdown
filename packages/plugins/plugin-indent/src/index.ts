@@ -33,8 +33,8 @@ function updateIndent(
   return tr.insertText(text, to)
 }
 
-/// A slice contains the indent config.
-/// You can use [IndentConfigOptions](#IndentConfigOptions) to customize the behavior of the plugin.
+/// A slice that holds the indent config. Use
+/// [IndentConfigOptions](#IndentConfigOptions) to customize the plugin.
 ///
 /// ```ts
 /// import { indent, indentConfig } from '@milkdown/plugin-indent'
@@ -58,7 +58,7 @@ indentConfig.meta = {
   displayName: 'Ctx<indentConfig>',
 }
 
-/// Add indent shortcut, when users press `Tab`, the plugin will insert indent text.
+/// Add the indent shortcut. The plugin inserts indent text on `Tab`.
 export const indentPlugin = $shortcut((ctx) => ({
   Tab: (state, dispatch) => {
     const config = ctx.get(indentConfig.key)

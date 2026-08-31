@@ -57,10 +57,10 @@ export class KeymapManager {
     return this.#ctx
   }
 
-  /// Add a keymap item.
-  /// When not passing a priority, the priority will be 50.
+  /// Add a keymap item. When not passing a priority, the priority will be 50.
   /// For the same key, the keymap with higher priority will be executed first.
-  /// If the priority is the same, the keymap will be executed in the order of addition.
+  /// If the priority is the same, the keymap will be executed in the order of
+  /// addition.
   add = (keymap: KeymapItem) => {
     this.#keymap.push(keymap)
 
@@ -136,8 +136,8 @@ export class KeymapManager {
 /// A slice which stores the keymap manager.
 export const keymapCtx = createSlice(new KeymapManager(), 'keymap')
 
-/// A slice which stores timers that need to be waited for before starting to run the plugin.
-/// By default, it's `[SchemaReady]`.
+/// A slice that holds the timers to wait for before the plugin
+/// runs. It defaults to `[SchemaReady]`.
 export const keymapTimerCtx = createSlice([SchemaReady], 'keymapTimer')
 
 /// The timer which will be resolved when the keymap plugin is ready.
@@ -146,7 +146,7 @@ export const KeymapReady = createTimer('KeymapReady')
 /// The keymap plugin.
 /// This plugin will create a keymap manager.
 ///
-/// This plugin will wait for the schema plugin.
+/// This plugin waits for the schema plugin.
 export const keymap: MilkdownPlugin = (ctx) => {
   const km = new KeymapManager()
   km.setCtx(ctx)

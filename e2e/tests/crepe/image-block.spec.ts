@@ -1,7 +1,7 @@
 import { expect, test, type Page } from '@playwright/test'
 
-// A 1000x800 red PNG generated as a data URL is impractical,
-// so we intercept the image request and return a generated PNG.
+// A 1000x800 red PNG is impractical as a data URL, so the route
+// intercepts the image request and returns a generated PNG.
 async function routeMockImage(
   page: Page,
   url: string,
@@ -80,7 +80,8 @@ test.describe('image block maxWidth and maxHeight combined', () => {
       window.__imageBlockMaxHeight__ = 200
     })
 
-    // 1000x800 image: scaled to 400px width -> height would be 320px, then clamped to 200px
+    // A 1000x800 image scaled to a 400px width gives a 320px height,
+    // which the clamp then cuts to 200px.
     await routeMockImage(page, MOCK_IMAGE_URL, 1000, 800)
     await page.goto('/image-block/')
 

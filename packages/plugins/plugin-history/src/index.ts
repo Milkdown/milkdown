@@ -22,21 +22,27 @@ function withMeta<T extends MilkdownPlugin>(
   return plugin
 }
 
-/// The milkdown command wrapper of [undo API](https://prosemirror.net/docs/ref/#history.undo) in [prosemirror-history](https://prosemirror.net/docs/ref/#history).
+/// The milkdown command wrapper of the
+/// [undo API](https://prosemirror.net/docs/ref/#history.undo) in
+/// [prosemirror-history](https://prosemirror.net/docs/ref/#history).
 export const undoCommand = $command('Undo', () => () => undo)
 
 withMeta(undoCommand, {
   displayName: 'Command<undo>',
 })
 
-/// The milkdown command wrapper of [redo API](https://prosemirror.net/docs/ref/#history.redo) in [prosemirror-history](https://prosemirror.net/docs/ref/#history).
+/// The milkdown command wrapper of the
+/// [redo API](https://prosemirror.net/docs/ref/#history.redo) in
+/// [prosemirror-history](https://prosemirror.net/docs/ref/#history).
 export const redoCommand = $command('Redo', () => () => redo)
 
 withMeta(redoCommand, {
   displayName: 'Command<redo>',
 })
 
-/// The [config](https://prosemirror.net/docs/ref/#history.history%5Econfig) of prosemirror history plugin.
+/// The
+/// [config](https://prosemirror.net/docs/ref/#history.history%5Econfig)
+/// of the prosemirror history plugin.
 export const historyProviderConfig = $ctx<
   { depth?: number; newGroupDelay?: number },
   'historyProviderConfig'
@@ -46,7 +52,9 @@ withMeta(historyProviderConfig, {
   displayName: 'Ctx<historyProviderConfig>',
 })
 
-/// The milkdown wrapper of [history API](https://prosemirror.net/docs/ref/#history.history) in [prosemirror-history](https://prosemirror.net/docs/ref/#history).
+/// The milkdown wrapper of the
+/// [history API](https://prosemirror.net/docs/ref/#history.history) in
+/// [prosemirror-history](https://prosemirror.net/docs/ref/#history).
 export const historyProviderPlugin = $prose((ctx) =>
   prosemirrorHistory(ctx.get(historyProviderConfig.key))
 )
@@ -55,7 +63,8 @@ withMeta(historyProviderPlugin, {
   displayName: 'Ctx<historyProviderPlugin>',
 })
 
-/// The keymap of history plugin, it's `mod-z` for undo and `mod-y`/`shift-mod-z` for redo.
+/// The keymap of the history plugin. It binds `mod-z` to undo, and
+/// `mod-y` and `shift-mod-z` to redo.
 export const historyKeymap = $useKeymap('historyKeymap', {
   Undo: {
     shortcuts: 'Mod-z',

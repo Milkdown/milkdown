@@ -10,8 +10,8 @@ export type $InputRule = MilkdownPlugin & {
   inputRule: InputRule
 }
 
-/// Create an input rule plugin.
-/// It takes a factory function which returns a [prosemirror input rule](https://prosemirror.net/docs/ref/#inputrules.InputRule).
+/// Create an input rule plugin. It takes a factory function which returns a
+/// [prosemirror input rule](https://prosemirror.net/docs/ref/#inputrules.InputRule).
 ///
 /// Additional property:
 /// - `inputRule`: The prosemirror input rule created.
@@ -30,7 +30,8 @@ export function $inputRule(inputRule: (ctx: Ctx) => InputRule): $InputRule {
   return <$InputRule>plugin
 }
 
-/// The async version for `$inputRule`. You can use `await` in the factory when creating the input rule.
+/// The async version for `$inputRule`. You can use `await` in the factory when
+/// creating the input rule.
 ///
 /// Additional property:
 /// - `inputRule`: The prosemirror input rule created.

@@ -222,7 +222,8 @@ export function getContextByState(
         }
       }
 
-      // Fallback: If it's a mailto link and looks like an autolink (href contains text),
+      // Fallback: a mailto link whose href contains the text looks like
+      // an autolink.
       const href = linkMark.attrs.href
       if (
         typeof href === 'string' &&

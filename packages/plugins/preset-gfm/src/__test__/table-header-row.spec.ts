@@ -30,7 +30,7 @@ it('should not crash when serializing a table with empty header row', async () =
   const schema = editor.ctx.get(schemaCtx)
   const serializer = editor.ctx.get(serializerCtx)
 
-  // Create a table with an empty header row (content.size === 0)
+  // An empty header row has a content size of 0.
   const tableHeaderRow = schema.nodes.table_header_row!.create()
   const tableRow = schema.nodes.table_row!.create(null, [
     schema.nodes.table_cell!.create(
@@ -41,7 +41,6 @@ it('should not crash when serializing a table with empty header row', async () =
   const table = schema.nodes.table!.create(null, [tableHeaderRow, tableRow])
   const doc = schema.topNodeType.createAndFill(null, [table])!
 
-  // This should not throw
   expect(() => serializer(doc)).not.toThrow()
 })
 

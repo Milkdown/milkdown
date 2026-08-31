@@ -25,9 +25,8 @@ export type $NodeSchema<T extends string> = [
   ) => $NodeSchema<T>
 }
 
-/// Create a plugin for node schema.
-/// The first parameter is the id of the node schema.
-/// The second parameter is the function that returns the node schema.
+/// Create a plugin for node schema. The first parameter is the id of the node
+/// schema. The second parameter is the function that returns the node schema.
 ///
 /// The function will return a plugin with additional properties:
 /// - `id`: The id of the node schema.
@@ -36,7 +35,8 @@ export type $NodeSchema<T extends string> = [
 /// - `node`: The node schema plugin.
 /// - `schema`: The node schema.
 /// - `key`: The key of slice which contains the node schema factory.
-/// - `extendSchema`: A function witch will return a plugin that can extend the node schema.
+/// - `extendSchema`: A function witch will return a plugin that can extend the
+///   node schema.
 export function $nodeSchema<T extends string>(
   id: T,
   schema: GetNodeSchema

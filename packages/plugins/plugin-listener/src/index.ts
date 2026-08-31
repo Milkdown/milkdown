@@ -50,7 +50,8 @@ export class ListenerManager {
   private focusListeners: Array<(ctx: Ctx) => void> = []
   private destroyListeners: Array<(ctx: Ctx) => void> = []
 
-  /// A getter to get all [subscribers](#interface-subscribers). You should not use this method directly.
+  /// A getter for all [subscribers](#interface-subscribers). Do not call
+  /// it directly.
   get listeners(): Subscribers {
     return {
       beforeMount: this.beforeMountedListeners,
@@ -78,9 +79,9 @@ export class ListenerManager {
     return this
   }
 
-  /// Subscribe to the updated event.
-  /// This event will be triggered after the editor state is updated and **the document is changed**.
-  /// The second parameter is the current document and the third parameter is the previous document.
+  /// Subscribe to the updated event. The event fires after the editor
+  /// state updates and **the document changes**. The second parameter is
+  /// the current document. The third parameter is the previous document.
   updated = (
     fn: (ctx: Ctx, doc: ProseNode, prevDoc: ProseNode | null) => void
   ) => {
@@ -88,9 +89,10 @@ export class ListenerManager {
     return this
   }
 
-  /// Subscribe to the markdownUpdated event.
-  /// This event will be triggered after the editor state is updated and **the document is changed**.
-  /// The second parameter is the current markdown and the third parameter is the previous markdown.
+  /// Subscribe to the markdownUpdated event. The event fires after the
+  /// editor state updates and **the document changes**. The second
+  /// parameter is the current markdown. The third parameter is the
+  /// previous markdown.
   markdownUpdated(
     fn: (ctx: Ctx, markdown: string, prevMarkdown: string) => void
   ) {
@@ -133,8 +135,8 @@ export class ListenerManager {
   }
 }
 
-/// The ctx key of the listener manager.
-/// You can use `ctx.get(listenerCtx)` to get the [listener manager](#class-listenermanager).
+/// The ctx key of the listener manager. Call `ctx.get(listenerCtx)` to
+/// get the [listener manager](#class-listenermanager).
 export const listenerCtx = createSlice<ListenerManager>(
   new ListenerManager(),
   'listener'

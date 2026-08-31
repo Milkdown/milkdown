@@ -3,19 +3,21 @@ import type { KeymapConfig } from '@milkdown/kit/utils'
 
 import { browser } from '@milkdown/kit/prose'
 
-/// A reference to a single entry of a milkdown keymap slice — the one place a
-/// shortcut is actually bound. UI items point at this instead of re-spelling the
-/// shortcut, so display and `aria-keyshortcuts` are derived from the source of
-/// truth and stay correct when the host rebinds the key.
+/// A reference to one entry of a milkdown keymap slice, the single
+/// place that binds a shortcut. A UI item points at the entry instead of
+/// spelling the shortcut again. The display form and the
+/// `aria-keyshortcuts` value follow the binding, so both stay correct
+/// when the host rebinds the key.
 export interface KeymapRef {
   slice: SliceType<KeymapConfig<string>>
   entry: string
 }
 
-/// Build a `KeymapRef`. The generic keeps `entry` checked against the slice's
-/// real entry names (`keymapRef(strongKeymap.key, 'ToggleBold')` — a typo is a
-/// compile error) while the single unavoidable cast to the erased storage type
-/// is localized here, so `ToolbarItem` never has to be generic.
+/// Build a `KeymapRef`. The generic checks `entry` against the real
+/// entry names of the slice, so a typo in
+/// `keymapRef(strongKeymap.key, 'ToggleBold')` fails to compile. It also
+/// keeps the one cast to the erased storage type here, so `ToolbarItem`
+/// stays non-generic.
 export function keymapRef<K extends string>(
   slice: SliceType<KeymapConfig<K>>,
   entry: K
@@ -23,8 +25,8 @@ export function keymapRef<K extends string>(
   return { slice: slice as SliceType<KeymapConfig<string>>, entry }
 }
 
-/// A shortcut rendered for both of its readers: `display` for a human (tooltip),
-/// `aria` for the `aria-keyshortcuts` attribute.
+/// A shortcut rendered for both of its readers. `display` goes to a
+/// human in a tooltip. `aria` goes to the `aria-keyshortcuts` attribute.
 export interface ResolvedShortcut {
   display: string
   aria: string
@@ -35,10 +37,10 @@ interface NormalizedKey {
   aria: string
 }
 
-/// A `KeyboardEvent.key` value for the ARIA attribute, plus a display form.
-/// Single characters are upper-cased (`b` → `B`, `-` stays `-`); named keys
-/// (`Enter`, `ArrowUp`, …) pass through; `Space` maps to the literal space the
-/// ARIA grammar expects for that key.
+/// A `KeyboardEvent.key` value for the ARIA attribute, plus a display
+/// form. A single character turns upper-case, so `b` becomes `B` and `-`
+/// stays `-`. A named key such as `Enter` or `ArrowUp` passes through.
+/// `Space` maps to the literal space that the ARIA grammar expects.
 function normalizeKey(key: string): NormalizedKey {
   if (key === ' ' || key.toLowerCase() === 'space')
     return { display: 'Space', aria: ' ' }
@@ -49,19 +51,21 @@ function normalizeKey(key: string): NormalizedKey {
   return { display: key, aria: key }
 }
 
-/// Format a prosemirror keymap shortcut (`Mod-b`, `Mod-Alt-x`) into a display
-/// string and an `aria-keyshortcuts` value. `mac` is injected so the pure output
-/// is testable on both platforms without stubbing `navigator`; callers pass
-/// `browser.mac`.
+/// Format a prosemirror keymap shortcut such as `Mod-b` or `Mod-Alt-x`
+/// into a display string and an `aria-keyshortcuts` value. The caller
+/// passes `mac`, normally `browser.mac`. The injected flag keeps the
+/// output pure and testable on both platforms without a `navigator`
+/// stub.
 ///
-/// - `Mod` resolves to `Meta` on macOS and `Control` elsewhere, matching what
-///   prosemirror-keymap actually binds.
-/// - Display follows each platform's convention: macOS glyphs `⌃⌥⇧⌘` with the
-///   Command key next to the key and no separators (`⌥⌘X`); elsewhere `+`-joined
-///   names with the primary modifier first (`Ctrl+Alt+X`).
-/// - The ARIA value uses the attribute's grammar: `+`-joined modifiers from
-///   `Meta`/`Control`/`Alt`/`Shift` followed by a `KeyboardEvent.key` value
-///   (`Meta+Shift+H`, `Control+B`).
+/// - `Mod` resolves to `Meta` on macOS and to `Control` elsewhere, the
+///   same as prosemirror-keymap binds it.
+/// - Display follows the platform convention. macOS uses the glyphs
+///   `⌃⌥⇧⌘`, puts the Command key next to the key and adds no
+///   separator, as in `⌥⌘X`. Every other platform joins names with `+`
+///   and puts the primary modifier first, as in `Ctrl+Alt+X`.
+/// - The ARIA value follows the attribute grammar. It joins the
+///   modifiers `Meta`, `Control`, `Alt` and `Shift` with `+`, then adds a
+///   `KeyboardEvent.key` value, as in `Meta+Shift+H` or `Control+B`.
 export function formatKeymapShortcut(
   shortcut: string,
   mac: boolean

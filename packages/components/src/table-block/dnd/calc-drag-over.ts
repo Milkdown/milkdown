@@ -14,7 +14,6 @@ function findDragOverElement(
 
     // The pointer is within the boundary of the current element.
     if (boundaryStart <= pointer && pointer <= boundaryEnd) return true
-    // The pointer is beyond the last element.
     if (index === lastIndex && pointer > boundaryEnd) return true
     // The pointer is before the first element.
     if (index === 0 && pointer < boundaryStart) return true

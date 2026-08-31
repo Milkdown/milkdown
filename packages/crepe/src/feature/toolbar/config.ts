@@ -45,28 +45,32 @@ import { mathInlineId, toggleLatexCommandName } from '../latex/constants'
 export type ToolbarItem = {
   active: (ctx: Ctx) => boolean
   icon: string
-  /// Accessible name for the button, rendered as `title` and `aria-label`.
-  /// Without it the button exposes no name at all — its only content is an SVG.
+  /// Accessible name for the button, rendered as `title` and
+  /// `aria-label`. Without it the button exposes no name, because its
+  /// only content is an SVG.
   label?: string
-  /// Human-readable form of the item's keyboard shortcut, e.g. `⌘B` on macOS or
-  /// `Ctrl+B` elsewhere. Appended to the `title` for display only — it is never
-  /// used for `aria-keyshortcuts`, which has its own grammar.
+  /// Human-readable form of the keyboard shortcut, for example `⌘B` on
+  /// macOS or `Ctrl+B` elsewhere. The `title` appends it for display
+  /// only. `aria-keyshortcuts` never reads it, because that attribute
+  /// has its own grammar.
   shortcut?: string
-  /// The same shortcut in `aria-keyshortcuts` grammar: `+`-joined modifiers from
-  /// `Alt` / `Control` / `Shift` / `Meta` / `AltGraph` plus a `KeyboardEvent.key`
-  /// value, e.g. `Meta+B` or `Control+Shift+H`. Kept separate from `shortcut`
-  /// because display glyphs (`⌘B`) and the abbreviation `Ctrl` are both invalid
-  /// here, and a single field cannot satisfy both readers.
+  /// The same shortcut in `aria-keyshortcuts` grammar. It joins the
+  /// modifiers `Alt`, `Control`, `Shift`, `Meta` and `AltGraph` with `+`,
+  /// then adds a `KeyboardEvent.key` value, as in `Meta+B` or
+  /// `Control+Shift+H`. This field stays separate from `shortcut`,
+  /// because a display glyph such as `⌘B` and the abbreviation `Ctrl` are
+  /// both invalid here. One field cannot serve both readers.
   ///
-  /// Crepe defaults neither: which combo is bound, and how it is spelled per
-  /// platform, is the host's business.
+  /// Crepe defaults neither field. The host owns the bound combination
+  /// and its spelling on each platform.
   ariaKeyshortcuts?: string
-  /// A reference to the keymap entry that binds this item's command, e.g.
-  /// `keymapRef(strongKeymap.key, 'ToggleBold')`. When set, `shortcut` and
-  /// `ariaKeyshortcuts` are derived from it — the single source of truth — so
-  /// they follow any host rebinding and never have to be spelled per UI region.
-  /// The two string fields above still win when set explicitly, for shortcuts
-  /// not backed by a milkdown keymap.
+  /// A reference to the keymap entry that binds the command of this
+  /// item, for example `keymapRef(strongKeymap.key, 'ToggleBold')`. A set
+  /// reference derives `shortcut` and `ariaKeyshortcuts` from the single
+  /// place that binds the key, so both follow a host rebinding and need
+  /// no repetition per UI region. An explicit value in the two string
+  /// fields above still wins, for a shortcut that no milkdown keymap
+  /// backs.
   keymap?: KeymapRef
 }
 
@@ -169,13 +173,12 @@ export function getGroups(config?: ToolbarFeatureConfig, ctx?: Ctx) {
     },
   })
 
-  // Skip the AI button entirely when the feature is disabled or when no
-  // provider is configured — without a provider the palette would open
-  // but `runAICmd` would silently reject every action. Toolbar-level
-  // `aiIcon` wins over `AIFeatureConfig.aiIcon` so consumers can override
-  // just the toolbar entry without touching the tooltip prefix.
-  // The aiProviderConfig slice is only injected when the AI feature is
-  // active, so guard the lookup behind the flag check.
+  // The AI button needs both the feature and a provider. Without a
+  // provider the palette opens and `runAICmd` rejects every action in
+  // silence. The toolbar `aiIcon` wins over `AIFeatureConfig.aiIcon`, so
+  // a consumer can override the toolbar entry alone and keep the tooltip
+  // prefix. Only an active AI feature injects the `aiProviderConfig`
+  // slice, so the flag check has to guard the lookup.
   if (ctx && flags?.includes(CrepeFeature.AI)) {
     const aiCfg = ctx.get(aiProviderConfig.key)
     if (aiCfg.provider) {
@@ -197,11 +200,12 @@ export function getGroups(config?: ToolbarFeatureConfig, ctx?: Ctx) {
 
   const groups = groupBuilder.build()
 
-  // Derive display + `aria-keyshortcuts` from each item's keymap reference —
-  // the one place the shortcut is actually bound — so they follow any host
-  // rebinding. `??=` lets an explicitly configured string win. Runs only with a
-  // ctx (the keymap slices live there); the derived value is read at build time,
-  // so a rebind shows up the next time the toolbar opens, not on an open one.
+  // The keymap reference of an item is the single place that binds the
+  // shortcut, so the display form and `aria-keyshortcuts` derive from it
+  // and follow a host rebinding. `??=` lets a configured string win. The
+  // loop needs a ctx, because the keymap slices live there. The derived
+  // value is read at build time, so a rebind reaches the toolbar on its
+  // next open, not on an open one.
   if (ctx) {
     for (const group of groups) {
       for (const item of group.items) {

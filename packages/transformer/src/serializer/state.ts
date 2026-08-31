@@ -343,10 +343,10 @@ export class SerializerState extends Stack<
     return doc
   }
 
-  /// Give the node or node list back to the state and
-  /// the state will find a proper runner (by `match` method in serializer spec) to handle it.
-  /// When a node list is given, marks shared between adjacent nodes are kept
-  /// open across them so that they are serialized as one continuous span.
+  /// Give the node or node list back to the state and the state will find a
+  /// proper runner (by `match` method in serializer spec) to handle it. When a
+  /// node list is given, marks shared between adjacent nodes are kept open
+  /// across them so that they are serialized as one continuous span.
   next = (nodes: Node | Fragment) => {
     if (isFragment(nodes)) {
       nodes.forEach((node, _offset, index) => {

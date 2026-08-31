@@ -18,7 +18,6 @@ export function runReplacer(
 ) {
   const { placeholderConfig } = ctx.get(inlineSyncConfig.key)
   const holePlaceholder = placeholderConfig.hole
-  // insert a placeholder to restore the selection
   let tr = state.tr
     .setMeta(key, true)
     .insertText(holePlaceholder, state.selection.from)
@@ -42,10 +41,8 @@ export function runReplacer(
   tr = tr
     .replaceWith(from, to, context.nextNode)
     .setNodeMarkup(from, undefined, attrs)
-    // delete the placeholder
     .delete(offset + 1, offset + 2)
 
-  // restore the selection
   tr = tr.setSelection(TextSelection.near(tr.doc.resolve(offset + 1)))
 
   const needsRestoreMark =

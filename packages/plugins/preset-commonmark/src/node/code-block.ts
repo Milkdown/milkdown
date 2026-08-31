@@ -97,8 +97,8 @@ withMeta(codeBlockSchema.ctx, {
   group: 'CodeBlock',
 })
 
-/// A input rule for creating code block.
-/// For example, ` ```javascript ` will create a code block with language javascript.
+/// An input rule that creates a code block. For example,
+/// ` ```javascript ` creates a code block with the javascript language.
 export const createCodeBlockInputRule = $inputRule((ctx) =>
   textblockTypeInputRule(
     /^```(?<language>[a-z]*)?[\s\n]$/,

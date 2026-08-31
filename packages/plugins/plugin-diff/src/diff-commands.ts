@@ -91,9 +91,10 @@ export const acceptDiffChunkCmd = $command('AcceptDiffChunk', () => {
     if (!change) return false
 
     if (dispatch) {
-      // Two-phase: the replace changes the doc, which triggers recompute
-      // in the plugin's apply(). The 'accept' meta is then a no-op —
-      // the accepted change naturally disappears from the recomputed diff.
+      // The replace runs in two phases. It changes the doc, which
+      // triggers a recompute in the `apply()` of the plugin. The
+      // 'accept' meta then does nothing, because the accepted change
+      // leaves the recomputed diff on its own.
       const newContent = diffState.newDoc.slice(change.fromB, change.toB)
       let tr = state.tr.replace(change.fromA, change.toA, newContent)
 
@@ -208,8 +209,9 @@ export const acceptAllDiffsCmd = $command('AcceptAllDiffs', () => {
       const tr =
         diffState.rejectedRanges.length === 0
           ? state.tr.replaceWith(
-              // Fast path: no rejections, replace entire document at once.
-              // This avoids position drift issues from multiple sequential replaces.
+              // Fast path: with no rejection, one replace covers the
+              // whole document. Several sequential replaces would drift
+              // the positions.
               0,
               state.doc.content.size,
               diffState.newDoc.content

@@ -78,11 +78,11 @@ export const ai: DefineFeature<AIFeatureConfig> = (editor, config) => {
         ...prev,
         ...streamingCfg,
         ignoreAttrs: streamingCfg.ignoreAttrs ?? CREPE_IGNORE_ATTRS,
-        // Wire diffReviewOnEnd into the streaming plugin so manual
-        // endStreamingCmd calls (outside runAICmd) also respect it.
-        // Only override if the user explicitly set it — otherwise
-        // keep the streaming plugin's own default so tests and
-        // manual-streaming use cases aren't surprised.
+        // `diffReviewOnEnd` reaches the streaming plugin, so an
+        // `endStreamingCmd` call outside `runAICmd` respects it too. An
+        // override happens only on an explicit user value. Otherwise the
+        // streaming plugin keeps its own default, which a test and a
+        // manual streaming session both rely on.
         ...(config?.diffReviewOnEnd !== undefined
           ? { diffReviewOnEnd: config.diffReviewOnEnd }
           : {}),
@@ -108,11 +108,9 @@ export const ai: DefineFeature<AIFeatureConfig> = (editor, config) => {
     .use(aiSessionCtx)
     .use(runAICmd)
     .use(abortAICmd)
-    // -- AI instruction tooltip --
     .config(configureAIInstructionTooltip(config))
     .use(aiInstructionTooltipAPI)
     .use(aiInstructionTooltip)
-    // -- Streaming indicator --
     .use(streamingIndicatorPlugin({ config: config?.streamingIndicator }))
     // -- Diff actions panel --
     .use(

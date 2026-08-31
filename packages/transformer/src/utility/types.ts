@@ -29,22 +29,26 @@ export type JSONRecord = Record<string, JSONValue>
 /// @internal
 export type RemarkPluginRaw<T> = Plugin<[T], Root>
 
-/// The universal type of a [remark plugin](https://github.com/remarkjs/remark/blob/main/doc/plugins.md).
+/// The universal type of a
+/// [remark plugin](https://github.com/remarkjs/remark/blob/main/doc/plugins.md).
 export interface RemarkPlugin<T = Record<string, unknown>> {
   plugin: Plugin<[T], Root>
   options: T
 }
 
-/// The type of [remark instance](https://github.com/remarkjs/remark/tree/main/packages/remark#remark-1).
+/// The type of
+/// [remark instance](https://github.com/remarkjs/remark/tree/main/packages/remark#remark-1).
 export type RemarkParser = ReturnType<typeof remark>
 
-/// The universal type of a node in [mdast](https://github.com/syntax-tree/mdast).
+/// The universal type of a node in
+/// [mdast](https://github.com/syntax-tree/mdast).
 export type MarkdownNode = Node & {
   children?: MarkdownNode[]
   [x: string]: unknown
 }
 
-/// Schema spec for node. It is a super set of [NodeSpec](https://prosemirror.net/docs/ref/#model.NodeSpec).
+/// Schema spec for node. It is a super set of
+/// [NodeSpec](https://prosemirror.net/docs/ref/#model.NodeSpec).
 export interface NodeSchema extends NodeSpec {
   /// To markdown serializer spec.
   readonly toMarkdown: NodeSerializerSpec
@@ -54,7 +58,8 @@ export interface NodeSchema extends NodeSpec {
   readonly priority?: number
 }
 
-/// Schema spec for mark. It is a super set of [MarkSpec](https://prosemirror.net/docs/ref/#model.MarkSpec).
+/// Schema spec for mark. It is a super set of
+/// [MarkSpec](https://prosemirror.net/docs/ref/#model.MarkSpec).
 export interface MarkSchema extends MarkSpec {
   /// To markdown serializer spec.
   readonly toMarkdown: MarkSerializerSpec

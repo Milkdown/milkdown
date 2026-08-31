@@ -25,9 +25,11 @@ export interface SlashProviderOptions {
   trigger?: string | string[]
   /// The offset to get the block. Default is 0.
   offset?: OffsetOptions
-  /// Other middlewares for floating ui. This will be added after the internal middlewares.
+  /// Other middlewares for floating ui. They run after the internal
+  /// middlewares.
   middleware?: Middleware[]
-  /// Options for floating ui. If you pass `middleware` or `placement`, it will override the internal settings.
+  /// Options for floating ui. A `middleware` or `placement` value here
+  /// overrides the internal setting.
   floatingUIOptions?: Partial<ComputePositionConfig>
   /// The root element that the slash will be appended to.
   root?: HTMLElement
@@ -148,8 +150,9 @@ export class SlashProvider {
     this.#updater(view, prevState)
   }
 
-  /// Get the content of the current text block.
-  /// Pass the `matchNode` function to determine whether the current node should be matched, by default, it will match the paragraph node.
+  /// Get the content of the current text block. Pass `matchNode` to
+  /// decide whether the current node matches. It matches a paragraph
+  /// node by default.
   getContent = (
     view: EditorView,
     matchNode: (node: Node) => boolean = (node) =>

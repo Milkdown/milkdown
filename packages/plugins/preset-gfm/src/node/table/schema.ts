@@ -6,11 +6,11 @@ import { $nodeSchema } from '@milkdown/utils'
 
 import { withMeta } from '../../__internal__'
 
-/// A cell holds exactly one paragraph (see `cellContent` below), while an
-/// mdast tableCell holds phrasing content directly. Serializing the
-/// paragraph's inline content keeps the paragraph serializer (and its
-/// empty-line placeholder) out of table cells — the mirror of the parse
-/// runners, which wrap the flat cell content in a paragraph.
+/// A cell holds exactly one paragraph. See `cellContent` below. An mdast
+/// tableCell holds phrasing content directly. Serializing the inline
+/// content of the paragraph keeps the paragraph serializer and its
+/// empty-line placeholder out of a table cell. The parse runners mirror
+/// this and wrap the flat cell content in a paragraph.
 ///
 /// Like `serializeText` in the paragraph runner, a trailing hardbreak is
 /// dropped: mdast renders it as a trailing space inside a cell, which
@@ -129,8 +129,8 @@ export const tableHeaderRowSchema = $nodeSchema('table_header_row', () => ({
   toMarkdown: {
     match: (node) => node.type.name === 'table_header_row',
     runner: (state, node) => {
-      // if the row is empty, we don't need to create a table row
-      // prevent remark from crashing
+      // An empty row needs no table row, and skipping it keeps remark
+      // from crashing.
       if (node.content.size === 0) {
         return
       }
@@ -172,8 +172,8 @@ export const tableRowSchema = $nodeSchema('table_row', () => ({
   toMarkdown: {
     match: (node) => node.type.name === 'table_row',
     runner: (state, node) => {
-      // if the row is empty, we don't need to create a table row
-      // prevent remark from crashing
+      // An empty row needs no table row, and skipping it keeps remark
+      // from crashing.
       if (node.content.size === 0) {
         return
       }

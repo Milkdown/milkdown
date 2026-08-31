@@ -47,20 +47,20 @@ const plainSchema = new Schema({
   },
 })
 
-/// CommonMark strips leading indentation and trailing spaces/tabs when
-/// it wraps a line into a paragraph — but only ASCII space/tab, not
-/// e.g. U+3000. The real parser does this, so the stub must too: the
-/// whitespace-restoration branches in `parseInlineContent` are exactly
-/// the code under test.
+/// CommonMark strips leading indentation and a trailing space or tab
+/// when it wraps a line into a paragraph. It strips only an ASCII space
+/// or tab, not U+3000. The real parser behaves this way, so the stub
+/// does too. The whitespace-restoration branches in `parseInlineContent`
+/// are the code under test.
 function stripParagraphEdges(markdown: string): string {
   return markdown.replace(/^[ \t]+/, '').replace(/[ \t]+$/, '')
 }
 
 /// Stands in for a parser with `remark-math`, an emoji plugin, links and
-/// entity decoding enabled. Like `remark-math` with the default
-/// `singleDollarTextMath`, math pairing is greedy: the first `$` pairs
-/// with the next `$` on the line, even across `$5 and $10` — the fast
-/// path gate is what must keep such prose away from it.
+/// entity decoding enabled. Math pairing is greedy, the same as
+/// `remark-math` with the default `singleDollarTextMath`. The first `$`
+/// pairs with the next `$` on the line, even across `$5 and $10`. The
+/// fast-path gate keeps such prose away from the parser.
 function richParser(markdown: string): Node {
   const source = stripParagraphEdges(markdown).replace(/&amp;/g, '&')
   const content: Node[] = []
@@ -238,9 +238,9 @@ describe('whitespace restoration around parsed inline content', () => {
   })
 
   it('restores the leading space even when the parsed text itself starts with one', () => {
-    // The link keeps its interior leading space; the stripped outer
-    // space must still come back — previously it was skipped because
-    // the parsed text already "looked like" it started with the space.
+    // The link keeps its interior leading space, and the stripped outer
+    // space must come back. The parsed text starts with a space of its
+    // own, which must not hide the missing outer one.
     const { doc } = flush(' [ a](https://x)')
     expect(doc.textContent).toBe('start  a')
   })

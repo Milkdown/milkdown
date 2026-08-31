@@ -9,7 +9,8 @@ import { bulletListSchema } from '../node'
 import { listItemSchema } from '../node/list-item'
 import { orderedListSchema } from '../node/ordered-list'
 
-/// This plugin is used to keep the label of list item up to date in ordered list.
+/// This plugin keeps the label of a list item current in an ordered
+/// list.
 export const syncListOrderPlugin = $prose((ctx) => {
   const syncOrderLabel = (
     transactions: readonly Transaction[],

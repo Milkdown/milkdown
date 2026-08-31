@@ -5,7 +5,8 @@ import { $inputRule } from '@milkdown/utils'
 
 import { withMeta } from '../__internal__'
 
-/// This schema extends the [list item](/preset-commonmark#list-item) schema and add task list support for it.
+/// This schema extends the [list item](/preset-commonmark#list-item)
+/// schema and adds task list support to it.
 export const extendListItemSchemaForTask = listItemSchema.extendSchema(
   (prev) => {
     return (ctx) => {
@@ -109,8 +110,8 @@ withMeta(extendListItemSchemaForTask.ctx, {
   group: 'ListItem',
 })
 
-/// Input rule for wrapping a block in task list node.
-/// Users can type `[ ] ` or `[x] ` to wrap the block in task list node with checked status.
+/// An input rule that wraps a block in a task list node. Type `[ ] ` or
+/// `[x] ` to wrap the block and set its checked status.
 export const wrapInTaskListInputRule = $inputRule(() => {
   return new InputRule(
     /^\[(?<checked>\s|x)\]\s$/,

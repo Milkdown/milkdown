@@ -24,10 +24,10 @@ import { ConfigReady } from './config'
 /// The timer which will be resolved when the init plugin is ready.
 export const InitReady = createTimer('InitReady')
 
-/// The init plugin.
-/// This plugin prepare slices that needed by other plugins. And create a remark instance.
+/// The init plugin. This plugin prepare slices that needed by other plugins.
+/// And create a remark instance.
 ///
-/// This plugin will wait for the config plugin.
+/// This plugin waits for the config plugin.
 export function init(editor: Editor): MilkdownPlugin {
   const plugin: MilkdownPlugin = (ctx) => {
     ctx

@@ -16,10 +16,10 @@ export interface Args {
   enableTopBar: boolean
   enableAI: boolean
   language: 'EN' | 'JA'
-  /// AI demo only — selects which built-in provider to construct when
+  /// AI demo only. It selects the built-in provider to construct when
   /// the user enters a key in the BYOK banner.
   aiProvider: 'openai' | 'anthropic'
-  /// AI demo only — model id passed to the chosen provider.
+  /// AI demo only. The model id passed to the chosen provider.
   aiModel: string
 }
 
@@ -231,12 +231,11 @@ const aiDemoBannerStyle = `
 .byok-hint { font-size: 12px; color: #6b7280; font-style: italic; }
 `
 
-/// Per-provider fallback used when the `aiModel` arg is empty.
-/// Storybook controls can't react to `aiProvider` changes by also
-/// updating `aiModel`, so when no explicit model is set we pick a
-/// sensible default for the chosen provider — this prevents the
-/// demo from sending an OpenAI model id to Anthropic (or vice versa)
-/// after toggling the provider radio.
+/// The per-provider fallback for an empty `aiModel` arg. A Storybook
+/// control cannot update `aiModel` in reaction to an `aiProvider`
+/// change, so an unset model falls back to the default of the chosen
+/// provider. The demo then never sends an OpenAI model id to Anthropic
+/// after a toggle of the provider radio.
 export const DEFAULT_MODEL_FOR_PROVIDER: Record<Args['aiProvider'], string> = {
   openai: 'gpt-4o-mini',
   anthropic: 'claude-sonnet-4-5',
@@ -247,11 +246,12 @@ function resolveModel(args: Args): string {
 }
 
 function buildProvider(args: Args, apiKey: string): AIProvider {
-  // Route through the storybook dev server's vite proxy (configured in
-  // storybook/.storybook/main.ts via `viteFinal` — Storybook's vite
-  // builder doesn't honor `server.proxy` in the user vite.config.mts)
-  // to dodge CORS. The proxy is dev-only — the deployed static
-  // storybook build will get 404s here.
+  // The request routes through the vite proxy of the storybook dev
+  // server, which dodges CORS. `viteFinal` in
+  // storybook/.storybook/main.ts configures that proxy, because the
+  // Storybook vite builder ignores `server.proxy` in the user
+  // vite.config.mts. The proxy runs in dev only, so the deployed static
+  // storybook build gets a 404 here.
   const model = resolveModel(args)
   if (args.aiProvider === 'anthropic') {
     return createAnthropicProvider({

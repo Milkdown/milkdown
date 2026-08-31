@@ -47,7 +47,7 @@ export const keepTableAlignPlugin = $prose(() => {
         const tableRow = $pos.node($pos.depth)
         const table = $pos.node($pos.depth - 1)
         const tableHeaderRow = table.firstChild
-        // TODO: maybe consider add a header row
+        // TODO: add a header row when the table has none.
         if (!tableHeaderRow) return
 
         const index = getChildIndex(node, tableRow)

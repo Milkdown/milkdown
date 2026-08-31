@@ -30,8 +30,8 @@ interface ToolbarConfig {
   strikethroughIcon: string
   latexIcon: string
   aiIcon: string
-  /// Accessible names for the built-in items, for localization. Each defaults to
-  /// its English label.
+  /// Accessible names for the built-in items, for localization. Each
+  /// name defaults to its English label.
   boldLabel: string
   codeLabel: string
   italicLabel: string

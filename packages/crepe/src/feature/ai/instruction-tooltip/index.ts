@@ -36,9 +36,9 @@ export const aiInstructionTooltipAPI = $ctx(
   'aiInstructionTooltipAPI'
 )
 
-/// Open the AI instruction palette over a document range — what Crepe's own
-/// toolbar button does on click. Read the range from the current selection at
-/// click time, not when the toolbar is built.
+/// Open the AI instruction palette over a document range, the same as a
+/// click on the Crepe toolbar button. Read the range from the selection
+/// at click time, not at the time the toolbar is built.
 ///
 /// Throws if the AI feature is disabled, so gate the call on
 /// `useCrepeFeatures(ctx).get().includes(CrepeFeature.AI)`.
@@ -51,8 +51,8 @@ export const aiInstructionTooltipAPI = $ctx(
 /// })
 /// ```
 export function useAIInstructionTooltipAPI(ctx: Ctx) {
-  // String slice, not `aiInstructionTooltipAPI.key` — see the note in
-  // `useAIProviderConfig`.
+  // The string form replaces `aiInstructionTooltipAPI.key`. See the note
+  // in `useAIProviderConfig`.
   return ctx.get<AIInstructionTooltipAPI, 'aiInstructionTooltipAPI'>(
     'aiInstructionTooltipAPI'
   )

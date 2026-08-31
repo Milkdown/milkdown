@@ -173,12 +173,10 @@ export function getGroups(config?: TopBarFeatureConfig, ctx?: Ctx) {
 
   const groupBuilder = new GroupBuilder<TopBarItem>()
 
-  // Heading selector group
   groupBuilder.addGroup('heading', 'Heading').addItem('heading-selector', {
     ...buildHeadingSelector(config?.headingOptions, config?.chevronDownIcon),
   })
 
-  // Formatting group
   groupBuilder
     .addGroup('formatting', 'Formatting')
     .addItem('bold', {
@@ -228,7 +226,6 @@ export function getGroups(config?: TopBarFeatureConfig, ctx?: Ctx) {
       },
     })
 
-  // List group
   groupBuilder
     .addGroup('list', 'List')
     .addItem('bullet-list', {
@@ -262,7 +259,6 @@ export function getGroups(config?: TopBarFeatureConfig, ctx?: Ctx) {
       },
     })
 
-  // Insert group
   const insertGroup = groupBuilder.addGroup('insert', 'Insert')
   insertGroup.addItem('link', {
     icon: config?.linkIcon ?? linkIcon,
@@ -312,7 +308,6 @@ export function getGroups(config?: TopBarFeatureConfig, ctx?: Ctx) {
     })
   }
 
-  // Block group
   const blockGroup = groupBuilder.addGroup('block', 'Block')
   blockGroup.addItem('code-block', {
     icon: config?.codeBlockIcon ?? codeBlockIcon,
@@ -339,7 +334,6 @@ export function getGroups(config?: TopBarFeatureConfig, ctx?: Ctx) {
     })
   }
 
-  // More group
   groupBuilder
     .addGroup('more', 'More')
     .addItem('quote', {

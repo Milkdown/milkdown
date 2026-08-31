@@ -139,10 +139,10 @@ export async function* parseSSE(
         }
       }
     }
-    // Flush any trailing data line that wasn't newline-terminated.
-    // Only strip a trailing `\r` (handle CRLF without an LF) — never
-    // `trim()` here, since the payload's leading/trailing whitespace
-    // is significant for streamed token content.
+    // Flush a trailing data line that carries no newline. Strip only a
+    // trailing `\r`, which covers a CRLF without its LF. Never call
+    // `trim()` here, because whitespace at either edge of the payload is
+    // significant for streamed token content.
     const tail = buffer.endsWith('\r') ? buffer.slice(0, -1) : buffer
     if (tail.startsWith('data: ')) yield tail.slice(6)
     else if (tail.startsWith('data:')) yield tail.slice(5)
@@ -161,7 +161,8 @@ export async function readErrorBody(
   try {
     body = await response.text()
   } catch {
-    // ignore — we still want to throw a status-only error
+    // A body that fails to read still leaves a status-only error worth
+    // throwing.
   }
   return new Error(
     `[${providerName}] Request failed with status ${response.status}` +

@@ -32,10 +32,13 @@ export type GetConstructor<T extends $Node | $Mark> = T extends $Node
     ? MarkViewConstructor
     : NodeViewConstructor | MarkViewConstructor
 
-/// Create a [prosemirror node/mark view](https://prosemirror.net/docs/ref/#view.NodeView) plugin.
-/// It takes two arguments
+/// Create a
+/// [prosemirror node/mark view](https://prosemirror.net/docs/ref/#view.NodeView)
+/// plugin. It takes two arguments
 /// - `type`: The node/mark plugin that needs to add a view.
-/// - `view`: The factory that creates the view. It should return a function that returns a [node/mark view constructor](https://prosemirror.net/docs/ref/#view.NodeView).
+/// - `view`: The factory that creates the view. It should return a function
+///   that returns a
+///   [node/mark view constructor](https://prosemirror.net/docs/ref/#view.NodeView).
 ///
 /// Additional property:
 /// - `view`: The view created.
@@ -70,7 +73,8 @@ export function $view<
   return <$View<T, V>>plugin
 }
 
-/// The async version for `$view`. You can use `await` in the factory when creating the view.
+/// The async version for `$view`. You can use `await` in the factory when
+/// creating the view.
 ///
 /// Additional property:
 /// - `view`: The view created.

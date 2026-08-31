@@ -46,17 +46,18 @@ export const clipboard = $prose((ctx) => {
       const prevTransform = prev.transformPastedHTML
       if (prevTransform) html = prevTransform(html, view)
 
-      // Google Docs wraps pasted content in <b style="font-weight:normal;" id="docs-internal-guid-...">
-      // This wrapper causes ProseMirror's parser to fail when parsing multiple tables.
-      // Strip it so block content is at the top level.
+      // Google Docs wraps pasted content in a `<b>` element that carries
+      // `font-weight:normal` and a `docs-internal-guid` id. That wrapper
+      // makes the ProseMirror parser fail on several tables. Strip it to
+      // lift the block content to the top level.
       if (html.includes('docs-internal-guid')) {
         html = html.replace(
           /<b[^>]*id="docs-internal-guid[^"]*"[^>]*>([\s\S]*)<\/b>/,
           '$1'
         )
-        // Also unwrap <div> elements that wrap tables.
-        // Google Docs wraps each table in <div dir="ltr" ...><table>...</table></div>
-        // These wrappers interfere with ProseMirror's parseSlice for multiple tables.
+        // Google Docs also wraps each table in a `<div dir="ltr">`, and
+        // that wrapper disturbs `parseSlice` on several tables. Unwrap
+        // it too.
         html = html.replace(/<div[^>]*>(<table[\s\S]*?<\/table>)<\/div>/g, '$1')
       }
       return html
@@ -103,10 +104,11 @@ export const clipboard = $prose((ctx) => {
         const html = clipboardData.getData('text/html')
         if (html.length === 0 && text.length === 0) return false
 
-        // When HTML is present, use the pre-processed Slice from ProseMirror.
-        // ProseMirror's parseFromClipboard already ran transformPastedHTML
-        // (e.g. Google Docs wrapper stripping) and transformPasted (paste rules
-        // like table header fix), producing a better Slice than re-parsing here.
+        // Present HTML brings a pre-processed Slice from ProseMirror.
+        // `parseFromClipboard` already ran `transformPastedHTML`, which
+        // strips the Google Docs wrapper, and `transformPasted`, which
+        // runs a paste rule such as the table header fix. That Slice
+        // beats a fresh parse here.
         if (html.length > 0 && preProcessedSlice) {
           return dispatchPasteSlice(view, preProcessedSlice)
         }

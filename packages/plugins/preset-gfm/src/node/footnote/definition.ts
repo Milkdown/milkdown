@@ -38,7 +38,8 @@ export const footnoteDefinitionSchema = $nodeSchema(
       return [
         'dl',
         {
-          // TODO: add a prosemirror plugin to sync label on change
+          // TODO: add a prosemirror plugin that syncs the label on a
+          // change.
           'data-label': label,
           'data-type': id,
         },

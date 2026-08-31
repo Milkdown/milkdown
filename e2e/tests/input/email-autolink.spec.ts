@@ -44,7 +44,6 @@ test('auto link email backspace', async ({ page }) => {
     await page.keyboard.press('Backspace')
   }
 
-  // Type new email
   const newEmail = 'new@test.com'
   await page.keyboard.type(newEmail)
   await page.waitForTimeout(100)
@@ -65,11 +64,9 @@ test('phantom link check', async ({ page }) => {
   }
   await page.waitForTimeout(50)
 
-  // Type non-email text
   await page.keyboard.type('hello world')
   await page.waitForTimeout(50)
 
-  // Should NOT be a link
   const link = page.locator('a').first()
   await expect(link).not.toBeVisible()
 })
@@ -78,7 +75,6 @@ test('trailing space should not remove link', async ({ page }) => {
   await page.keyboard.type(email, { delay: 10 })
   await page.waitForTimeout(100)
 
-  // Add a space
   await page.keyboard.press('Space')
   await page.waitForTimeout(100)
 
@@ -160,7 +156,6 @@ test('leaking char check', async ({ page }) => {
   // "add spaces"
   await page.keyboard.type('    ')
 
-  // "type again"
   await page.keyboard.type('hello')
   await page.waitForTimeout(100)
 

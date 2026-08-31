@@ -175,7 +175,6 @@ function liftFirstListItem(ctx: Ctx): Command {
     if (!empty || $from.parentOffset !== 0) return false
 
     const parentItem = $from.node(-1)
-    // selection should be in list item
     if (parentItem.type !== listItemSchema.type(ctx)) return false
 
     return joinBackward(state, dispatch, view)

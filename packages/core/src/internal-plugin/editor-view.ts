@@ -24,14 +24,15 @@ type RootType = Node | undefined | null | string
 /// The timer which will be resolved when the editor view plugin is ready.
 export const EditorViewReady = createTimer('EditorViewReady')
 
-/// A slice which stores timers that need to be waited for before starting to run the plugin.
-/// By default, it's `[EditorStateReady]`.
+/// A slice that holds the timers to wait for before the plugin
+/// runs. It defaults to `[EditorStateReady]`.
 export const editorViewTimerCtx = createSlice(
   [] as TimerType[],
   'editorViewTimer'
 )
 
-/// A slice which contains the editor view options which will be passed to the editor view.
+/// A slice which contains the editor view options which will be passed to the
+/// editor view.
 export const editorViewOptionsCtx = createSlice(
   {} as Partial<EditorOptions>,
   'editorViewOptions'
@@ -76,7 +77,7 @@ const key = new PluginKey('MILKDOWN_VIEW_CLEAR')
 /// The editor view plugin.
 /// This plugin will create an editor view.
 ///
-/// This plugin will wait for the editor state plugin.
+/// This plugin waits for the editor state plugin.
 export const editorView: MilkdownPlugin = (ctx) => {
   ctx
     .inject(rootCtx, document.body)

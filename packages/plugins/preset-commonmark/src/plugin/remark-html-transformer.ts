@@ -40,7 +40,7 @@ function flatMapWithDepth(
 }
 
 /// @internal
-/// This plugin should be deprecated after we support HTML.
+/// This plugin becomes obsolete once the preset supports HTML.
 export const remarkHtmlTransformer = $remark(
   'remarkHTMLTransformer',
   (ctx) => () => (tree: Node) => {

@@ -26,9 +26,9 @@ export interface ComputeDocDiffOptions {
   ignoreAttrs?: DiffIgnoreAttrs
 }
 
-/// Maximum children count per container for which we run LCS matching.
-/// Beyond this threshold we fall back to the legacy single-step path to
-/// avoid O(n*m) cost.
+/// The maximum child count per container that still runs LCS matching.
+/// A larger container falls back to the single-step path, which avoids
+/// the O(n*m) cost.
 const LCS_MAX_CHILDREN = 500
 
 /**
@@ -339,9 +339,8 @@ function diffContainerContent(
 /// Diff two container nodes by matching their children with LCS.
 /// Returns changes with absolute positions (relative to the full doc).
 ///
-/// The large-container guard runs against raw `childCount` so we never
-/// eagerly compute signatures for a subtree that's about to be handled
-/// by the single-step fallback.
+/// The large-container guard reads the raw `childCount`, so no subtree
+/// computes signatures before the single-step fallback takes it.
 function diffChildrenLcs(
   oldNode: Node,
   newNode: Node,
@@ -503,14 +502,13 @@ interface RangeSubtree {
 ///
 /// - the docs disagree on `sharedDepth` for the range
 /// - any ancestor along the shared chain differs in type, attrs (via
-///   `encoder.encodeNodeStart`, so `ignoreAttrs` is honoured), or
-///   absolute starting position
-/// - the shared ancestor is a textblock (per-block can't subdivide
-///   inside a textblock — callers should widen the range to a block
-///   boundary instead)
-/// - either endpoint lands mid-child instead of between siblings of the
-///   shared ancestor — `Fragment.cut` would mutate the boundary child's
-///   `nodeSize` and break absolute-position translation
+///   `encoder.encodeNodeStart`, so `ignoreAttrs` is honoured), or absolute
+///   starting position
+/// - the shared ancestor is a textblock. The per-block path cannot subdivide
+///   inside a textblock, so widen the range to a block boundary instead.
+/// - either endpoint lands inside a child instead of between siblings of the
+///   shared ancestor. `Fragment.cut` would then change the `nodeSize` of the
+///   boundary child and break the absolute-position translation.
 function buildRangeSubtree(
   oldDoc: Node,
   newDoc: Node,
@@ -530,12 +528,12 @@ function buildRangeSubtree(
     )
   }
 
-  // Ancestor chain identity: the encoder's node-start token always
-  // begins with `node.type.name`, so a single equality check rejects
-  // type mismatches AND attr differences (and honours ignoreAttrs).
-  // Also require the same absolute start position at every depth up to
-  // sharedDepth — this guarantees the cut node's first child lines up
-  // at `from` in both docs.
+  // Ancestor chain identity: the node-start token of the encoder starts
+  // with `node.type.name`, so one equality check rejects both a type
+  // mismatch and an attr difference, and it honours `ignoreAttrs`. Every
+  // depth up to `sharedDepth` also needs the same absolute start
+  // position, which lines up the first child of the cut node at `from`
+  // in both docs.
   for (let d = 0; d <= sharedDepth; d++) {
     if (
       encoder.encodeNodeStart($oldFrom.node(d)) !==
@@ -583,9 +581,9 @@ function buildRangeSubtree(
   const oldCut = sharedOld.copy(sharedOld.content.cut(localFrom, localTo))
   const newCut = sharedNew.copy(sharedNew.content.cut(localFrom, localTo))
 
-  // The cut node's first child has offset 0 inside the cut but absolute
-  // position `from` in the original doc, so `from` is the contentStart
-  // we hand back to diffChildrenLcs.
+  // The first child of the cut node has offset 0 inside the cut and
+  // absolute position `from` in the original doc, so `from` is the
+  // contentStart that `diffChildrenLcs` receives.
   return { oldCut, newCut, cutAbsStart: from }
 }
 
@@ -600,8 +598,8 @@ function buildRangeSubtree(
 /// throws `RangeError`:
 ///
 /// - **boundary-aligned**: both endpoints sit between siblings of a
-///   common (non-textblock) container ancestor — i.e. not inside a
-///   textblock and not in the middle of a child node
+///   common container ancestor that is not a textblock. No endpoint sits
+///   inside a textblock or inside a child node.
 /// - **structurally identical path**: the chain of ancestors leading to
 ///   that shared container has the same node types, attrs (modulo
 ///   `ignoreAttrs`), and absolute start positions in both docs
@@ -623,9 +621,9 @@ export function computeDocDiff(
     return diffChildrenLcs(oldDoc, newDoc, 0, 0, env)
   }
 
-  // Clamp the range to a valid window. Out-of-bounds endpoints are
-  // silently clamped against the smaller doc — once clamped, both old
-  // and new agree on the same `[from, to)` slice.
+  // Clamp the range to a valid window. An out-of-bounds endpoint clamps
+  // against the smaller doc, after which the old doc and the new doc
+  // agree on the same `[from, to)` slice.
   const minSize = Math.min(oldSize, newSize)
   const from = Math.max(0, Math.min(range.from ?? 0, minSize))
   const to = Math.max(from, Math.min(range.to ?? minSize, minSize))

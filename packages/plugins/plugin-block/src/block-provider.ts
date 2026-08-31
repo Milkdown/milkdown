@@ -35,13 +35,16 @@ export interface BlockProviderOptions {
   shouldShow?: (view: EditorView, prevState?: EditorState) => boolean
   /// The offset to get the block. Default is 0.
   getOffset?: (deriveContext: DeriveContext) => OffsetOptions
-  /// The function to get the position of the block. Default is the position of the active node.
+  /// The function that returns the position of the block. It defaults to
+  /// the position of the active node.
   getPosition?: (deriveContext: DeriveContext) => Omit<DOMRect, 'toJSON'>
   /// The function to get the placement of the block. Default is 'left'.
   getPlacement?: (deriveContext: DeriveContext) => Placement
-  /// Other middlewares for floating ui. This will be added after the internal middlewares.
+  /// Other middlewares for floating ui. They run after the internal
+  /// middlewares.
   middleware?: Middleware[]
-  /// Options for floating ui. If you pass `middleware` or `placement`, it will override the internal settings.
+  /// Options for floating ui. A `middleware` or `placement` value here
+  /// overrides the internal setting.
   floatingUIOptions?: Partial<ComputePositionConfig>
   /// The root element that the block will be appended to.
   root?: HTMLElement

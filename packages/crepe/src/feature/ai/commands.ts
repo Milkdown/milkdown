@@ -51,10 +51,10 @@ export const aiProviderConfig = $ctx<AIProviderConfigValue, 'aiProviderConfig'>(
   'aiProviderConfig'
 )
 
-/// Read the AI configuration — most usefully `provider`, which is `undefined`
-/// until the host configures one. A custom toolbar should hide its AI entry
-/// while it is unset: the palette would open but every action would be
-/// rejected.
+/// Read the AI configuration. The most useful field is `provider`, which
+/// stays `undefined` until the host configures one. A custom toolbar
+/// hides its AI entry while the field is unset, because the palette
+/// would open and every action would be rejected.
 ///
 /// Throws if the AI feature is disabled, so gate the call on
 /// `useCrepeFeatures(ctx).get().includes(CrepeFeature.AI)`.
@@ -79,10 +79,10 @@ export function useAIProviderConfig(ctx: Ctx) {
 /// indicator. `lastInstruction`, `lastLabel`, `lastFrom`, `lastTo` are
 /// kept after the session ends so the diff-actions Retry button can
 /// re-run the same prompt on the same text range. `diffOwnedByAI` is
-/// flipped on right before our `endStreamingCmd` activates diff review
-/// and back off when the diff panel sees the diff close, so a manually
-/// started diff review (via `startDiffReviewCmd`) doesn't inherit the
-/// previous AI session's Retry affordance.
+/// turned on right before `endStreamingCmd` activates diff review, and
+/// turned off when the diff panel sees the diff close. A diff review
+/// that `startDiffReviewCmd` starts by hand then inherits no Retry
+/// affordance from the previous AI session.
 export const aiSessionCtx = $ctx(
   {
     abortController: null as AbortController | null,
@@ -139,15 +139,15 @@ async function runProvider(
       commands.call(pushChunkCmd.key, chunk)
     }
     if (abortController.signal.aborted) return
-    // Streaming complete — hand off to diff review if configured. The
-    // ownership flag is flipped *before* the dispatch so the diff-actions
-    // panel reads `true` during the same transaction's update cycle.
-    // If the dispatch is rejected (e.g. host code already ended the
-    // streaming session), revert the flag so the next manually-started
-    // diff review isn't misclassified as AI-owned — `clearActiveSession`
-    // intentionally preserves `diffOwnedByAI` because the panel is
-    // responsible for clearing it on the diff true→false edge, but no
-    // such edge fires when the dispatch never landed.
+    // Streaming is complete, so hand off to diff review when the config
+    // asks for it. The ownership flag flips before the dispatch, so the
+    // diff-actions panel reads `true` in the update cycle of the same
+    // transaction. A rejected dispatch reverts the flag, for example
+    // when host code already ended the streaming session. Otherwise the
+    // next diff review started by hand would count as AI-owned.
+    // `clearActiveSession` keeps `diffOwnedByAI` on purpose, because the
+    // panel clears it on the true to false edge of the diff, and that
+    // edge never fires when the dispatch never lands.
     const config = ctx.get(aiProviderConfig.key)
     if (config.diffReviewOnEnd) {
       const cur = ctx.get(aiSessionCtx.key)
@@ -167,9 +167,9 @@ async function runProvider(
     const commands = ctx.get(commandsCtx)
     commands.call(abortStreamingCmd.key, { keep: false })
   } finally {
-    // Only clean up if this session is still the active one. If the
-    // user aborted and immediately started a new session, the new
-    // session owns the ctx now and we must not clobber it.
+    // Clean up only while this session stays the active one. After an
+    // abort and an immediate restart, the new session owns the ctx, and
+    // this one must leave it alone.
     const current = ctx.get(aiSessionCtx.key)
     if (current.abortController === abortController) {
       clearActiveSession(ctx)
@@ -203,18 +203,17 @@ export const runAICmd = $command('RunAI', (ctx) => {
     if (streamingPluginKey.getState(state)?.active) return false
     if (diffPluginKey.getState(state)?.active) return false
 
-    // Dry-run: when dispatch is undefined, ProseMirror is probing
-    // whether this command can execute. All precondition checks above
-    // are side-effect-free so we can return true here.
+    // Dry run: an undefined dispatch means ProseMirror probes whether
+    // the command can run. Every precondition check above is free of
+    // side effects, so the probe returns true here.
     if (!dispatch) return true
 
-    // Set the session label before starting the streaming plugin, so
-    // the streaming-indicator widget reads the right label when its
-    // decoration is first built. Empty string means "no caller-supplied
-    // label" — the indicator widget falls through to its configured
-    // `fallbackLabel`. `lastInstruction` / `lastLabel` are also stored
-    // here so the diff-actions Retry button can re-run the same prompt
-    // later.
+    // The session label is set before the streaming plugin starts, so
+    // the streaming-indicator widget reads the right label when it first
+    // builds its decoration. An empty string means the caller supplied
+    // no label, and the widget falls back to its configured
+    // `fallbackLabel`. `lastInstruction` and `lastLabel` are stored here
+    // too, so the diff-actions Retry button can re-run the same prompt.
     const abortController = new AbortController()
     const { from, to } = state.selection
     ctx.set(aiSessionCtx.key, {
@@ -229,7 +228,7 @@ export const runAICmd = $command('RunAI', (ctx) => {
       diffOwnedByAI: false,
     })
 
-    // Start streaming — replaces the selection if non-empty.
+    // Start streaming. A non-empty selection is replaced.
     const commands = ctx.get(commandsCtx)
     const insertAt = state.selection.empty
       ? ('cursor' as const)
@@ -239,9 +238,9 @@ export const runAICmd = $command('RunAI', (ctx) => {
       return false
     }
 
-    // Everything after startStreamingCmd is wrapped in try/catch: if
-    // buildContext or anything else throws, we must abort the streaming
-    // session to avoid leaving the editor locked with no way to recover.
+    // A try/catch guards everything after `startStreamingCmd`. A throw
+    // from `buildContext` or from any other call has to abort the
+    // streaming session, which would otherwise lock the editor.
     let promptContext: AIPromptContext
     try {
       const buildContext = config.buildContext ?? defaultBuildContext
@@ -254,10 +253,10 @@ export const runAICmd = $command('RunAI', (ctx) => {
       return false
     }
 
-    // Fire-and-forget: the provider pushes chunks asynchronously.
-    // startStreamingCmd already dispatched its own transaction — we
-    // must NOT dispatch state.tr here as it would overwrite the
-    // streaming plugin's state with a stale doc.
+    // Fire and forget: the provider pushes chunks asynchronously.
+    // `startStreamingCmd` already dispatched its own transaction, so a
+    // dispatch of `state.tr` here would overwrite the state of the
+    // streaming plugin with a stale doc.
     void runProvider(ctx, config.provider, promptContext, abortController)
 
     return true
@@ -279,9 +278,8 @@ export const abortAICmd = $command('AbortAI', (ctx) => {
     session.abortController.abort()
     clearActiveSession(ctx)
 
-    // Only call abortStreamingCmd if the streaming plugin is still
-    // active — it may have already finished/errored by the time the
-    // user clicks abort.
+    // Call `abortStreamingCmd` only while the streaming plugin stays
+    // active. It can finish or fail before the user clicks abort.
     if (streamingPluginKey.getState(state)?.active) {
       const commands = ctx.get(commandsCtx)
       commands.call(abortStreamingCmd.key, options)
