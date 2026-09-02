@@ -10,15 +10,16 @@ import { SchemaReady } from './schema'
 export type PasteRule = {
   /// The function to run the paste rule.
   run: (slice: Slice, view: EditorView, isPlainText: boolean) => Slice
-  /// The priority of the paste rule. Higher priority rules will be run first. Default is 50.
+  /// The priority of the paste rule. Higher priority rules will be run first.
+  /// Default is 50.
   priority?: number
 }
 
 /// A slice which contains the paste rules.
 export const pasteRulesCtx = createSlice([] as PasteRule[], 'pasteRule')
 
-/// A slice which stores timers that need to be waited for before starting to run the paste rule plugin.
-/// By default, it's `[SchemaReady]`.
+/// A slice that holds the timers to wait for before the paste rule
+/// plugin runs. It defaults to `[SchemaReady]`.
 export const pasteRulesTimerCtx = createSlice([SchemaReady], 'pasteRuleTimer')
 
 /// The timer which will be resolved when the paste rule plugin is ready.
@@ -27,7 +28,7 @@ export const PasteRulesReady = createTimer('PasteRuleReady')
 /// The paste rule plugin.
 /// This plugin will collect the paste rules to the editor view.
 ///
-/// This plugin will wait for the schema plugin.
+/// This plugin waits for the schema plugin.
 export const pasteRule: MilkdownPlugin = (ctx) => {
   ctx
     .inject(pasteRulesCtx, [])

@@ -7,17 +7,18 @@ import { $ctx, $prose } from '@milkdown/utils'
 
 /// Options for trailing config.
 export interface TrailingConfigOptions {
-  /// A function that returns a boolean value.
-  /// If it returns `true`, the plugin will append a node at the end of the document.
-  /// By default, it returns `false` if the last node is a heading or a paragraph.
+  /// A function that returns a boolean value. On `true` the plugin
+  /// appends a node at the end of the document. It returns `false` by
+  /// default when the last node is a heading or a paragraph.
   shouldAppend: (lastNode: Node | null, state: EditorState) => boolean
   /// A function that returns a node.
   /// By default, it returns a paragraph node.
   getNode: (state: EditorState) => Node
 }
 
-/// A slice contains the trailing config.
-/// You can use [TrailingConfigOptions](#TrailingConfigOptions) to customize the behavior of the plugin.
+/// A slice that holds the trailing config. Use
+/// [TrailingConfigOptions](#TrailingConfigOptions) to customize the
+/// plugin.
 export const trailingConfig = $ctx<TrailingConfigOptions, 'trailingConfig'>(
   {
     shouldAppend: (lastNode) => {

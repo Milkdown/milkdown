@@ -4,11 +4,11 @@ import { $ctx } from '@milkdown/utils'
 
 import { withMeta } from '../__internal__'
 
-// `footnoteDefinition` is a GFM type, but it ships in the defaults so
-// cherry-picked footnote compositions keep round-tripping without extra
-// wiring — the same pragmatism as `hardbreakFilterNodes` shipping
-// 'table'. Frozen (and typed readonly) so in-place mutation fails loudly
-// instead of silently polluting every editor sharing the module.
+// `footnoteDefinition` is a GFM type, and it ships in the defaults so a
+// cherry-picked footnote composition round-trips without extra wiring.
+// `hardbreakFilterNodes` ships 'table' for the same reason. The array is
+// frozen and typed readonly, so an in-place mutation fails loudly
+// instead of polluting every editor that shares the module.
 const DEFAULT_BLOCK_CONTAINER_TYPES: readonly string[] = Object.freeze([
   'root',
   'blockquote',
@@ -41,9 +41,9 @@ const KNOWN_PHRASING_TYPES = new Set([
 /// mdast type names with `ctx.update(blockContainerTypes.key, (types) =>
 /// [...types, 'myContainer'])`; otherwise a serialized empty-line
 /// placeholder inside such a container cannot round-trip and the parser
-/// drops the container. Never register a phrasing (inline content)
-/// container — such entries are ignored with a warning, because honoring
-/// them would corrupt documents.
+/// drops the container. Never register a phrasing container, which holds
+/// inline content. Such an entry is ignored with a warning, because
+/// honoring it would corrupt a document.
 ///
 /// Compositions that do not use the preset's composed `plugins` array
 /// must `.use(blockContainerTypes)` before updating the slice; without

@@ -31,9 +31,11 @@ export interface TooltipProviderOptions {
   offset?: OffsetOptions
   /// The amount to shift options the block by.
   shift?: ShiftOptions
-  /// Other middlewares for floating ui. This will be added after the internal middlewares.
+  /// Other middlewares for floating ui. They run after the internal
+  /// middlewares.
   middleware?: Middleware[]
-  /// Options for floating ui. If you pass `middleware` or `placement`, it will override the internal settings.
+  /// Options for floating ui. A `middleware` or `placement` value here
+  /// overrides the internal setting.
   floatingUIOptions?: Partial<ComputePositionConfig>
   /// The root element that the tooltip will be appended to.
   root?: HTMLElement

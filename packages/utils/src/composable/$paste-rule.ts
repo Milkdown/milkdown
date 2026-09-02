@@ -34,7 +34,8 @@ export function $pasteRule(pasteRule: (ctx: Ctx) => PasteRule): $PasteRule {
   return <$PasteRule>plugin
 }
 
-/// The async version for `$pasteRule`. You can use `await` in the factory when creating the paste rule.
+/// The async version for `$pasteRule`. You can use `await` in the factory when
+/// creating the paste rule.
 ///
 /// Additional property:
 /// - `pasteRule`: The paste rule created.

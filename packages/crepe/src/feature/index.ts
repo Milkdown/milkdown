@@ -15,22 +15,27 @@ import type { TopBarFeatureConfig } from './top-bar'
 /// Most features are enabled by default; `TopBar` and `AI` are opt-in.
 /// See `defaultFeatures` for the per-flag default.
 export enum CrepeFeature {
-  /// Syntax highlighting and editing for code blocks with language support, theme customization, and preview capabilities.
+  /// Syntax highlighting and editing for a code block, with language
+  /// support, theme customization and preview.
   CodeMirror = 'code-mirror',
 
-  /// Support for bullet lists, ordered lists, and todo lists with customizable icons and formatting.
+  /// Support for a bullet list, an ordered list and a todo list, with
+  /// customizable icons and formatting.
   ListItem = 'list-item',
 
-  /// Enhanced link editing and preview with customizable tooltips, edit/remove actions, and copy functionality.
+  /// Link editing and preview, with a customizable tooltip, edit and
+  /// remove actions, and copy support.
   LinkTooltip = 'link-tooltip',
 
-  /// Enhanced cursor experience with drop cursor and gap cursor for better content placement.
+  /// A drop cursor and a gap cursor for better content placement.
   Cursor = 'cursor',
 
-  /// Image upload and management with resizing, captions, and support for both inline and block images.
+  /// Image upload and management, with resizing, captions and support
+  /// for both an inline image and a block image.
   ImageBlock = 'image-block',
 
-  /// Drag-and-drop block management and slash commands for quick content insertion and organization.
+  /// Drag-and-drop block management and a slash command for quick
+  /// content insertion.
   BlockEdit = 'block-edit',
 
   /// Formatting toolbar for selected text with customizable icons and actions.
@@ -39,16 +44,20 @@ export enum CrepeFeature {
   /// Document or block level placeholders to guide users when content is empty.
   Placeholder = 'placeholder',
 
-  /// Full-featured table editing with row/column management, alignment options, and drag-and-drop functionality.
+  /// Table editing with row and column management, alignment options and
+  /// drag-and-drop support.
   Table = 'table',
 
-  /// Mathematical formula support with both inline and block math rendering using KaTeX.
+  /// Mathematical formula support, with inline and block math rendered
+  /// by KaTeX.
   Latex = 'latex',
 
-  /// Fixed top toolbar with heading selector, formatting buttons, insert actions, and block commands.
+  /// A fixed top toolbar with a heading selector, formatting buttons,
+  /// insert actions and block commands.
   TopBar = 'top-bar',
 
-  /// AI-assisted editing: streaming input, diff review, and provider integration.
+  /// AI-assisted editing: streaming input, diff review and provider
+  /// integration.
   AI = 'ai',
 }
 

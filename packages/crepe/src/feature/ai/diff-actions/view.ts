@@ -16,16 +16,15 @@ import { aiSessionCtx, runAICmd } from '../commands'
 
 const PANEL_CLASS = 'milkdown-ai-diff-actions'
 
-/// Icons in `ResolvedDiffActionsConfig` are user-supplied SVG strings,
-/// so route them through DOMPurify before assigning to `innerHTML` —
-/// matches the sanitization the shared `Icon` component already does
-/// for Vue-rendered icons.
+/// An icon in `ResolvedDiffActionsConfig` is a user-supplied SVG string,
+/// so it passes through DOMPurify before it reaches `innerHTML`. The
+/// shared `Icon` component sanitizes a Vue-rendered icon the same way.
 function setSanitizedIcon(host: HTMLElement, svg: string): void {
   host.innerHTML = DOMPurify.sanitize(svg.trim())
 }
 
-/// Fully resolved diff actions config — every field has a value, so the
-/// view doesn't have to know about defaults.
+/// The fully resolved diff actions config. Every field carries a value,
+/// so the view needs no knowledge of the defaults.
 export interface ResolvedDiffActionsConfig {
   retryLabel: string
   rejectAllLabel: string
@@ -54,14 +53,14 @@ export class DiffActionsPanelView implements PluginView {
   /// can detect false→true / true→false edges independently of whether
   /// the panel is actually being shown.
   #diffActive = false
-  /// Doc snapshot at the moment diff review activated. If the live doc
-  /// drifts from this snapshot the user has accepted some per-change
-  /// diffs and the stored `lastFrom`/`lastTo` no longer point at the
-  /// original range — Retry is unsafe at that point.
+  /// The doc snapshot taken when diff review activated. A live doc that
+  /// drifts from the snapshot means the user accepted a per-change diff.
+  /// The stored `lastFrom` and `lastTo` then point past the original
+  /// range, which makes Retry unsafe.
   #diffStartDoc: Node | null = null
-  /// Whether the active diff review came from this AI session's
-  /// streaming hand-off (vs being started manually via
-  /// `startDiffReviewCmd`). Captured at the false→true transition.
+  /// Whether the active diff review came from the streaming hand-off of
+  /// this AI session, and not from a manual `startDiffReviewCmd` call.
+  /// The value is captured at the false to true transition.
   /// The panel only renders when this is true so it doesn't take over
   /// non-AI diff flows that exist independently of the AI feature.
   #ownedByAI = false
@@ -148,10 +147,10 @@ export class DiffActionsPanelView implements PluginView {
   #retry = (): void => {
     const session = this.ctx.get(aiSessionCtx.key)
     if (!session.lastInstruction) return
-    // Refuse to retry when the active diff didn't originate from this
-    // AI session, or once the user has accepted any individual diff —
-    // `clearDiffReviewCmd` only exits diff mode, it doesn't roll back
-    // accepted changes, so the stored range would point at shifted text.
+    // Retry needs a diff that came from this AI session and no accepted
+    // individual diff. `clearDiffReviewCmd` only exits diff mode and
+    // rolls back no accepted change, so the stored range would point at
+    // shifted text.
     if (!this.#ownedByAI || !this.#canRetry()) return
 
     const commands = this.ctx.get(commandsCtx)

@@ -42,9 +42,9 @@ export const defaultConfig: InlineSyncConfig = {
   shouldSyncNode: ({ prevNode, nextNode }) =>
     prevNode.inlineContent &&
     nextNode &&
-    // if node type changes, do not sync
+    // A changed node type does not sync.
     prevNode.type === nextNode.type &&
-    // if two node fully equal, we don't modify them
+    // Two equal nodes need no modification.
     !prevNode.eq(nextNode),
   movePlaceholder: (placeholderToMove: string, text: string) => {
     const symbolsNeedToMove = ['*', '_']
@@ -62,8 +62,8 @@ export const defaultConfig: InlineSyncConfig = {
   },
 }
 
-/// A slice that contains the inline sync config.
-/// You can set value to this slice to change the config.
+/// A slice that contains the inline sync config. You can set value to this
+/// slice to change the config.
 ///
 /// ```typescript
 /// ctx.update(inlineSyncConfigCtx, (prevCfg) => ({
@@ -72,7 +72,8 @@ export const defaultConfig: InlineSyncConfig = {
 /// }));
 /// ```
 ///
-/// You can find the default config [here](https://github.com/Milkdown/milkdown/blob/main/packages/plugin-automd/src/config.ts).
+/// Read the default config
+/// [here](https://github.com/Milkdown/milkdown/blob/main/packages/plugin-automd/src/config.ts).
 export const inlineSyncConfig = $ctx<InlineSyncConfig, 'inlineSyncConfig'>(
   defaultConfig,
   'inlineSyncConfig'

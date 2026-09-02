@@ -364,7 +364,8 @@ describe('defaultInsertStrategy', () => {
         ]),
       ]),
     ])
-    // Position inside table_cell text: doc(1) > table(1) > table_row(1) > table_cell(1) > text
+    // A position inside table_cell text:
+    // doc(1) > table(1) > table_row(1) > table_cell(1) > text
     const resolved = docNode.resolve(4)
     expect(resolved.parent.type.name).toBe('table_cell')
     expect(defaultInsertStrategy(resolved)).toEqual({

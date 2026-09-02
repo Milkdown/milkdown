@@ -218,9 +218,9 @@ test.describe('block diff', () => {
   })
 
   test('within-block edit in list item renders as inline', async ({ page }) => {
-    // Text edit inside a list item paragraph — the old-doc slice contains
-    // sub-block nodes (list_item) but the edit itself is inline.
-    // Should render with inline decorations, not block-level widgets.
+    // A text edit inside a list item paragraph. The old-doc slice holds
+    // a sub-block node, the list_item, while the edit itself is inline.
+    // It renders with an inline decoration, not a block-level widget.
     await applyDiff(page, '- Item one\n- Item two', '- Item ONE\n- Item two')
 
     const editor = page.locator('.editor')
@@ -356,7 +356,7 @@ test.describe('regression: sequential operations', () => {
         .count()
     }
 
-    // Editor should be unlocked — typing should work
+    // The editor is unlocked, so typing works.
     await editor.click()
     await page.keyboard.type('UNLOCKED')
     await waitNextFrame(page)
@@ -408,7 +408,7 @@ test.describe('regression: sequential operations', () => {
       .count()
     expect(initialControls).toBeGreaterThan(0)
 
-    // Reject all one by one — each should succeed
+    // Reject the changes one by one. Each rejection succeeds.
     for (let i = 0; i < initialControls; i++) {
       const before = await editor
         .locator('.milkdown-diff-controls, .milkdown-diff-controls-block')

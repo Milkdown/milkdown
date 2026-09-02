@@ -3,7 +3,8 @@ import type { MarkType, Node, NodeType } from '@milkdown/prose/model'
 import type { MarkdownNode } from '../utility/types'
 import type { ParserState } from './state'
 
-/// The parser type which is used to transform markdown text into prosemirror node.
+/// The parser type which is used to transform markdown text into prosemirror
+/// node.
 export type Parser = (text: string) => Node
 
 /// The spec for node parser in schema.

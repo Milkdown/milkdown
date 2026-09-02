@@ -9,11 +9,13 @@ import { inlineSyncConfig } from './config'
 import { getContextByState } from './context'
 import { runReplacer } from './replacer'
 
-/// This plugin is used to sync the inline mark.
-/// It will create and remove marks automatically according to the user input.
+/// This plugin syncs the inline mark. It creates and removes a mark from
+/// the user input.
 ///
-/// When users type something, the plugin will transform the line (for better performance) to real markdown AST by serializer
-/// and render the AST to dom by parser, thus the input texts can be displayed correctly.
+/// On each keystroke the serializer transforms the current line into a
+/// markdown AST, which costs less than a full document pass. The parser
+/// then renders that AST to the DOM, so the typed text displays
+/// correctly.
 export const inlineSyncPlugin = $prose((ctx: Ctx) => {
   let requestId: number | null = null
   const inlineSyncPluginKey = new PluginKey('MILKDOWN_INLINE_SYNC')

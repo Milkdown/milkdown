@@ -19,18 +19,19 @@ interface Spec {
 
 /// The configuration for upload.
 export interface UploadOptions {
-  /// The uploader for upload plugin.
-  /// It takes the files / schema / ctx / insertPos as parameters.
-  /// It should return a `Promise` of Prosemirror `Fragment` or `Node` or `Node[]`.
+  /// The uploader for the upload plugin. It takes the files, the schema,
+  /// the ctx and the insert position. It returns a `Promise` of a
+  /// prosemirror `Fragment`, `Node` or `Node[]`.
   uploader: (
     files: FileList,
     schema: Schema,
     ctx: Ctx,
     insertPos: number
   ) => Promise<Fragment | Node | Node[]>
-  /// Whether to enable the html file uploader.
-  /// When paste files from html (for example copy images by right click context menu),
-  /// this option will make the plugin to upload the image copied instead of using the original link.
+  /// Whether to enable the html file uploader. A paste of files from
+  /// html, for example an image copied through the right-click context
+  /// menu, then uploads the copied image instead of keeping the original
+  /// link.
   enableHtmlFileUploader: boolean
   /// The factory for upload widget.
   /// The widget will be displayed when the file is uploading.

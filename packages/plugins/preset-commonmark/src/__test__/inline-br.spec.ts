@@ -127,10 +127,10 @@ describe('inline br round-trip (#2428)', () => {
   })
 })
 
-// A trailing lone <br> is byte-identical to the serializer's own
-// empty-line placeholder (documents saved by older versions routinely end
-// with one), so it folds into an empty paragraph like everywhere else —
-// which the trailing trim in `docSchema` then drops from the output.
+// A trailing lone <br> is byte-identical to the empty-line placeholder
+// of the serializer, and a document saved by an older version often ends
+// with one. It folds into an empty paragraph the same as anywhere else,
+// and the trailing trim in `docSchema` then drops it from the output.
 describe('trailing <br> at the end of the document', () => {
   it('folds a trailing lone <br> into an empty paragraph', async () => {
     const output = await roundTrip('foo\n\n<br>\n')
@@ -213,12 +213,12 @@ describe('trailing empty paragraphs', () => {
 // sweeps the typing area in without the user choosing it, and a collapsed
 // range must never conjure content out of the fill paragraph. Known cost,
 // also deliberate: copying a range that stops exactly at a mid-document
-// blank line drops that blank line from the plain-text clipboard —
-// distinguishing it would require threading serialization intent through
-// the serializer API.
+// blank line drops that blank line from the plain-text clipboard. A
+// distinction here would need serialization intent threaded through the
+// serializer API.
 describe('ranged serialization', () => {
   it('trims or keeps a blank line by where the range ends', async () => {
-    // Loads as [p('a') 0..3, p() 3..5, p('b') 5..8, p() 8..10] — the
+    // Loads as [p('a') 0..3, p() 3..5, p('b') 5..8, p() 8..10]. The
     // trailing placeholder folds into a real typing-area paragraph.
     await withEditor('a\n\n<br />\n\nb\n\n<br />\n', (editor) =>
       editor.action((ctx) => {

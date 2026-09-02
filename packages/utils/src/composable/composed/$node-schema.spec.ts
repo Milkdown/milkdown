@@ -232,7 +232,7 @@ test('should can register extended schema only', async () => {
   expect(extended2.node.schema.atom).toBe(true)
   expect(extended2.node.schema.defining).toBe(true)
 
-  // this schema is not registered, so it should be undefined
+  // An unregistered schema resolves to undefined.
   expect(extended.node.schema).toBe(undefined)
 
   const schema = editor.ctx.get(schemaCtx)

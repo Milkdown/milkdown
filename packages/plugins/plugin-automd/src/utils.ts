@@ -52,10 +52,10 @@ export function calculatePlaceholder(placeholder: SyncNodePlaceholder) {
     const right = text.charAt(index + 1)
     const notAWord = /[^\w]|_/
 
-    // cursor on the right
+    // No character to the right: the hole ends the text.
     if (!right) return placeholder.punctuation
 
-    // cursor on the left
+    // No character to the left: the hole starts the text.
     if (!left) return placeholder.char
 
     if (notAWord.test(left) && notAWord.test(right))

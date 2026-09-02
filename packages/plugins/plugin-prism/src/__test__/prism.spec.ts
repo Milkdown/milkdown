@@ -204,15 +204,16 @@ it('should re-highlight when a code block language changes', async () => {
 })
 
 it('should re-highlight a non-first code block when its language changes via setNodeAttribute', async () => {
-  // `updateCodeBlockLanguageCommand` and the code-block node view both change the
-  // language with `setNodeAttribute`, whose `AttrStep` carries no `from`/`to`, so
-  // the step scan can't see it and the block-language comparison must cover every
-  // block, not just the first.
+  // `updateCodeBlockLanguageCommand` and the code-block node view both
+  // change the language with `setNodeAttribute`. Its `AttrStep` carries
+  // no `from` or `to`, so the step scan cannot see the change. The
+  // block-language comparison covers every block, not only the first.
   const editor = await createEditor(DOC)
   const before = decorations(view(editor))
   const secondPos = posOfCodeBlock(view(editor), 1)
 
-  // Caret in the prose above, outside every code block — the missed case.
+  // The caret sits in the prose above, outside every code block, which
+  // is the case the step scan missed.
   view(editor).dispatch(
     view(editor).state.tr.setSelection(
       TextSelection.create(view(editor).state.doc, 1)
@@ -225,7 +226,8 @@ it('should re-highlight a non-first code block when its language changes via set
   const after = decorations(view(editor))
   const fresh = await createEditor(DOC.replace('```css', '```js'))
 
-  // The stale css highlighting is gone, and the block matches a from-scratch run.
+  // The stale css highlighting is gone, and the block matches a fresh
+  // run.
   expect(after).not.toEqual(before)
   expect(after).toEqual(decorations(view(fresh)))
 })

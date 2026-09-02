@@ -167,9 +167,9 @@ export function streamingIndicatorPlugin(
             commands.call(abortAICmd.key, { keep: true })
             return true
           }
-          // Manual streaming session (no AI session in flight) — abort
-          // the streaming plugin directly so the "Esc to cancel" hint
-          // shown in the pill isn't misleading.
+          // A manual streaming session runs with no AI session in
+          // flight, so abort the streaming plugin directly. The pill
+          // shows an "Esc to cancel" hint that must stay true.
           if (streamingPluginKey.getState(view.state)?.active) {
             event.preventDefault()
             commands.call(abortStreamingCmd.key, { keep: true })

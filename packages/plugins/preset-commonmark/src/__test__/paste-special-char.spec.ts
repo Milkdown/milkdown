@@ -7,12 +7,12 @@ import { describe, expect, it } from 'vitest'
 import { commonmark } from '..'
 
 // https://github.com/Milkdown/milkdown/issues/2400
-// Pasting text that ends with `_` twice and then pressing Space/Enter used to
-// delete characters: the underscore-emphasis input rule was not anchored to the
-// end of the input (`$`), so its regex matched an `_..._` span *across* the two
-// pastes — a match that did not end at the cursor. prosemirror's input-rule
-// runner assumes the match ends at the cursor when it computes the affected
-// range, so the off-by-one range corrupted the document.
+// Two pastes of text that ends with `_`, followed by Space or Enter,
+// deleted characters. The underscore-emphasis input rule carried no `$`
+// anchor, so its regex matched an `_..._` span across the two pastes and
+// ended before the cursor. The prosemirror input-rule runner computes
+// the affected range from a match that ends at the cursor, so the
+// off-by-one range corrupted the document.
 
 const PASTED = 'This is for qa34%^%^&&&(&(&(&()(*()_'
 

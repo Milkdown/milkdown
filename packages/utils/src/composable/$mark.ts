@@ -14,14 +14,15 @@ export type $Mark = MilkdownPlugin & {
   type: (ctx: Ctx) => MarkType
 }
 
-/// Create a mark plugin.
-/// It takes a mark id and a factory function.
-/// The factory should return a function that returns a [mark schema](/transformer#interface-markschema).
+/// Create a mark plugin. It takes a mark id and a factory function. The factory
+/// should return a function that returns a
+/// [mark schema](/transformer#interface-markschema).
 ///
 /// Additional property:
 /// - `id`: The id of the mark.
 /// - `schema`: The mark schema created.
-/// - `type`: A function that will return the [prosemirror mark type](https://prosemirror.net/docs/ref/#model.MarkType).
+/// - `type`: A function that will return the
+///   [prosemirror mark type](https://prosemirror.net/docs/ref/#model.MarkType).
 export function $mark(id: string, schema: (ctx: Ctx) => MarkSchema): $Mark {
   const plugin: MilkdownPlugin = (ctx) => async () => {
     const markSchema = schema(ctx)
@@ -44,12 +45,14 @@ export function $mark(id: string, schema: (ctx: Ctx) => MarkSchema): $Mark {
   return <$Mark>plugin
 }
 
-/// The async version for `$mark`. You can use `await` in the factory when creating the mark schema.
+/// The async version for `$mark`. You can use `await` in the factory when
+/// creating the mark schema.
 ///
 /// Additional property:
 /// - `id`: The id of the mark.
 /// - `schema`: The mark schema created.
-/// - `type`: A function that will return the [prosemirror mark type](https://prosemirror.net/docs/ref/#model.MarkType).
+/// - `type`: A function that will return the
+///   [prosemirror mark type](https://prosemirror.net/docs/ref/#model.MarkType).
 /// - `timer`: The timer which will be resolved when the mark schema is ready.
 export function $markAsync(
   id: string,

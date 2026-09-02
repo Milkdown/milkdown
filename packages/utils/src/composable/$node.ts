@@ -14,14 +14,15 @@ export type $Node = MilkdownPlugin & {
   type: (ctx: Ctx) => NodeType
 }
 
-/// Create a node plugin.
-/// It takes a node id and a factory function.
-/// The factory should return a function that returns a [node schema](/transformer#interface-nodeschema).
+/// Create a node plugin. It takes a node id and a factory function. The factory
+/// should return a function that returns a
+/// [node schema](/transformer#interface-nodeschema).
 ///
 /// Additional property:
 /// - `id`: The id of the node.
 /// - `schema`: The node schema created.
-/// - `type`: A function that will return the [prosemirror node type](https://prosemirror.net/docs/ref/#model.NodeType).
+/// - `type`: A function that will return the
+///   [prosemirror node type](https://prosemirror.net/docs/ref/#model.NodeType).
 export function $node(id: string, schema: (ctx: Ctx) => NodeSchema): $Node {
   const plugin: MilkdownPlugin = (ctx) => async () => {
     const nodeSchema = schema(ctx)
@@ -46,12 +47,14 @@ export function $node(id: string, schema: (ctx: Ctx) => NodeSchema): $Node {
   return <$Node>plugin
 }
 
-/// The async version for `$node`. You can use `await` in the factory when creating the node schema.
+/// The async version for `$node`. You can use `await` in the factory when
+/// creating the node schema.
 ///
 /// Additional property:
 /// - `id`: The id of the node.
 /// - `schema`: The node schema created.
-/// - `type`: A function that will return the [prosemirror node type](https://prosemirror.net/docs/ref/#model.NodeType).
+/// - `type`: A function that will return the
+///   [prosemirror node type](https://prosemirror.net/docs/ref/#model.NodeType).
 /// - `timer`: The timer which will be resolved when the node schema is ready.
 export function $nodeAsync(
   id: string,

@@ -86,9 +86,10 @@ withMeta(toggleStrongCommand, {
 
 /// A input rule that will capture the strong mark.
 export const strongInputRule = $inputRule((ctx) => {
-  // Avoid matching when the opening delimiter is directly adjacent to alphanumeric characters,
-  // colon or slash (to prevent matches inside file paths, URLs, or intra-word like `a**b**c`).
-  // Also ensure the closing delimiter is not followed by such characters (mirrors strike-through rule).
+  // An opening delimiter next to an alphanumeric character, a colon or a
+  // slash must not match. That keeps the rule out of a file path, a URL
+  // and an intra-word case such as `a**b**c`. The closing delimiter
+  // rejects the same characters, the same as the strike-through rule.
   return markRule(
     /(?<![\w:/])(?:\*\*|__)([^*_]+?)(?:\*\*|__)(?![\w/])$/,
     strongSchema.type(ctx),

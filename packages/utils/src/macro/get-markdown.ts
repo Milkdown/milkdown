@@ -2,9 +2,9 @@ import type { Ctx } from '@milkdown/ctx'
 
 import { editorViewCtx, schemaCtx, serializerCtx } from '@milkdown/core'
 
-/// Get content of the editor as markdown string.
-/// If range is provided, it will return the markdown string of the range.
-/// If range is not provided, it will return the markdown string of the whole document.
+/// Get content of the editor as markdown string. If range is provided, it will
+/// return the markdown string of the range. If range is not provided, it will
+/// return the markdown string of the whole document.
 export function getMarkdown(range?: { from: number; to: number }) {
   return (ctx: Ctx): string => {
     const view = ctx.get(editorViewCtx)

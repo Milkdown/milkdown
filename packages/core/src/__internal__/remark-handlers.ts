@@ -2,15 +2,15 @@ import type { Options } from 'remark-stringify'
 
 export const remarkHandlers: Required<Options>['handlers'] = {
   text: (node, _, state, info) => {
-    // This config is to remove the `&#20;` entity when have trailing spaces
+    // This handler removes the `&#20;` entity from a trailing space.
     const value = node.value
-    // Check if the text contains only trailing spaces that might be encoded
+    // Text that ends with a space and carries no markdown character to
+    // escape returns as it is, which keeps the trailing space.
     if (/^[^*_\\]*\s+$/.test(value)) {
-      // For text that ends with spaces but has no markdown special characters that need escaping,
-      // return the value directly to preserve trailing spaces
       return value
     }
-    // For other text, use safe to handle markdown escaping but prevent space encoding
+    // Other text goes through `safe`, which escapes markdown. The empty
+    // `encode` list stops it from encoding a space.
     return state.safe(value, { ...info, encode: [] })
   },
   strong: (node, _, state, info) => {

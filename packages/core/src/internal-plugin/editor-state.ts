@@ -35,8 +35,8 @@ export const editorStateOptionsCtx = createSlice<StateOptionsOverride>(
   'stateOptions'
 )
 
-/// A slice which stores timers that need to be waited for before starting to run the plugin.
-/// By default, it's `[ParserReady, SerializerReady, CommandsReady]`.
+/// A slice that holds the timers to wait for before the plugin runs. It
+/// defaults to `[ParserReady, SerializerReady, CommandsReady]`.
 export const editorStateTimerCtx = createSlice(
   [] as TimerType[],
   'editorStateTimer'
@@ -64,10 +64,10 @@ export function getDoc(
 
 const key = new PluginKey('MILKDOWN_STATE_TRACKER')
 
-/// The editor state plugin.
-/// This plugin will create a prosemirror editor state.
+/// The editor state plugin. This plugin will create a prosemirror editor state.
 ///
-/// This plugin will wait for the parser plugin, serializer plugin and commands plugin.
+/// This plugin waits for the parser plugin, serializer plugin and commands
+/// plugin.
 export const editorState: MilkdownPlugin = (ctx) => {
   ctx
     .inject(defaultValueCtx, '')

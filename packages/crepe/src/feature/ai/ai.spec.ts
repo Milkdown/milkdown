@@ -26,8 +26,8 @@ import { aiProviderConfig, aiSessionCtx, runAICmd } from './commands'
 // helpers a host with its own toolbar gets, so the tests exercise the same
 // path a consumer does rather than the internal modules.
 import { useAIInstructionTooltipAPI, useAIProviderConfig } from './index'
-// The slice objects themselves stay internal — imported here only to assert
-// the name-based helpers land on the very instance the feature registers.
+// The slice objects stay internal. The import here only asserts that the
+// name-based helpers land on the instance the feature registers.
 import { aiInstructionTooltipAPI } from './instruction-tooltip'
 
 function waitForAsync() {
@@ -51,9 +51,9 @@ function dispatchKeyDown(
     cancelable: true,
     ...modifiers,
   })
-  // Iterate every plugin's handleKeyDown until one claims the event.
-  // Returning `undefined` from the visitor keeps `someProp` looking;
-  // returning `true` short-circuits and is what we treat as "handled".
+  // Visit the `handleKeyDown` of every plugin until one claims the
+  // event. An `undefined` return keeps `someProp` looking. A `true`
+  // return short-circuits, which counts as handled.
   return (
     view.someProp('handleKeyDown', (handler) =>
       handler(view, event) ? true : undefined
@@ -198,10 +198,10 @@ describe('AI streaming inline markdown', () => {
   })
 
   test('inline math survives streaming through the real remark pipeline', async () => {
-    // The latex feature (on by default) parses `$...$` via remark-math.
-    // `$` is not an unconditional fast-path token in plugin-streaming —
-    // math detection is gated on the schema having a math node — so this
-    // pins the whole chain end to end.
+    // The latex feature is on by default and parses `$...$` through
+    // remark-math. In plugin-streaming `$` is no unconditional fast-path
+    // token, because math detection needs a math node in the schema.
+    // This test pins the whole chain end to end.
     const crepe = new Crepe({
       defaultValue: 'pre',
       features: { [CrepeFeature.AI]: true },
@@ -494,7 +494,8 @@ describe('AI session retry metadata', () => {
       featureConfigs: {
         [CrepeFeature.AI]: {
           provider: async function* () {
-            // Hang forever — caller should see runAICmd return false.
+            // The provider hangs, so the caller sees `runAICmd` return
+            // false.
             await new Promise(() => {})
             yield ''
           },
@@ -589,8 +590,8 @@ describe('AI keybindings', () => {
     })
     await crepe.create()
     try {
-      // No `diffOwnedByAI` flip — this represents host code calling
-      // `startDiffReviewCmd` directly, independent of the AI feature.
+      // Nothing flips `diffOwnedByAI` here. This stands for host code
+      // that calls `startDiffReviewCmd` without the AI feature.
       crepe.editor.action((ctx) => {
         ctx.get(commandsCtx).call(startDiffReviewCmd.key, 'goodbye')
       })
@@ -725,8 +726,8 @@ describe('AI diff actions panel visibility', () => {
   })
 
   test('Retry button clears the diff review and re-runs the stored prompt', async () => {
-    // Hanging provider so the re-issued AI session stays in streaming
-    // and doesn't transition back into diff review while we assert.
+    // The provider hangs, so the re-issued AI session stays in streaming
+    // and never returns to diff review during the assertions.
     const provider = vi.fn(async function* () {
       await new Promise(() => {})
       yield ''
@@ -738,10 +739,10 @@ describe('AI diff actions panel visibility', () => {
     })
     await crepe.create()
     try {
-      // Stage the editor as if a previous AI run had ended in diff
-      // review: persistent retry metadata + AI ownership flag + active
-      // diff. We bypass `runAICmd` so the assertions don't have to wait
-      // for a full streaming round-trip.
+      // Stage the editor as if a previous AI run ended in diff review.
+      // That state holds the retry metadata, the AI ownership flag and
+      // an active diff. Skipping `runAICmd` keeps the assertions off a
+      // full streaming round trip.
       crepe.editor.action((ctx) => {
         const session = ctx.get(aiSessionCtx.key)
         ctx.set(aiSessionCtx.key, {
@@ -833,8 +834,8 @@ describe('public AI feature surface', () => {
   // and an object lookup would miss the registered one. Resolution is by
   // name in `Container.get`, which is why it survives the duplication.
   // `core/slice.ts` uses the same trick for `useCrepe`.
-  // Never `.use()`d, so never registered — they only need the same slice
-  // *names* as the real ones. Their values are never read.
+  // No `.use()` call registers these slices. They only need the slice
+  // names of the real ones, and nothing reads their values.
   const duplicateProviderConfig = $ctx(
     {} as AIProviderConfigValue,
     'aiProviderConfig'
@@ -875,8 +876,8 @@ describe('public AI feature surface', () => {
     const crepe = await createAICrepe(provider)
     try {
       const { ctx } = crepe.editor
-      // If the slice were renamed, the helpers would resolve to nothing
-      // while the object lookup kept working — this catches that skew.
+      // A renamed slice would leave the helpers resolving to nothing
+      // while the object lookup kept working. This catches that skew.
       expect(useAIProviderConfig(ctx)).toBe(ctx.get(aiProviderConfig.key))
       expect(useAIInstructionTooltipAPI(ctx)).toBe(
         ctx.get(aiInstructionTooltipAPI.key)
@@ -887,12 +888,12 @@ describe('public AI feature surface', () => {
   })
 
   test('the helpers resolve by name, not by slice object identity', async () => {
-    // Reproduces what the published package does to a host: register slices
-    // that carry the real names but are *different objects* — the copies a
-    // separately-bundled entry constructs — and leave the module-internal
-    // objects unregistered. Name lookup still lands; reverting either helper
-    // to `ctx.get(<slice>.key)` makes this test throw, which is the whole
-    // reason the helpers exist.
+    // Reproduce what the published package does to a host. It registers
+    // slices that carry the real names as different objects, the copies
+    // a separately bundled entry constructs, and leaves the
+    // module-internal objects unregistered. The name lookup still lands.
+    // A helper reverted to `ctx.get(<slice>.key)` makes this test throw,
+    // which is the reason the helpers exist.
     const crepe = new Crepe({
       defaultValue: 'hello',
       features: { [CrepeFeature.AI]: false },
@@ -901,8 +902,8 @@ describe('public AI feature surface', () => {
     await crepe.create()
     try {
       const { ctx } = crepe.editor
-      // The objects this module holds are absent from the container — this is
-      // the host's situation, not a contrived one.
+      // The container holds none of the objects this module holds,
+      // which is the real situation of a host.
       expect(() => ctx.get(aiProviderConfig.key)).toThrow(/aiProviderConfig/)
       expect(() => ctx.get(aiInstructionTooltipAPI.key)).toThrow(
         /aiInstructionTooltipAPI/

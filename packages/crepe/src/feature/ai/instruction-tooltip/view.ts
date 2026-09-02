@@ -30,11 +30,11 @@ export class AIInstructionTooltipView implements PluginView {
   #resetSignal
   #from = -1
   #to = -1
-  /// Source of truth for "should the palette currently be showing".
-  /// `TooltipProvider.shouldShow` reads this so that forwarding `update()`
-  /// to the provider on every editor transition (needed to keep the
-  /// floating position in sync with layout changes) doesn't dismiss the
-  /// palette behind our back.
+  /// The source of truth for whether the palette shows.
+  /// `TooltipProvider.shouldShow` reads this flag. Every editor
+  /// transition forwards `update()` to the provider, which keeps the
+  /// floating position in sync with a layout change. The flag stops that
+  /// forwarding from dismissing the palette.
   #wantsShow = false
 
   constructor(
@@ -42,13 +42,14 @@ export class AIInstructionTooltipView implements PluginView {
     view: EditorView,
     config: AIInstructionTooltipViewConfig
   ) {
-    // Wrapped in a ref so the Vue component re-renders if it ever
-    // changes; today there's no setter, but keeping it reactive lets a
-    // future API (e.g. context-sensitive placeholders) plug in cleanly.
+    // A ref re-renders the Vue component on a change. No setter exists
+    // today, and the reactive form leaves room for a later API such as a
+    // context-sensitive placeholder.
     this.#placeholder = ref(config.placeholder)
-    // Bumped on each `show()` so the component clears input/submenu/cursor
-    // state — the Vue app stays mounted across hide/show cycles, so its
-    // local state would otherwise persist into the next session.
+    // Each `show()` bumps this signal, which clears the input, the
+    // submenu and the cursor state of the component. The Vue app stays
+    // mounted across a hide and show cycle, so its local state would
+    // otherwise reach the next session.
     this.#resetSignal = ref(0)
 
     const content = document.createElement('div')

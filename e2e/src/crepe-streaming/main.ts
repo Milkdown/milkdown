@@ -5,8 +5,9 @@ import { callCommand } from '@milkdown/utils'
 
 import { setup } from '../utils'
 
-// Command names match the string IDs registered by $command() in plugin-streaming.
-// Using strings here because @milkdown/kit is not a direct dependency of e2e.
+// The command names match the string ids that `$command()` registers in
+// plugin-streaming. A string works here because @milkdown/kit is no
+// direct dependency of e2e.
 setup(async () => {
   const crepe = new Crepe({
     root: '#app',

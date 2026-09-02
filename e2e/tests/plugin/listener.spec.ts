@@ -59,8 +59,8 @@ test('markdownUpdated is properly debounced during rapid typing', async ({
   // Wait for debounce to fire (200ms after last keystroke + buffer)
   await page.waitForTimeout(500)
 
-  // With proper debouncing, we expect at most 3 callbacks
-  // (timing variance may cause 2-3 debounce windows, but never 10)
+  // Debouncing caps the run at three callbacks. Timing variance opens
+  // two or three debounce windows, never ten.
   expect(debounceLogs.length).toBeGreaterThanOrEqual(1)
   expect(debounceLogs.length).toBeLessThanOrEqual(3)
 })

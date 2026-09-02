@@ -122,8 +122,8 @@ export class CodeMirrorBlock implements NodeView {
         drawSelection(),
         cmKeymap.of(this.codeMirrorKeymap()),
         this.languageConf.of([]),
-        // Block user edits when the editor is not editable, but always let
-        // updates we sync from ProseMirror through.
+        // Block a user edit when the editor is not editable. An update
+        // synced from ProseMirror always passes.
         EditorState.changeFilter.of(() => this.view.editable || this.updating),
         ...this.config.extensions,
         CodeMirror.updateListener.of(this.forwardUpdate),

@@ -78,14 +78,14 @@ export function customInputRules({ rules }: { rules: InputRule[] }): Plugin {
           return false
         },
         keydown: (view, event) => {
-          // On Chrome Android, prosemirror-view suppresses Enter keydown events
-          // to avoid input corruption during composition. It then relies on DOM
-          // mutation detection to retroactively handle Enter. However, this
-          // fallback fails with custom node views (e.g. list-item-block) whose
-          // wrapper DOM structure prevents the Enter detection heuristics from
-          // recognizing the mutation. We intercept Enter here — before
-          // prosemirror-view's suppression — and manually route it through
-          // handleKeyDown so that keymaps (splitListItem, etc.) work correctly.
+          // On Chrome Android, prosemirror-view suppresses an Enter
+          // keydown event, which avoids input corruption during
+          // composition. It then handles Enter through DOM mutation
+          // detection. That fallback fails with a custom node view such
+          // as list-item-block, whose wrapper DOM hides the mutation
+          // from the detection heuristics. This handler catches Enter
+          // before the suppression and routes it through
+          // `handleKeyDown`, so a keymap such as `splitListItem` runs.
           if (!(android && chrome && (event as KeyboardEvent).key === 'Enter'))
             return false
           if (view.composing) return false

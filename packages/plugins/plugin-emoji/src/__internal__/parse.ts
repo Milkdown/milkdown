@@ -3,8 +3,9 @@ import twemoji from 'twemoji'
 const setAttr = (text: string) => ({ title: text })
 
 /// @internal
-/// This is copied from https://github.com/twitter/twemoji/blob/master/index.d.ts#L14
-/// The file is not released for some reason, so I have to copy it here.
+/// A copy of
+/// https://github.com/twitter/twemoji/blob/master/index.d.ts#L14.
+/// Twemoji does not release that file, so this package carries a copy.
 export interface TwemojiOptions {
   /**
    * Default: Cloudflare

@@ -222,7 +222,8 @@ describe('serializer-state', () => {
 
     state.openNode('doc')
     state.openNode('paragraph')
-    // Open a bold mark, add a text node with surrounding spaces, then close the mark
+    // Open a bold mark, add a text node with surrounding spaces, then
+    // close the mark.
     state.withMark(boldMark, 'bold')
     state.addNode('text', [], ' hello ')
     state.closeMark(boldMark)
@@ -332,7 +333,7 @@ describe('serializer-state', () => {
   it('keeps a mark open across nodes that share it', () => {
     const state = new SerializerState(schema)
 
-    // **a *b* c** — the strong mark spans all three text nodes.
+    // In `**a *b* c**` the strong mark spans all three text nodes.
     state.openNode('doc')
     state.openNode('paragraph')
     state.next(
@@ -372,9 +373,9 @@ describe('serializer-state', () => {
   it('keeps continuing marks outside of newly opened marks', () => {
     const state = new SerializerState(schema)
 
-    // *a **b** c* — the italic mark opens first and must stay the
-    // outer mark when bold opens on the second text node, even if the
-    // mark set of that node lists bold first.
+    // In `*a **b** c*` the italic mark opens first and stays the outer
+    // mark when bold opens on the second text node, even when the mark
+    // set of that node lists bold first.
     state.openNode('doc')
     state.openNode('paragraph')
     state.next(
@@ -414,8 +415,8 @@ describe('serializer-state', () => {
   it('closes value-based marks after the node that carries them', () => {
     const state = new SerializerState(schema)
 
-    // **`code` b** — inlineCode holds its content as a value and must not
-    // stay open, while the bold mark spans both text nodes.
+    // In ``**`code` b**`` inlineCode holds its content as a value and
+    // closes at once, while the bold mark spans both text nodes.
     state.openNode('doc')
     state.openNode('paragraph')
     state.next(
@@ -450,8 +451,8 @@ describe('serializer-state', () => {
   it('does not trim spaces inside a mark spanning multiple nodes', () => {
     const state = new SerializerState(schema)
 
-    // **a *b*** — the space between "a" and the italic node is internal
-    // and must be preserved when the bold mark closes.
+    // In `**a *b***` the space between "a" and the italic node is
+    // internal, and it survives the close of the bold mark.
     state.openNode('doc')
     state.openNode('paragraph')
     state.next(

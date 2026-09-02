@@ -15,8 +15,9 @@ import { keepAlive } from '../../../utils/keep-alive'
 
 keepAlive(h)
 
-/// Resolved chrome (icons + labels) for the tooltip. All fields required —
-/// the view layer fills in defaults before mounting the component.
+/// The resolved icons and labels for the tooltip. Every field is
+/// required, because the view layer fills in the defaults before it
+/// mounts the component.
 export interface AIInstructionTooltipChrome {
   aiIcon: string
   sendIcon: string

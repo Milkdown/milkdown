@@ -36,7 +36,8 @@ export function selectRootNodeByDom(
       if (!filterNodes($pos, node!)) filter(true)
     }
 
-    // If filterNodes returns false, we should look up the parent node.
+    // A false result from `filterNodes` moves the lookup to the parent
+    // node.
     const filterResult = filterNodes($pos, node!)
     filter(!filterResult)
 

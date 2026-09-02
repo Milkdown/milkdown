@@ -16,8 +16,8 @@ function getEditTooltip() {
 }
 
 function createCrepe(defaultValue: string) {
-  // Disable Cursor feature: prosemirror-virtual-cursor uses Range.getClientRects
-  // which jsdom does not implement.
+  // The Cursor feature stays off, because prosemirror-virtual-cursor
+  // calls `Range.getClientRects`, which jsdom does not implement.
   return new Crepe({
     defaultValue,
     features: {
@@ -37,7 +37,7 @@ describe('link tooltip edit', () => {
     await crepe.create()
     await waitForAsync()
 
-    // Cursor between "h" and "ello" — empty selection.
+    // The cursor sits between "h" and "ello", so the selection is empty.
     const cursorPos = 2
     crepe.editor.ctx.get(linkTooltipAPI.key).addLink(cursorPos, cursorPos)
     await waitForAsync()

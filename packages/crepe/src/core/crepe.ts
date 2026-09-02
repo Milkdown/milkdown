@@ -23,7 +23,8 @@ export class Crepe extends CrepeBuilder {
 
   /// The constructor of the crepe editor.
   /// You can pass configs to the editor to configure the editor.
-  /// Calling the constructor will not create the editor, you need to call `create` to create the editor.
+  /// The constructor does not create the editor. Call `create` to create
+  /// it.
   constructor({
     features = {},
     featureConfigs = {},

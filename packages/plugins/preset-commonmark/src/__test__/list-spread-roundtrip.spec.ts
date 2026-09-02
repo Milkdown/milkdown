@@ -5,10 +5,10 @@ import { describe, expect, it } from 'vitest'
 import { roundTrip, withEditor } from './test-utils'
 
 // https://github.com/Milkdown/milkdown/issues/2419
-// The `spread` attribute is parsed into a stringified boolean ("true"/"false").
-// The bullet_list and list_item toMarkdown runners used to forward that string
-// straight to mdast, where the *string* "false" is truthy — so every tight list
-// was serialized as loose (blank lines between the items).
+// The `spread` attribute parses into a stringified boolean, "true" or
+// "false". The bullet_list and list_item toMarkdown runners forwarded
+// that string to mdast, where the string "false" is truthy. Every tight
+// list then serialized as loose, with a blank line between the items.
 describe('list spread round-trip (#2419)', () => {
   // Exact-string checks for the tight/loose distinction. The serializer
   // normalizes bullet markers to `*`, so the inputs use `*` to keep the

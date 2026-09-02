@@ -15,11 +15,11 @@ function overlaps(a1: number, a2: number, b1: number, b2: number): boolean {
 
 /// Does a range [from, to) in `doc` touch a custom block?
 ///
-/// Non-empty ranges use the full boundary check — a position at the edge
-/// of a custom block counts as touching. Empty ranges (from === to) only
-/// count if the anchor is *inside* a custom block's ancestor chain; a
-/// point sitting between two top-level nodes isn't touching either
-/// neighbour and shouldn't trigger custom-block merging.
+/// A non-empty range uses the full boundary check, so a position at the edge of
+/// a custom block counts as touching. An empty range counts only when the
+/// anchor sits inside a custom block ancestor chain. A point between two
+/// top-level nodes touches neither neighbour, so it starts no custom-block
+/// merge.
 function touchesCustomBlockRange(
   doc: Node,
   from: number,
@@ -40,7 +40,8 @@ export interface MergedChange {
   toA: number
   fromB: number
   toB: number
-  /// Whether this change was merged from a custom block node (table, image-block, etc.).
+  /// Whether the merge came from a custom block node, such as a table
+  /// or an image-block.
   isCustomBlock: boolean
 }
 
@@ -52,14 +53,16 @@ export interface ChangeSegment {
   isBlock: boolean
 }
 
-/// Split a cross-boundary change into inline and block visual segments.
-/// When fromA is inside a top-level textblock (e.g. a paragraph or heading
-/// at doc level), produces an inline segment for the text portion and a
-/// block segment for the remaining blocks.
+/// Split a cross-boundary change into an inline segment and a block
+/// segment. The split happens when fromA sits inside a top-level
+/// textblock, for example a paragraph or a heading at doc level. The
+/// inline segment covers the text, and the block segment covers the
+/// remaining blocks.
 ///
-/// Returns null if the change doesn't need splitting (not cross-boundary,
-/// or fromA is not inside a top-level textblock — nested textblocks such
-/// as list item paragraphs are excluded to avoid producing invalid DOM).
+/// Return null when the change needs no split. A change that stays
+/// inside one boundary needs none. A fromA inside a nested textblock,
+/// such as a list item paragraph, also needs none, because splitting it
+/// would produce invalid DOM.
 export function splitCrossBoundaryChange(
   doc: Node,
   newDoc: Node,
@@ -67,21 +70,19 @@ export function splitCrossBoundaryChange(
 ): ChangeSegment[] | null {
   const $fromA = doc.resolve(change.fromA)
 
-  // Only split if fromA is inside a textblock (inline content) AND
-  // its depth-1 ancestor is itself a textblock. Otherwise (e.g. inside
-  // a list item or blockquote), the inline segment would span block
-  // content and produce invalid DOM (block elements inside <span>).
+  // A split needs fromA inside a textblock and a depth-1 ancestor that
+  // is also a textblock. Inside a list item or a blockquote the inline
+  // segment would span block content, which puts a block element inside
+  // a `<span>`.
   if (!$fromA.parent.isTextblock || $fromA.depth < 1) return null
   if (!$fromA.node(1).isTextblock) return null
 
-  // Find the end of the enclosing top-level block in old doc
   const blockEndA = $fromA.after(1)
 
-  // Find the corresponding split point in newDoc: the first top-level
-  // block boundary at or after fromB. Only produce an inline split when
-  // fromB is also inside a top-level textblock — otherwise the inline
-  // segment would contain block DOM (e.g. a list or blockquote) and
-  // serialize to invalid HTML inside a <span>.
+  // The split point in newDoc is the first top-level block boundary at
+  // or after fromB. An inline split needs fromB inside a top-level
+  // textblock too. Otherwise the inline segment would hold block DOM,
+  // such as a list or a blockquote, inside a `<span>`.
   const $fromB = newDoc.resolve(change.fromB)
   let splitB: number
   if ($fromB.depth >= 1 && $fromB.node(1).isTextblock) {
@@ -91,12 +92,11 @@ export function splitCrossBoundaryChange(
     splitB = change.fromB
   }
 
-  // No split needed if the change is entirely within one block on BOTH sides
+  // A change that stays inside one block on both sides needs no split.
   if (blockEndA >= change.toA && splitB >= change.toB) return null
 
   const segments: ChangeSegment[] = []
 
-  // Inline segment: fromA..blockEndA in old doc, fromB..splitB in new doc
   if (blockEndA > change.fromA || splitB > change.fromB) {
     segments.push({
       fromA: change.fromA,
@@ -107,10 +107,9 @@ export function splitCrossBoundaryChange(
     })
   }
 
-  // Block segment: blockEndA..toA in old doc, splitB..toB in new doc.
-  // Normalize so fromA <= toA — when the deletion stays within the current
-  // textblock (change.toA <= blockEndA) but the insertion continues into
-  // following blocks, the old-doc side has no remainder.
+  // `Math.max` keeps fromA <= toA. A deletion that stays inside the
+  // current textblock leaves no remainder on the old-doc side, while the
+  // insertion continues into the following blocks.
   if (change.toA > blockEndA || change.toB > splitB) {
     segments.push({
       fromA: blockEndA,
@@ -137,9 +136,10 @@ function changeTouchesCustomBlock(
   )
 }
 
-/// Merge changes that fall within custom block nodes (tables, image-blocks,
-/// code blocks) into single block-level changes. This ensures proper rendering
-/// for nodes that use custom node views where inline decorations don't work.
+/// Merge the changes that fall inside a custom block node into one
+/// block-level change. A table, an image-block and a code block are
+/// custom blocks. They render through a custom node view, which an
+/// inline decoration cannot reach.
 export function mergeBlockChanges(
   pending: readonly Change[],
   doc: Node,
@@ -165,10 +165,10 @@ export function mergeBlockChanges(
       continue
     }
 
-    // Expand each side to the enclosing top-level block when that side
-    // actually touches a custom block. For pure inserts/deletes, only the
-    // ancestor check counts — a boundary anchor next to a block doesn't
-    // drag the block into the merge.
+    // Expand a side to the enclosing top-level block only when that side
+    // touches a custom block. For a pure insert or delete only the
+    // ancestor check counts, so a boundary anchor next to a block does
+    // not pull the block into the merge.
     const blockRangeA = expandToCustomBlockRange(
       doc,
       change.fromA,
@@ -182,8 +182,8 @@ export function mergeBlockChanges(
       customBlockTypes
     )
 
-    // Union of the block range and the original change range so we don't
-    // truncate changes that extend beyond the block.
+    // The union of the block range and the original change range keeps a
+    // change that reaches past the block.
     const merged: MergedChange = {
       fromA: Math.min(blockRangeA?.from ?? change.fromA, change.fromA),
       toA: Math.max(blockRangeA?.to ?? change.toA, change.toA),
@@ -211,15 +211,12 @@ export function mergeBlockChanges(
       merged.toB = Math.max(merged.toB, other.toB)
     }
 
-    // Coalesce with an already-emitted merged change whose custom-block
-    // range overlaps this one. Two seed changes can independently expand
-    // to cover the same custom block (e.g. a deletion just before a table
-    // and an insertion just after it), which would otherwise render the
-    // same block as a widget twice.
-    // Coalesce with every already-emitted custom-block merged change whose
-    // range overlaps this one, not just the first. A seed could straddle
-    // two previously-emitted custom blocks, and merging into only the first
-    // would leave overlapping duplicates in the result.
+    // Coalesce with every emitted custom-block change that overlaps this
+    // one, not only the first. Two seed changes can expand to the same
+    // custom block, for example a deletion before a table and an
+    // insertion after it, which would render the block twice. One seed
+    // can also straddle two emitted custom blocks, and merging into only
+    // the first would leave overlapping duplicates.
     const absorbedIndexes: number[] = []
     for (let k = 0; k < result.length; k++) {
       const prev = result[k]!
@@ -242,14 +239,14 @@ export function mergeBlockChanges(
   return result
 }
 
-/// Remap pure inserts that sit at or past the doc's run of trailing empty
-/// paragraphs so they anchor *before* the empty paragraph instead of after.
+/// Move a pure insert that sits at or past the run of trailing empty
+/// paragraphs, so it anchors before the empty paragraph.
 ///
-/// Editors like Crepe always keep an empty paragraph at the doc end. A pure
-/// insert produced at `fromA === doc.content.size` would otherwise be spliced
-/// after the trailing empty paragraph, pushing it out of its trailing slot.
-/// The next diff recompute would then see the empty paragraph as middle-of-doc
-/// content that needs to be deleted, flashing an empty-looking removal widget.
+/// An editor such as Crepe always keeps an empty paragraph at the doc
+/// end. An insert at `fromA === doc.content.size` lands after that
+/// paragraph and pushes it out of the trailing slot. The next diff then
+/// reads the empty paragraph as content to delete, and flashes an empty
+/// removal widget.
 export function anchorTrailingInsertsBeforeEmptyParagraph(
   changes: MergedChange[],
   doc: Node
@@ -266,9 +263,9 @@ export function anchorTrailingInsertsBeforeEmptyParagraph(
   }
 }
 
-/// Pick the top-level block range enclosing a custom block touched by
-/// [from, to). Returns null if neither endpoint actually touches a custom
-/// block (see `touchesCustomBlockRange` for the touch rules).
+/// Pick the top-level block range that encloses a custom block touched by
+/// [from, to). Return null when neither endpoint touches a custom block. See
+/// `touchesCustomBlockRange` for the touch rules.
 function expandToCustomBlockRange(
   doc: Node,
   from: number,

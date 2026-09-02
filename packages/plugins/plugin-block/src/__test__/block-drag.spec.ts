@@ -60,7 +60,6 @@ const SECOND_ITEM = 11
 // The paragraph inside the second item, which is what `posAtCoords` resolves
 // to when hovering over that item.
 const SECOND_ITEM_PARAGRAPH = 12
-// The end of the text in the fourth item.
 const FOURTH_ITEM_TEXT_END = 39
 
 function itemTexts(view: EditorView) {

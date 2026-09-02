@@ -106,7 +106,8 @@ export const TableBlock = defineComponent<TableBlockProps>({
 
     onMounted(() => {
       requestAnimationFrame(() => {
-        // This is a wordaround to keep the popover open when click the select col/row button
+        // Workaround: keep the popover open on a click on the select
+        // column or row button.
         if (view.editable) recoveryStateBetweenUpdate(refs, view, node.value)
       })
     })

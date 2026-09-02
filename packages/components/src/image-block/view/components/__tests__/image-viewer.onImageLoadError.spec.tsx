@@ -36,7 +36,6 @@ test('calls onImageLoadError when img fires error', async () => {
   // simulate the image load error
   img!.dispatchEvent(new Event('error'))
 
-  // expect the onImageLoadError function to have been called
   expect(onImageLoadError).toHaveBeenCalledTimes(1)
   expect(onImageLoadError).toHaveBeenCalledWith(expect.any(Event))
 })

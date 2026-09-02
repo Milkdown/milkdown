@@ -64,10 +64,10 @@ describe('inline br in gfm containers', () => {
     expect(output).toBe('| a<br>b | c |\n| ------ | - |\n| x      | y |\n')
   })
 
-  // A trailing hardbreak in a cell (reachable via HTML paste) must be
-  // dropped like the paragraph serializer does, or it renders as a
-  // trailing space that the next parse trims — making consecutive saves
-  // diverge.
+  // An HTML paste can put a trailing hardbreak in a cell. The
+  // serializer drops it, the same as the paragraph serializer does.
+  // Otherwise it renders as a trailing space that the next parse trims,
+  // and two consecutive saves diverge.
   it('drops a trailing hardbreak in a cell so saves stay stable', async () => {
     const output = await withEditor(
       '| a | c |\n| --- | --- |\n| x | y |\n',

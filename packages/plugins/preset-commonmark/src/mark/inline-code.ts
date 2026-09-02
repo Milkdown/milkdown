@@ -24,10 +24,10 @@ withMeta(inlineCodeAttr, {
 export const inlineCodeSchema = $markSchema('inlineCode', (ctx) => ({
   priority: 100,
   code: true,
-  // A code span has a closed end: text typed after it is not part of it, and
-  // typing is the only way to leave a span that ends a block. It also keeps a
-  // code mark on a delimiter meaningful, since the delimiter is then genuinely
-  // inside the span — the mark input rules key their decisions off that.
+  // A code span has a closed end. Text typed after it stays outside it,
+  // and typing is the only way to leave a span that ends a block. A code
+  // mark on a delimiter also stays meaningful, because the delimiter
+  // then sits inside the span. The mark input rules read that state.
   inclusive: false,
   parseDOM: [{ tag: 'code' }],
   toDOM: (mark) => ['code', ctx.get(inlineCodeAttr.key)(mark)],
@@ -77,14 +77,12 @@ export const toggleInlineCodeCommand = $command(
       (x) => x !== inlineCodeSchema.type.name
     )
 
-    // remove other marks
     restMarksName
       .map((name) => state.schema.marks[name] as MarkType)
       .forEach((t) => {
         tr.removeMark(from, to, t)
       })
 
-    // add inlineCode mark
     dispatch?.(tr.addMark(from, to, inlineCodeSchema.type(ctx).create()))
     return true
   }

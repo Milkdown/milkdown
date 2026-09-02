@@ -141,7 +141,7 @@ function createFlushController(ctx: Ctx, config: StreamingConfig) {
 
       const state = streamingPluginKey.getState(updatedView.state)
       if (!state?.active) {
-        // Streaming ended or aborted — clean up trailing timer
+        // Streaming ended or aborted, so clear the trailing timer.
         if (trailingTimer != null) {
           clearTimeout(trailingTimer)
           trailingTimer = null

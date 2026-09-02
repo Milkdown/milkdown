@@ -24,8 +24,8 @@ export const editorViewCtx = createSlice({} as EditorView, 'editorView')
 /// A slice which contains the editor state.
 export const editorStateCtx = createSlice({} as EditorState, 'editorState')
 
-/// A slice which stores timers that need to be waited for before starting to run the plugin.
-/// By default, it's `[ConfigReady]`.
+/// A slice that holds the timers to wait for before the plugin
+/// runs. It defaults to `[ConfigReady]`.
 export const initTimerCtx = createSlice([] as TimerType[], 'initTimer')
 
 /// A slice which stores the editor instance.

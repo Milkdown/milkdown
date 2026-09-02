@@ -9,21 +9,43 @@ Review all changed or newly added code in this repository for code style and qua
 
 ### Naming & Structure
 
-- **Meaningful, consistent names** — same concept = same name throughout. Variable names should be pronounceable and searchable.
-- **Single Responsibility** — each module/function has one reason to change.
-- **Depend on abstractions** — use DI tags and interfaces, not concrete implementations directly.
+- **Meaningful, consistent names**. Use the same name for the same concept everywhere. Make a variable name pronounceable and searchable.
+- **Single Responsibility**. Give each module and function one reason to change.
+- **Depend on abstractions**. Use DI tags and interfaces, not concrete implementations.
 
 ### Code Quality
 
-- **No duplicated code** — similar code in multiple locations with the same calling context should be extracted.
-- **Avoid deep nesting** — max 3 levels of conditional nesting. Refactor with early returns or extraction.
-- **Short parameter lists** — more than 3-4 parameters suggests the need for an options object or restructuring.
-- **Self-documenting code** — comment only what the code cannot express through naming and structure. Remove comments that repeat what the code already says.
+- **No duplicated code**. Extract similar code that runs in the same calling context.
+- **Avoid deep nesting**. Keep conditional nesting to three levels. Refactor with an early return or an extraction.
+- **Short parameter lists**. More than three or four parameters asks for an options object.
+- **Self-documenting code**. Express intent through a name or a structure before you write a comment.
+
+### Comments
+
+When a comment may exist:
+
+- Write a comment only for what the code cannot show: a constraint, an invariant, a reason, an upstream or browser bug, a non-obvious order of operations.
+- Do not narrate the next line. Do not restate a name that the code already carries.
+- Do not record process history, for example "previously" or "per review feedback". Git history owns that. A regression test may state the bug it pins, in one sentence.
+- Write one concrete action in a `TODO`. Add the issue number when one exists: `TODO(#2463)`.
+- `///` is the public API reference. `builddocs` publishes it into `docs/api`. Keep every fact in it accurate.
+
+How a comment reads (adapted from ASD-STE100, Simplified Technical English):
+
+- Give one idea to one sentence. Keep a sentence to 25 words or fewer.
+- Use the active voice and the present tense. Use the imperative for an instruction.
+- Do not use an em dash. Use a period, a colon, or a comma.
+- Do not use the first person: "we", "our", "let's".
+- Use parentheses only for a reference or an example. Move a condition into its own sentence.
+- Use a list when a sentence carries more than three items.
+- Use one word for one meaning. Do not switch synonyms for the same concept.
+- Wrap at 80 columns, to match `printWidth` in `.oxfmtrc.json`.
+- Write in English only.
 
 ### Cleanup
 
-- **No dead code** — remove unused variables, functions, imports, and commented-out code blocks.
-- **Fix typos** — in variable names, comments, and strings.
+- **No dead code**. Remove an unused variable, function, or import. Remove a commented-out code block.
+- **Fix typos** in a name, a comment, and a string.
 
 ### SOLID Principles
 

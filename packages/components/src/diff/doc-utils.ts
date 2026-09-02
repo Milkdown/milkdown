@@ -11,10 +11,9 @@ export function isBlockSpanning(doc: Node, from: number, to: number): boolean {
   const $from = doc.resolve(from)
   const $to = doc.resolve(to)
 
-  // Determine which top-level child contains each endpoint.
-  // For depth-0 positions (between top-level nodes), index(0) gives the
-  // child that starts at or after the position — for the `to` endpoint
-  // of a half-open range we use the previous child instead.
+  // At depth 0 the position sits between top-level nodes, and index(0)
+  // gives the child that starts at or after it. The `to` endpoint of a
+  // half-open range needs the previous child instead.
   const fromIndex = $from.index(0)
   const toIndex = $to.depth === 0 ? Math.max(0, $to.index(0) - 1) : $to.index(0)
 
@@ -22,22 +21,21 @@ export function isBlockSpanning(doc: Node, from: number, to: number): boolean {
 }
 
 /// Check if a range in a doc contains any fully-enclosed block node.
-/// Returns false for purely-inline ranges and for 1-char attribute-token
-/// edits that only touch a block node's open/close boundary without
-/// enclosing any real block content.
+/// Return false for a purely inline range. Also return false for a
+/// one-character attribute-token edit that only touches a block node's
+/// open or close boundary and encloses no block content.
 export function hasBlockContent(doc: Node, from: number, to: number): boolean {
   if (from >= to) return false
 
-  // Fast path: if both endpoints share the same textblock parent,
-  // the range is purely inline — no block crossings.
+  // Fast path: endpoints that share one textblock parent make the range
+  // purely inline, so it crosses no block.
   const $from = doc.resolve(from)
   const $to = doc.resolve(to)
   if ($from.sameParent($to) && $from.parent.isTextblock) return false
 
-  // Walk all descendants and return true only if we find a block node
-  // fully enclosed by [from, to]. Wrapper nodes that partially overlap
-  // (e.g. a bullet_list that contains the range) do NOT count — those
-  // get picked up by isBlockSpanning for real cross-block edits.
+  // Only a block node fully enclosed by [from, to] counts. A wrapper
+  // that partially overlaps the range, such as a bullet_list around it,
+  // does not count. `isBlockSpanning` catches a real cross-block edit.
   let found = false
   doc.nodesBetween(from, to, (node, pos) => {
     if (found) return false
@@ -47,7 +45,7 @@ export function hasBlockContent(doc: Node, from: number, to: number): boolean {
       found = true
       return false
     }
-    // Node only partially overlaps — descend into its children.
+    // The node only partially overlaps, so descend into its children.
     return true
   })
   return found
@@ -64,7 +62,6 @@ export function coversOnlyTrailingEmptyParagraphs(
   const $from = doc.resolve(from)
   if ($from.depth !== 0) return false
 
-  // Check all nodes from `from` to end are empty paragraphs
   for (let i = $from.index(0); i < doc.childCount; i++) {
     const child = doc.child(i)
     if (child.type.name !== 'paragraph' || child.content.size > 0) return false
@@ -72,11 +69,11 @@ export function coversOnlyTrailingEmptyParagraphs(
   return true
 }
 
-/// Return the top-level position where the doc's run of trailing empty
-/// paragraphs begins. If the doc has no trailing empty paragraph, returns
-/// `doc.content.size`. Crepe-like editors always keep an empty paragraph
-/// at the end — inserts that target the doc end should anchor here so
-/// the empty paragraph stays in its trailing spot.
+/// Return the top-level position where the run of trailing empty
+/// paragraphs begins. Return `doc.content.size` when the doc has no
+/// trailing empty paragraph. A Crepe-like editor always keeps an empty
+/// paragraph at the end. An insert that targets the doc end anchors
+/// here, so the empty paragraph stays last.
 export function trailingEmptyParagraphStart(doc: Node): number {
   let start = doc.content.size
   for (let i = doc.childCount - 1; i >= 0; i--) {
@@ -87,10 +84,10 @@ export function trailingEmptyParagraphStart(doc: Node): number {
   return start
 }
 
-/// For block-level widgets, find a position between blocks rather than
-/// inside an inline-content node (paragraph, heading). Walks up the
-/// tree until it finds a node that can contain block children, then
-/// snaps to the boundary at that depth.
+/// Find a position between blocks for a block-level widget, not a
+/// position inside an inline-content node such as a paragraph or a
+/// heading. Walk up the tree to the first node that takes block
+/// children, then snap to the boundary at that depth.
 export function snapToBlockBoundary(doc: Node, pos: number): number {
   const $pos = doc.resolve(pos)
   for (let d = $pos.depth; d >= 1; d--) {
@@ -121,10 +118,10 @@ export function forEachTopLevelNodeInRange(
   }
 }
 
-/// Add node-level deletion decorations for each top-level block in a range.
-/// Uses Decoration.node so the class is applied to the node's outer DOM wrapper,
-/// which works with custom node views (CodeMirror, image-block, etc.)
-/// where Decoration.inline cannot penetrate.
+/// Add a node-level deletion decoration for each top-level block in a
+/// range. `Decoration.node` puts the class on the node's outer DOM
+/// wrapper. This reaches a custom node view, such as CodeMirror or
+/// image-block, that `Decoration.inline` cannot enter.
 export function addBlockDeletionDecorations(
   doc: Node,
   from: number,
@@ -132,7 +129,7 @@ export function addBlockDeletionDecorations(
   decorations: Decoration[]
 ): void {
   forEachTopLevelNodeInRange(doc, from, to, (node, start, end) => {
-    // Skip trailing empty paragraphs (editor placeholders)
+    // A trailing empty paragraph is an editor placeholder, not content.
     if (
       end === doc.content.size &&
       node.type.name === 'paragraph' &&
@@ -148,13 +145,13 @@ export function addBlockDeletionDecorations(
   })
 }
 
-/// Find the enclosing top-level block node range for a position.
-/// Returns { from, to } covering the entire block at depth 1.
+/// Find the enclosing top-level block range for a position. Return
+/// `{ from, to }` that covers the whole block at depth 1.
 ///
-/// When `endBoundary` is true and the position sits at depth 0 (between
-/// top-level nodes), prefer the node *before* the position. Use this for
-/// exclusive range ends so the returned range covers the block that was
-/// actually touched (not the unrelated next node).
+/// At depth 0 the position sits between top-level nodes. If
+/// `endBoundary` is true, prefer the node before the position. Pass it
+/// for an exclusive range end, so the range covers the block the edit
+/// touches instead of the next node.
 export function getTopLevelBlockRange(
   doc: Node,
   pos: number,
@@ -170,8 +167,8 @@ export function getTopLevelBlockRange(
     }
   }
 
-  // Depth 0: position sits between top-level nodes. Pick the adjacent node —
-  // prefer the one on the side that was actually touched by the range.
+  // Depth 0: the position sits between top-level nodes. Pick the
+  // adjacent node on the side the range touches.
   if (endBoundary) {
     const nodeBefore = $pos.nodeBefore
     if (nodeBefore) {
@@ -194,11 +191,11 @@ export function getTopLevelBlockRange(
   return null
 }
 
-/// Check only the ancestor chain of `pos` for a custom block.
-/// Unlike `getCustomBlockAt`, this does NOT consider nodeBefore/nodeAfter —
-/// it returns null for positions that merely sit at the boundary between
-/// top-level blocks. Use this for empty ranges (pure inserts/deletes) where
-/// a boundary anchor shouldn't be treated as "touching" its neighbours.
+/// Check only the ancestor chain of `pos` for a custom block. Unlike
+/// `getCustomBlockAt`, this function ignores `nodeBefore` and
+/// `nodeAfter`. It returns null for a position that only sits at the
+/// boundary between two top-level blocks. Use it for an empty range,
+/// where a boundary anchor must not count as touching a neighbour.
 export function getCustomBlockAncestor(
   doc: Node,
   pos: number,
@@ -213,13 +210,13 @@ export function getCustomBlockAncestor(
   return null
 }
 
-/// Check if a position falls inside or at a custom block node in the given document.
-/// Returns the node type name if found, or null.
+/// Check if a position falls inside or at a custom block node. Return
+/// the node type name, or null.
 ///
-/// When `endBoundary` is true, a position immediately *after* an atom custom
-/// block is also considered touching it — use this only for exclusive range
-/// end positions. For point positions or range starts, leave it false so that
-/// edits adjacent to a custom block are not misclassified as inside it.
+/// If `endBoundary` is true, a position right after an atom custom
+/// block also counts as touching it. Pass it only for an exclusive
+/// range end. Leave it false for a point position or a range start, so
+/// an edit next to a custom block does not count as inside it.
 export function getCustomBlockAt(
   doc: Node,
   pos: number,
@@ -229,11 +226,11 @@ export function getCustomBlockAt(
   const ancestor = getCustomBlockAncestor(doc, pos, customBlockTypes)
   if (ancestor) return ancestor
 
-  // Not inside a custom block's ancestor chain — check the sibling on the
-  // touched side. For range starts and point positions this is nodeAfter
-  // (atom/leaf nodes like image-block are touched by the start). For
-  // exclusive range ends we look at nodeBefore instead — nodeAfter is past
-  // the range end and not actually touched.
+  // The position sits outside every custom block ancestor, so check the
+  // sibling on the touched side. A range start or a point position
+  // touches `nodeAfter`, which covers an atom node such as image-block.
+  // An exclusive range end touches `nodeBefore`, because `nodeAfter`
+  // lies past the range.
   const $pos = doc.resolve(Math.min(Math.max(pos, 0), doc.content.size))
   const sibling = endBoundary ? $pos.nodeBefore : $pos.nodeAfter
   if (sibling && customBlockTypes.has(sibling.type.name))
@@ -241,8 +238,9 @@ export function getCustomBlockAt(
   return null
 }
 
-/// Collect complete top-level nodes within a position range.
-/// Returns empty array if the range doesn't align with node boundaries.
+/// Collect the complete top-level nodes inside a position range.
+/// Return an empty array when the range does not align with node
+/// boundaries.
 export function collectTopLevelNodes(
   doc: Node,
   from: number,
@@ -257,7 +255,6 @@ export function collectTopLevelNodes(
     lastEnd = end
     nodes.push(node)
   })
-  // Validate the range starts and ends exactly on node boundaries
   if (nodes.length === 0 || firstStart !== from || lastEnd !== to) {
     aligned = false
   }

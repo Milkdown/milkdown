@@ -85,7 +85,8 @@ export class TableNodeView implements NodeView {
 
     if (!node) return false
 
-    // if the selection is a text selection, and the current node is the same as the node, return false
+    // A click inside the cell that already holds the caret keeps the
+    // text selection instead of replacing it with a node selection.
     if (state.selection instanceof TextSelection) {
       const currentNode = findParent(
         (node) =>

@@ -405,7 +405,6 @@ describe('computeDocDiff - range-limited', () => {
     // Same-size docs so a full-doc range is unambiguous in both.
     const oldDoc = doc(p(text('first')), p(text('second')), p(text('third')))
     const newDoc = doc(p(text('first')), p(text('SECOND')), p(text('third')))
-    // Full diff should find changes
     const fullChanges = computeDocDiff(oldDoc, newDoc)
     expect(fullChanges.length).toBeGreaterThan(0)
 
@@ -441,8 +440,8 @@ describe('computeDocDiff - range-limited', () => {
     const fullChanges = computeDocDiff(oldDoc, newDoc)
     expect(fullChanges.length).toBeGreaterThanOrEqual(2)
 
-    // Sub-range covering only the second paragraph (unchanged) — no changes
-    // p1 nodeSize=5 (open+AAA+close), so p2 starts at pos 5 and ends at pos 10
+    // A sub-range over the unchanged second paragraph finds no change.
+    // p1 has nodeSize 5, from open, AAA and close, so p2 covers 5 to 10.
     const subChanges = computeDocDiff(oldDoc, newDoc, {
       range: { from: 5, to: 10 },
     })
@@ -454,7 +453,7 @@ describe('computeDocDiff - range-limited', () => {
     const oldDoc = doc(p(text('AAA')), p(text('BBB')), p(text('CCC')))
     const newDoc = doc(p(text('AAA')), p(text('XXX')), p(text('CCC')))
 
-    // Sub-range covering the second paragraph — should find the change
+    // A sub-range over the second paragraph finds the change.
     const changes = computeDocDiff(oldDoc, newDoc, {
       range: { from: 5, to: 10 },
     })
@@ -701,9 +700,9 @@ describe('computeDocDiff - per-block matching', () => {
   })
 
   it('list item text edit recurses into the list', () => {
-    // bullet_list is a single top-level child, but our algorithm recurses
-    // into container nodes. Editing one item's text should produce a small
-    // change inside that item, not a huge one covering the whole list.
+    // bullet_list is a single top-level child, and the algorithm recurses
+    // into a container node. An edit to the text of one item produces a
+    // small change inside that item, not one over the whole list.
     const oldDoc = doc(ul(li(p(text('one'))), li(p(text('two')))))
     const newDoc = doc(ul(li(p(text('ONE'))), li(p(text('two')))))
 
@@ -768,8 +767,8 @@ describe('computeDocDiff - per-block matching', () => {
     const changes = computeDocDiff(oldDoc, newDoc)
     expect(changes.length).toBeGreaterThanOrEqual(2)
 
-    // Middle paragraph 'middle' starts after h1 (nodeSize 7: open + 'Title' + close)
-    // h1 nodeSize = 7, so p starts at 7, p nodeSize = 8, p ends at 15
+    // The middle paragraph starts after h1, whose nodeSize is 7 from
+    // open, 'Title' and close. The paragraph runs from 7 to 15.
     const h1Size = oldDoc.child(0).nodeSize
     const pSize = oldDoc.child(1).nodeSize
     const pStart = h1Size
@@ -890,8 +889,8 @@ describe('computeDocDiff - range option, per-block', () => {
   })
 
   it('sub-range exactly aligned with one unchanged block returns no changes', () => {
-    // Same shape as the legacy `sub-range excludes changes outside the
-    // range` test — must keep working under the per-block path.
+    // The same shape as the `sub-range excludes changes outside the
+    // range` test, which must keep working on the per-block path.
     const oldDoc = doc(p(text('AAA')), p(text('BBB')), p(text('CCC')))
     const newDoc = doc(p(text('XXX')), p(text('BBB')), p(text('ZZZ')))
 
@@ -1001,10 +1000,10 @@ describe('computeDocDiff - range option, per-block', () => {
   })
 })
 
-// Schema with a container node (`blockquote`) carrying attrs, used for
-// the encoder/ignoreAttrs precondition tests below. The main test schema
-// has no container node with attrs, so we need a small bespoke schema
-// to exercise the ancestor-encoder check.
+// A schema whose container node `blockquote` carries attrs, for the
+// encoder and `ignoreAttrs` precondition tests below. The main test
+// schema has no container node with attrs, so the ancestor-encoder check
+// needs this small schema.
 describe('computeDocDiff - range option, ancestor attrs precondition', () => {
   const blockquoteSchema = new Schema({
     nodes: {

@@ -12,8 +12,8 @@ import { SchemaReady, schemaCtx } from './schema'
 /// The timer which will be resolved when the serializer plugin is ready.
 export const SerializerReady = createTimer('SerializerReady')
 
-/// A slice which stores timers that need to be waited for before starting to run the plugin.
-/// By default, it's `[SchemaReady]`.
+/// A slice that holds the timers to wait for before the plugin
+/// runs. It defaults to `[SchemaReady]`.
 export const serializerTimerCtx = createSlice(
   [] as TimerType[],
   'serializerTimer'
@@ -32,7 +32,7 @@ export const serializerCtx = createSlice<Serializer, 'serializer'>(
 /// The serializer plugin.
 /// This plugin will create a serializer.
 ///
-/// This plugin will wait for the schema plugin.
+/// This plugin waits for the schema plugin.
 export const serializer: MilkdownPlugin = (ctx) => {
   ctx
     .inject(serializerCtx, outOfScope)

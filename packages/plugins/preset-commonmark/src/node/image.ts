@@ -113,8 +113,8 @@ withMeta(insertImageCommand, {
   group: 'Image',
 })
 
-/// This command will update the selected image node.
-/// You can pass a payload to update `src`, `alt` and `title` for the image node.
+/// This command updates the selected image node. Pass a payload to
+/// update the `src`, the `alt` and the `title` of the node.
 export const updateImageCommand = $command(
   'UpdateImage',
   (ctx) =>

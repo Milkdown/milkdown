@@ -25,9 +25,8 @@ export type $MarkSchema<T extends string> = [
   ) => $MarkSchema<T>
 }
 
-/// Create a plugin for mark schema.
-/// The first parameter is the id of the mark schema.
-/// The second parameter is the function that returns the mark schema.
+/// Create a plugin for mark schema. The first parameter is the id of the mark
+/// schema. The second parameter is the function that returns the mark schema.
 ///
 /// The function will return a plugin with additional properties:
 /// - `id`: The id of the mark schema.
@@ -36,7 +35,8 @@ export type $MarkSchema<T extends string> = [
 /// - `mark`: The mark schema plugin.
 /// - `schema`: The mark schema.
 /// - `key`: The key of slice which contains the mark schema factory.
-/// - `extendSchema`: A function witch will return a plugin that can extend the mark schema.
+/// - `extendSchema`: A function witch will return a plugin that can extend the
+///   mark schema.
 export function $markSchema<T extends string>(
   id: T,
   schema: GetMarkSchema

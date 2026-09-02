@@ -211,7 +211,8 @@ test.describe('insert-at-cursor', () => {
   test('insert at cursor replaces empty paragraph with blocks', async ({
     page,
   }) => {
-    // Empty editor has a single empty paragraph — streaming should replace it
+    // An empty editor holds one empty paragraph, which streaming
+    // replaces.
     const editor = page.locator('.editor')
     await editor.locator('p').first().click()
     await waitNextFrame(page)
@@ -583,10 +584,10 @@ test.describe('replace-selection', () => {
     await setMarkdown(page, 'Start.\n\nMiddle paragraph.\n\nEnd.')
     await waitNextFrame(page)
 
-    // Select entire "Middle paragraph." text. Using Shift+ArrowRight by
-    // character count rather than Shift+End — the latter extends to
-    // end-of-document on macOS browsers (vs end-of-line on Linux/Windows),
-    // making the test platform-dependent.
+    // Select the whole "Middle paragraph." text with Shift+ArrowRight,
+    // once per character. Shift+End would extend to the end of the
+    // document on a macOS browser and to the end of the line on Linux
+    // and Windows, which makes the test platform-dependent.
     const editor = page.locator('.editor')
     await editor.locator('p').nth(1).click()
     await page.keyboard.press('Home')
@@ -665,8 +666,8 @@ test.describe('replace-selection', () => {
   test('collapsed selection in empty document snaps like cursor mode', async ({
     page,
   }) => {
-    // Empty editor has a single empty paragraph — block content should
-    // replace it cleanly, same as insertAt: 'cursor'.
+    // An empty editor holds one empty paragraph, which block content
+    // replaces cleanly, the same as `insertAt: 'cursor'`.
     const editor = page.locator('.editor')
     await editor.locator('p').first().click()
     await waitNextFrame(page)

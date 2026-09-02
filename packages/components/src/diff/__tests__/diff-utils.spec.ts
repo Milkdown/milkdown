@@ -71,7 +71,7 @@ describe('hasBlockContent', () => {
         li({ checked: false }, p(t('world')))
       )
     )
-    // Inside "hello" — depth 3 (doc > bullet_list > list_item > paragraph).
+    // Inside "hello", at depth 3: doc > bullet_list > list_item > paragraph.
     // Position 3 is inside the first paragraph.
     expect(hasBlockContent(d, 3, 4)).toBe(false)
   })
@@ -84,9 +84,9 @@ describe('hasBlockContent', () => {
     const d = doc(
       ul(li({ checked: false }, p(t('a'))), li({ checked: false }, p(t('b'))))
     )
-    // Walk the doc to find a position that sits at the bullet_list depth
-    // just before the second list_item — resolve(pos).depth === 1 means we
-    // are at the list_item boundary inside the bullet_list.
+    // Find a position at the bullet_list depth, just before the second
+    // list_item. A resolved depth of 1 marks that boundary inside the
+    // bullet_list.
     let boundaryPos = -1
     for (let i = 1; i < d.content.size; i++) {
       const $p = d.resolve(i)
@@ -162,8 +162,8 @@ describe('mergeBlockChanges — pure inserts/deletes at custom block boundary', 
     // The change should NOT have been promoted to a custom-block merge,
     // because the insertion is merely adjacent to the table, not inside it.
     expect(merged[0]!.isCustomBlock).toBe(false)
-    // And the range must remain the original pure insertion — no expansion
-    // backwards over the table.
+    // The range must stay the original pure insertion. It must not
+    // expand backwards over the table.
     expect(merged[0]!.fromA).toBe(tableEndA)
     expect(merged[0]!.toA).toBe(tableEndA)
     expect(merged[0]!.fromB).toBe(tableEndB)
@@ -254,9 +254,9 @@ describe('mergeBlockChanges — pure inserts/deletes at custom block boundary', 
   })
 
   it('coalesces two changes that expand into the same custom block', () => {
-    // Two separate non-empty changes, each overlapping the table on a
-    // different side, should collapse into a single merged change —
-    // otherwise the decoration plugin renders the new table twice.
+    // Two non-empty changes overlap the table on different sides, and
+    // they must collapse into one merged change. Otherwise the
+    // decoration plugin renders the new table twice.
     const oldD = doc(
       p(t('head')),
       table(row(td(t('a'))), row(td(t('b')))),
@@ -312,9 +312,9 @@ describe('trailingEmptyParagraphStart', () => {
   })
 
   it('stops at the first non-paragraph block walking backwards', () => {
-    // Empty paragraph after a table is still trailing, but an empty
-    // paragraph before a table is not — walking backwards must stop at
-    // the table.
+    // An empty paragraph after a table still counts as trailing. An
+    // empty paragraph before a table does not, so the backward walk
+    // stops at the table.
     const tableNode = table(row(td(t('a'))))
     const d = doc(p(), tableNode, p())
     const lastEmptySize = d.child(2).nodeSize

@@ -83,9 +83,10 @@ export const emojiSchema = $nodeSchema('emoji', (ctx) => ({
   toMarkdown: {
     match: (node) => node.type.name === 'emoji',
     runner: (state, node) => {
-      // Parse via an inert `<template>`: unlike a live `<span>`, its content
-      // fragment never triggers resource loads, so an `<img onerror>` payload
-      // cannot fire during serialization. Sanitize as well for defense in depth.
+      // An inert `<template>` parses the html. Its content fragment
+      // loads no resource, unlike a live `<span>`, so an `<img onerror>`
+      // payload cannot fire during serialization. The sanitize call adds
+      // a second layer of defense.
       const template = document.createElement('template')
       template.innerHTML = DOMPurify.sanitize(node.attrs.html)
       const img = template.content.querySelector('img')

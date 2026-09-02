@@ -40,11 +40,11 @@ test('should not parse when preceded by word and followed by quote', async ({
   await focusEditor(page)
   await page.keyboard.type('a**"foo"**')
 
-  // Expect no <strong> element created.
   await expect(editor.locator('strong')).toHaveCount(0)
 
   const markdown = await getMarkdown(page)
-  // The markdown should remain unchanged (with newline appended by Milkdown serializer).
+  // The markdown stays unchanged. The Milkdown serializer appends the
+  // newline.
   expect(markdown).toBe('a\\*\\*"foo"\\*\\*\n')
 })
 

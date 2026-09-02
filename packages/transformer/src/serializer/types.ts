@@ -2,7 +2,8 @@ import type { Mark, Node } from '@milkdown/prose/model'
 
 import type { SerializerState } from './state'
 
-/// The serializer type which is used to transform prosemirror node into markdown text.
+/// The serializer type which is used to transform prosemirror node into
+/// markdown text.
 export type Serializer = (content: Node) => string
 
 /// The spec for node serializer in schema.

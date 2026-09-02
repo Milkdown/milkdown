@@ -70,7 +70,8 @@ export interface EndStreamingOptions {
 
 /// Options for aborting a streaming session.
 export interface AbortStreamingOptions {
-  /// If true, keep the partial content. If false, restore original doc (default: false).
+  /// If true, keep the partial content. If false, restore the original
+  /// doc. Defaults to false.
   keep?: boolean
 }
 

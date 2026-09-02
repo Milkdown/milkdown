@@ -16,11 +16,12 @@ export type $Command<T> = MilkdownPlugin & {
   key: CmdKey<T>
 }
 
-/// Create a command plugin. The command will be registered in the `commandsCtx` and can be called by other parts of the editor.
-/// It takes a key and a factory function. The factory function will be called when the plugin is created.
-/// The factory should return a function that will be called when the command is executed.
-/// The function should receive at **most one parameter**, which is the payload of the command.
-/// And the payload should always be **optional**.
+/// Create a command plugin. The command will be registered in the `commandsCtx`
+/// and can be called by other parts of the editor. It takes a key and a factory
+/// function. The factory function will be called when the plugin is created.
+/// The factory should return a function that will be called when the command is
+/// executed. The function should receive at **most one parameter**, which is
+/// the payload of the command. And the payload should always be **optional**.
 ///
 /// ```ts
 /// import { setBlockType } from '@milkdown/prose/commands'
@@ -38,7 +39,10 @@ export type $Command<T> = MilkdownPlugin & {
 ///
 /// ```ts
 /// import { callCommand } from '@milkdown/utils';
-/// const editor = Editor.make().use(/* some plugins */).use(commandPlugin).create();
+/// const editor = Editor.make()
+///   .use(/* some plugins */)
+///   .use(commandPlugin)
+///   .create()
 ///
 /// editor.action(callCommand(commandPlugin.key, 3));
 /// ```
@@ -64,7 +68,8 @@ export function $command<T, K extends string>(
   return <$Command<T>>plugin
 }
 
-/// The async version for `$command`. You can use `await` in the factory when creating the command.
+/// The async version for `$command`. You can use `await` in the factory when
+/// creating the command.
 /// ```ts
 /// const commandPlugin = $commandASync('LoadRemoteDoc', (ctx) => {
 ///   return async (url = 'my-remote-api') => {

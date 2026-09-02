@@ -15,11 +15,11 @@ import { performFlush } from './flush'
 import { streamingConfig } from './streaming-config'
 import { streamingPluginKey } from './streaming-plugin'
 
-/// Start a streaming session. Captures the current doc and locks editing.
-/// Pass `{ insertAt: 'cursor' }` or `{ insertAt: <pos> }` for insert-at-cursor mode.
+/// Start a streaming session. The command captures the current doc and
+/// locks editing. Pass `{ insertAt: 'cursor' }` or `{ insertAt: <pos> }`
+/// for insert-at-cursor mode.
 export const startStreamingCmd = $command('StartStreaming', () => {
   return (options?: StartStreamingOptions) => (state, dispatch) => {
-    // Don't start if already streaming
     const existing = streamingPluginKey.getState(state)
     if (existing?.active) return false
 
@@ -57,12 +57,12 @@ export const startStreamingCmd = $command('StartStreaming', () => {
             Math.min(Math.round(rawPos), state.doc.content.size)
           )
 
-          // If cursor is inside a top-level empty textblock (e.g. the default
-          // empty paragraph in a new editor), snap the range to cover the whole
-          // block so that block-level content replaces it cleanly.
-          // Only depth === 1 — nested empty textblocks (inside list items,
-          // blockquotes, etc.) should not be snapped; the normal strategy
-          // handles them correctly at their original position.
+          // A cursor inside a top-level empty textblock, such as the
+          // default empty paragraph of a new editor, snaps the range to
+          // the whole block, so block-level content replaces it cleanly.
+          // Only depth 1 snaps. A nested empty textblock, inside a list
+          // item or a blockquote, keeps its original position, where the
+          // normal strategy handles it.
           const resolved = state.doc.resolve(insertPos)
           if (
             resolved.parent.isTextblock &&
@@ -132,7 +132,6 @@ export const endStreamingCmd = $command('EndStreaming', (ctx) => {
       const result = performFlush(ctx, state.tr, streamingState)
       let tr = result.tr
 
-      // End streaming
       tr = tr.setMeta(streamingPluginKey, {
         type: 'end',
       } satisfies StreamingAction)

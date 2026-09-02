@@ -18,8 +18,8 @@ export type $Shortcut = MilkdownPlugin & {
   keymap: Keymap
 }
 
-/// Create a shortcut for the editor.
-/// It takes a factory function which returns a [prosemirror keymap](https://prosemirror.net/docs/ref/#keymap).
+/// Create a shortcut for the editor. It takes a factory function which returns
+/// a [prosemirror keymap](https://prosemirror.net/docs/ref/#keymap).
 ///
 /// Additional property:
 /// - `keymap`: The prosemirror keymap created.
@@ -39,7 +39,8 @@ export function $shortcut(shortcut: (ctx: Ctx) => Keymap): $Shortcut {
   return <$Shortcut>plugin
 }
 
-/// The async version for `$shortcut`. You can use `await` in the factory when creating the keymap.
+/// The async version for `$shortcut`. You can use `await` in the factory when
+/// creating the keymap.
 ///
 /// Additional property:
 /// - `keymap`: The prosemirror keymap created.

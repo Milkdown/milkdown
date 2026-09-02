@@ -123,9 +123,10 @@ export function textOffsetToPos(
   return lastPos
 }
 
-/// Render the document text with the selection drawn in: `┃` for a caret,
-/// `❰…❱` for a range. Blocks are joined with `blockSeparator` and leaf nodes
-/// render as `leafText`. Made for inline snapshot assertions in tests.
+/// Render the document text with the selection drawn in. A caret shows
+/// as `┃`, and a range shows as `❰…❱`. `blockSeparator` joins the
+/// blocks, and a leaf node renders as `leafText`. Use it for an inline
+/// snapshot assertion in a test.
 export function getSelectionSnapshot(
   state: EditorState,
   options?: TextIndexOptions

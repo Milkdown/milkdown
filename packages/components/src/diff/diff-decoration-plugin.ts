@@ -51,8 +51,8 @@ export const diffDecorationPlugin = $prose((ctx) => {
         const diffState = diffPluginKey.getState(newState)
         if (!diffState?.active) return DecorationSet.empty
 
-        // Only rebuild when diff state changes (action dispatched or doc changed).
-        // Selection-only changes reuse the mapped decoration set.
+        // A rebuild costs a full diff, so only a dispatched action or a
+        // doc change earns one. A selection change reuses the mapped set.
         if (tr.getMeta(diffPluginKey) || tr.docChanged)
           return buildDecorations(ctx, newState.doc, diffState, config)
 
@@ -88,7 +88,8 @@ interface CrossBoundaryOptions {
   decorations: Decoration[]
 }
 
-/// Render a cross-boundary change as separate inline + block decorations.
+/// Render a cross-boundary change as a separate inline decoration and
+/// block decoration.
 function addCrossBoundaryDecorations({
   doc,
   newDoc,
@@ -133,7 +134,7 @@ function addCrossBoundaryDecorations({
     }
   }
 
-  // One set of controls for the full change, at block boundary
+  // The whole change shares one set of controls, at a block boundary.
   const lastSeg = segments[segments.length - 1]!
   const lastSegEnd = lastSeg.isBlock
     ? lastSeg.fromA < lastSeg.toA
@@ -183,8 +184,8 @@ function buildDecorations(
     const isDeletion = change.fromA < change.toA
     const isInsertion = change.fromB < change.toB
 
-    // Skip deletion-only changes that are just trailing empty paragraphs.
-    // Editors like Crepe always keep an empty paragraph at the end.
+    // An editor such as Crepe always keeps an empty paragraph at the
+    // end, so a deletion that covers only those is not a real change.
     if (
       isDeletion &&
       !isInsertion &&
@@ -199,12 +200,12 @@ function buildDecorations(
     const insertionHasBlocks =
       isInsertion && hasBlockContent(diffState.newDoc, change.fromB, change.toB)
 
-    // Changes entirely within a single top-level block in the old doc
-    // (e.g. list item text edits, blockquote text changes) should render
-    // as inline — the old-doc slice may contain sub-block nodes but the
-    // edit itself is inline-level.
-    // Only apply when neither side contains block content, otherwise
-    // we'd render block nodes inside a <span> (invalid DOM).
+    // A change that stays inside one top-level block of the old doc
+    // renders inline, for example a text edit in a list item or a
+    // blockquote. The old-doc slice can hold sub-block nodes while the
+    // edit itself stays inline-level. This path needs both sides free of
+    // block content, because a block node inside a `<span>` is invalid
+    // DOM.
     const deletionWithinSingleBlock =
       isDeletion &&
       !deletionSpansBlocks &&
@@ -215,8 +216,8 @@ function buildDecorations(
       (deletionSpansBlocks || deletionHasBlocks || insertionHasBlocks) &&
       !deletionWithinSingleBlock
 
-    // Try to split cross-boundary changes into inline + block segments
-    // so both the inline text change and block additions are visible.
+    // A split into an inline segment and a block segment keeps both the
+    // text change and the added blocks visible.
     if (isBlockLevel && !change.isCustomBlock) {
       const segments = splitCrossBoundaryChange(doc, diffState.newDoc, change)
       if (segments) {
@@ -235,7 +236,7 @@ function buildDecorations(
       }
     }
 
-    // Non-split path: render as a single change
+    // Non-split path: render the change as one decoration.
     if (isDeletion) {
       if (change.isCustomBlock || isBlockLevel) {
         addBlockDeletionDecorations(doc, change.fromA, change.toA, decorations)
@@ -298,10 +299,9 @@ function createInsertedWidget(
 
   const serializer = DOMSerializer.fromSchema(newDoc.type.schema)
 
-  // When the range aligns with complete top-level block boundaries,
-  // serialize each node directly. This ensures complex nodes like tables
-  // get their proper HTML structure (<table>/<tbody>/<tr>) instead of
-  // bare cell content from slice serialization.
+  // A range aligned to complete top-level blocks serializes node by
+  // node. This keeps the HTML structure of a complex node such as a
+  // table, which slice serialization reduces to bare cell content.
   if (isBlockLevel) {
     const nodes = collectTopLevelNodes(newDoc, change.fromB, change.toB)
     if (nodes.length > 0) {
@@ -314,13 +314,12 @@ function createInsertedWidget(
     }
   }
 
-  // Fallback: use slice serialization
   const slice = newDoc.slice(change.fromB, change.toB)
   const fragment = serializer.serializeFragment(slice.content)
   dom.appendChild(fragment)
 
-  // If serialization produced no visible content (but not images/media),
-  // fall back to plain text
+  // Serialization can yield no visible content. Plain text is the
+  // fallback, unless the result holds an image or a media element.
   if (
     !dom.textContent?.trim() &&
     !dom.querySelector('img, video, audio, canvas, svg')
@@ -357,8 +356,8 @@ function createControlsWidget({
   const handler = (action: 'accept' | 'reject') => (e: Event) => {
     e.preventDefault()
     e.stopPropagation()
-    // Always use range-based commands — works for both custom blocks
-    // and split cross-boundary changes.
+    // A range-based command covers both a custom block and a split
+    // cross-boundary change.
     const range = {
       fromA: change.fromA,
       toA: change.toA,

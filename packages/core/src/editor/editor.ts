@@ -284,8 +284,8 @@ export class Editor {
   /// This method should be used after the editor is created.
   readonly action = <T>(action: (ctx: Ctx) => T) => action(this.#ctx)
 
-  /// Get inspections of plugins in editor.
-  /// Make sure you have enabled inspector by `editor.enableInspector()` before calling this method.
+  /// Get inspections of plugins in editor. Make sure you have enabled inspector
+  /// by `editor.enableInspector()` before calling this method.
   readonly inspect = (): Telemetry[] => {
     if (!this.#enableInspector) {
       console.warn(

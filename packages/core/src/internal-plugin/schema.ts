@@ -15,8 +15,8 @@ import { InitReady } from './init'
 /// The timer which will be resolved when the schema plugin is ready.
 export const SchemaReady = createTimer('SchemaReady')
 
-/// A slice which stores timers that need to be waited for before starting to run the plugin.
-/// By default, it's `[InitReady]`.
+/// A slice that holds the timers to wait for before the plugin
+/// runs. It defaults to `[InitReady]`.
 export const schemaTimerCtx = createSlice([] as TimerType[], 'schemaTimer')
 
 /// A slice which contains the schema.
@@ -38,7 +38,7 @@ function extendPriority<T extends NodeSchema | MarkSchema>(x: T): T {
 /// The schema plugin.
 /// This plugin will load all nodes spec and marks spec and create a schema.
 ///
-/// This plugin will wait for the init plugin.
+/// This plugin waits for the init plugin.
 export const schema: MilkdownPlugin = (ctx) => {
   ctx
     .inject(schemaCtx, {} as Schema)

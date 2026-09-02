@@ -93,10 +93,9 @@ export interface AIFeatureConfig {
   /// Pass-through config for the diff plugin.
   diff?: AIDiffConfig
 
-  /// Pass-through config for the streaming plugin.
-  /// `diffReviewOnEnd` is excluded here because it's controlled by
-  /// `AIFeatureConfig.diffReviewOnEnd` at the AI layer — setting it on
-  /// both would be confusing.
+  /// Pass-through config for the streaming plugin. This type excludes
+  /// `diffReviewOnEnd`, because `AIFeatureConfig.diffReviewOnEnd`
+  /// controls it at the AI layer.
   streaming?: Partial<Omit<StreamingConfig, 'diffReviewOnEnd'>>
 
   /// Called when an error occurs during AI processing.

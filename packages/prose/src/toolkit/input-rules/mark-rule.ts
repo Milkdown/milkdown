@@ -68,10 +68,10 @@ export function markRule(
       const textStart = start + fullMatch.indexOf(group)
       const textEnd = textStart + group.length
 
-      // Delimiters inside inline code are literal, but an inline code mark can
-      // still be valid content inside an outer mark such as *`code`*. Delimiters
-      // already in the document are rejected on their marks alone, wherever they
-      // sit inside the span.
+      // A delimiter inside inline code is literal. An inline code mark
+      // still counts as valid content inside an outer mark such as
+      // *`code`*. A delimiter already in the document is rejected on its
+      // marks alone, wherever it sits inside the span.
       const openingDelimiterHasCodeMark = rangeHasCodeMark(
         state,
         start + startSpaces,

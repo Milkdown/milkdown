@@ -155,9 +155,9 @@ withMeta(wrapInHeadingCommand, {
   group: 'Heading',
 })
 
-/// This command can downgrade the selected heading.
-/// For example, if you have a `h2` element, and you call this command, you will get a `h1` element.
-/// If the element is already a `h1` element, it will turn it into a `p` element.
+/// This command downgrades the selected heading. It turns an `h2`
+/// element into an `h1` element. It turns an `h1` element into a `p`
+/// element.
 export const downgradeHeadingCommand = $command(
   'DowngradeHeading',
   (ctx) => () => (state, dispatch, view) => {

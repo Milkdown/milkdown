@@ -59,10 +59,10 @@ withMeta(insertTableInputRule, {
   group: 'Table',
 })
 
-/// A paste rule for fixing tables without header cells.
-/// This is a workaround for some editors (e.g. Google Docs) which allow creating tables without header cells,
-/// which is not supported by Markdown schema.
-/// This paste rule will promote the first data row to header, or add empty header cells as a fallback.
+/// A paste rule that fixes a table without header cells. An editor such
+/// as Google Docs creates a table without header cells, which the
+/// Markdown schema does not support. This rule promotes the first data
+/// row to a header row, or adds empty header cells as a fallback.
 export const tablePasteRule = $pasteRule((ctx) => ({
   run: (slice, _view, isPlainText) => {
     if (isPlainText) {
@@ -124,9 +124,9 @@ export const tablePasteRule = $pasteRule((ctx) => ({
       return newTable
     }
 
-    // Wrap consecutive orphaned table_row nodes (at the top level of a fragment)
-    // into a proper table. This happens when ProseMirror's parseSlice breaks
-    // a table apart (e.g. when pasting multiple tables from Google Docs).
+    // Wrap the consecutive orphaned table_row nodes at the top level of
+    // a fragment into a table. `parseSlice` breaks a table apart this
+    // way, for example on a paste of several tables from Google Docs.
     function wrapOrphanedRows(fragment: FragmentType): FragmentType {
       const rowType = tableRowSchema.type(ctx)
       const nodes: ProsemirrorNode[] = []
@@ -136,7 +136,8 @@ export const tablePasteRule = $pasteRule((ctx) => ({
       function flushPendingRows() {
         if (pendingRows.length === 0) return
 
-        // Create an empty table_header_row, then fixTable will promote the first data row
+        // An empty table_header_row lets `fixTable` promote the first
+        // data row.
         const emptyHeaderRow = tableHeaderRowSchema.type(ctx).createAndFill()!
         const table = tableSchema
           .type(ctx)

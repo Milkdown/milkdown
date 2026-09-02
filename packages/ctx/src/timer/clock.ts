@@ -22,7 +22,7 @@ export class Clock {
     this.store.delete(timer.id)
   }
 
-  // Check if the clock has a timer by timer type.
+  /// Check if the clock has a timer by timer type.
   has = (timer: TimerType) => {
     return this.store.has(timer.id)
   }

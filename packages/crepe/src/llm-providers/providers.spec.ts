@@ -97,10 +97,9 @@ describe('shared helpers', () => {
   })
 
   test('parseSSE preserves significant whitespace in the trailing payload', async () => {
-    // No trailing newline — the buffer reaches the tail flush. The
-    // payload here intentionally contains leading and trailing spaces
-    // (a streamed token boundary the model emitted on purpose); the
-    // tail flush must not strip them.
+    // The payload carries no trailing newline, so the buffer reaches the
+    // tail flush. Its leading and trailing spaces mark a streamed token
+    // boundary, and the tail flush must keep them.
     const response = chunkedSseResponse(['data:  hello world  '])
     const ac = new AbortController()
     const out = await collect(parseSSE(response, ac.signal))

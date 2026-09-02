@@ -48,10 +48,11 @@ export function flushBuffer(
 /// Default strategy resolver. Determines how streamed content is inserted
 /// based on the cursor position. Can be overridden via `streamingConfig`.
 ///
-/// - Code blocks → plain text, preserving newlines
-/// - Table cells → plain text, collapsing newlines
-/// - Other textblocks (paragraph, heading, list item, blockquote) → split-block
-/// - Between blocks (depth 0) → full block parse
+/// - Code block → plain text, keeping newlines
+/// - Table cell → plain text, collapsing newlines
+/// - Other textblock, such as a paragraph, a heading, a list item or a
+///   blockquote → split-block
+/// - Between blocks, at depth 0 → full block parse
 export function defaultInsertStrategy(resolved: ResolvedPos): InsertStrategy {
   if (resolved.parent.type.spec.code) {
     return { type: 'plain-text', preserveNewlines: true }
@@ -160,29 +161,26 @@ function applyPlainText(
   return { tr, applied: true, insertEndPos: from + textContent.length }
 }
 
-/// Patterns that could trigger inline markdown parsing into marks,
-/// non-text nodes, or text that differs from the raw source:
-/// - `*`, `_`            emphasis / strong
-/// - `~`                 strikethrough (GFM)
-/// - `` ` ``             inline code
-/// - `[`                 links / images (`]` is omitted because any
-///                       valid link/image starts with `[`, so checking
-///                       the opener is enough)
-/// - `\`                 escape
-/// - `<`                 autolinks (`<https://...>`, `<a@b.com>`) and raw HTML
-/// - `https://`, `www.`, `x@x`
-///                       GFM autolink literals (`https://a.com`,
-///                       `www.a.com`, `a@b.com`) have no bracket or angle
-///                       bracket, so they need their own triggers
-/// - `&` + entity start  character references (`&amp;`, `&#35;`)
+/// Patterns that could trigger inline markdown parsing into marks, non-text
+/// nodes, or text that differs from the raw source:
+/// - `*`, `_` emphasis / strong
+/// - `~` strikethrough (GFM)
+/// - `` ` `` inline code
+/// - `[` links / images (`]` is omitted because any valid link/image starts
+///   with `[`, so checking the opener is enough)
+/// - `\` escape
+/// - `<` autolinks (`<https://...>`, `<a@b.com>`) and raw HTML
+/// - `https://`, `www.`, `x@x` GFM autolink literals (`https://a.com`,
+///   `www.a.com`, `a@b.com`) have no bracket or angle bracket, so they need
+///   their own triggers
+/// - `&` + entity start character references (`&amp;`, `&#35;`)
 ///
-/// The set has to cover syntax added by remark plugins too, not just
-/// CommonMark/GFM: a pattern that is missing here makes the fast path
-/// return the raw string, so the construct is silently streamed in as
-/// literal text and never reaches the parser. Plugin syntax whose trigger
-/// characters are too common in plain prose to test unconditionally
-/// (inline math, emoji shortcodes) is only consulted when the schema
-/// actually has the corresponding node — see `hasInlineMarkdownSyntax`.
+/// The set covers the syntax that a remark plugin adds, not only CommonMark and
+/// GFM. A missing pattern makes the fast path return the raw string, so the
+/// construct streams in as literal text and never reaches the parser. Some
+/// plugin syntax carries trigger characters that are too common in prose for an
+/// unconditional test, such as inline math and an emoji shortcode. Those run
+/// only when the schema has the matching node. See `hasInlineMarkdownSyntax`.
 const INLINE_MARKDOWN_TOKENS =
   /[*_~`[\\<]|https?:\/\/|www\.|[\w.+-]@\w|&[a-zA-Z#]/
 
@@ -201,11 +199,10 @@ const INLINE_MATH_SPAN = /\$(?!\s)(?:[^$\n]*[^\s$])?\$(?!\d)/
 /// (`@milkdown/plugin-emoji`).
 const EMOJI_SHORTCODE = /:[\w+-]+:/
 
-/// Fast-path gate: decide whether a line may contain inline markdown
-/// syntax and needs the full parser. Base tokens are always checked;
-/// schema-gated patterns only run when the corresponding node exists in
-/// the schema, so editors without the feature never pay for the parse —
-/// and never have prose reinterpreted by a syntax they don't render.
+/// Decide whether a line can contain inline markdown syntax and needs
+/// the full parser. Base tokens always run. A schema-gated pattern runs
+/// only when the schema has the matching node. An editor without that
+/// node pays no parse cost, and its prose keeps the literal meaning.
 function hasInlineMarkdownSyntax(
   schema: Node['type']['schema'],
   text: string
@@ -236,20 +233,19 @@ function tryParse(
 /// Parse a single markdown line and return its inline content (text
 /// nodes with marks, links, etc.) for merging into a textblock. Falls
 /// back to the original string when:
-/// - the text contains no markdown-relevant syntax (fast path —
-///   insert-mode flushes reparse the current line on every throttled
-///   flush, so plain prose shouldn't pay for a full parse)
+/// - the text contains no markdown-relevant syntax. This is the fast
+///   path. An insert-mode flush reparses the current line on every
+///   throttled flush, so plain prose must not pay for a full parse.
 /// - the line parses as a non-paragraph block: a heading (`# **bold**`),
 ///   code block, etc. is also a textblock but extracting its content
 ///   would silently drop the block marker (`# `, indent, ...) from the
 ///   streamed text
 /// - the parser fails (see `tryParse`)
 ///
-/// When the line does parse as a paragraph, the parsed content is used
-/// as-is — including text-only results, so entity references (`&amp;`)
-/// and escapes (`\*`) render with their final semantics instead of
-/// flipping between raw and decoded depending on what else is on the
-/// line.
+/// A line that parses as a paragraph keeps the parsed content as it is,
+/// including a text-only result. An entity reference such as `&amp;` and
+/// an escape such as `\*` then render with their final meaning, instead
+/// of flipping between raw and decoded with the rest of the line.
 function parseInlineContent(
   ctx: Ctx,
   schema: Node['type']['schema'],
@@ -270,10 +266,11 @@ function parseInlineContent(
   // For mid-paragraph inserts that loss visibly concatenates words
   // (` **bold**` after `foo` renders as `foo**bold**`), so re-attach
   // exactly what CommonMark strips: ASCII spaces and tabs at the edges.
-  // Only those — non-ASCII whitespace (e.g. U+3000) survives the parse
-  // and must not be duplicated. Lines indented far enough to become an
-  // indented code block never reach this point (non-paragraph fallback
-  // above), so the stripped edges are unconditionally safe to restore.
+  // Only those two. Non-ASCII whitespace such as U+3000 survives the
+  // parse and must stay unique. A line indented far enough to become an
+  // indented code block never reaches this point, because the
+  // non-paragraph fallback above catches it. The stripped edges are
+  // therefore always safe to restore.
   let content = firstBlock.content
   const leading = /^[ \t]+/.exec(text)?.[0]
   if (leading) {
@@ -301,7 +298,8 @@ function applySplitBlock({
   const schema = tr.doc.type.schema
   const firstNewline = buffer.indexOf('\n')
 
-  // Single line — parse as inline markdown so marks/links survive.
+  // A single line parses as inline markdown, which keeps a mark and a
+  // link alive.
   if (firstNewline < 0) {
     const inlineContent = parseInlineContent(ctx, schema, buffer)
     tr = tr.replaceWith(from, to, inlineContent)
@@ -311,7 +309,6 @@ function applySplitBlock({
   const inlinePart = buffer.substring(0, firstNewline)
   const blockPart = buffer.substring(firstNewline + 1)
 
-  // Try to parse the block part as markdown
   const parser = ctx.get(parserCtx)
   const parsed = blockPart.trim() ? tryParse(parser, blockPart) : null
   const blockContent = parsed
@@ -396,8 +393,9 @@ export interface FlushResult {
   insertEndPos?: number
 }
 
-/// Perform a flush for both insert and replace modes.
-/// Used by the flush controller (throttled loop) and endStreamingCmd (final flush).
+/// Perform a flush for both insert mode and replace mode. The throttled
+/// loop of the flush controller calls it, and `endStreamingCmd` calls it
+/// for the final flush.
 export function performFlush(
   ctx: Ctx,
   tr: Transaction,

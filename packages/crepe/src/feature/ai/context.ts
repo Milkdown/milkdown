@@ -15,16 +15,14 @@ export function defaultBuildContext(
   const serializer = ctx.get(serializerCtx)
   const { state } = view
 
-  // Full document as markdown
   const document = serializer(state.doc)
 
-  // Selected text as markdown (empty if selection is collapsed).
-  // For block-level selections (whole paragraphs, list items, etc.)
-  // we wrap the slice content in a doc node and serialize it. For
-  // inline-only selections (text inside a single paragraph),
-  // createAndFill on the doc type returns null because inline content
-  // isn't valid as direct doc children — wrap it in a paragraph first
-  // so marks (bold, italic, links) survive into the markdown output.
+  // A collapsed selection serializes to an empty string. A block-level
+  // selection, such as a whole paragraph or a list item, serializes
+  // through a doc node that wraps the slice content. An inline-only
+  // selection needs a paragraph wrapper first, because `createAndFill`
+  // on the doc type returns null for inline content. The wrapper also
+  // keeps a mark such as bold, italic or a link in the markdown output.
   let selection = ''
   if (!state.selection.empty) {
     const { from, to } = state.selection
