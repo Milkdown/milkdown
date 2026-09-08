@@ -15,6 +15,8 @@ export class Timer {
   readonly #eventUniqId: symbol
   /// @internal
   #status: TimerStatus = 'pending'
+  /// @internal
+  #timeoutId: ReturnType<typeof setTimeout> | null = null
 
   /// @internal
   constructor(clock: TimerMap, type: TimerType) {
@@ -69,12 +71,17 @@ export class Timer {
 
   /// @internal
   #removeListener = () => {
+    if (this.#timeoutId !== null) {
+      clearTimeout(this.#timeoutId)
+      this.#timeoutId = null
+    }
     if (this.#listener) removeEventListener(this.type.name, this.#listener)
   }
 
   /// @internal
   #waitTimeout = (ifTimeout: () => void) => {
-    setTimeout(() => {
+    this.#timeoutId = setTimeout(() => {
+      this.#timeoutId = null
       ifTimeout()
     }, this.type.timeout)
   }
