@@ -137,7 +137,7 @@
     "@codemirror/view": "^6.26.0",
     "@testing-library/vue": "^8.1.0",
     "jsdom": "^30.0.0",
-    "vitest": "^4.0.0"
+    "vitest": "^5.0.0"
   },
   "peerDependencies": {
     "@codemirror/language": "^6",
