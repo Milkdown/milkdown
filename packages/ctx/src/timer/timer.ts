@@ -12,6 +12,8 @@ export class Timer {
   /// @internal
   #listener: EventListener | null = null
   /// @internal
+  #timeout: ReturnType<typeof setTimeout> | null = null
+  /// @internal
   readonly #eventUniqId: symbol
   /// @internal
   #status: TimerStatus = 'pending'
@@ -69,12 +71,20 @@ export class Timer {
 
   /// @internal
   #removeListener = () => {
-    if (this.#listener) removeEventListener(this.type.name, this.#listener)
+    if (this.#listener) {
+      removeEventListener(this.type.name, this.#listener)
+      this.#listener = null
+    }
+
+    if (this.#timeout !== null) {
+      clearTimeout(this.#timeout)
+      this.#timeout = null
+    }
   }
 
   /// @internal
   #waitTimeout = (ifTimeout: () => void) => {
-    setTimeout(() => {
+    this.#timeout = setTimeout(() => {
       ifTimeout()
     }, this.type.timeout)
   }
