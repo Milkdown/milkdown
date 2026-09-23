@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import { TimerType } from './timer'
 
@@ -25,5 +25,23 @@ describe('timing/timing', () => {
     await expect(timer.start()).rejects.toStrictEqual(
       new Error('Timing timer timeout.')
     )
+  })
+
+  it('clears its timeout once resolved', async () => {
+    // A resolved timer must not leave its rejection timeout armed. That
+    // callback calls the global removeEventListener. The call fails after a
+    // test environment tears the globals down.
+    vi.useFakeTimers()
+    try {
+      const timerType = new TimerType('timer', 3000)
+      const timer = timerType.create(new Map())
+      const started = timer.start()
+      timer.done()
+      await started
+
+      expect(vi.getTimerCount()).toBe(0)
+    } finally {
+      vi.useRealTimers()
+    }
   })
 })
