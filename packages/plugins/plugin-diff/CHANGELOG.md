@@ -1,5 +1,37 @@
 # @milkdown/plugin-diff
 
+## 7.22.2
+
+### Patch Changes
+
+- 0c2f425: Milkdown patch version release.
+
+  ## Feat
+  - feat(preset-commonmark): make block container types extensible via ctx (#2465)
+
+  ## Fix
+  - fix(ctx): clear the timeout when a timer settles (#2473)
+  - fix: keep user-authored inline br when loading markdown (#2463)
+  - fix(plugin-streaming): parse inline math in streamed content (#2464)
+
+  ## Chore
+  - chore: bump up all dependencies (#2459)
+  - chore: bump up prosemirror-highlight version to ^0.16.0 (#2460)
+  - chore: bump up vitest version to v4.1.11 [SECURITY] (#2474)
+
+  ## Docs
+  - docs: apply a comment writing standard across the repo (#2468)
+
+  ## Test
+  - test(preset-commonmark): pin fragment serialization semantics (#2466)
+
+- Updated dependencies [0c2f425]
+  - @milkdown/core@7.22.2
+  - @milkdown/ctx@7.22.2
+  - @milkdown/prose@7.22.2
+  - @milkdown/transformer@7.22.2
+  - @milkdown/utils@7.22.2
+
 ## 7.22.1
 
 ### Patch Changes
