@@ -39,7 +39,9 @@ export const imageBlockSchema = $nodeSchema('image-block', () => {
       match: ({ type }) => type === 'image-block',
       runner: (state, node, type) => {
         const src = node.url as string
-        const caption = node.title as string
+        // mdast gives null for a title that the markdown omits, and caption is
+        // a validated string attribute.
+        const caption = (node.title as string | null) ?? ''
         let ratio = Number((node.alt as string) || 1)
         if (Number.isNaN(ratio) || ratio === 0) ratio = 1
 
