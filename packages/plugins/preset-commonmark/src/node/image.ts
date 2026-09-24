@@ -50,8 +50,11 @@ export const imageSchema = $nodeSchema('image', (ctx) => {
       match: ({ type }) => type === 'image',
       runner: (state, node, type) => {
         const url = node.url as string
-        const alt = node.alt as string
-        const title = node.title as string
+        // mdast gives null for an alt or a title that the markdown omits.
+        // Both attributes are strings, and prosemirror-model validates every
+        // attribute in NodeType.create from version 1.25.12.
+        const alt = (node.alt as string | null) ?? ''
+        const title = (node.title as string | null) ?? ''
         state.addNode(type, {
           src: url,
           alt,
