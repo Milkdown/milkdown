@@ -6,7 +6,7 @@ interface RenderLabelProps {
   label: string
   listType: string
   readonly?: boolean
-  checked?: boolean
+  checked?: boolean | null
 }
 
 export interface ListItemBlockConfig {
