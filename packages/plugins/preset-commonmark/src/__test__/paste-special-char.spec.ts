@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/vitest'
-import { Editor, editorViewCtx } from '@milkdown/core'
+import { Editor, editorViewCtx, parserCtx } from '@milkdown/core'
 import { getMarkdown } from '@milkdown/utils'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
@@ -119,8 +119,9 @@ describe('typing underscore emphasis still works', () => {
     )
 
     expect(hasEmphasis(editor)).toBe(false)
-    expect(editor.action(getMarkdown())).toBe(
-      'the\\_lunatic\\_is\\_on\\_the\\_grass\n'
-    )
+    const markdown = editor.action(getMarkdown())
+    expect(markdown).toBe('the_lunatic_is_on_the_grass\n')
+    const reparsed = editor.ctx.get(parserCtx)(markdown)
+    expect(reparsed.eq(editor.ctx.get(editorViewCtx).state.doc)).toBe(true)
   })
 })
