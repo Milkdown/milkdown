@@ -618,9 +618,9 @@ const config: CrepeConfig = {
 It's also possible to configure the language list and theme:
 
 ```typescript
-import { oneDark } from '@codemirror/theme-one-dark'
-import { LanguageDescription } from '@codemirror/language'
 import { markdown } from '@codemirror/lang-markdown'
+import { LanguageDescription } from '@codemirror/language'
+import { oneDark } from '@codemirror/theme-one-dark'
 
 const config: CrepeConfig = {
   features: {
@@ -685,8 +685,9 @@ with the AI output. The provider receives the selected text in
 selection is empty, content is inserted at the cursor position.
 
 ```typescript
-import { Crepe } from '@milkdown/crepe'
 import type { AIFeatureConfig } from '@milkdown/crepe/feature/ai'
+
+import { Crepe } from '@milkdown/crepe'
 import { runAICmd, abortAICmd } from '@milkdown/crepe/feature/ai'
 import { callCommand } from '@milkdown/kit/utils'
 
@@ -855,8 +856,8 @@ hand-roll SSE parsing, system prompts, or auth headers. Both live under
 their own subpaths and have no SDK dependencies (just `fetch`).
 
 ```typescript
-import { createOpenAIProvider } from '@milkdown/crepe/llm-providers/openai'
 import { createAnthropicProvider } from '@milkdown/crepe/llm-providers/anthropic'
+import { createOpenAIProvider } from '@milkdown/crepe/llm-providers/openai'
 
 // Server-side shape (no browser; `apiKey` reads from a real secret).
 // In the browser, see "Deployment modes" below — passing an `apiKey`
@@ -1020,13 +1021,13 @@ because they happen at different moments: visibility once when you build the
 toolbar, the range read on every click.
 
 ```typescript
-import { editorViewCtx } from '@milkdown/kit/core'
 import { CrepeFeature, useCrepeFeatures } from '@milkdown/crepe'
 import {
   defaultAIIcon,
   useAIInstructionTooltipAPI,
   useAIProviderConfig,
 } from '@milkdown/crepe/feature/ai'
+import { editorViewCtx } from '@milkdown/kit/core'
 
 // Visibility — evaluate once while building your toolbar. Only offer the
 // action when a provider is actually configured: without one the palette
@@ -1108,14 +1109,12 @@ import { CrepeBuilder } from '@milkdown/crepe/builder'
 import { blockEdit } from '@milkdown/crepe/feature/block-edit'
 import { toolbar } from '@milkdown/crepe/feature/toolbar'
 import { topBar } from '@milkdown/crepe/feature/top-bar'
-
 // You may also want to import styles by feature
 import '@milkdown/crepe/theme/common/prosemirror.css'
 import '@milkdown/crepe/theme/common/reset.css'
 import '@milkdown/crepe/theme/common/block-edit.css'
 import '@milkdown/crepe/theme/common/toolbar.css'
 import '@milkdown/crepe/theme/common/top-bar.css'
-
 // And introduce the theme
 import '@milkdown/crepe/theme/crepe.css'
 
@@ -1162,7 +1161,6 @@ Crepe comes with several built-in themes that can be imported:
 import '@milkdown/crepe/theme/crepe.css'
 import '@milkdown/crepe/theme/nord.css'
 import '@milkdown/crepe/theme/frame.css'
-
 // Dark themes
 import '@milkdown/crepe/theme/crepe-dark.css'
 import '@milkdown/crepe/theme/nord-dark.css'

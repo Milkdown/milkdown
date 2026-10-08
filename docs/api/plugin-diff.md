@@ -5,9 +5,9 @@ Diff review plugin for [milkdown](https://milkdown.dev/). Compares two documents
 ## Usage
 
 ```typescript
+import { diffComponent } from '@milkdown/kit/component/diff'
 import { Editor } from '@milkdown/kit/core'
 import { diff } from '@milkdown/kit/plugin/diff'
-import { diffComponent } from '@milkdown/kit/component/diff'
 import { commonmark } from '@milkdown/kit/preset/commonmark'
 
 const editor = await Editor.make()
@@ -36,8 +36,8 @@ await crepe.create()
 Pass the modified markdown to `startDiffReviewCmd`. The editor will show the differences and lock editing until the review is complete.
 
 ```typescript
-import { callCommand } from '@milkdown/kit/utils'
 import { startDiffReviewCmd } from '@milkdown/kit/plugin/diff'
+import { callCommand } from '@milkdown/kit/utils'
 
 editor.action(
   callCommand(startDiffReviewCmd.key, '# Updated content\n\nNew paragraph.')
@@ -57,13 +57,13 @@ editor.action(callCommand(startDiffReviewFromDocCmd.key, someDocNode))
 Users can click the Accept/Reject buttons on each change in the UI. You can also control this programmatically:
 
 ```typescript
-import { callCommand } from '@milkdown/kit/utils'
 import {
   acceptAllDiffsCmd,
   clearDiffReviewCmd,
   acceptDiffChunkCmd,
   rejectDiffChunkCmd,
 } from '@milkdown/kit/plugin/diff'
+import { callCommand } from '@milkdown/kit/utils'
 
 // Accept all remaining changes
 editor.action(callCommand(acceptAllDiffsCmd.key))

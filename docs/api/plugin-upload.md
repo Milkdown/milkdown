@@ -19,8 +19,9 @@ By default, this plugin will transform image to base64 and ignore other file typ
 If you want to upload file and handle the generated blocks, you should setup the uploader.
 
 ```typescript
-import { upload, uploadConfig, Uploader } from '@milkdown/kit/plugin/upload'
 import type { Node } from '@milkdown/kit/prose/model'
+
+import { upload, uploadConfig, Uploader } from '@milkdown/kit/plugin/upload'
 
 const uploader: Uploader = async (files, schema) => {
   const images: File[] = []
