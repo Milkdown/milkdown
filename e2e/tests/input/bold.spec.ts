@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import { focusEditor, getMarkdown } from '../misc'
+import { focusEditor, getMarkdown, setMarkdown } from '../misc'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/preset-commonmark/')
@@ -56,5 +56,12 @@ test('should not parse double underscore inside word', async ({ page }) => {
   await expect(editor.locator('strong')).toHaveCount(0)
 
   const markdown = await getMarkdown(page)
-  expect(markdown).toBe('foo\\_\\_bar\\_\\_baz\n')
+  expect(markdown).toBe('foo__bar__baz\n')
+
+  await setMarkdown(page, '')
+  await expect(editor.locator('p')).toHaveText('')
+  await setMarkdown(page, markdown)
+  await expect(editor.locator('p')).toHaveText('foo__bar__baz')
+  await expect(editor.locator('strong, em')).toHaveCount(0)
+  expect(await getMarkdown(page)).toBe(markdown)
 })
