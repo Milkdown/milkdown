@@ -65,6 +65,12 @@ export class TooltipProvider {
   #cleanupAutoUpdate?: () => void
 
   /// @internal
+  /// The state that the last evaluated update saw. The update is throttled,
+  /// so a trailing call carries only the `prevState` of the last call. A no-op
+  /// transaction in the window must not hide an earlier real change.
+  #lastState?: EditorState
+
+  /// @internal
   readonly #offset?: OffsetOptions
 
   /// @internal
@@ -131,8 +137,9 @@ export class TooltipProvider {
     const { ranges } = selection
     const from = Math.min(...ranges.map((range) => range.$from.pos))
     const to = Math.max(...ranges.map((range) => range.$to.pos))
-    const isSame =
-      prevState && prevState.doc.eq(doc) && prevState.selection.eq(selection)
+    const unchanged = (other?: EditorState) =>
+      !!other && other.doc.eq(doc) && other.selection.eq(selection)
+    const isSame = unchanged(prevState) && unchanged(this.#lastState)
 
     if (!this.#initialized) {
       const root = this.#root ?? view.dom.parentElement ?? document.body
@@ -141,6 +148,7 @@ export class TooltipProvider {
     }
 
     if (composing || isSame) return
+    this.#lastState = state
 
     this.#cleanupAutoUpdate?.()
     this.#cleanupAutoUpdate = void 0
