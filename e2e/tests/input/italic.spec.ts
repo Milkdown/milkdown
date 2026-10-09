@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import { focusEditor, getMarkdown } from '../misc'
+import { focusEditor, getMarkdown, setMarkdown } from '../misc'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/preset-commonmark/')
@@ -30,7 +30,14 @@ test('italics with intra-word _', async ({ page }) => {
   await page.keyboard.type('the_lunatic_is_on_the_grass')
   await expect(editor.locator('em')).toHaveCount(0)
   const markdown = await getMarkdown(page)
-  expect(markdown).toBe('the\\_lunatic\\_is\\_on\\_the\\_grass\n')
+  expect(markdown).toBe('the_lunatic_is_on_the_grass\n')
+
+  await setMarkdown(page, '')
+  await expect(editor.locator('p')).toHaveText('')
+  await setMarkdown(page, markdown)
+  await expect(editor.locator('p')).toHaveText('the_lunatic_is_on_the_grass')
+  await expect(editor.locator('strong, em')).toHaveCount(0)
+  expect(await getMarkdown(page)).toBe(markdown)
 })
 
 test('italic with a single character', async ({ page }) => {
