@@ -19,10 +19,11 @@ export const defaultNodeFilter: FilterNodes = (pos) => {
 /// A slice contains the block config.
 /// Possible properties:
 /// - `filterNodes`: A function to filter nodes that can be dragged.
-export const blockConfig = $ctx<{ filterNodes: FilterNodes }, 'blockConfig'>(
-  { filterNodes: defaultNodeFilter },
+/// - `mousemoveThrottle`: Throttle delay in ms for block hover detection (default 50).
+export const blockConfig = $ctx<
+  { filterNodes: FilterNodes; mousemoveThrottle: number },
   'blockConfig'
-)
+>({ filterNodes: defaultNodeFilter, mousemoveThrottle: 50 }, 'blockConfig')
 
 withMeta(blockConfig, {
   displayName: 'Ctx<blockConfig>',
