@@ -1,5 +1,29 @@
 # @milkdown/plugin-block
 
+## 7.22.3
+
+### Patch Changes
+
+- ed370e3: Milkdown patch version release.
+
+  ## Fix
+  - fix(components): stop non-interactive list markers from swallowing pointer events (#2471)
+  - fix(deps): update markdown serializer for stable autolinks (#2482)
+  - fix(preset-commonmark): read an absent image title as an empty string (#2478)
+  - fix(plugin-tooltip): a throttled update must not skip a real state change (#2485)
+
+  ## Chore
+  - chore: bump up all non-major dependencies (#2479)
+
+  ## Perf
+  - perf(components): restore list item caret once per view per frame (#2484)
+
+- Updated dependencies [ed370e3]
+  - @milkdown/core@7.22.3
+  - @milkdown/ctx@7.22.3
+  - @milkdown/prose@7.22.3
+  - @milkdown/utils@7.22.3
+
 ## 7.22.2
 
 ### Patch Changes
