@@ -81,7 +81,18 @@ export const listItemSchema = $nodeSchema('list_item', (ctx) => ({
       state.openNode('listItem', undefined, {
         spread: node.attrs.spread,
       })
-      state.next(node.content)
+      const first = node.firstChild
+      const second = node.maybeChild(1)
+      // The schema fills an empty paragraph before a leading block. In a
+      // tight item, its `<br />` placeholder starts an HTML block that
+      // swallows that block.
+      const skipFirst =
+        !node.attrs.spread &&
+        first?.type.name === 'paragraph' &&
+        first.content.size === 0 &&
+        second != null &&
+        second.type.name !== 'paragraph'
+      state.next(skipFirst ? node.content.cut(first.nodeSize) : node.content)
       state.closeNode()
     },
   },
