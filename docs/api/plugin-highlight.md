@@ -17,9 +17,9 @@ Supports:
 ## Usage
 
 ```typescript
+import { createParser } from '@milkdown/plugin-highlight/shiki'
 // For shiki
 import { getSingletonHighlighter } from 'shiki'
-import { createParser } from '@milkdown/plugin-highlight/shiki'
 const highlighter = await getSingletonHighlighter({
   themes: ['github-light'],
   langs: ['javascript', 'typescript', 'python'],
@@ -28,14 +28,14 @@ const parser = createParser(highlighter)
 
 // For lowlight
 import 'highlight.js/styles/default.css'
-import { common, createLowlight } from 'lowlight'
 import { createParser } from '@milkdown/plugin-highlight/lowlight'
+import { common, createLowlight } from 'lowlight'
 const lowlight = createLowlight(common)
 const parser = createParser(lowlight)
 
+import { createParser } from '@milkdown/plugin-highlight/refractor'
 // For refractor
 import { refractor } from 'refractor/all'
-import { createParser } from '@milkdown/plugin-highlight/refractor'
 const parser = createParser(refractor)
 
 // For sugar high
