@@ -12,6 +12,7 @@
     "test:install": "playwright install --with-deps"
   },
   "dependencies": {
+    "@codemirror/view": "^6.43.8",
     "@milkdown/components": "workspace:*",
     "@milkdown/core": "workspace:*",
     "@milkdown/crepe": "workspace:*",
