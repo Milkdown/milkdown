@@ -346,6 +346,9 @@ importers:
 
   e2e:
     dependencies:
+      '@codemirror/view':
+        specifier: ^6.43.8
+        version: 6.43.8
       '@milkdown/components':
         specifier: workspace:*
         version: link:../packages/components

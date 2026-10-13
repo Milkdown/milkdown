@@ -646,6 +646,15 @@ const config: CrepeConfig = {
 
 To learn which languages are available, you can refer to the [CodeMirror language data](https://github.com/codemirror/language-data).
 
+To switch the theme after the editor is created, e.g. when the page switches between light and dark mode, use `setCodeMirrorTheme`. Pass `[]` to drop the theme.
+
+```typescript
+import { oneDark } from '@codemirror/theme-one-dark'
+import { setCodeMirrorTheme } from '@milkdown/crepe/feature/code-mirror'
+
+crepe.editor.action(setCodeMirrorTheme(isDark ? oneDark : []))
+```
+
 #### Latex Feature
 
 ```typescript

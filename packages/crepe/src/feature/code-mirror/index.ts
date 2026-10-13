@@ -7,6 +7,7 @@ import {
   codeBlockConfig,
   type CodeBlockConfig,
 } from '@milkdown/kit/component/code-block'
+import { createSlice, type Ctx } from '@milkdown/kit/ctx'
 import { basicSetup } from 'codemirror'
 
 import type { DefineFeature } from '../shared'
@@ -30,6 +31,24 @@ interface CodeMirrorConfig extends CodeBlockConfig {
 
 export type CodeMirrorFeatureConfig = Partial<CodeMirrorConfig>
 
+const CodeMirrorThemeCtx = createSlice([] as Extension, 'CodeMirrorThemeCtx')
+
+/// Switch the CodeMirror theme of every code block after the editor is
+/// created, e.g. when the page switches between light and dark mode.
+/// Pass `[]` to drop the theme. It does nothing when the CodeMirror
+/// feature is disabled.
+/// ```ts
+/// import { setCodeMirrorTheme } from '@milkdown/crepe/feature/code-mirror'
+/// crepe.editor.action(setCodeMirrorTheme(isDark ? oneDark : []))
+/// ```
+export function setCodeMirrorTheme(theme: Extension) {
+  return (ctx: Ctx) => {
+    // The string form keeps the slice out of more than one bundle entry.
+    if (!ctx.isInjected('CodeMirrorThemeCtx')) return
+    ctx.set<Extension, 'CodeMirrorThemeCtx'>('CodeMirrorThemeCtx', theme)
+  }
+}
+
 export const codeMirror: DefineFeature<CodeMirrorFeatureConfig> = (
   editor,
   config = {}
@@ -37,20 +56,25 @@ export const codeMirror: DefineFeature<CodeMirrorFeatureConfig> = (
   editor
     .config(crepeFeatureConfig(CrepeFeature.CodeMirror))
     .config((ctx) => {
-      const { languages = [], theme } = config
-      const extensions = [
-        keymap.of(defaultKeymap.concat(indentWithTab)),
+      const { languages = [], theme = [] } = config
+      const keymapExtension = keymap.of(defaultKeymap.concat(indentWithTab))
+      const buildExtensions = (theme: Extension) => [
+        keymapExtension,
         basicSetup,
+        theme,
+        ...(config.extensions ?? []),
       ]
-      if (theme) {
-        extensions.push(theme)
-      }
-      if (config.extensions) {
-        extensions.push(...config.extensions)
-      }
+
+      ctx.inject(CodeMirrorThemeCtx, theme)
+      ctx.use(CodeMirrorThemeCtx).on((theme) => {
+        ctx.update(codeBlockConfig.key, (prev) => ({
+          ...prev,
+          extensions: buildExtensions(theme),
+        }))
+      })
 
       ctx.update(codeBlockConfig.key, (defaultConfig) => ({
-        extensions,
+        extensions: buildExtensions(theme),
         languages,
 
         expandIcon: config.expandIcon || chevronDownIcon,

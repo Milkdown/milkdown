@@ -2,9 +2,11 @@
 /// <reference types="node" />
 /// <reference types="vite/client" />
 
+import type { EditorView as CodeMirrorEditorView } from '@codemirror/view'
 import type { CodeMirrorBlock } from '@milkdown/components/code-block'
 import type { Editor, commandsCtx } from '@milkdown/core'
 import type { Crepe } from '@milkdown/crepe'
+import type { setCodeMirrorTheme } from '@milkdown/crepe/feature/code-mirror'
 import type { Telemetry } from '@milkdown/ctx'
 import type { EditorView } from '@milkdown/prose/view'
 import type { insert } from '@milkdown/utils'
@@ -42,6 +44,8 @@ declare global {
   }
 
   var __CodeMirrorBlock__: typeof CodeMirrorBlock
+  var __CodeMirrorEditorView__: typeof CodeMirrorEditorView
+  var __setCodeMirrorTheme__: typeof setCodeMirrorTheme
 
   var __applyDiff__: (markdown: string) => boolean
   var __acceptAll__: () => boolean
