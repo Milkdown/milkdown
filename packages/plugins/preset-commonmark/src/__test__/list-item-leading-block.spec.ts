@@ -7,7 +7,7 @@ import {
 import { getMarkdown } from '@milkdown/utils'
 import { describe, expect, it } from 'vitest'
 
-import { commonmark, listItemSchema } from '..'
+import { commonmark, listItemSchema, remarkPreserveEmptyLinePlugin } from '..'
 import { roundTrip, withEditor } from './test-utils'
 
 // A list item that starts with a block other than a paragraph gets an empty
@@ -84,5 +84,41 @@ describe('list item starting with a block', () => {
     const markdown = '* ```\n  ```\n  ***\n'
     const output = await roundTrip(markdown, commonmark, blockListItem)
     expect(output).toBe(markdown)
+  })
+})
+
+// Without the plugin an empty paragraph writes no placeholder, so there is
+// nothing to hide and the item keeps every child.
+describe('list item starting with a block, without remarkPreserveEmptyLinePlugin', () => {
+  const preset = commonmark.filter(
+    (plugin) => !remarkPreserveEmptyLinePlugin.includes(plugin)
+  )
+
+  it.each([
+    ['* ```js\n  code\n  ```\n', '*\n  ```js\n  code\n  ```\n'],
+    ['- ***\n', '*\n  ***\n'],
+    ['* * a\n', '*\n  * a\n'],
+  ])(
+    'should hand the empty paragraph in %j to its serializer',
+    async (markdown, expected) => {
+      await withEditor(
+        markdown,
+        (editor) => {
+          const doc = editor.ctx.get(editorViewCtx).state.doc
+          const output = editor.action(getMarkdown())
+          expect(output).toBe(expected)
+          expect(editor.ctx.get(parserCtx)(output).eq(doc)).toBe(true)
+        },
+        preset
+      )
+    }
+  )
+
+  it('should stop skipping once the plugin is removed at runtime', async () => {
+    await withEditor('* ```js\n  code\n  ```\n', async (editor) => {
+      expect(editor.action(getMarkdown())).toBe('* ```js\n  code\n  ```\n')
+      await editor.remove(remarkPreserveEmptyLinePlugin)
+      expect(editor.action(getMarkdown())).toBe('*\n  ```js\n  code\n  ```\n')
+    })
   })
 })
