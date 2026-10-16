@@ -14,7 +14,11 @@ import { mathInlineSchema } from './inline-latex'
 import { inlineLatexTooltip } from './inline-tooltip/tooltip'
 import { LatexInlineTooltip } from './inline-tooltip/view'
 import { mathBlockInputRule, mathInlineInputRule } from './input-rule'
-import { remarkMathBlockPlugin, remarkMathPlugin } from './remark'
+import {
+  remarkInlineMathGuardPlugin,
+  remarkMathBlockPlugin,
+  remarkMathPlugin,
+} from './remark'
 
 export interface LatexConfig {
   katexOptions: KatexOptions
@@ -55,6 +59,7 @@ export const latex: DefineFeature<LatexFeatureConfig> = (editor, config) => {
     })
     .use(remarkMathPlugin)
     .use(remarkMathBlockPlugin)
+    .use(remarkInlineMathGuardPlugin)
     .use(mathInlineSchema)
     .use(inlineLatexTooltip)
     .use(mathInlineInputRule)
