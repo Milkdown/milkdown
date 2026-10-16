@@ -157,6 +157,9 @@ export const TopBar = defineComponent<TopBarProps>({
     }
 
     return () => {
+      // Read the version before the readonly check. A render that returns
+      // early must still update when the editor becomes editable again.
+      subscribeState()
       const view = isReady() ? ctx.get(editorViewCtx) : null
       const isReadonly = view ? !view.editable : false
 
