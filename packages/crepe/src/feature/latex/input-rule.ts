@@ -5,10 +5,15 @@ import { $inputRule } from '@milkdown/kit/utils'
 
 import { mathInlineSchema } from './inline-latex'
 
+/// Match for inline math typed in the editor.
+/// Like pandoc, the content must not start or end with whitespace,
+/// so prices such as "$5 and $10" stay plain text.
+export const mathInlineRegex = /\$([^\s$](?:[^$]*[^\s$])?)\$$/
+
 /// Input rule for inline math.
 /// When you type $E=MC^2$, it will create an inline math node.
 export const mathInlineInputRule = $inputRule((ctx) =>
-  nodeRule(/(?:\$)([^$]+)(?:\$)$/, mathInlineSchema.type(ctx), {
+  nodeRule(mathInlineRegex, mathInlineSchema.type(ctx), {
     getAttr: (match) => {
       return {
         value: match[1] ?? '',
