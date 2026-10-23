@@ -37,7 +37,6 @@ export const remarkMathBlockPlugin = $remark(
 
 interface InlineMathNode extends Node {
   value: string
-  position?: { start: { offset?: number }; end: { offset?: number } }
 }
 
 // Turn inline math that breaks the pandoc rule back into text:
