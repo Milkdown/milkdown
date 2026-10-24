@@ -72,7 +72,7 @@ export class TableNodeView implements NodeView {
     const view = this.view
     if (!view.editable) return false
 
-    const { state, dispatch } = view
+    const { state } = view
     const pos = view.posAtCoords({ left: event.clientX, top: event.clientY })
 
     if (!pos) return false
@@ -100,15 +100,15 @@ export class TableNodeView implements NodeView {
     const selection = NodeSelection.create(state.doc, from + 1)
     if (state.selection.eq(selection)) return false
 
-    if (state.selection instanceof CellSelection) {
-      setTimeout(() => {
-        dispatch(state.tr.setSelection(selection).scrollIntoView())
-      }, 20)
-    } else {
-      requestAnimationFrame(() => {
-        dispatch(state.tr.setSelection(selection).scrollIntoView())
-      })
+    // The dispatch is deferred, so skip it if a newer selection has arrived
+    // and build it from the current state instead of the one at click time.
+    const select = () => {
+      if (!view.state.selection.eq(state.selection)) return
+      view.dispatch(view.state.tr.setSelection(selection).scrollIntoView())
     }
+
+    if (state.selection instanceof CellSelection) setTimeout(select, 20)
+    else requestAnimationFrame(select)
     return true
   }
 
