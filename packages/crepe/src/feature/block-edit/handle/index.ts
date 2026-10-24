@@ -116,6 +116,7 @@ export function configureBlockHandle(
 
       return true
     },
+    mousemoveThrottle: config?.blockConfig?.mousemoveThrottle ?? 50,
   })
   ctx.set(block.key, {
     view: () => new BlockHandleView(ctx, config),

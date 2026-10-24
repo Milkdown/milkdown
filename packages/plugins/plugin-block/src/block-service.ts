@@ -4,7 +4,7 @@ import type { EditorView } from '@milkdown/prose/view'
 import { editorViewCtx } from '@milkdown/core'
 import { browser } from '@milkdown/prose'
 import { NodeSelection } from '@milkdown/prose/state'
-import { throttle } from 'lodash-es'
+import { throttle, type DebouncedFunc } from 'lodash-es'
 
 import type { FilterNodes } from './block-config'
 import type { ActiveNode } from './types'
@@ -80,6 +80,11 @@ export class BlockService {
   #dragging = false
 
   /// @internal
+  #lastMouseY = -1
+  /// @internal
+  #rafId: number | null = null
+
+  /// @internal
   get #filterNodes(): FilterNodes | undefined {
     try {
       return this.#ctx?.get(blockConfig.key).filterNodes
@@ -112,6 +117,11 @@ export class BlockService {
   bind = (ctx: Ctx, notify: BlockServiceMessage) => {
     this.#ctx = ctx
     this.#notify = notify
+    this.#mousemoveCallback.cancel()
+    this.#mousemoveCallback = throttle(
+      this.#onMousemove,
+      ctx.get(blockConfig.key).mousemoveThrottle
+    )
   }
 
   /// Add mouse event to the dom.
@@ -132,11 +142,39 @@ export class BlockService {
 
   /// Unbind the notify function.
   unBind = () => {
+    if (this.#rafId !== null) {
+      cancelAnimationFrame(this.#rafId)
+      this.#rafId = null
+    }
+    this.#mousemoveCallback.cancel()
     this.#notify = undefined
   }
 
   /// @internal
   #handleMouseDown = () => {
+    const view = this.#view
+    if (view && this.#lastMouseY >= 0) {
+      if (this.#rafId !== null) {
+        cancelAnimationFrame(this.#rafId)
+        this.#rafId = null
+      }
+      // Prefer the block already shown on the handle; only resolve from the
+      // pointer when hover has not established one yet.
+      if (this.#active) {
+        const filterNodes = this.#filterNodes
+        if (filterNodes) {
+          const rect = this.#active.el.getBoundingClientRect()
+          const result = selectRootNodeByDom(
+            view,
+            { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 },
+            filterNodes
+          )
+          if (result?.el === this.#active.el) this.#active = result
+        }
+      } else {
+        this.#resolveHover(view, this.#lastMouseY)
+      }
+    }
     this.#activeDOMRect = this.#active?.el.getBoundingClientRect()
     this.#createSelection()
   }
@@ -218,12 +256,10 @@ export class BlockService {
   }
 
   /// @internal
-  #mousemoveCallback = throttle((view: EditorView, event: MouseEvent) => {
-    if (!view.editable) return
-
+  #resolveHover = (view: EditorView, mouseY: number) => {
     const rect = view.dom.getBoundingClientRect()
     const x = rect.left + rect.width / 2
-    const dom = view.root.elementFromPoint(x, event.clientY)
+    const dom = view.root.elementFromPoint(x, mouseY)
     if (!(dom instanceof Element)) {
       this.#hide()
       return
@@ -232,18 +268,39 @@ export class BlockService {
     const filterNodes = this.#filterNodes
     if (!filterNodes) return
 
-    const result = selectRootNodeByDom(
-      view,
-      { x, y: event.clientY },
-      filterNodes
-    )
+    const result = selectRootNodeByDom(view, { x, y: mouseY }, filterNodes)
 
     if (!result) {
       this.#hide()
       return
     }
     this.#show(result)
-  }, 200)
+  }
+
+  /// @internal
+  #onMousemove = (view: EditorView, event: MouseEvent) => {
+    if (!view.editable) return
+
+    // Skip tiny Y jitter while still inside the active block; leaving its
+    // vertical bounds always resolves so adjacent blocks are not missed.
+    if (this.#active && Math.abs(event.clientY - this.#lastMouseY) < 5) {
+      const activeRect = this.#active.el.getBoundingClientRect()
+      if (event.clientY >= activeRect.top && event.clientY <= activeRect.bottom)
+        return
+    }
+    this.#lastMouseY = event.clientY
+
+    if (this.#rafId !== null) cancelAnimationFrame(this.#rafId)
+    this.#rafId = requestAnimationFrame(() => {
+      this.#rafId = null
+      this.#resolveHover(view, event.clientY)
+    })
+  }
+
+  /// @internal
+  #mousemoveCallback: DebouncedFunc<
+    (view: EditorView, event: MouseEvent) => void
+  > = throttle(() => {}, 50)
 
   /// @internal
   mousemoveCallback = (view: EditorView, event: MouseEvent) => {
