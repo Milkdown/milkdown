@@ -97,12 +97,19 @@ jobs:
 
       - uses: ./.github/actions/setup
 
+      # WebKit builds are compiled per Ubuntu release (libicu, libxml2 sonames
+      # differ), so a cache written on one image cannot be reused on another.
+      # Key the cache on the runner image as well as the lockfile.
+      - name: Read runner image
+        id: runner-image
+        run: echo "os=${ImageOS:-$(. /etc/os-release && echo "$ID$VERSION_ID")}" >> "$GITHUB_OUTPUT"
+
       - name: Cache Playwright browsers
         id: playwright-cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-${{ steps.runner-image.outputs.os }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
 
       # Binaries only; system libraries are per-runner and re-installed in each shard.
       - name: Download browsers
@@ -129,12 +136,19 @@ jobs:
           pnpm --filter=@milkdown/prose run build
           pnpm --filter=@milkdown/e2e run build
 
+      # WebKit builds are compiled per Ubuntu release (libicu, libxml2 sonames
+      # differ), so a cache written on one image cannot be reused on another.
+      # Key the cache on the runner image as well as the lockfile.
+      - name: Read runner image
+        id: runner-image
+        run: echo "os=${ImageOS:-$(. /etc/os-release && echo "$ID$VERSION_ID")}" >> "$GITHUB_OUTPUT"
+
       - name: Cache Playwright browsers
         id: playwright-cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-${{ steps.runner-image.outputs.os }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Install browsers and system dependencies
         if: steps.playwright-cache.outputs.cache-hit != 'true'
