@@ -1,4 +1,4 @@
-import type { Line, SelectionRange } from '@codemirror/state'
+import type { Extension, Line, SelectionRange } from '@codemirror/state'
 import type { Node } from '@milkdown/prose/model'
 import type { EditorView, NodeView } from '@milkdown/prose/view'
 
@@ -62,16 +62,23 @@ export class CodeMirrorBlock implements NodeView {
 
   private readonly languageConf: Compartment
   private readonly readOnlyConf: Compartment
+  private readonly extensionsConf: Compartment
+  private extensions: Extension[]
+  private disposeConfigWatcher?: () => void
 
   constructor(
     public node: Node,
     public view: EditorView,
     public getPos: () => number | undefined,
     public loader: LanguageLoader,
-    public config: CodeBlockConfig
+    public config: CodeBlockConfig,
+    watchConfig?: (watcher: (config: CodeBlockConfig) => void) => () => void
   ) {
     this.languageConf = new Compartment()
     this.readOnlyConf = new Compartment()
+    this.extensionsConf = new Compartment()
+    this.extensions = config.extensions
+    this.disposeConfigWatcher = watchConfig?.(this.onConfigChange)
 
     this.text.value = this.node.textContent
     this.language.value = this.node.attrs.language ?? ''
@@ -125,7 +132,7 @@ export class CodeMirrorBlock implements NodeView {
         // Block a user edit when the editor is not editable. An update
         // synced from ProseMirror always passes.
         EditorState.changeFilter.of(() => this.view.editable || this.updating),
-        ...this.config.extensions,
+        this.extensionsConf.of(this.extensions),
         CodeMirror.updateListener.of(this.forwardUpdate),
       ],
     })
@@ -172,6 +179,15 @@ export class CodeMirrorBlock implements NodeView {
       clearTimeout(this.teardownTimer)
       this.teardownTimer = null
     }
+  }
+
+  // Only `extensions` is applied to a live code block. The other options
+  // are read when the code block is created.
+  private onConfigChange = ({ extensions }: CodeBlockConfig) => {
+    if (extensions === this.extensions) return
+    this.extensions = extensions
+    if (!this.initialized) return
+    this.cm.dispatch({ effects: this.extensionsConf.reconfigure(extensions) })
   }
 
   private forwardUpdate = (update: ViewUpdate) => {
@@ -379,6 +395,7 @@ export class CodeMirrorBlock implements NodeView {
   }
 
   destroy() {
+    this.disposeConfigWatcher?.()
     this.cancelTeardown()
     getSharedObserver().unobserve(this.dom)
     visibilityCallbacks.delete(this.dom)

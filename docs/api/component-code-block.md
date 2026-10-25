@@ -129,6 +129,20 @@ ctx.update(codeBlockConfig.key, (defaultConfig) => ({
 }))
 ```
 
+`extensions` is the only option that also applies after the editor is created.
+Update it in `editor.action` to reconfigure every code block, e.g. to switch the theme between light and dark mode:
+
+```typescript
+import { codeBlockConfig } from '@milkdown/components/code-block'
+
+editor.action((ctx) => {
+  ctx.update(codeBlockConfig.key, (prev) => ({
+    ...prev,
+    extensions: [basicSetup, isDark ? oneDark : []],
+  }))
+})
+```
+
 ## `renderLanguage`
 
 A function to render the language list item in the language picker. **Must return a string.**

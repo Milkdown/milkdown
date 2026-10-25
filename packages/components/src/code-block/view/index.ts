@@ -13,10 +13,17 @@ export { CodeMirrorBlock }
 export const codeBlockView = $view(
   codeBlockSchema.node,
   (ctx): NodeViewConstructor => {
-    const config = ctx.get(codeBlockConfig.key)
-    const languageLoader = new LanguageLoader(config.languages)
+    const configSlice = ctx.use(codeBlockConfig.key)
+    const languageLoader = new LanguageLoader(configSlice.get().languages)
     return (node, view, getPos) =>
-      new CodeMirrorBlock(node, view, getPos, languageLoader, config)
+      new CodeMirrorBlock(
+        node,
+        view,
+        getPos,
+        languageLoader,
+        configSlice.get(),
+        (watcher) => configSlice.on(watcher)
+      )
   }
 )
 
