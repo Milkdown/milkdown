@@ -99,7 +99,9 @@ export const insertHardbreakCommand = $command(
     dispatch?.(
       tr
         .setMeta('hardbreak', true)
-        .replaceSelectionWith(hardbreakSchema.type(ctx).create())
+        // Do not inherit the marks around the selection: a hard break
+        // should never carry a mark.
+        .replaceSelectionWith(hardbreakSchema.type(ctx).create(), false)
         .scrollIntoView()
     )
     return true

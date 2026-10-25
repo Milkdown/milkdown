@@ -1,4 +1,5 @@
 import { Plugin, PluginKey } from '@milkdown/prose/state'
+import { ReplaceStep } from '@milkdown/prose/transform'
 import { $ctx, $prose } from '@milkdown/utils'
 
 import { withMeta } from '../__internal__'
@@ -23,9 +24,8 @@ export const hardbreakFilterPlugin = $prose((ctx) => {
     filterTransaction: (tr, state) => {
       const isInsertHr = tr.getMeta('hardbreak')
       const [step] = tr.steps
-      if (isInsertHr && step) {
-        const { from } = step as unknown as { from: number }
-        const $from = state.doc.resolve(from)
+      if (isInsertHr && step instanceof ReplaceStep) {
+        const $from = state.doc.resolve(step.from)
         let curDepth = $from.depth
         let canApply = true
         while (curDepth > 0) {
