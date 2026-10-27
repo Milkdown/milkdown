@@ -1,5 +1,33 @@
 # @milkdown/plugin-cursor
 
+## 7.23.0
+
+### Minor Changes
+
+- 8068e9c: Milkdown patch version release.
+
+  ## Feat
+  - feat(crepe): switch the code block theme at runtime (#2489)
+
+  ## Fix
+  - fix(preset-commonmark): keep hardbreak attrs and map the step range when clearing marks (#2498)
+  - fix(preset-commonmark): keep remarkLineBreak linear on long runs of spaces (#2504)
+  - fix(crepe): keep prices like $5 and $10 from becoming inline math (#2497)
+  - fix(crepe): show the top bar items again after a readonly round trip (#2496)
+
+  ## Chore
+  - chore: bump up postcss-nested version to v9 (#2500)
+
+  ## Ci
+  - ci: key the Playwright browser cache on the runner image (#2509)
+
+### Patch Changes
+
+- Updated dependencies [8068e9c]
+  - @milkdown/ctx@7.23.0
+  - @milkdown/prose@7.23.0
+  - @milkdown/utils@7.23.0
+
 ## 7.22.3
 
 ### Patch Changes
