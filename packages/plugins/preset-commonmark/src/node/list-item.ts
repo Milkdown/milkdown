@@ -156,7 +156,30 @@ withMeta(liftListItemCommand, {
 /// ```
 export const splitListItemCommand = $command(
   'SplitListItem',
-  (ctx) => () => splitListItem(listItemSchema.type(ctx))
+  (ctx) => () => (state, dispatch, view) =>
+    splitListItem(listItemSchema.type(ctx))(
+      state,
+      dispatch &&
+        ((tr) => {
+          const { $from } = state.selection
+          // In an empty last block, `splitListItem` splits the wrapping
+          // item but gives the new item default attrs. Copy the attrs of
+          // the wrapping item, as a split of a non-empty item does.
+          if (
+            $from.parent.content.size === 0 &&
+            $from.node(-1).childCount === $from.indexAfter(-1)
+          ) {
+            const { $from: $cursor } = tr.selection
+            tr.setNodeMarkup(
+              $cursor.before(-1),
+              undefined,
+              $from.node(-3).attrs
+            )
+          }
+          dispatch(tr)
+        }),
+      view
+    )
 )
 
 withMeta(splitListItemCommand, {
