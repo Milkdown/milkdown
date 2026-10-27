@@ -5,7 +5,6 @@ import { linkSchema } from '@milkdown/kit/preset/commonmark'
 import { afterEach, describe, expect, test } from 'vitest'
 
 import { Crepe } from '../../core'
-import { CrepeFeature } from '../index'
 
 function waitForAsync() {
   return new Promise<void>((resolve) => setTimeout(resolve, 0))
@@ -15,24 +14,13 @@ function getEditTooltip() {
   return document.body.querySelector<HTMLElement>('.milkdown-link-edit')
 }
 
-function createCrepe(defaultValue: string) {
-  // The Cursor feature stays off, because prosemirror-virtual-cursor
-  // calls `Range.getClientRects`, which jsdom does not implement.
-  return new Crepe({
-    defaultValue,
-    features: {
-      [CrepeFeature.Cursor]: false,
-    },
-  })
-}
-
 describe('link tooltip edit', () => {
   afterEach(() => {
     document.body.replaceChildren()
   })
 
   test('inserts URL as linked text when selection is empty', async () => {
-    const crepe = createCrepe('hello')
+    const crepe = new Crepe({ defaultValue: 'hello' })
 
     await crepe.create()
     await waitForAsync()
@@ -72,7 +60,7 @@ describe('link tooltip edit', () => {
   })
 
   test('does nothing when confirming an empty URL on empty selection', async () => {
-    const crepe = createCrepe('hello')
+    const crepe = new Crepe({ defaultValue: 'hello' })
 
     await crepe.create()
     await waitForAsync()
@@ -93,7 +81,7 @@ describe('link tooltip edit', () => {
   })
 
   test('closes the edit tooltip when clicking outside', async () => {
-    const crepe = createCrepe('hello world')
+    const crepe = new Crepe({ defaultValue: 'hello world' })
 
     await crepe.create()
     await waitForAsync()
@@ -112,7 +100,7 @@ describe('link tooltip edit', () => {
   })
 
   test('keeps the edit tooltip open when clicking inside it', async () => {
-    const crepe = createCrepe('hello world')
+    const crepe = new Crepe({ defaultValue: 'hello world' })
 
     await crepe.create()
     await waitForAsync()
