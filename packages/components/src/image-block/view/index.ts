@@ -52,7 +52,9 @@ export const imageBlockView = $view(
         }
       })
       const proxyDomURL = config.proxyDomURL
+      let proxyRequest = 0
       const bindAttrs = (node: Node) => {
+        const request = ++proxyRequest
         if (!proxyDomURL) {
           src.value = node.attrs.src
         } else {
@@ -62,7 +64,8 @@ export const imageBlockView = $view(
           } else {
             proxiedURL
               .then((url) => {
-                src.value = url
+                // An older request can answer after a newer one. Keep the newest.
+                if (request === proxyRequest) src.value = url
               })
               .catch(console.error)
           }
