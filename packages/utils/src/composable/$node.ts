@@ -15,8 +15,7 @@ export type $Node = MilkdownPlugin & {
 }
 
 /// Create a node plugin. It takes a node id and a factory function. The factory
-/// should return a function that returns a
-/// [node schema](/transformer#interface-nodeschema).
+/// returns a [node schema](/transformer#interface-nodeschema).
 ///
 /// Additional property:
 /// - `id`: The id of the node.
