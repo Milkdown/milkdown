@@ -40,7 +40,7 @@
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/user-event": "^14.6.1",
-    "@types/node": "^24.7.1",
+    "@types/node": "^26.0.0",
     "@vitejs/plugin-react": "^6.0.1",
     "@vitejs/plugin-vue-jsx": "^5.0.0",
     "autoprefixer": "^10.2.5",
