@@ -10,6 +10,7 @@ keepAlive(h, Fragment)
 
 type Attrs = {
   src: string
+  alt: string | null
   caption: string
   ratio: number
 }
@@ -26,6 +27,10 @@ export type MilkdownImageBlockProps = {
 export const MilkdownImageBlock = defineComponent<MilkdownImageBlockProps>({
   props: {
     src: {
+      type: Object,
+      required: true,
+    },
+    alt: {
       type: Object,
       required: true,
     },

@@ -17,6 +17,7 @@ export const imageBlockSchema = $nodeSchema('image-block', () => {
     priority: 100,
     attrs: {
       src: { default: '', validate: 'string' },
+      alt: { default: null, validate: 'string|null' },
       caption: { default: '', validate: 'string' },
       ratio: { default: 1, validate: 'number' },
     },
@@ -28,6 +29,7 @@ export const imageBlockSchema = $nodeSchema('image-block', () => {
 
           return {
             src: dom.getAttribute('src') || '',
+            alt: dom.getAttribute('alt'),
             caption: dom.getAttribute('caption') || '',
             ratio: Number(dom.getAttribute('ratio') ?? 1),
           }
@@ -42,13 +44,17 @@ export const imageBlockSchema = $nodeSchema('image-block', () => {
         // mdast gives null for a title that the markdown omits, and caption is
         // a validated string attribute.
         const caption = (node.title as string | null) ?? ''
-        let ratio = Number((node.alt as string) || 1)
+        const alt = (node.alt as string | null) ?? ''
+        let ratio = Number(alt || 1)
         if (Number.isNaN(ratio) || ratio === 0) ratio = 1
+        // Only the serializer's exact ratio form can omit the original alt.
+        const isRatio = alt === ratio.toFixed(2)
 
         state.addNode(type, {
           src,
+          alt: isRatio ? null : alt,
           caption,
-          ratio,
+          ratio: isRatio ? ratio : 1,
         })
       },
     },
@@ -59,7 +65,9 @@ export const imageBlockSchema = $nodeSchema('image-block', () => {
         state.addNode('image', undefined, undefined, {
           title: node.attrs.caption,
           url: node.attrs.src,
-          alt: `${Number.parseFloat(node.attrs.ratio).toFixed(2)}`,
+          alt:
+            node.attrs.alt ??
+            `${Number.parseFloat(node.attrs.ratio).toFixed(2)}`,
         })
         state.closeNode()
       },

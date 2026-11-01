@@ -15,6 +15,10 @@ export const ImageViewer = defineComponent<MilkdownImageBlockProps>({
       type: Object,
       required: true,
     },
+    alt: {
+      type: Object,
+      required: true,
+    },
     caption: {
       type: Object,
       required: true,
@@ -40,7 +44,7 @@ export const ImageViewer = defineComponent<MilkdownImageBlockProps>({
       required: true,
     },
   },
-  setup({ src, caption, ratio, readonly, setAttr, config }) {
+  setup({ src, alt, caption, ratio, readonly, setAttr, config }) {
     const imageRef = ref<HTMLImageElement>()
     const resizeHandle = ref<HTMLDivElement>()
     const showCaption = ref(Boolean(caption.value?.length))
@@ -156,7 +160,7 @@ export const ImageViewer = defineComponent<MilkdownImageBlockProps>({
               data-type={IMAGE_DATA_TYPE}
               onLoad={onImageLoad}
               src={src.value}
-              alt={caption.value}
+              alt={alt.value ?? caption.value}
               onError={(e) =>
                 Promise.resolve(config.onImageLoadError?.(e)).catch(() => {})
               }
