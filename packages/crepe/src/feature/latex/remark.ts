@@ -1,6 +1,7 @@
 import type { Node } from '@milkdown/kit/transformer'
 
 import { $remark } from '@milkdown/kit/utils'
+import { mathToMarkdown } from 'mdast-util-math'
 import remarkMath from 'remark-math'
 import { visit } from 'unist-util-visit'
 
@@ -71,8 +72,31 @@ function visitInlineMath(ast: Node, file: { value?: unknown }) {
   )
 }
 
+const inlineMath = mathToMarkdown().handlers?.inlineMath
+const inlineMathBeforeDigit = mathToMarkdown({ singleDollarTextMath: false })
+  .handlers?.inlineMath
+
+// The guard turns `$x$2` into text, but it keeps `$$x$$2` as math.
+// Use spaces for line ends: `$$` at a line start can open a math block.
+const toMarkdownExtension: ReturnType<typeof mathToMarkdown> = {
+  handlers: {
+    inlineMath: (node, parent, state, info) => {
+      if (!/\d/.test(info.after)) return inlineMath!(node, parent, state, info)
+      const value = node.value.replace(/\r?\n|\r/g, ' ')
+      return inlineMathBeforeDigit!({ ...node, value }, parent, state, info)
+    },
+  },
+}
+
 /// Keep inline math that does not follow the pandoc rule as plain text.
+/// Write inline math before a digit with `$$`, so it loads back as math.
 export const remarkInlineMathGuardPlugin = $remark(
   'remarkInlineMathGuard',
-  () => () => visitInlineMath
+  () =>
+    function () {
+      const data = this.data()
+      data.toMarkdownExtensions ??= []
+      data.toMarkdownExtensions.push(toMarkdownExtension)
+      return visitInlineMath
+    }
 )

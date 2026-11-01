@@ -539,6 +539,9 @@ importers:
       lodash-es:
         specifier: ^4.17.21
         version: 4.18.1
+      mdast-util-math:
+        specifier: ^3.0.0
+        version: 3.0.0(supports-color@7.2.0)
       prosemirror-virtual-cursor:
         specifier: ^0.4.2
         version: 0.4.2(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.42.2)

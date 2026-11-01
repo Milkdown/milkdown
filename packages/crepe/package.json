@@ -189,6 +189,7 @@
     "dompurify": "^3.2.5",
     "katex": "^0.19.0",
     "lodash-es": "^4.17.21",
+    "mdast-util-math": "^3.0.0",
     "prosemirror-virtual-cursor": "^0.4.2",
     "remark-math": "^6.0.0",
     "unist-util-visit": "^5.0.0",
