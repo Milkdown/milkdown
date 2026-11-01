@@ -21,6 +21,7 @@ test('calls onImageLoadError when img fires error', async () => {
   const { container } = render(ImageViewer, {
     props: {
       src: ref('https://example.com/photo.png'),
+      alt: ref(null),
       caption: ref(''),
       ratio: ref(1),
       selected: ref(false),

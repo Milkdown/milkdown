@@ -15,6 +15,7 @@ export const imageBlockView = $view(
   (ctx): NodeViewConstructor => {
     return (initialNode, view, getPos) => {
       const src = ref(initialNode.attrs.src)
+      const alt = ref(initialNode.attrs.alt)
       const caption = ref(initialNode.attrs.caption)
       const ratio = ref(initialNode.attrs.ratio)
       const selected = ref(false)
@@ -34,6 +35,7 @@ export const imageBlockView = $view(
       const config = ctx.get(imageBlockConfig.key)
       const app = createApp(MilkdownImageBlock, {
         src,
+        alt,
         caption,
         ratio,
         selected,
@@ -68,6 +70,7 @@ export const imageBlockView = $view(
           }
         }
         ratio.value = node.attrs.ratio
+        alt.value = node.attrs.alt
         caption.value = node.attrs.caption
 
         readonly.value = !view.editable
