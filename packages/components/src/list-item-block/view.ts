@@ -13,6 +13,7 @@ import { listItemBlockConfig } from './config'
 interface CapturedSelection {
   anchor: number
   head: number
+  doc: Node
 }
 
 // Each list item restores the selection that it saw at mount, one frame later.
@@ -20,6 +21,8 @@ interface CapturedSelection {
 // with the square of the document size. Only the last valid restore decides
 // the final selection. Thus each view keeps its captures in mount order and
 // dispatches once, with the latest capture that fits the document.
+// A capture applies only to the document it was taken from. Text typed within
+// the frame changes the document, and a restore would put the caret before it.
 const pendingRestores = new WeakMap<
   EditorView,
   Map<HTMLElement, CapturedSelection>
@@ -42,6 +45,7 @@ function scheduleRestore(
       const docSize = state.doc.content.size
       let last: CapturedSelection | undefined
       for (const capture of frameCaptures.values()) {
+        if (capture.doc !== state.doc) continue
         if (capture.anchor <= docSize && capture.head <= docSize) last = capture
       }
       if (!last) return
@@ -101,10 +105,14 @@ export const listItemBlockView = $view(
         if (div === mountedDiv) return
         mountedDiv = div
 
-        const { anchor, head } = view.state.selection
+        const { selection, doc } = view.state
         div.appendChild(contentDOM)
         // put the cursor to the new created list item
-        scheduleRestore(view, dom, { anchor, head })
+        scheduleRestore(view, dom, {
+          anchor: selection.anchor,
+          head: selection.head,
+          doc,
+        })
       }
 
       const app = createApp(ListItem, {

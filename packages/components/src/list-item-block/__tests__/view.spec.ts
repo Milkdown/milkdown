@@ -119,4 +119,23 @@ describe('listItemBlockView selection restore', () => {
 
     expect(restores).toHaveLength(0)
   })
+
+  it('keeps the caret after text typed before the restore frame', async () => {
+    const { view } = await createEditor('* eins')
+    runFrame()
+    let end = -1
+    view.state.doc.descendants((node, pos) => {
+      if (node.isText) end = pos + node.nodeSize
+    })
+
+    const split = view.state.tr.split(end, 2)
+    split.setSelection(TextSelection.near(split.doc.resolve(end + 3)))
+    view.dispatch(split)
+    view.dispatch(view.state.tr.insertText('z'))
+    const typed = view.state.selection.head
+
+    runFrame()
+
+    expect(view.state.selection.head).toBe(typed)
+  })
 })
