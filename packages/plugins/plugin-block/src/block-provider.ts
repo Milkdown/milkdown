@@ -129,7 +129,6 @@ export class BlockProvider {
   /// Update provider state by editor view.
   update = (): void => {
     this.#service?.refresh()
-    if (this.#initialized) return
     requestAnimationFrame(() => {
       if (!this.#initialized) {
         try {
