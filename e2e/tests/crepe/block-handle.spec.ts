@@ -54,3 +54,38 @@ test('should be able to drag and drop a list item', async ({ page }) => {
   await expect(items.nth(2)).toContainText('item 4')
   await expect(items.nth(3)).toContainText('item 2')
 })
+
+test('should add after the block under the pointer when the document changes', async ({
+  page,
+}) => {
+  const editor = page.locator('.editor')
+  await focusEditor(page)
+  await setMarkdown(page, 'a\n\nb\n\nc\n')
+  await waitNextFrame(page)
+
+  const paragraphs = editor.locator('p')
+  await expect(paragraphs).toHaveCount(3)
+  const { box } = await centerOf(paragraphs.nth(1))
+  await page.mouse.move(box.x + 4, box.y + box.height / 2)
+  const blockHandle = page.locator('.milkdown-block-handle')
+  await expect(blockHandle).toBeVisible()
+
+  // The document changes without a pointer move: "a" is now under the
+  // pointer.
+  await setMarkdown(page, 'zero zero zero\n\na\n\nb\n\nc\n')
+  await expect(paragraphs).toHaveCount(4)
+  await expect
+    .poll(async () => {
+      const handle = await blockHandle.boundingBox()
+      const a = await paragraphs.nth(1).boundingBox()
+      return handle && a ? Math.abs(handle.y - a.y) < a.height : false
+    })
+    .toBe(true)
+
+  await blockHandle.locator('.operation-item').first().click()
+  await page.keyboard.press('Escape')
+  await page.keyboard.type('new')
+  await expect(paragraphs.nth(2)).toHaveText('new')
+  await expect(paragraphs.nth(1)).toHaveText('a')
+  await expect(paragraphs.nth(3)).toHaveText('b')
+})

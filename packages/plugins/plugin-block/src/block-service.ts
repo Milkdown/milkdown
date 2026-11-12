@@ -1,4 +1,5 @@
 import type { Ctx } from '@milkdown/ctx'
+import type { Node } from '@milkdown/prose/model'
 import type { EditorView } from '@milkdown/prose/view'
 
 import { editorViewCtx } from '@milkdown/core'
@@ -80,6 +81,19 @@ export class BlockService {
   #dragging = false
 
   /// @internal
+  #pointerY: null | number = null
+
+  /// @internal
+  /// The document that the active node belongs to.
+  #doc: null | Node = null
+
+  /// @internal
+  #frame = 0
+
+  /// @internal
+  #observer?: ResizeObserver
+
+  /// @internal
   get #filterNodes(): FilterNodes | undefined {
     try {
       return this.#ctx?.get(blockConfig.key).filterNodes
@@ -112,6 +126,15 @@ export class BlockService {
   bind = (ctx: Ctx, notify: BlockServiceMessage) => {
     this.#ctx = ctx
     this.#notify = notify
+    // Blocks also move without a pointer move: on scroll and on layout
+    // changes.
+    const dom = this.#view?.dom
+    if (dom && typeof ResizeObserver !== 'undefined') {
+      this.#observer = new ResizeObserver(this.#schedule)
+      this.#observer.observe(dom)
+    }
+    window.addEventListener('scroll', this.#schedule, true)
+    window.addEventListener('pointermove', this.#trackPointer, true)
   }
 
   /// Add mouse event to the dom.
@@ -133,10 +156,42 @@ export class BlockService {
   /// Unbind the notify function.
   unBind = () => {
     this.#notify = undefined
+    this.#observer?.disconnect()
+    window.removeEventListener('scroll', this.#schedule, true)
+    window.removeEventListener('pointermove', this.#trackPointer, true)
+    cancelAnimationFrame(this.#frame)
+    this.#frame = 0
+  }
+
+  /// Look for the active block again if the document changed. The block
+  /// provider calls this on every view update.
+  refresh = () => {
+    if (this.#view?.state.doc !== this.#doc) this.#schedule()
+  }
+
+  /// @internal
+  #trackPointer = (event: PointerEvent) => {
+    this.#pointerY = event.clientY
+  }
+
+  /// @internal
+  /// Look for the block under the pointer on the next frame. A handle that
+  /// keydown hid stays hidden.
+  #schedule = () => {
+    if (!this.#active || this.#frame) return
+    this.#frame = requestAnimationFrame(() => {
+      this.#frame = 0
+      const view = this.#view
+      if (view && this.#pointerY !== null) this.#locate(view, this.#pointerY)
+    })
   }
 
   /// @internal
   #handleMouseDown = () => {
+    // A position from an older document selects the wrong node.
+    const view = this.#view
+    if (view && this.#pointerY !== null && view.state.doc !== this.#doc)
+      this.#locate(view, this.#pointerY)
     this.#activeDOMRect = this.#active?.el.getBoundingClientRect()
     this.#createSelection()
   }
@@ -218,12 +273,17 @@ export class BlockService {
   }
 
   /// @internal
-  #mousemoveCallback = throttle((view: EditorView, event: MouseEvent) => {
+  #locate = (view: EditorView, y: number) => {
     if (!view.editable) return
+    this.#doc = view.state.doc
 
     const rect = view.dom.getBoundingClientRect()
+    if (y < rect.top || y > rect.bottom) {
+      this.#hide()
+      return
+    }
     const x = rect.left + rect.width / 2
-    const dom = view.root.elementFromPoint(x, event.clientY)
+    const dom = view.root.elementFromPoint(x, y)
     if (!(dom instanceof Element)) {
       this.#hide()
       return
@@ -232,18 +292,20 @@ export class BlockService {
     const filterNodes = this.#filterNodes
     if (!filterNodes) return
 
-    const result = selectRootNodeByDom(
-      view,
-      { x, y: event.clientY },
-      filterNodes
-    )
+    const result = selectRootNodeByDom(view, { x, y }, filterNodes)
 
     if (!result) {
       this.#hide()
       return
     }
     this.#show(result)
-  }, 200)
+  }
+
+  /// @internal
+  #mousemoveCallback = throttle(
+    (view: EditorView, event: MouseEvent) => this.#locate(view, event.clientY),
+    200
+  )
 
   /// @internal
   mousemoveCallback = (view: EditorView, event: MouseEvent) => {
