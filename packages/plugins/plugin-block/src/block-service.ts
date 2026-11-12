@@ -1,4 +1,5 @@
 import type { Ctx } from '@milkdown/ctx'
+import type { Node as ProseNode } from '@milkdown/prose/model'
 import type { EditorView } from '@milkdown/prose/view'
 
 import { editorViewCtx } from '@milkdown/core'
@@ -89,9 +90,38 @@ export class BlockService {
   }
 
   /// @internal
-  get #view() {
-    return this.#ctx?.get(editorViewCtx)
+  get #view(): EditorView | undefined {
+    try {
+      return this.#ctx?.get(editorViewCtx)
+    } catch {
+      return undefined
+    }
   }
+
+  /// @internal
+  /// The last pointer position over the editor or the handle, or null when
+  /// the pointer left both.
+  #pointer: null | { x: number; y: number } = null
+
+  /// @internal
+  #frame = 0
+
+  /// @internal
+  /// A lookup is due on the next frame.
+  #pending = false
+
+  /// @internal
+  /// The document that the active node belongs to.
+  #doc: null | ProseNode = null
+
+  /// @internal
+  #handleDom?: HTMLElement
+
+  /// @internal
+  #viewDom?: HTMLElement
+
+  /// @internal
+  #observer?: ResizeObserver
 
   /// @internal
   #notify?: BlockServiceMessage
@@ -112,10 +142,28 @@ export class BlockService {
   bind = (ctx: Ctx, notify: BlockServiceMessage) => {
     this.#ctx = ctx
     this.#notify = notify
+
+    const view = this.#view
+    if (!view) return
+    this.#viewDom = view.dom
+    view.dom.addEventListener('pointerleave', this.#handlePointerLeave)
+    // The blocks move without a pointer move when the document, the editor
+    // size or a scroll position changes.
+    if (typeof ResizeObserver !== 'undefined') {
+      this.#observer = new ResizeObserver(this.#relayout)
+      this.#observer.observe(view.dom)
+    }
+    window.addEventListener('scroll', this.#relayout, {
+      capture: true,
+      passive: true,
+    })
+    window.addEventListener('resize', this.#relayout)
   }
 
   /// Add mouse event to the dom.
   addEvent = (dom: HTMLElement) => {
+    this.#handleDom = dom
+    dom.addEventListener('pointerleave', this.#handlePointerLeave)
     dom.addEventListener('mousedown', this.#handleMouseDown)
     dom.addEventListener('mouseup', this.#handleMouseUp)
     dom.addEventListener('dragstart', this.#handleDragStart)
@@ -124,6 +172,7 @@ export class BlockService {
 
   /// Remove mouse event to the dom.
   removeEvent = (dom: HTMLElement) => {
+    dom.removeEventListener('pointerleave', this.#handlePointerLeave)
     dom.removeEventListener('mousedown', this.#handleMouseDown)
     dom.removeEventListener('mouseup', this.#handleMouseUp)
     dom.removeEventListener('dragstart', this.#handleDragStart)
@@ -133,10 +182,29 @@ export class BlockService {
   /// Unbind the notify function.
   unBind = () => {
     this.#notify = undefined
+    this.#viewDom?.removeEventListener('pointerleave', this.#handlePointerLeave)
+    this.#viewDom = undefined
+    this.#mousemoveCallback.cancel()
+    this.#observer?.disconnect()
+    this.#observer = undefined
+    window.removeEventListener('scroll', this.#relayout, { capture: true })
+    window.removeEventListener('resize', this.#relayout)
+    if (this.#frame) cancelAnimationFrame(this.#frame)
+    this.#frame = 0
+  }
+
+  /// Find the active node again if the document changed since it was found.
+  /// The block provider calls this on every editor view update.
+  refresh = () => {
+    const view = this.#view
+    if (view && this.#active && view.state.doc !== this.#doc) this.#schedule()
   }
 
   /// @internal
   #handleMouseDown = () => {
+    // Do not select by a position from an older document.
+    const view = this.#view
+    if (view && this.#active && view.state.doc !== this.#doc) this.#locate(view)
     this.#activeDOMRect = this.#active?.el.getBoundingClientRect()
     this.#createSelection()
   }
@@ -218,38 +286,107 @@ export class BlockService {
   }
 
   /// @internal
-  #mousemoveCallback = throttle((view: EditorView, event: MouseEvent) => {
-    if (!view.editable) return
-
-    const rect = view.dom.getBoundingClientRect()
-    const x = rect.left + rect.width / 2
-    const dom = view.root.elementFromPoint(x, event.clientY)
-    if (!(dom instanceof Element)) {
-      this.#hide()
-      return
+  /// The point to look for a block at: the pointer, or the active node itself
+  /// when the pointer is not over the editor.
+  #target = (view: EditorView): null | { x: number; y: number } => {
+    if (this.#pointer) return this.#pointer
+    const el = this.#active?.el
+    if (!el || !el.isConnected || !view.dom.contains(el)) return null
+    const rect = el.getBoundingClientRect()
+    return {
+      x: rect.left + Math.min(rect.width / 2, 8),
+      y: rect.top + Math.min(rect.height / 2, 8),
     }
+  }
 
+  /// @internal
+  #locate = (view: EditorView) => {
+    this.#pending = false
+    if (!view.editable || view.composing || this.#dragging) return
+
+    this.#doc = view.state.doc
     const filterNodes = this.#filterNodes
     if (!filterNodes) return
 
-    const result = selectRootNodeByDom(
-      view,
-      { x, y: event.clientY },
-      filterNodes
-    )
-
-    if (!result) {
+    const point = this.#target(view)
+    const rect = view.dom.getBoundingClientRect()
+    if (!point || point.y < rect.top || point.y > rect.bottom) {
       this.#hide()
       return
     }
-    this.#show(result)
+
+    // Look at the pointer x first, kept inside the content box. A narrow or
+    // centered block is not under the middle of the editor. The middle stays
+    // as a fallback for a pointer over empty space.
+    const style = getComputedStyle(view.dom)
+    const inset = (side: 'Left' | 'Right') =>
+      (style[`border${side}Style`] === 'none'
+        ? 0
+        : Number.parseFloat(style[`border${side}Width`]) || 0) +
+      (Number.parseFloat(style[`padding${side}`]) || 0)
+    const left = rect.left + inset('Left')
+    const right = rect.right - inset('Right')
+    const xs: number[] = []
+    if (right - left > 2 && Number.isFinite(point.x))
+      xs.push(Math.min(Math.max(point.x, left + 1), right - 1))
+    xs.push(rect.left + rect.width / 2)
+
+    for (const x of xs) {
+      const dom = view.root.elementFromPoint(x, point.y)
+      if (!(dom instanceof Element)) continue
+      const result = selectRootNodeByDom(view, { x, y: point.y }, filterNodes)
+      if (result) {
+        this.#show(result)
+        return
+      }
+    }
+    this.#hide()
+  }
+
+  /// @internal
+  #runFrame = () => {
+    this.#frame = 0
+    if (!this.#pending) return
+    const view = this.#view
+    if (view && !view.isDestroyed) this.#locate(view)
+  }
+
+  /// @internal
+  /// Look for the block on the next frame. Many events in one frame cause one
+  /// lookup.
+  #schedule = () => {
+    this.#pending = true
+    if (!this.#frame) this.#frame = requestAnimationFrame(this.#runFrame)
+  }
+
+  /// @internal
+  /// A handle that keydown hid stays hidden.
+  #relayout = () => {
+    if (this.#active) this.#schedule()
+  }
+
+  /// @internal
+  #handlePointerLeave = (event: PointerEvent) => {
+    const to = event.relatedTarget
+    if (
+      to instanceof Node &&
+      (this.#handleDom?.contains(to) || this.#viewDom?.contains(to))
+    )
+      return
+    this.#pointer = null
+  }
+
+  /// @internal
+  #mousemoveCallback = throttle((view: EditorView) => {
+    this.#locate(view)
   }, 200)
 
   /// @internal
   mousemoveCallback = (view: EditorView, event: MouseEvent) => {
     if (view.composing || !view.editable) return false
 
-    this.#mousemoveCallback(view, event)
+    this.#pointer = { x: event.clientX, y: event.clientY }
+    this.#mousemoveCallback(view)
 
     return false
   }
