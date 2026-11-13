@@ -62,14 +62,21 @@ export const syncListOrderPlugin = $prose((ctx) => {
             node.descendants(
               (
                 child: Node,
-                pos: number,
+                childOffset: number,
                 _parent: Node | null,
                 index: number
               ) => {
                 if (child.type === listItemType) {
                   const attrs = { ...child.attrs }
                   const changed = handleNodeItem(attrs, index)
-                  if (changed) tr = tr.setNodeMarkup(pos, undefined, attrs)
+                  if (changed || attrs.listType !== 'ordered') {
+                    attrs.listType = 'ordered'
+                    tr = tr.setNodeMarkup(
+                      pos + 1 + childOffset,
+                      undefined,
+                      attrs
+                    )
+                  }
                 }
                 return false
               }
