@@ -143,6 +143,9 @@ export class ParserState extends Stack<Node, ParserStackElement> {
     return this
   }
 
+  /// Check whether a mark of this type is active.
+  hasMark = (markType: MarkType): boolean => !!markType.isInSet(this.#marks)
+
   /// Open a new mark, the next nodes added will have that mark.
   openMark = (markType: MarkType, attrs?: Attrs) => {
     const mark = markType.create(attrs)
