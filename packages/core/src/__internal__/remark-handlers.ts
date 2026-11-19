@@ -4,10 +4,21 @@ export const remarkHandlers: Required<Options>['handlers'] = {
   text: (node, _, state, info) => {
     // This handler removes the `&#20;` entity from a trailing space.
     const value = node.value
-    // Text that ends with a space and carries no markdown character to
-    // escape returns as it is, which keeps the trailing space.
+    // `safe` encodes a space at the start or end of a line as `&#x20;`.
+    // Text that ends with a space and has no `*`, `_` or `\` keeps its
+    // outer spaces out of `safe`. The text between them still goes through
+    // `safe`, which escapes markdown characters such as `#` and `|`.
     if (/^[^*_\\]*\s+$/.test(value)) {
-      return value
+      const body = value.trim()
+      const lead = value.slice(0, value.length - value.trimStart().length)
+      const trail = value.slice(lead.length + body.length)
+      const escaped = state.safe(body, {
+        ...info,
+        before: info.before + lead,
+        after: trail + info.after,
+        encode: [],
+      })
+      return lead + escaped + trail
     }
     // Other text goes through `safe`, which escapes markdown. The empty
     // `encode` list stops it from encoding a space.
