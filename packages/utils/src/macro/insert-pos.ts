@@ -19,7 +19,13 @@ export function insertPos(
 
     const min = 0
     const max = view.state.doc.content.size
-    const resolved = inline ? toPos.pos : toPos.after(toPos.depth - 1)
+    // Block mode inserts after the parent of the textblock holding `pos`.
+    // A top-level textblock has no parent but the doc, so insert after the
+    // textblock itself. A position between top-level blocks is used as is.
+    const resolved =
+      inline || toPos.depth === 0
+        ? toPos.pos
+        : toPos.after(Math.max(toPos.depth - 1, 1))
     const to = Math.min(Math.max(resolved, min), max)
 
     view.dispatch(view.state.tr.replace(resolved, to, slice))
