@@ -198,6 +198,7 @@ export class SlashProvider {
 
   /// Hide the slash.
   hide = () => {
+    this.#updater.cancel()
     this.element.dataset.show = 'false'
     this.onHide()
   }
