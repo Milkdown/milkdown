@@ -655,7 +655,7 @@ import { setCodeMirrorTheme } from '@milkdown/crepe/feature/code-mirror'
 crepe.editor.action(setCodeMirrorTheme(isDark ? oneDark : []))
 ```
 
-The CodeMirror theme colors the code editor, including its background, gutters and panels. Crepe uses `oneDark` by default. Where the theme sets no color, or when the theme is `[]`, the editor uses the Crepe theme's surface colors (`--crepe-color-surface` and `--crepe-color-on-surface`).
+The CodeMirror theme colors the code editor, including its background, gutters and panels. `Crepe` uses `oneDark` by default. Without a theme, the editor, its gutters and its panels use `--crepe-color-surface` as the background, and panel text uses `--crepe-color-on-surface`. A theme that isn't dark gets these colors for the parts it leaves unset. A dark theme gets CodeMirror's own dark colors there.
 
 #### Latex Feature
 
