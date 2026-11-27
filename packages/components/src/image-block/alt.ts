@@ -10,7 +10,8 @@ export interface ImageBlockAlt {
   ratio: number
 }
 
-const DEFAULT_RATIO = '1.00'
+const DEFAULT_RATIO = 1
+const WRITTEN_DEFAULT_RATIO = DEFAULT_RATIO.toFixed(2)
 
 /// A whole alt that is a decimal number is a ratio, as it always was, so a
 /// ratio written by hand such as `0.5` keeps working.
@@ -19,38 +20,51 @@ const WHOLE_ALT_RATIO = /^\d+\.\d+$/
 /// After alt text, only the form the serializer writes is a ratio.
 const WRITTEN_RATIO = /^\d+\.\d{2}$/
 
-function toRatio(value: string): number | null {
-  const ratio = Number(value)
-  return Number.isFinite(ratio) && ratio > 0 ? ratio : null
+/// The ratio in the form the serializer writes it, or null for a ratio that
+/// has no such form, such as 0 or NaN.
+function formatRatio(ratio: number): string | null {
+  const formatted = ratio.toFixed(2)
+  return WRITTEN_RATIO.test(formatted) && Number(formatted) > 0
+    ? formatted
+    : null
+}
+
+/// Whether the ratio is written as the default ratio. A ratio that cannot be
+/// written counts as the default.
+export function isDefaultRatio(ratio: number): boolean {
+  const written = formatRatio(ratio)
+  return written === null || written === WRITTEN_DEFAULT_RATIO
 }
 
 export function parseImageBlockAlt(value: string): ImageBlockAlt {
-  if (WHOLE_ALT_RATIO.test(value))
-    return { alt: null, ratio: toRatio(value) ?? 1 }
+  if (WHOLE_ALT_RATIO.test(value)) {
+    // The ratio is read with the two decimals it is written with, so that the
+    // node matches its own Markdown.
+    const written = formatRatio(Number(value))
+    return {
+      alt: null,
+      ratio: written === null ? DEFAULT_RATIO : Number(written),
+    }
+  }
 
   const index = value.lastIndexOf('|')
   if (index !== -1) {
     const suffix = value.slice(index + 1)
-    const ratio = WRITTEN_RATIO.test(suffix) ? toRatio(suffix) : null
-    if (ratio !== null) return { alt: value.slice(0, index), ratio }
+    if (WRITTEN_RATIO.test(suffix) && formatRatio(Number(suffix)) !== null)
+      return { alt: value.slice(0, index), ratio: Number(suffix) }
   }
 
-  return { alt: value, ratio: 1 }
+  return { alt: value, ratio: DEFAULT_RATIO }
 }
 
 export function serializeImageBlockAlt({ alt, ratio }: ImageBlockAlt): string {
-  const formatted = Number.parseFloat(String(ratio)).toFixed(2)
-  // A ratio that cannot be read back, such as 0 or NaN, is written as the
-  // default ratio.
-  const written =
-    WRITTEN_RATIO.test(formatted) && toRatio(formatted) !== null
-      ? formatted
-      : DEFAULT_RATIO
-
+  const written = formatRatio(ratio) ?? WRITTEN_DEFAULT_RATIO
   if (alt === null) return written
-  if (written !== DEFAULT_RATIO) return `${alt}|${written}`
+  if (written !== WRITTEN_DEFAULT_RATIO) return `${alt}|${written}`
 
   // Alt text that would read back as a ratio, such as `0.75` or `x|0.75`,
   // gets an explicit default ratio so that it reads back as text.
-  return parseImageBlockAlt(alt).alt === alt ? alt : `${alt}|${DEFAULT_RATIO}`
+  return parseImageBlockAlt(alt).alt === alt
+    ? alt
+    : `${alt}|${WRITTEN_DEFAULT_RATIO}`
 }

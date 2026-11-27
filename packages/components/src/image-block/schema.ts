@@ -66,7 +66,7 @@ export const imageBlockSchema = $nodeSchema('image-block', () => {
           url: node.attrs.src,
           alt: serializeImageBlockAlt({
             alt: node.attrs.alt,
-            ratio: node.attrs.ratio,
+            ratio: Number.parseFloat(node.attrs.ratio),
           }),
         })
         state.closeNode()

@@ -38,7 +38,9 @@ async function withEditor<T>(
 
 const textAlts = ['A red barn', '', '2024', '1e+21']
 
-function resizeImage(editor: Editor) {
+/// Press the resize handle of a 200px high image, drag it to `height` when
+/// one is given, and release it.
+function useResizeHandle(editor: Editor, height?: number) {
   editor.action((ctx) => {
     const view = ctx.get(editorViewCtx)
     const image = view.dom.querySelector('img')
@@ -47,15 +49,22 @@ function resizeImage(editor: Editor) {
     if (!image || !host || !handle) throw new Error('Image block is missing')
 
     Object.defineProperties(image, {
-      naturalWidth: { value: 200 },
-      naturalHeight: { value: 200 },
+      naturalWidth: { value: 200, configurable: true },
+      naturalHeight: { value: 200, configurable: true },
     })
     host.getBoundingClientRect = () => new DOMRect(0, 0, 400, 400)
     image.dispatchEvent(new Event('load'))
     handle.dispatchEvent(new MouseEvent('pointerdown'))
-    window.dispatchEvent(new MouseEvent('pointermove', { clientY: 150 }))
+    if (height !== undefined)
+      window.dispatchEvent(new MouseEvent('pointermove', { clientY: height }))
     window.dispatchEvent(new Event('pointerup'))
+  })
+}
 
+function resizeImage(editor: Editor) {
+  useResizeHandle(editor, 150)
+  editor.action((ctx) => {
+    const view = ctx.get(editorViewCtx)
     expect(view.state.doc.firstChild?.attrs.ratio).toBe(0.75)
   })
 }
@@ -149,11 +158,42 @@ describe('image block alt text', () => {
     })
   })
 
+  it.each(['![](a.png)\n', '![|0.75](a.png)\n', '![A red barn](a.png)\n'])(
+    'leaves %j alone when the resize handle is released without a drag',
+    async (markdown) => {
+      await withEditor(markdown, imageBlockComponent, (editor) => {
+        const docBefore = editor.action(
+          (ctx) => ctx.get(editorViewCtx).state.doc
+        )
+        useResizeHandle(editor)
+        editor.action((ctx) => {
+          expect(ctx.get(editorViewCtx).state.doc).toBe(docBefore)
+        })
+        expect(editor.action(getMarkdown())).toBe(markdown)
+      })
+    }
+  )
+
+  it('keeps an empty alt when an image is dragged back to its original height', async () => {
+    await withEditor('![|0.75](a.png)\n', imageBlockComponent, (editor) => {
+      useResizeHandle(editor, 200)
+      editor.action((ctx) => {
+        const node = ctx.get(editorViewCtx).state.doc.firstChild
+        expect(node?.attrs.alt).toBe('')
+        expect(node?.attrs.ratio).toBe(1)
+      })
+      expect(editor.action(getMarkdown())).toBe('![](a.png)\n')
+    })
+  })
+
   it.each([
     ['0.5', 0.5, '0.50'],
     ['1.0', 1, '1.00'],
     ['1.5', 1.5, '1.50'],
     ['2.0', 2, '2.00'],
+    ['0.333', 0.33, '0.33'],
+    ['3.14159', 3.14, '3.14'],
+    ['0.001', 1, '1.00'],
     ['0.00', 1, '1.00'],
   ])(
     'reads the handwritten ratio %j as %j and writes it as %j',

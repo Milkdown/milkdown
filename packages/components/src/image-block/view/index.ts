@@ -6,6 +6,7 @@ import DOMPurify from 'dompurify'
 import { createApp, ref, watchEffect } from 'vue'
 
 import { withMeta } from '../../__internal__/meta'
+import { isDefaultRatio } from '../alt'
 import { imageBlockConfig } from '../config'
 import { imageBlockSchema } from '../schema'
 import { MilkdownImageBlock } from './components/image-block'
@@ -24,6 +25,10 @@ export const imageBlockView = $view(
         if (!view.editable) return
         const pos = getPos()
         if (pos == null) return
+        const node = view.state.doc.nodeAt(pos)
+        // Releasing the resize handle without a drag sets the ratio that the
+        // node already has, which is not a resize.
+        if (attr === 'ratio' && node?.attrs.ratio === value) return
         const tr = view.state.tr.setNodeAttribute(
           pos,
           attr,
@@ -31,7 +36,11 @@ export const imageBlockView = $view(
         )
         // An empty alt has no text to keep. Dropping it on a resize saves the
         // image in the ratio-only form, which older versions can read.
-        if (attr === 'ratio' && view.state.doc.nodeAt(pos)?.attrs.alt === '')
+        if (
+          attr === 'ratio' &&
+          node?.attrs.alt === '' &&
+          !isDefaultRatio(value as number)
+        )
           tr.setNodeAttribute(pos, 'alt', null)
         view.dispatch(tr)
       }

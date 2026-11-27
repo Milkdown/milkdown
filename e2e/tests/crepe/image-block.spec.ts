@@ -99,6 +99,24 @@ test.describe('image block maxWidth and maxHeight combined', () => {
   })
 })
 
+// Press the resize handle of the image block and return where it was
+// pressed and where the image is.
+async function pressResizeHandle(page: Page) {
+  const imageBox = (await page.locator(IMAGE_SELECTOR).boundingBox())!
+  // The handle only shows while the pointer is over the block.
+  await page.mouse.move(
+    imageBox.x + imageBox.width / 2,
+    imageBox.y + imageBox.height / 2
+  )
+  const handleBox = (await page
+    .locator('.milkdown-image-block .image-resize-handle')
+    .boundingBox())!
+  const x = handleBox.x + handleBox.width / 2
+  await page.mouse.move(x, handleBox.y + handleBox.height / 2)
+  await page.mouse.down()
+  return { x, imageBox }
+}
+
 test.describe('image block alt text', () => {
   test('keeps the alt text and writes the ratio after it on resize', async ({
     page,
@@ -113,17 +131,7 @@ test.describe('image block alt text', () => {
     await expect(img).toHaveAttribute('alt', 'A red barn')
     expect(await getMarkdown(page)).toBe(`![A red barn](${MOCK_IMAGE_URL})\n`)
 
-    const imageBox = (await img.boundingBox())!
-    await page.mouse.move(
-      imageBox.x + imageBox.width / 2,
-      imageBox.y + imageBox.height / 2
-    )
-    const handleBox = (await page
-      .locator('.milkdown-image-block .image-resize-handle')
-      .boundingBox())!
-    const x = handleBox.x + handleBox.width / 2
-    await page.mouse.move(x, handleBox.y + handleBox.height / 2)
-    await page.mouse.down()
+    const { x, imageBox } = await pressResizeHandle(page)
     await page.mouse.move(x, imageBox.y + 300, { steps: 5 })
     await page.mouse.up()
 
@@ -132,5 +140,23 @@ test.describe('image block alt text', () => {
     expect(await getMarkdown(page)).toBe(
       `![A red barn|0.75](${MOCK_IMAGE_URL})\n`
     )
+  })
+
+  test('keeps an empty alt when the resize handle is clicked without a drag', async ({
+    page,
+  }) => {
+    await routeMockImage(page, MOCK_IMAGE_URL, 400, 400)
+    await page.goto('/image-block/')
+
+    await setMarkdown(page, `![](${MOCK_IMAGE_URL})`)
+
+    const img = page.locator(IMAGE_SELECTOR)
+    await expect(img).toHaveCSS('height', '400px', { timeout: 5000 })
+
+    await pressResizeHandle(page)
+    await page.mouse.up()
+
+    await expect(img).toHaveCSS('height', '400px')
+    expect(await getMarkdown(page)).toBe(`![](${MOCK_IMAGE_URL})\n`)
   })
 })
