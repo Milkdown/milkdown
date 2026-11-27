@@ -11,7 +11,7 @@ import {
   visibilityOffIcon,
 } from '../icons'
 
-export const defaultConfig: CrepeFeatureConfig = {
+const defaultConfig: CrepeFeatureConfig = {
   [CrepeFeature.CodeMirror]: {
     theme: oneDark,
     languages,

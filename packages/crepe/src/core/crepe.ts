@@ -1,8 +1,6 @@
-import { defaultsDeep } from 'lodash-es'
-
 import type { CrepeFeatureConfig } from '../feature'
 
-import { defaultConfig } from '../default-config'
+import { applyConfig } from '../default-config'
 import { CrepeFeature, defaultFeatures } from '../feature'
 import { loadFeature } from '../feature/loader'
 import { CrepeBuilder, type CrepeBuilderConfig } from './builder'
@@ -32,7 +30,7 @@ export class Crepe extends CrepeBuilder {
   }: CrepeConfig = {}) {
     super(crepeBuilderConfig)
 
-    const finalConfigs = defaultsDeep(featureConfigs, defaultConfig)
+    const finalConfigs = applyConfig(featureConfigs)
 
     const enabledFeatures = Object.entries({
       ...defaultFeatures,
