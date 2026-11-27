@@ -76,15 +76,18 @@ export const imageBlockView = $view(
         readonly.value = !view.editable
       }
 
+      let currentNode = initialNode
       bindAttrs(initialNode)
       app.mount(dom)
 
       return {
         dom,
         update: (updatedNode) => {
-          if (updatedNode.type !== initialNode.type) return false
+          if (updatedNode.type !== currentNode.type) return false
+          if (updatedNode.attrs.src !== currentNode.attrs.src) return false
 
           bindAttrs(updatedNode)
+          currentNode = updatedNode
           return true
         },
         stopEvent: (e) => {

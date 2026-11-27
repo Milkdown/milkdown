@@ -59,15 +59,18 @@ export const inlineImageView = $view(
         alt.value = node.attrs.alt
         title.value = node.attrs.title
       }
+      let currentNode = initialNode
       bindAttrs(initialNode)
       app.mount(dom)
 
       return {
         dom,
         update: (updatedNode) => {
-          if (updatedNode.type !== initialNode.type) return false
+          if (updatedNode.type !== currentNode.type) return false
+          if (updatedNode.attrs.src !== currentNode.attrs.src) return false
 
           bindAttrs(updatedNode)
+          currentNode = updatedNode
           return true
         },
         stopEvent: (e) => {
