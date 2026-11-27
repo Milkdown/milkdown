@@ -32,6 +32,10 @@ export const strikethroughSchema = $markSchema('strike_through', (ctx) => ({
   parseMarkdown: {
     match: (node) => node.type === 'delete',
     runner: (state, node, markType) => {
+      if (state.hasMark(markType)) {
+        state.next(node.children)
+        return
+      }
       state.openMark(markType)
       state.next(node.children)
       state.closeMark(markType)

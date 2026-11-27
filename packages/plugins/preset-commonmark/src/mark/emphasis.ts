@@ -36,7 +36,7 @@ export const emphasisSchema = $markSchema('emphasis', (ctx) => ({
   parseMarkdown: {
     match: (node) => node.type === 'emphasis',
     runner: (state, node, markType) => {
-      if (markType.excludes(markType) && state.hasMark(markType)) {
+      if (state.hasMark(markType)) {
         state.next(node.children)
         return
       }
