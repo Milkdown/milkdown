@@ -1,35 +1,38 @@
 import { languages } from '@codemirror/language-data'
 import { oneDark } from '@codemirror/theme-one-dark'
-import { mergeWith } from 'lodash-es'
 
 import { CrepeFeature, type CrepeFeatureConfig } from '../feature'
-import {
-  chevronDownIcon,
-  clearIcon,
-  editIcon,
-  searchIcon,
-  visibilityOffIcon,
-} from '../icons'
 
-export const defaultConfig: CrepeFeatureConfig = {
+/// The defaults that `Crepe` adds to the feature configs, on top of the
+/// fallbacks of each feature. `CrepeBuilder` does not add them, so a
+/// feature added to it does not pull in these modules. It is a function,
+/// so that each editor gets its own arrays.
+const getDefaultConfig = (): CrepeFeatureConfig => ({
   [CrepeFeature.CodeMirror]: {
     theme: oneDark,
-    languages,
-    expandIcon: chevronDownIcon,
-    searchIcon: searchIcon,
-    clearSearchIcon: clearIcon,
-    searchPlaceholder: 'Search language',
-    noResultText: 'No result',
-    previewToggleIcon: (previewOnlyMode) =>
-      previewOnlyMode ? editIcon : visibilityOffIcon,
+    languages: [...languages],
   },
+})
+
+/// Fill in the options that `config` leaves `undefined`. A value that
+/// `config` gives replaces the default as a whole, arrays included.
+const withDefaults = (config: object | undefined, defaults: object) => {
+  const result: Record<string, unknown> = { ...config }
+  Object.entries(defaults).forEach(([key, value]) => {
+    result[key] ??= value
+  })
+  return result
 }
 
-export const applyConfig = (userConfig: Partial<CrepeFeatureConfig>) => {
-  return mergeWith({}, defaultConfig, userConfig, (_objValue, srcValue) => {
-    if (Array.isArray(srcValue)) {
-      return srcValue
-    }
-    return undefined
+/// Add the defaults of `getDefaultConfig` to the feature configs, one level
+/// deep. The configs of the features without defaults are passed through
+/// as they are, and nothing passed in is changed.
+export const applyConfig = (
+  userConfig: CrepeFeatureConfig
+): CrepeFeatureConfig => {
+  const config: Record<string, object | undefined> = { ...userConfig }
+  Object.entries(getDefaultConfig()).forEach(([feature, defaults]) => {
+    config[feature] = withDefaults(config[feature], defaults)
   })
+  return config as CrepeFeatureConfig
 }
