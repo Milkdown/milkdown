@@ -1,5 +1,7 @@
 import { expect, test, type Page } from '@playwright/test'
 
+import { getMarkdown } from '../misc'
+
 // A 1000x800 red PNG is impractical as a data URL, so the route
 // intercepts the image request and returns a generated PNG.
 async function routeMockImage(
@@ -94,5 +96,43 @@ test.describe('image block maxWidth and maxHeight combined', () => {
 
     await expect(img).toHaveCSS('max-width', '400px')
     await expect(img).toHaveCSS('height', '200px', { timeout: 5000 })
+  })
+})
+
+test.describe('image block alt text', () => {
+  test('keeps the alt text and writes the ratio after it on resize', async ({
+    page,
+  }) => {
+    await routeMockImage(page, MOCK_IMAGE_URL, 400, 400)
+    await page.goto('/image-block/')
+
+    await page.evaluate((url: string) => {
+      window.__setMarkdown__(`![A red barn](${url})`)
+    }, MOCK_IMAGE_URL)
+
+    const img = page.locator(IMAGE_SELECTOR)
+    await expect(img).toHaveCSS('height', '400px', { timeout: 5000 })
+    await expect(img).toHaveAttribute('alt', 'A red barn')
+    expect(await getMarkdown(page)).toBe(`![A red barn](${MOCK_IMAGE_URL})\n`)
+
+    const imageBox = (await img.boundingBox())!
+    await page.mouse.move(
+      imageBox.x + imageBox.width / 2,
+      imageBox.y + imageBox.height / 2
+    )
+    const handleBox = (await page
+      .locator('.milkdown-image-block .image-resize-handle')
+      .boundingBox())!
+    const x = handleBox.x + handleBox.width / 2
+    await page.mouse.move(x, handleBox.y + handleBox.height / 2)
+    await page.mouse.down()
+    await page.mouse.move(x, imageBox.y + 300, { steps: 5 })
+    await page.mouse.up()
+
+    await expect(img).toHaveCSS('height', '300px')
+    await expect(img).toHaveAttribute('alt', 'A red barn')
+    expect(await getMarkdown(page)).toBe(
+      `![A red barn|0.75](${MOCK_IMAGE_URL})\n`
+    )
   })
 })

@@ -29,6 +29,18 @@ await Editor.make().use(commonmark).use(imageBlockComponent).create()
 
 ::iframe{src="https://stackblitz.com/github/Milkdown/examples/tree/main/component-image-block"}
 
+## Markdown Format
+
+An image that stands alone in its paragraph becomes an image block. Its title is the caption, and its alt holds the alt text and the resize ratio:
+
+| Markdown                         | Alt text     | Ratio |
+| -------------------------------- | ------------ | ----- |
+| `![A red barn](a.png "Caption")` | `A red barn` | 1     |
+| `![A red barn\|0.75](a.png)`     | `A red barn` | 0.75  |
+| `![0.75](a.png)`                 | none         | 0.75  |
+
+A ratio is read only with two decimals, such as `0.75`, so any other alt, including a number like `2024`, stays alt text.
+
 ---
 
 # Configuration
