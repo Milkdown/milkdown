@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-import { focusEditor, getMarkdown, waitNextFrame } from '../misc'
+import { focusEditor, getMarkdown, setMarkdown, waitNextFrame } from '../misc'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/crepe/')
@@ -74,4 +74,21 @@ test('latex inline', async ({ page }) => {
 
   markdown = await getMarkdown(page)
   expect(markdown.trim()).toEqual('$E=mc^4$')
+})
+
+test('latex inline followed by a digit stays math after a reload', async ({
+  page,
+}) => {
+  await focusEditor(page)
+  await page.keyboard.type('$x$2')
+
+  const inlineLatex = page.locator('span[data-type="math_inline"]')
+  await expect(inlineLatex).toBeVisible()
+
+  const markdown = await getMarkdown(page)
+  expect(markdown.trim()).toEqual('$x$&#x32;')
+
+  await setMarkdown(page, markdown)
+  await expect(inlineLatex).toBeVisible()
+  expect(await getMarkdown(page)).toEqual(markdown)
 })
