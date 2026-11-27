@@ -94,12 +94,40 @@ export class SerializerState extends Stack<
   }
 
   /// @internal
+  /// Count the nodes in a row, starting with the one at `index`, that carry
+  /// `mark`.
+  #spanOf = (mark: Mark, siblings: Fragment | undefined, index: number) => {
+    let span = 1
+    while (siblings?.maybeChild(index + span)?.marks.some((x) => x.eq(mark)))
+      span++
+    return span
+  }
+
+  /// @internal
   /// Order the marks of a node so that marks which are already open keep
   /// their current nesting order and can stay open, followed by the newly
-  /// opened marks sorted by priority.
-  #orderMarks = (marks: readonly Mark[]): Mark[] => {
+  /// opened marks sorted by priority. Among newly opened marks of the same
+  /// priority, the one that runs over more of the following siblings goes
+  /// outside, so a shorter mark ending inside it does not force it to close
+  /// and reopen (`[*foo* bar](url)` must not become two links).
+  #orderMarks = (
+    marks: readonly Mark[],
+    siblings?: Fragment,
+    index = 0
+  ): Mark[] => {
     const getPriority = (x: Mark) => x.type.spec.priority ?? 50
-    const rest = [...marks].sort((a, b) => getPriority(a) - getPriority(b))
+    const spans = new Map<Mark, number>()
+    const getSpan = (x: Mark) => {
+      let span = spans.get(x)
+      if (span == null) {
+        span = this.#spanOf(x, siblings, index)
+        spans.set(x, span)
+      }
+      return span
+    }
+    const rest = [...marks].sort(
+      (a, b) => getPriority(a) - getPriority(b) || getSpan(b) - getSpan(a)
+    )
     const continuing: Mark[] = []
     this.#openMarks.forEach(({ mark }) => {
       const index = rest.findIndex((x) => x.eq(mark))
@@ -126,12 +154,12 @@ export class SerializerState extends Stack<
   }
 
   /// @internal
-  #runNode = (node: Node, next?: Node) => {
-    const marks = this.#orderMarks(node.marks)
+  #runNode = (node: Node, siblings?: Fragment, index = 0) => {
+    const marks = this.#orderMarks(node.marks, siblings, index)
     const unPreventNext = marks.every((mark) => !this.#runProseMark(mark, node))
     if (unPreventNext) this.#runProseNode(node)
 
-    this.#closeEndedMarks(next)
+    this.#closeEndedMarks(siblings?.maybeChild(index + 1) ?? undefined)
   }
 
   /// @internal
@@ -350,7 +378,7 @@ export class SerializerState extends Stack<
   next = (nodes: Node | Fragment) => {
     if (isFragment(nodes)) {
       nodes.forEach((node, _offset, index) => {
-        this.#runNode(node, nodes.maybeChild(index + 1) ?? undefined)
+        this.#runNode(node, nodes, index)
       })
       return this
     }
