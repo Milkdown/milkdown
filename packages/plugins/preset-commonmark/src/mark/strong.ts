@@ -49,7 +49,7 @@ export const strongSchema = $markSchema('strong', (ctx) => ({
   parseMarkdown: {
     match: (node) => node.type === 'strong',
     runner: (state, node, markType) => {
-      if (markType.excludes(markType) && state.hasMark(markType)) {
+      if (state.hasMark(markType)) {
         state.next(node.children)
         return
       }

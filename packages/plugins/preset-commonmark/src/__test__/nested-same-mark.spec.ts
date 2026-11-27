@@ -2,6 +2,7 @@ import { parserCtx } from '@milkdown/core'
 import { getMarkdown } from '@milkdown/utils'
 import { describe, expect, it } from 'vitest'
 
+import { commonmark, emphasisSchema } from '..'
 import { withEditor } from './test-utils'
 
 describe('same-type nested Markdown marks', () => {
@@ -32,6 +33,29 @@ describe('same-type nested Markdown marks', () => {
       })
     }
   )
+
+  it('keeps the outer mark when the mark type does not exclude itself', async () => {
+    const input = '*foo *bar* baz* plain'
+    const emphasisWithoutExcludes = emphasisSchema.extendSchema(
+      (prev) => (ctx) => ({ ...prev(ctx), excludes: '' })
+    )
+    await withEditor(
+      input,
+      (editor) => {
+        const parse = editor.ctx.get(parserCtx)
+        expect(parse(input).firstChild?.toJSON().content).toEqual([
+          {
+            type: 'text',
+            marks: [{ type: 'emphasis', attrs: { marker: '*' } }],
+            text: 'foo bar baz',
+          },
+          { type: 'text', text: ' plain' },
+        ])
+      },
+      commonmark,
+      emphasisWithoutExcludes
+    )
+  })
 
   it('keeps distinct marks inside a redundant nested mark', async () => {
     const input = '_first *second **bold** third* last_ plain'
