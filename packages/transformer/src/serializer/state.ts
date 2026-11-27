@@ -31,7 +31,15 @@ interface OpenMark {
   /// Value based marks (e.g. inlineCode) hold their content as a single
   /// value and must be closed after the node that carries them.
   spanning: boolean
+  /// Whether the runner of the mark wrote a node on its own, by returning
+  /// `true`. Such a mark is complete even when it has no children.
+  selfContained?: boolean
 }
+
+/// A mark node with no value and nothing but empty text in it.
+const isEmptyMark = (element: SerializerStackElement) =>
+  !element.value &&
+  !element.children?.some((child) => child.type !== 'text' || child.value)
 
 /// State for serializer.
 /// Transform prosemirror state into remark AST.
@@ -156,8 +164,13 @@ export class SerializerState extends Stack<
   /// @internal
   #runNode = (node: Node, siblings?: Fragment, index = 0) => {
     const marks = this.#orderMarks(node.marks, siblings, index)
-    const unPreventNext = marks.every((mark) => !this.#runProseMark(mark, node))
-    if (unPreventNext) this.#runProseNode(node)
+    const owner = marks.find((mark) => this.#runProseMark(mark, node))
+    if (owner) {
+      const open = this.#openMarks.find((x) => x.mark.eq(owner))
+      if (open) open.selfContained = true
+    } else {
+      this.#runProseNode(node)
+    }
 
     this.#closeEndedMarks(siblings?.maybeChild(index + 1) ?? undefined)
   }
@@ -216,10 +229,7 @@ export class SerializerState extends Stack<
     return this
   }
 
-  #moveSpaces = (
-    element: SerializerStackElement,
-    onPush: () => MarkdownNode
-  ) => {
+  #moveSpaces = (element: SerializerStackElement, onPush: () => void) => {
     let startSpaces = ''
     let endSpaces = ''
     const children = element.children
@@ -255,28 +265,21 @@ export class SerializerState extends Stack<
 
     if (startSpaces.length) this.#addNodeAndPush('text', undefined, startSpaces)
 
-    const result = onPush()
+    onPush()
 
     if (endSpaces.length) this.#addNodeAndPush('text', undefined, endSpaces)
-
-    return result
   }
 
   /// @internal
-  #closeNodeAndPush = (trim: boolean = false): MarkdownNode => {
+  #closeNodeAndPush = (): MarkdownNode => {
     const element = this.close()
 
-    const onPush = () =>
-      this.#addNodeAndPush(
-        element.type,
-        element.children,
-        element.value,
-        element.props
-      )
-
-    if (trim) return this.#moveSpaces(element, onPush)
-
-    return onPush()
+    return this.#addNodeAndPush(
+      element.type,
+      element.children,
+      element.value,
+      element.props
+    )
   }
 
   /// Close the current node and push it into the parent node.
@@ -338,8 +341,22 @@ export class SerializerState extends Stack<
 
     if (index < 0) return
 
-    this.#openMarks.splice(index, 1)
-    this.#closeNodeAndPush(true)
+    const [open] = this.#openMarks.splice(index, 1) as [OpenMark]
+    const element = this.close()
+
+    this.#moveSpaces(element, () => {
+      // Markdown has no form for a mark with nothing in it: `****` reads
+      // back as a thematic break or as plain asterisks. Do not write a
+      // mark whose nodes wrote nothing, or nothing but spaces.
+      if (!open.selfContained && isEmptyMark(element)) return
+
+      this.#addNodeAndPush(
+        element.type,
+        element.children,
+        element.value,
+        element.props
+      )
+    })
   }
 
   /// Open a new mark, the next nodes added will have that mark.
