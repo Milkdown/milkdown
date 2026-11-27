@@ -66,6 +66,9 @@ export const inlineImageView = $view(
         dom,
         update: (updatedNode) => {
           if (updatedNode.type !== initialNode.type) return false
+          // The img keeps the old picture until the new src loads. ProseMirror
+          // also offers this view to a new image inserted before it.
+          if (updatedNode.attrs.src !== initialNode.attrs.src) return false
 
           bindAttrs(updatedNode)
           return true
