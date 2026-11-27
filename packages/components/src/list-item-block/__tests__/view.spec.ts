@@ -66,11 +66,6 @@ describe('listItemBlockView selection restore', () => {
   it('dispatches one restore for many items that mount in one frame', async () => {
     const { view, restores } = await createEditor(bullets(40))
     const { anchor, head } = view.state.selection
-    // Move the selection away, so that the restore has to dispatch.
-    view.dispatch(
-      view.state.tr.setSelection(TextSelection.atEnd(view.state.doc))
-    )
-    restores.length = 0
 
     runFrame()
 
@@ -179,7 +174,7 @@ describe('listItemBlockView selection restore', () => {
     const drop = view.state.tr.insert(pos, item)
     drop.setSelection(NodeSelection.create(drop.doc, pos))
     view.dispatch(drop)
-    // Move the selection away, so that the restore has to dispatch.
+    // Move the selection away, so that only the restore can bring it back.
     view.dispatch(
       view.state.tr.setSelection(TextSelection.atStart(view.state.doc))
     )

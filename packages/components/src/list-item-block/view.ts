@@ -39,8 +39,9 @@ function scheduleRestore(
       let last: Selection | undefined
       for (const entry of frameCaptures.values()) last = entry
       if (!last || last.$anchor.doc !== state.doc) return
-      // An equal selection leaves the DOM as it is, so skip the dispatch.
-      if (last.eq(state.selection)) return
+      // Dispatch even when the selection is equal. syncListOrderPlugin skips
+      // transactions with metadata, such as a drop, and relies on this
+      // generic transaction to normalize a moved list item.
       view.dispatch(state.tr.setSelection(last))
     })
   }
