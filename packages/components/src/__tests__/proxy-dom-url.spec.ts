@@ -52,6 +52,7 @@ const cases = [
   {
     name: 'image block',
     markdown: '![](old.png)\n',
+    emptyMarkdown: '![]()\n',
     pos: 0,
     otherAttr: 'caption',
     selector: '.milkdown-image-block img',
@@ -64,6 +65,7 @@ const cases = [
   {
     name: 'inline image',
     markdown: 'Text ![](old.png) text.\n',
+    emptyMarkdown: 'Text ![]() text.\n',
     // "Text " starts at 1 inside the paragraph, so the image is at 6.
     pos: 6,
     otherAttr: 'alt',
@@ -78,11 +80,19 @@ const cases = [
 
 describe.each(cases)(
   '$name',
-  ({ markdown, pos, otherAttr, selector, component, setProxy }) => {
-    async function createEditor(proxyDomURL: ProxyDomURL) {
+  ({
+    markdown,
+    emptyMarkdown,
+    pos,
+    otherAttr,
+    selector,
+    component,
+    setProxy,
+  }) => {
+    async function createEditor(proxyDomURL: ProxyDomURL, doc = markdown) {
       const editor = Editor.make()
         .config((ctx) => {
-          ctx.set(defaultValueCtx, markdown)
+          ctx.set(defaultValueCtx, doc)
         })
         .use(commonmark)
         .use(component)
@@ -128,6 +138,20 @@ describe.each(cases)(
       const img = view.dom.querySelector(selector)
       expect(img?.getAttribute('src')).toBe('/proxied/old.png')
       expect(proxyDomURL).toHaveBeenCalledTimes(1)
+    })
+
+    it('shows the first src of an empty image only after the answer', async () => {
+      const { proxyDomURL, answer } = deferredProxy()
+      const view = await createEditor(proxyDomURL, emptyMarkdown)
+
+      view.dispatch(view.state.tr.setNodeAttribute(pos, 'src', 'new.png'))
+      await flush()
+      expect(view.dom.querySelector(selector)).toBeNull()
+
+      await answer('new.png')
+      const img = view.dom.querySelector(selector)
+      expect(img?.getAttribute('src')).toBe('/proxied/new.png')
+      expect(proxyDomURL.mock.calls).toEqual([['new.png']])
     })
 
     it('shows the node src when the newest request fails', async () => {
