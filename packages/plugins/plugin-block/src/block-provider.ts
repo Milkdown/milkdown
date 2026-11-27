@@ -9,7 +9,7 @@ import type { Ctx } from '@milkdown/ctx'
 import type { EditorState } from '@milkdown/prose/state'
 import type { EditorView } from '@milkdown/prose/view'
 
-import { computePosition, flip, offset } from '@floating-ui/dom'
+import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom'
 import { editorViewCtx } from '@milkdown/core'
 
 import type { BlockService } from './block-service'
@@ -71,6 +71,12 @@ export class BlockProvider {
   #initialized = false
 
   /// @internal
+  #destroyed = false
+
+  /// @internal
+  #cleanupAutoUpdate?: () => void
+
+  /// @internal
   readonly #middleware: Middleware[]
 
   /// @internal
@@ -89,6 +95,7 @@ export class BlockProvider {
 
   /// The context of current active node.
   get active() {
+    this.#service?.syncActive()
     return this.#activeNode
   }
 
@@ -113,8 +120,7 @@ export class BlockProvider {
     const service = this.#ctx.get(blockServiceInstance.key)
     service.bind(this.#ctx, (message) => {
       if (message.type === 'hide') {
-        this.hide()
-        this.#activeNode = null
+        this.#hide()
       } else if (message.type === 'show') {
         this.show(message.active)
         this.#activeNode = message.active
@@ -124,12 +130,20 @@ export class BlockProvider {
     this.#service = service
     this.#service.addEvent(this.#element)
     this.#element.draggable = true
+    // Blocks also move under a resting pointer: on scroll and on layout
+    // changes.
+    this.#cleanupAutoUpdate = autoUpdate(
+      view.dom,
+      this.#element,
+      service.relocate
+    )
   }
 
   /// Update provider state by editor view.
   update = (): void => {
+    this.#service?.refresh()
     requestAnimationFrame(() => {
-      if (!this.#initialized) {
+      if (!this.#initialized && !this.#destroyed) {
         try {
           this.#init()
           this.#initialized = true
@@ -142,6 +156,8 @@ export class BlockProvider {
 
   /// Destroy the block.
   destroy = () => {
+    this.#destroyed = true
+    this.#cleanupAutoUpdate?.()
     this.#service?.unBind()
     this.#service?.removeEvent(this.#element)
     this.#element.remove()
@@ -192,5 +208,13 @@ export class BlockProvider {
   /// Hide the block.
   hide = () => {
     this.#element.dataset.show = 'false'
+    // Or the service shows it again when the blocks move.
+    this.#service?.dismiss()
+  }
+
+  /// @internal
+  #hide = () => {
+    this.#element.dataset.show = 'false'
+    this.#activeNode = null
   }
 }

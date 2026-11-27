@@ -9,7 +9,7 @@ import {
   TextSelection,
 } from '@milkdown/prose/state'
 import { EditorView } from '@milkdown/prose/view'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { blockConfig, defaultNodeFilter } from '../block-config'
 import { BlockService } from '../block-service'
@@ -124,7 +124,7 @@ describe('block drag', () => {
     service.addEvent(handle)
 
     // JSDOM cannot hit-test, so pretend the pointer is over the second item.
-    document.elementFromPoint = () => view.dom
+    vi.spyOn(document, 'elementFromPoint').mockImplementation(() => view.dom)
     view.posAtCoords = () => ({
       pos: SECOND_ITEM_PARAGRAPH + 1,
       inside: SECOND_ITEM_PARAGRAPH,
@@ -135,10 +135,12 @@ describe('block drag', () => {
   })
 
   afterEach(() => {
+    service.unBind()
     service.removeEvent(handle)
     view.destroy()
     handle.remove()
     place.remove()
+    vi.restoreAllMocks()
   })
 
   it('selects the whole list item on mousedown', () => {
