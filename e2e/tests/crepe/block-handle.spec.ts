@@ -68,7 +68,8 @@ test('should add after the block under the pointer when the document changes', a
   const { box } = await centerOf(paragraphs.nth(1))
   await page.mouse.move(box.x + 4, box.y + box.height / 2)
   const blockHandle = page.locator('.milkdown-block-handle')
-  await expect(blockHandle).toBeVisible()
+  // A hidden handle only has `opacity: 0`, which `toBeVisible` accepts.
+  await expect(blockHandle).toHaveAttribute('data-show', 'true')
 
   // The document changes without a pointer move: "a" is now under the
   // pointer.
@@ -88,4 +89,24 @@ test('should add after the block under the pointer when the document changes', a
   await expect(paragraphs.nth(2)).toHaveText('new')
   await expect(paragraphs.nth(1)).toHaveText('a')
   await expect(paragraphs.nth(3)).toHaveText('b')
+})
+
+test('should keep the handle hidden after adding a block', async ({ page }) => {
+  const editor = page.locator('.editor')
+  await focusEditor(page)
+  await setMarkdown(page, 'a\n\nb\n')
+  await waitNextFrame(page)
+
+  const paragraphs = editor.locator('p')
+  await paragraphs.nth(1).hover()
+  const blockHandle = page.locator('.milkdown-block-handle')
+  await expect(blockHandle).toHaveAttribute('data-show', 'true')
+
+  // Adding changes the document under the resting pointer, which must not
+  // bring back the handle that the add button hid.
+  await blockHandle.locator('.operation-item').first().click()
+  await expect(page.locator('.milkdown-slash-menu')).toBeVisible()
+  await waitNextFrame(page)
+  await waitNextFrame(page)
+  await expect(blockHandle).toHaveAttribute('data-show', 'false')
 })

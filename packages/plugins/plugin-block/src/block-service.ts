@@ -81,17 +81,22 @@ export class BlockService {
   #dragging = false
 
   /// @internal
+  /// Where the pointer rests over the editor or the handle, to look for the
+  /// block under it again when the blocks move. Null while the pointer is
+  /// elsewhere, and once the handle is dismissed, until the pointer moves
+  /// again.
   #pointerY: null | number = null
 
   /// @internal
-  /// The document that the active node belongs to.
+  /// The document of the last lookup, which the active node belongs to.
   #doc: null | Node = null
 
   /// @internal
   #frame = 0
 
   /// @internal
-  #observer?: ResizeObserver
+  /// The editor DOM that the pointer listeners are on.
+  #dom?: HTMLElement
 
   /// @internal
   get #filterNodes(): FilterNodes | undefined {
@@ -124,17 +129,14 @@ export class BlockService {
 
   /// Bind editor context and notify function to the service.
   bind = (ctx: Ctx, notify: BlockServiceMessage) => {
+    this.unBind()
     this.#ctx = ctx
     this.#notify = notify
-    // Blocks also move without a pointer move: on scroll and on layout
-    // changes.
     const dom = this.#view?.dom
-    if (dom && typeof ResizeObserver !== 'undefined') {
-      this.#observer = new ResizeObserver(this.#schedule)
-      this.#observer.observe(dom)
-    }
-    window.addEventListener('scroll', this.#schedule, true)
-    window.addEventListener('pointermove', this.#trackPointer, true)
+    if (!dom) return
+    this.#dom = dom
+    dom.addEventListener('pointermove', this.#trackPointer)
+    dom.addEventListener('pointerleave', this.#forgetPointer)
   }
 
   /// Add mouse event to the dom.
@@ -143,6 +145,8 @@ export class BlockService {
     dom.addEventListener('mouseup', this.#handleMouseUp)
     dom.addEventListener('dragstart', this.#handleDragStart)
     dom.addEventListener('dragend', this.#handleDragEnd)
+    dom.addEventListener('pointermove', this.#trackPointer)
+    dom.addEventListener('pointerleave', this.#forgetPointer)
   }
 
   /// Remove mouse event to the dom.
@@ -151,22 +155,56 @@ export class BlockService {
     dom.removeEventListener('mouseup', this.#handleMouseUp)
     dom.removeEventListener('dragstart', this.#handleDragStart)
     dom.removeEventListener('dragend', this.#handleDragEnd)
+    dom.removeEventListener('pointermove', this.#trackPointer)
+    dom.removeEventListener('pointerleave', this.#forgetPointer)
   }
 
   /// Unbind the notify function.
   unBind = () => {
     this.#notify = undefined
-    this.#observer?.disconnect()
-    window.removeEventListener('scroll', this.#schedule, true)
-    window.removeEventListener('pointermove', this.#trackPointer, true)
+    this.#dom?.removeEventListener('pointermove', this.#trackPointer)
+    this.#dom?.removeEventListener('pointerleave', this.#forgetPointer)
+    this.#dom = undefined
+    this.#mousemoveCallback.cancel()
     cancelAnimationFrame(this.#frame)
     this.#frame = 0
+    this.#active = null
+    this.#doc = null
+    this.#pointerY = null
   }
 
-  /// Look for the active block again if the document changed. The block
-  /// provider calls this on every view update.
+  /// Look for the block under the pointer again on the next frame if the
+  /// document changed. The block provider calls this on every view update.
   refresh = () => {
     if (this.#view?.state.doc !== this.#doc) this.#schedule()
+  }
+
+  /// Look for the block under the pointer again on the next frame, for when
+  /// the blocks may have moved under it: on scroll or a layout change.
+  relocate = () => {
+    this.#schedule()
+  }
+
+  /// Make sure that the active node is from the current document: look for
+  /// the block under the pointer again right away if the document changed
+  /// since. A position from an older document points at the wrong node.
+  syncActive = () => {
+    this.#syncActive(this.#pointerY)
+  }
+
+  /// Keep a hidden handle hidden when the blocks move, until the pointer
+  /// moves again. The block provider calls this when it hides the handle.
+  dismiss = () => {
+    this.#pointerY = null
+    this.#mousemoveCallback.cancel()
+  }
+
+  /// @internal
+  #syncActive = (y: null | number) => {
+    const view = this.#view
+    if (!view || !this.#active || view.state.doc === this.#doc) return
+    if (y === null) this.#hide()
+    else this.#locate(view, y)
   }
 
   /// @internal
@@ -175,23 +213,27 @@ export class BlockService {
   }
 
   /// @internal
-  /// Look for the block under the pointer on the next frame. A handle that
-  /// keydown hid stays hidden.
+  #forgetPointer = () => {
+    this.#pointerY = null
+  }
+
+  /// @internal
+  /// Look for the block under the resting pointer on the next frame.
   #schedule = () => {
-    if (!this.#active || this.#frame) return
+    if (this.#frame || this.#pointerY === null || this.#dragging) return
     this.#frame = requestAnimationFrame(() => {
       this.#frame = 0
+      // The pointer may have left, or the handle been dismissed, since.
       const view = this.#view
-      if (view && this.#pointerY !== null) this.#locate(view, this.#pointerY)
+      const y = this.#pointerY
+      if (view && y !== null && !this.#dragging && !view.composing)
+        this.#locate(view, y)
     })
   }
 
   /// @internal
-  #handleMouseDown = () => {
-    // A position from an older document selects the wrong node.
-    const view = this.#view
-    if (view && this.#pointerY !== null && view.state.doc !== this.#doc)
-      this.#locate(view, this.#pointerY)
+  #handleMouseDown = (event: MouseEvent) => {
+    this.#syncActive(event.clientY)
     this.#activeDOMRect = this.#active?.el.getBoundingClientRect()
     this.#createSelection()
   }
@@ -266,6 +308,7 @@ export class BlockService {
   /// @internal
   keydownCallback = (view: EditorView) => {
     this.#hide()
+    this.dismiss()
 
     this.#dragging = false
     view.dom.dataset.dragging = 'false'
@@ -274,31 +317,26 @@ export class BlockService {
 
   /// @internal
   #locate = (view: EditorView, y: number) => {
-    if (!view.editable) return
     this.#doc = view.state.doc
+    const result = this.#find(view, y)
+    if (result) this.#show(result)
+    else this.#hide()
+  }
+
+  /// @internal
+  #find = (view: EditorView, y: number): ActiveNode | null => {
+    if (!view.editable) return null
 
     const rect = view.dom.getBoundingClientRect()
-    if (y < rect.top || y > rect.bottom) {
-      this.#hide()
-      return
-    }
+    if (y < rect.top || y > rect.bottom) return null
     const x = rect.left + rect.width / 2
     const dom = view.root.elementFromPoint(x, y)
-    if (!(dom instanceof Element)) {
-      this.#hide()
-      return
-    }
+    if (!(dom instanceof Element)) return null
 
     const filterNodes = this.#filterNodes
-    if (!filterNodes) return
+    if (!filterNodes) return null
 
-    const result = selectRootNodeByDom(view, { x, y }, filterNodes)
-
-    if (!result) {
-      this.#hide()
-      return
-    }
-    this.#show(result)
+    return selectRootNodeByDom(view, { x, y }, filterNodes)
   }
 
   /// @internal
@@ -381,5 +419,8 @@ export class BlockService {
   #dragEnd = (view: EditorView) => {
     this.#dragging = false
     view.dom.dataset.dragging = 'false'
+    // Browsers send no pointer events during a drag, so the last position
+    // is from before it.
+    this.#pointerY = null
   }
 }
