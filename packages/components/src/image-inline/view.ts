@@ -7,6 +7,7 @@ import DOMPurify from 'dompurify'
 import { createApp, ref, watchEffect } from 'vue'
 
 import { withMeta } from '../__internal__/meta'
+import { createSrcBinder } from '../__internal__/src-binder'
 import { MilkdownImageInline } from './components/image-inline'
 import { inlineImageConfig } from './config'
 
@@ -52,25 +53,9 @@ export const inlineImageView = $view(
           dom.classList.remove('selected')
         }
       })
-      const proxyDomURL = config.proxyDomURL
-      let proxyRequest = 0
+      const bindSrc = createSrcBinder(src, config.proxyDomURL)
       const bindAttrs = (node: Node) => {
-        const request = ++proxyRequest
-        if (!proxyDomURL) {
-          src.value = node.attrs.src
-        } else {
-          const proxiedURL = proxyDomURL(node.attrs.src)
-          if (typeof proxiedURL === 'string') {
-            src.value = proxiedURL
-          } else {
-            proxiedURL
-              .then((url) => {
-                // An older request can answer after a newer one. Keep the newest.
-                if (request === proxyRequest) src.value = url
-              })
-              .catch(console.error)
-          }
-        }
+        bindSrc(node.attrs.src)
         alt.value = node.attrs.alt
         title.value = node.attrs.title
       }
