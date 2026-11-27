@@ -5,6 +5,21 @@ import { mathInlineId } from './constants'
 
 export { mathInlineId }
 
+// Drop the whitespace at the ends of inline math. The guard reads `$x $`
+// and `$ x$` as text, and TeX ignores a space there. A whitespace right
+// after a backslash stays, since `\ ` is a control space.
+function trimMath(value: string) {
+  const start = value.trimStart()
+  const trimmed = start.trimEnd()
+
+  // An odd number of backslashes at the end means the last one is not
+  // escaped. `x\\ ` ends with a line break, not with a control space.
+  let backslashes = 0
+  while (trimmed[trimmed.length - 1 - backslashes] === '\\') backslashes++
+
+  return backslashes % 2 ? start.slice(0, trimmed.length + 1) : trimmed
+}
+
 /// Schema for inline math node.
 /// Add support for:
 ///
@@ -51,13 +66,9 @@ export const mathInlineSchema = $nodeSchema(mathInlineId, () => ({
   toMarkdown: {
     match: (node) => node.type.name === mathInlineId,
     runner: (state, node) => {
-      // The guard reads `$x $` and `$ x$` as text. Spaces at the ends mean
-      // nothing in math mode, so drop them, except the space of a control
-      // space `\ `. Math with nothing left is not written at all.
-      const value = (node.attrs.value as string).replace(
-        /^\s+|(?<!\\)\s+$/g,
-        ''
-      )
+      // Math with nothing left is not written at all: `$$` at the start
+      // of a line opens a math block.
+      const value = trimMath(String(node.attrs.value ?? ''))
       if (value) state.addNode('inlineMath', undefined, value)
     },
   },
