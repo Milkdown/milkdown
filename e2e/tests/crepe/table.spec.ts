@@ -4,6 +4,7 @@ import {
   focusEditor,
   getMarkdown,
   paste,
+  setMarkdown,
   waitNextFrame,
 } from '../../tests/misc'
 import { TablePageObjectModel } from './table.pom'
@@ -153,6 +154,50 @@ test('should be able to drag and drop a row', async ({ page }) => {
   await expect(firstCell).toContainText('Second Cell')
   await expect(secondCell).toContainText('Third Cell')
   await expect(thirdCell).toContainText('First Cell')
+})
+
+test('clicking a cell selects it, also when leaving a cell selection', async ({
+  page,
+}) => {
+  await setMarkdown(
+    page,
+    '| Name | Age |\n| --- | --- |\n| Alice | 30 |\n| Bob | 25 |\n'
+  )
+  const pom = new TablePageObjectModel(page)
+  const alice = pom.cell(1, 0)
+  const age = pom.cell(1, 1)
+  const bob = pom.cell(2, 0)
+
+  const selection = () =>
+    page.evaluate(() => {
+      const { selection } = window.__view__.state
+      const node =
+        'node' in selection ? (selection.node as { textContent: string }) : null
+      return {
+        type: selection.toJSON().type as string,
+        text: node?.textContent ?? null,
+      }
+    })
+
+  await alice.click()
+  await expect.poll(selection).toEqual({ type: 'node', text: 'Alice' })
+
+  // A second click puts the caret in the cell, so a drag from there
+  // selects cells.
+  await alice.click()
+  await expect.poll(selection).toMatchObject({ type: 'text' })
+  const from = (await alice.boundingBox())!
+  const to = (await age.boundingBox())!
+  await page.mouse.move(from.x + from.width / 2, from.y + from.height / 2)
+  await page.mouse.down()
+  await page.mouse.move(to.x + to.width / 2, to.y + to.height / 2, {
+    steps: 5,
+  })
+  await page.mouse.up()
+  await expect.poll(selection).toMatchObject({ type: 'cell' })
+
+  await bob.click()
+  await expect.poll(selection).toEqual({ type: 'node', text: 'Bob' })
 })
 
 const googleDocsTableWithoutHeader = `

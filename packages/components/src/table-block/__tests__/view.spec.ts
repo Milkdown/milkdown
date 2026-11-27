@@ -4,7 +4,10 @@ import { defaultValueCtx, Editor, editorViewCtx } from '@milkdown/core'
 import { commonmark } from '@milkdown/preset-commonmark'
 import { gfm } from '@milkdown/preset-gfm'
 import { NodeSelection, TextSelection } from '@milkdown/prose/state'
+import { CellSelection } from '@milkdown/prose/tables'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
+import type { TableNodeView } from '../view/view'
 
 import { tableBlock } from '..'
 
@@ -32,6 +35,7 @@ beforeEach(() => {
 })
 
 afterEach(async () => {
+  vi.useRealTimers()
   for (const editor of editors.splice(0)) await editor.destroy()
   frames.clear()
   vi.unstubAllGlobals()
@@ -45,8 +49,6 @@ const markdown = `
 `
 
 async function createEditor() {
-  const root = document.createElement('div')
-  document.body.appendChild(root)
   const editor = Editor.make()
     .config((ctx) => {
       ctx.set(defaultValueCtx, markdown)
@@ -64,52 +66,107 @@ function findText(view: EditorView, text: string) {
   view.state.doc.descendants((node, pos) => {
     if (found < 0 && node.isText && node.text === text) found = pos
   })
+  expect(found).toBeGreaterThan(0)
   return found
 }
 
+// Sends a pointerdown to the table node view, aimed at the cell holding
+// `text`. jsdom has no layout, so `posAtCoords` is pointed there by hand.
+function clickCell(view: EditorView, text: string) {
+  const pos = findText(view, text)
+  view.posAtCoords = () => ({ pos, inside: pos })
+
+  const dom = view.dom.querySelector('.milkdown-table-block') as HTMLElement & {
+    pmViewDesc?: { spec?: TableNodeView }
+  }
+  const nodeView = dom.pmViewDesc?.spec
+  expect(nodeView).toBeDefined()
+
+  const event = new MouseEvent('pointerdown', { bubbles: true })
+  Object.defineProperty(event, 'target', {
+    value: view.dom.querySelector('td'),
+  })
+  expect(nodeView!.stopEvent(event)).toBe(true)
+}
+
+function setCaret(view: EditorView, pos: number) {
+  view.dispatch(
+    view.state.tr.setSelection(TextSelection.create(view.state.doc, pos))
+  )
+}
+
+// The cell's paragraph starts one position before its text.
+function expectCellSelected(view: EditorView, text: string) {
+  const { selection } = view.state
+  expect(selection).toBeInstanceOf(NodeSelection)
+  expect(selection.from).toBe(findText(view, text) - 1)
+}
+
 describe('table block cell click', () => {
-  it('does not overwrite a newer selection with the deferred click selection', async () => {
+  it('selects the clicked cell when nothing changed meanwhile', async () => {
+    const view = await createEditor()
+    clickCell(view, 'Alice')
+
+    runFrame()
+
+    expectCellSelected(view, 'Alice')
+  })
+
+  it('selects the clicked cell after the browser puts the caret in it', async () => {
+    const view = await createEditor()
+    clickCell(view, 'Alice')
+
+    // The browser's own handling of the click puts the caret in that cell.
+    setCaret(view, findText(view, 'Alice') + 2)
+    runFrame()
+
+    expectCellSelected(view, 'Alice')
+  })
+
+  it('selects the clicked cell when leaving a cell selection', async () => {
     const view = await createEditor()
     const alice = findText(view, 'Alice')
     const age = findText(view, '28')
-    expect(alice).toBeGreaterThan(0)
-
-    // jsdom has no layout, so point the click at the "Alice" cell.
-    view.posAtCoords = () => ({ pos: alice, inside: alice })
-    const nodeView = (view.dom.querySelector('.milkdown-table-block') as any)
-      .pmViewDesc?.spec
-    expect(nodeView).toBeDefined()
-
-    const target = view.dom.querySelector('td') as HTMLElement
-    const event = new MouseEvent('pointerdown', { bubbles: true })
-    Object.defineProperty(event, 'target', { value: target })
-    expect(nodeView.stopEvent(event)).toBe(true)
-
-    // A newer selection arrives before the frame runs.
+    // A cell starts two positions before its text.
     view.dispatch(
-      view.state.tr.setSelection(TextSelection.create(view.state.doc, age + 1))
+      view.state.tr.setSelection(
+        CellSelection.create(view.state.doc, alice - 2, age - 2)
+      )
     )
+
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+    clickCell(view, 'Bob')
+    setCaret(view, findText(view, 'Bob') + 1)
+    vi.advanceTimersByTime(20)
+
+    expectCellSelected(view, 'Bob')
+  })
+
+  it('does not overwrite a newer selection with the deferred click selection', async () => {
+    const view = await createEditor()
+    clickCell(view, 'Alice')
+
+    // A newer selection in another cell arrives before the frame runs.
+    setCaret(view, findText(view, '28') + 1)
     const newer = view.state.selection
 
     runFrame()
 
     expect(view.state.selection.eq(newer)).toBe(true)
-    expect(view.state.selection).not.toBeInstanceOf(NodeSelection)
   })
 
-  it('still selects the clicked cell when nothing changed meanwhile', async () => {
+  it('skips the deferred click selection when the document changed', async () => {
     const view = await createEditor()
-    const alice = findText(view, 'Alice')
-    view.posAtCoords = () => ({ pos: alice, inside: alice })
-    const nodeView = (view.dom.querySelector('.milkdown-table-block') as any)
-      .pmViewDesc?.spec
-    const target = view.dom.querySelector('td') as HTMLElement
-    const event = new MouseEvent('pointerdown', { bubbles: true })
-    Object.defineProperty(event, 'target', { value: target })
-    expect(nodeView.stopEvent(event)).toBe(true)
+    const before = view.state.selection
+    clickCell(view, 'Alice')
 
-    runFrame()
+    // An edit after the table changes the document but not the selection.
+    view.dispatch(
+      view.state.tr.insertText('x', view.state.doc.content.size - 2)
+    )
+    expect(view.state.selection.eq(before)).toBe(true)
 
-    expect(view.state.selection).toBeInstanceOf(NodeSelection)
+    expect(() => runFrame()).not.toThrow()
+    expect(view.state.selection.eq(before)).toBe(true)
   })
 })

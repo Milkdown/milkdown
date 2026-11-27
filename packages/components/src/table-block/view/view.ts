@@ -95,16 +95,27 @@ export class TableNodeView implements NodeView {
       if (currentNode?.node === node.node) return false
     }
 
-    const { from } = node
+    const { from, to } = node
 
     const selection = NodeSelection.create(state.doc, from + 1)
     if (state.selection.eq(selection)) return false
 
-    // The dispatch is deferred, so skip it if a newer selection has arrived
-    // and build it from the current state instead of the one at click time.
+    // The dispatch is deferred so it lands after the caret the browser places
+    // for this click, which sits inside the clicked cell. Any other change
+    // since the click is newer, so keep it. A changed document also makes
+    // `selection` stale, so skip it too.
     const select = () => {
-      if (!view.state.selection.eq(state.selection)) return
-      view.dispatch(view.state.tr.setSelection(selection).scrollIntoView())
+      const current = view.state
+      if (current.doc !== state.doc) return
+
+      const { selection: currentSelection } = current
+      const placedByClick =
+        currentSelection instanceof TextSelection &&
+        currentSelection.from > from &&
+        currentSelection.to < to
+      if (!currentSelection.eq(state.selection) && !placedByClick) return
+
+      view.dispatch(current.tr.setSelection(selection).scrollIntoView())
     }
 
     if (state.selection instanceof CellSelection) setTimeout(select, 20)
