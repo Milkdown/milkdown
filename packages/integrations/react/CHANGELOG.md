@@ -1,5 +1,12 @@
 # @milkdown/react
 
+## 7.23.1
+
+### Patch Changes
+
+- @milkdown/kit@7.23.1
+  - @milkdown/crepe@7.23.1
+
 ## 7.23.0
 
 ### Minor Changes

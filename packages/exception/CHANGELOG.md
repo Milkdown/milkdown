@@ -1,5 +1,9 @@
 # @milkdown/exception
 
+## 7.23.1
+
+No changes in this release.
+
 ## 7.23.0
 
 ### Minor Changes

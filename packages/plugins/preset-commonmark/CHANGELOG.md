@@ -1,5 +1,16 @@
 # @milkdown/preset-commonmark
 
+## 7.23.1
+
+### Patch Changes
+
+- @milkdown/core@7.23.1
+  - @milkdown/ctx@7.23.1
+  - @milkdown/exception@7.23.1
+  - @milkdown/prose@7.23.1
+  - @milkdown/transformer@7.23.1
+  - @milkdown/utils@7.23.1
+
 ## 7.23.0
 
 ### Minor Changes

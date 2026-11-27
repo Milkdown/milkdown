@@ -1,5 +1,15 @@
 # @milkdown/plugin-block
 
+## 7.23.1
+
+### Patch Changes
+
+- 5916726: Keep the block handle on the block under the pointer when the blocks move without a pointer move: after a document change (undo, a remote change) and on scroll or a layout change. The add and drag actions no longer use a position from an older document.
+- @milkdown/core@7.23.1
+  - @milkdown/ctx@7.23.1
+  - @milkdown/prose@7.23.1
+  - @milkdown/utils@7.23.1
+
 ## 7.23.0
 
 ### Minor Changes

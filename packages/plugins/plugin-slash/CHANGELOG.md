@@ -1,5 +1,13 @@
 # @milkdown/plugin-slash
 
+## 7.23.1
+
+### Patch Changes
+
+- @milkdown/ctx@7.23.1
+  - @milkdown/prose@7.23.1
+  - @milkdown/utils@7.23.1
+
 ## 7.23.0
 
 ### Minor Changes
