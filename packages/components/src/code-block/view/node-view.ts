@@ -42,6 +42,16 @@ function getSharedObserver(): IntersectionObserver {
   return sharedObserver
 }
 
+// Report an error without throwing it at the caller. `reportError` still
+// reaches global error handlers and error monitoring.
+function report(error: unknown) {
+  if (typeof globalThis.reportError === 'function') {
+    globalThis.reportError(error)
+  } else {
+    console.error(error)
+  }
+}
+
 export class CodeMirrorBlock implements NodeView {
   /** Delay before tearing down an off-screen CodeMirror instance. */
   static TEARDOWN_DELAY = 5000
@@ -55,6 +65,8 @@ export class CodeMirrorBlock implements NodeView {
   text = ref('')
 
   private initialized = false
+  /** The extensions of the last failed initialization. */
+  private failedExtensions: Extension[] | null = null
   private updating = false
   private languageName: string = ''
   private disposeSelectedWatcher: WatchHandle
@@ -109,6 +121,9 @@ export class CodeMirrorBlock implements NodeView {
   }
 
   private renderPlaceholder() {
+    while (this.dom.firstChild) {
+      this.dom.removeChild(this.dom.firstChild)
+    }
     const pre = document.createElement('pre')
     pre.className = 'milkdown-code-block-placeholder'
     const code = document.createElement('code')
@@ -117,37 +132,63 @@ export class CodeMirrorBlock implements NodeView {
     this.dom.appendChild(pre)
   }
 
-  private initializeCodeMirror() {
-    if (this.initialized) return
-    this.initialized = true
+  /**
+   * Create the CodeMirror instance and mount the block UI.
+   * Returns `false` when it fails. The block then stays an uninitialized
+   * placeholder. It tries again only after the extensions change, because
+   * the same extensions would fail the same way.
+   */
+  private initializeCodeMirror(): boolean {
+    if (this.initialized) return true
+    if (this.failedExtensions === this.extensions) return false
 
-    this.cm = new CodeMirror({
-      doc: this.node.textContent,
-      root: this.view.root,
-      extensions: [
-        this.readOnlyConf.of(EditorState.readOnly.of(!this.view.editable)),
-        drawSelection(),
-        cmKeymap.of(this.codeMirrorKeymap()),
-        this.languageConf.of([]),
-        // Block a user edit when the editor is not editable. An update
-        // synced from ProseMirror always passes.
-        EditorState.changeFilter.of(() => this.view.editable || this.updating),
-        this.extensionsConf.of(this.extensions),
-        CodeMirror.updateListener.of(this.forwardUpdate),
-      ],
-    })
+    let cm: CodeMirror | undefined
+    try {
+      cm = new CodeMirror({
+        doc: this.node.textContent,
+        root: this.view.root,
+        extensions: [
+          this.readOnlyConf.of(EditorState.readOnly.of(!this.view.editable)),
+          drawSelection(),
+          cmKeymap.of(this.codeMirrorKeymap()),
+          this.languageConf.of([]),
+          // Block a user edit when the editor is not editable. An update
+          // synced from ProseMirror always passes.
+          EditorState.changeFilter.of(
+            () => this.view.editable || this.updating
+          ),
+          this.extensionsConf.of(this.extensions),
+          CodeMirror.updateListener.of(this.forwardUpdate),
+        ],
+      })
+      this.cm = cm
 
-    const placeholder = this.dom.querySelector(
-      '.milkdown-code-block-placeholder'
-    )
-    if (placeholder) {
-      this.dom.removeChild(placeholder)
+      const placeholder = this.dom.querySelector(
+        '.milkdown-code-block-placeholder'
+      )
+      if (placeholder) {
+        this.dom.removeChild(placeholder)
+      }
+
+      this.app = this.createApp()
+      this.app.mount(this.dom)
+    } catch (error) {
+      // Don't rethrow. The caller can be ProseMirror in the middle of a
+      // state update, or the shared intersection observer, which would
+      // skip the other code blocks.
+      cm?.destroy()
+      this.renderPlaceholder()
+      this.failedExtensions = this.extensions
+      report(error)
+      return false
     }
 
-    this.app = this.createApp()
-    this.app.mount(this.dom)
-
+    // Set only after a full success, so that `destroy` and
+    // `teardownCodeMirror` can trust `cm` and `app`.
+    this.initialized = true
+    this.failedExtensions = null
     this.updateLanguage()
+    return true
   }
 
   private teardownCodeMirror() {
@@ -160,9 +201,6 @@ export class CodeMirrorBlock implements NodeView {
     this.initialized = false
     this.languageName = ''
 
-    while (this.dom.firstChild) {
-      this.dom.removeChild(this.dom.firstChild)
-    }
     this.renderPlaceholder()
   }
 
@@ -215,7 +253,7 @@ export class CodeMirrorBlock implements NodeView {
   }
 
   private createApp = () => {
-    return createApp(CodeBlock, {
+    const app = createApp(CodeBlock, {
       text: this.text,
       selected: this.selected,
       codemirror: this.cm,
@@ -225,6 +263,11 @@ export class CodeMirrorBlock implements NodeView {
       setLanguage: this.setLanguage,
       config: this.config,
     })
+    // Without a handler, a Vue dev build throws a component error, such as
+    // one from `renderPreview`, out of `mount`. That leaves a half-mounted
+    // app whose watchers can never be stopped.
+    app.config.errorHandler = (error) => report(error)
+    return app
   }
 
   private updateLanguage() {
@@ -317,9 +360,7 @@ export class CodeMirrorBlock implements NodeView {
   }
 
   setSelection(anchor: number, head: number) {
-    if (!this.initialized) {
-      this.initializeCodeMirror()
-    }
+    if (!this.initializeCodeMirror()) return
 
     if (!this.cm.dom.isConnected) return
 
@@ -379,11 +420,9 @@ export class CodeMirrorBlock implements NodeView {
   }
 
   selectNode() {
-    if (!this.initialized) {
-      this.initializeCodeMirror()
-    }
+    const ready = this.initializeCodeMirror()
     this.selected.value = true
-    this.cm.focus()
+    if (ready) this.cm.focus()
   }
 
   deselectNode() {
