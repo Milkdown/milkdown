@@ -37,12 +37,10 @@
 
     .cm-editor {
       outline: none !important;
-      background: var(--crepe-color-surface);
     }
 
     .cm-gutters {
       border-right: none;
-      background: var(--crepe-color-surface);
     }
 
     .cm-panel {
@@ -335,4 +333,9 @@
       }
     }
   }
+}
+
+:where(.milkdown .milkdown-code-block .cm-editor),
+:where(.milkdown .milkdown-code-block .cm-gutters) {
+  background: var(--crepe-color-surface);
 }
