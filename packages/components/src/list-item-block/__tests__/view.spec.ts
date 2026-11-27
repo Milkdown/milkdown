@@ -1,8 +1,9 @@
+import type { Node } from '@milkdown/prose/model'
 import type { Transaction } from '@milkdown/prose/state'
 
 import { defaultValueCtx, Editor, editorViewCtx } from '@milkdown/core'
 import { commonmark } from '@milkdown/preset-commonmark'
-import { TextSelection } from '@milkdown/prose/state'
+import { NodeSelection, TextSelection } from '@milkdown/prose/state'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { listItemBlockComponent } from '..'
@@ -65,6 +66,11 @@ describe('listItemBlockView selection restore', () => {
   it('dispatches one restore for many items that mount in one frame', async () => {
     const { view, restores } = await createEditor(bullets(40))
     const { anchor, head } = view.state.selection
+    // Move the selection away, so that the restore has to dispatch.
+    view.dispatch(
+      view.state.tr.setSelection(TextSelection.atEnd(view.state.doc))
+    )
+    restores.length = 0
 
     runFrame()
 
@@ -121,21 +127,74 @@ describe('listItemBlockView selection restore', () => {
   })
 
   it('keeps the caret after text typed before the restore frame', async () => {
-    const { view } = await createEditor('* eins')
+    const { view, restores } = await createEditor('* one')
     runFrame()
-    let end = -1
-    view.state.doc.descendants((node, pos) => {
-      if (node.isText) end = pos + node.nodeSize
-    })
+    const end = textEnd(view.state.doc)
 
     const split = view.state.tr.split(end, 2)
     split.setSelection(TextSelection.near(split.doc.resolve(end + 3)))
     view.dispatch(split)
     view.dispatch(view.state.tr.insertText('z'))
     const typed = view.state.selection.head
+    restores.length = 0
 
     runFrame()
 
+    expect(restores).toHaveLength(0)
     expect(view.state.selection.head).toBe(typed)
   })
+
+  it('undoes a caret move that follows the split in the same frame', async () => {
+    const { view, restores } = await createEditor('* one')
+    runFrame()
+    const end = textEnd(view.state.doc)
+
+    const split = view.state.tr.split(end, 2)
+    split.setSelection(TextSelection.near(split.doc.resolve(end + 3)))
+    view.dispatch(split)
+    const created = view.state.selection.head
+    // The browser moves the caret back to the previous item.
+    view.dispatch(
+      view.state.tr.setSelection(TextSelection.create(view.state.doc, end))
+    )
+    restores.length = 0
+
+    runFrame()
+
+    expect(restores).toHaveLength(1)
+    expect(view.state.selection.head).toBe(created)
+  })
+
+  it('keeps a node selection that it captured at mount', async () => {
+    const { view } = await createEditor('* one')
+    runFrame()
+    const { schema } = view.state
+    const item = schema.nodes.list_item!.create(
+      null,
+      schema.nodes.paragraph!.create(null, schema.text('two'))
+    )
+    const pos = 1 + view.state.doc.firstChild!.firstChild!.nodeSize
+
+    // A drop of a single node selects the dropped node.
+    const drop = view.state.tr.insert(pos, item)
+    drop.setSelection(NodeSelection.create(drop.doc, pos))
+    view.dispatch(drop)
+    // Move the selection away, so that the restore has to dispatch.
+    view.dispatch(
+      view.state.tr.setSelection(TextSelection.atStart(view.state.doc))
+    )
+
+    runFrame()
+
+    expect(view.state.selection).toBeInstanceOf(NodeSelection)
+    expect(view.state.selection.from).toBe(pos)
+  })
 })
+
+function textEnd(doc: Node) {
+  let end = -1
+  doc.descendants((node, pos) => {
+    if (node.isText) end = pos + node.nodeSize
+  })
+  return end
+}
