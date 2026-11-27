@@ -37,22 +37,15 @@
 
     .cm-editor {
       outline: none !important;
-      background: var(--crepe-color-surface);
-    }
-
-    .cm-gutters {
-      border-right: none;
-      background: var(--crepe-color-surface);
     }
 
     .cm-panel {
       font-family: var(--crepe-font-default);
-      background: var(--crepe-color-surface);
-      color: var(--crepe-color-on-surface);
       input {
         caret-color: var(--crepe-color-outline);
         border-radius: 4px;
         background: var(--crepe-color-surface-low);
+        color: var(--crepe-color-on-surface);
       }
       & > button {
         text-transform: capitalize;

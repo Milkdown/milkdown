@@ -86,3 +86,43 @@ test.describe('code block theme', () => {
     await expect(page.locator('.cm-editor')).toHaveClass(THEME_CLASS)
   })
 })
+
+test.describe('code block colors', () => {
+  test('should let the theme paint the editor and the gutters', async ({
+    page,
+  }) => {
+    await page.evaluate(() => {
+      const theme = window.__CodeMirrorEditorView__.theme({
+        '&': { backgroundColor: 'rgb(1, 2, 3)' },
+        '.cm-gutters': { backgroundColor: 'rgb(4, 5, 6)' },
+      })
+      window.__crepe__.editor.action(window.__setCodeMirrorTheme__(theme))
+    })
+
+    const block = page.locator('.milkdown-code-block').nth(0)
+    await expect(block.locator('.cm-editor')).toHaveCSS(
+      'background-color',
+      'rgb(1, 2, 3)'
+    )
+    await expect(block.locator('.cm-gutters')).toHaveCSS(
+      'background-color',
+      'rgb(4, 5, 6)'
+    )
+  })
+
+  test('should use the surface color without a theme', async ({ page }) => {
+    await setTheme(page, false)
+
+    const block = page.locator('.milkdown-code-block').nth(0)
+    const surface = await block.evaluate(
+      (element) => getComputedStyle(element).backgroundColor
+    )
+    await expect(block.locator('.cm-editor')).toHaveCSS(
+      'background-color',
+      surface
+    )
+    const gutters = block.locator('.cm-gutters')
+    await expect(gutters).toHaveCSS('background-color', surface)
+    await expect(gutters).toHaveCSS('border-right-width', '0px')
+  })
+})
