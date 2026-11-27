@@ -1,35 +1,26 @@
 import { languages } from '@codemirror/language-data'
 import { oneDark } from '@codemirror/theme-one-dark'
-import { mergeWith } from 'lodash-es'
 
 import { CrepeFeature, type CrepeFeatureConfig } from '../feature'
-import {
-  chevronDownIcon,
-  clearIcon,
-  editIcon,
-  searchIcon,
-  visibilityOffIcon,
-} from '../icons'
 
-const defaultConfig: CrepeFeatureConfig = {
-  [CrepeFeature.CodeMirror]: {
-    theme: oneDark,
-    languages,
-    expandIcon: chevronDownIcon,
-    searchIcon: searchIcon,
-    clearSearchIcon: clearIcon,
-    searchPlaceholder: 'Search language',
-    noResultText: 'No result',
-    previewToggleIcon: (previewOnlyMode) =>
-      previewOnlyMode ? editIcon : visibilityOffIcon,
-  },
-}
-
-export const applyConfig = (userConfig: Partial<CrepeFeatureConfig>) => {
-  return mergeWith({}, defaultConfig, userConfig, (_objValue, srcValue) => {
-    if (Array.isArray(srcValue)) {
-      return srcValue
-    }
-    return undefined
-  })
+/// Add Crepe's defaults to the feature configs. Only the CodeMirror
+/// feature has defaults: its `theme` and `languages`. A value the user
+/// gives replaces the default as it is, arrays included, and `undefined`
+/// keeps the default. The feature itself falls back for its other
+/// options. The configs of the other features are passed through as they
+/// are, and nothing passed in is changed.
+export const applyConfig = (
+  userConfig: CrepeFeatureConfig
+): CrepeFeatureConfig => {
+  const codeMirror = userConfig[CrepeFeature.CodeMirror]
+  return {
+    ...userConfig,
+    [CrepeFeature.CodeMirror]: {
+      ...codeMirror,
+      theme: codeMirror?.theme ?? oneDark,
+      // A copy, so that a change to one editor's list does not reach the
+      // other editors.
+      languages: codeMirror?.languages ?? [...languages],
+    },
+  }
 }
