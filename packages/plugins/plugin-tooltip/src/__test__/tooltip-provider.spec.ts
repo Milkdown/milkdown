@@ -79,4 +79,36 @@ describe('TooltipProvider', () => {
     vi.advanceTimersByTime(50)
     expect(content.dataset.show).toBe('false')
   })
+
+  // A trailing throttled call must not show the tooltip again after `hide()`.
+  it('stays hidden when hide() runs inside the throttle window', () => {
+    const content = document.createElement('div')
+    const provider = new TooltipProvider({ content, debounce: 20, root })
+    const empty = EditorState.create({
+      schema,
+      doc: schema.node('doc', null, [
+        schema.node('paragraph', null, [schema.text('hello world')]),
+      ]),
+    })
+    const selected = empty.apply(
+      empty.tr.setSelection(TextSelection.create(empty.doc, 1, 6))
+    )
+    const view = fakeView(selected, root)
+
+    provider.update(view, empty)
+    expect(content.dataset.show).toBe('true')
+
+    vi.advanceTimersByTime(5)
+    const extended = selected.apply(
+      selected.tr.setSelection(TextSelection.create(selected.doc, 1, 8))
+    )
+    view.state = extended
+    provider.update(view, selected)
+    provider.hide()
+    expect(content.dataset.show).toBe('false')
+
+    vi.advanceTimersByTime(50)
+    expect(content.dataset.show).toBe('false')
+    provider.destroy()
+  })
 })

@@ -153,8 +153,9 @@ export class TooltipProvider {
     this.#cleanupAutoUpdate?.()
     this.#cleanupAutoUpdate = void 0
 
+    // `hide()` would cancel an update that was queued while this one runs.
     if (!this.#shouldShow(view, prevState)) {
-      this.hide()
+      this.#hide()
       return
     }
 
@@ -227,11 +228,18 @@ export class TooltipProvider {
     this.onShow()
   }
 
-  /// Hide the tooltip.
-  hide = () => {
+  /// @internal
+  #hide = () => {
     if (this.element.dataset.show === 'false') return
     this.element.dataset.show = 'false'
 
     this.onHide()
+  }
+
+  /// Hide the tooltip. A pending update is discarded, so it cannot show the
+  /// tooltip again.
+  hide = () => {
+    this.#updater.cancel()
+    this.#hide()
   }
 }

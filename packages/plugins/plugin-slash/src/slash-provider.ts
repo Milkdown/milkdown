@@ -59,6 +59,17 @@ export class SlashProvider {
   readonly #trigger: string | string[]
 
   /// @internal
+  /// The view from the latest `update` call. `show()` uses it to mount and
+  /// place the slash without waiting for the debounced update.
+  #view?: EditorView
+
+  /// @internal
+  /// The state that the last evaluated update saw. The update is debounced,
+  /// so it carries only the `prevState` of the last call. A no-op transaction
+  /// in the window must not hide an earlier real change.
+  #lastState?: EditorState
+
+  /// @internal
   readonly #shouldShow: (view: EditorView, prevState?: EditorState) => boolean
 
   /// @internal
@@ -89,28 +100,18 @@ export class SlashProvider {
   }
 
   /// @internal
-  #onUpdate = (view: EditorView, prevState?: EditorState): void => {
-    const { state, composing } = view
-    const { selection, doc } = state
-    const { ranges } = selection
+  #mount = (view: EditorView): void => {
+    if (this.#initialized) return
+    const root = this.#root ?? view.dom.parentElement ?? document.body
+    root.appendChild(this.element)
+    this.#initialized = true
+  }
+
+  /// @internal
+  #updatePosition = (view: EditorView): void => {
+    const { ranges } = view.state.selection
     const from = Math.min(...ranges.map((range) => range.$from.pos))
     const to = Math.max(...ranges.map((range) => range.$to.pos))
-    const isSame =
-      prevState && prevState.doc.eq(doc) && prevState.selection.eq(selection)
-
-    if (!this.#initialized) {
-      const root = this.#root ?? view.dom.parentElement ?? document.body
-      root.appendChild(this.element)
-      this.#initialized = true
-    }
-
-    if (composing || isSame) return
-
-    if (!this.#shouldShow(view, prevState)) {
-      this.hide()
-      return
-    }
-
     const virtualEl: VirtualElement = {
       getBoundingClientRect: () => posToDOMRect(view, from, to),
     }
@@ -126,8 +127,30 @@ export class SlashProvider {
         })
       })
       .catch(console.error)
+  }
 
-    this.show()
+  /// @internal
+  #onUpdate = (view: EditorView, prevState?: EditorState): void => {
+    const { state, composing } = view
+    const { selection, doc } = state
+    const unchanged = (other?: EditorState) =>
+      !!other && other.doc.eq(doc) && other.selection.eq(selection)
+    const isSame = unchanged(prevState) && unchanged(this.#lastState)
+
+    this.#mount(view)
+
+    if (composing || isSame) return
+    this.#lastState = state
+
+    // Use the internal helpers. `hide()` would cancel an update that was
+    // queued while this one runs, and `show()` would place the slash again.
+    if (!this.#shouldShow(view, prevState)) {
+      this.#hide()
+      return
+    }
+
+    this.#updatePosition(view)
+    this.#show()
   }
 
   /// @internal
@@ -147,6 +170,7 @@ export class SlashProvider {
 
   /// Update provider state by editor view.
   update = (view: EditorView, prevState?: EditorState): void => {
+    this.#view = view
     this.#updater(view, prevState)
   }
 
@@ -190,16 +214,36 @@ export class SlashProvider {
     this.#updater.cancel()
   }
 
-  /// Show the slash.
-  show = () => {
+  /// @internal
+  #show = () => {
     this.element.dataset.show = 'true'
     this.onShow()
   }
 
-  /// Hide the slash.
-  hide = () => {
-    this.#updater.cancel()
+  /// @internal
+  #hide = () => {
+    if (this.element.dataset.show === 'false') return
     this.element.dataset.show = 'false'
     this.onHide()
+  }
+
+  /// Show the slash. If `update` has been called, the slash is placed at
+  /// the selection of that view first.
+  show = () => {
+    const view = this.#view
+    if (view) {
+      this.#mount(view)
+      this.#updatePosition(view)
+    }
+    this.#show()
+  }
+
+  /// Hide the slash. A pending update is discarded, so it cannot show the
+  /// slash again. The next `update` call is evaluated as usual, unless the
+  /// doc and selection are the same as when the slash was hidden.
+  hide = () => {
+    this.#updater.cancel()
+    this.#lastState = this.#view?.state
+    this.#hide()
   }
 }
