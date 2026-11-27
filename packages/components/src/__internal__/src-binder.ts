@@ -2,38 +2,45 @@ import type { Ref } from 'vue'
 
 type ProxyDomURL = (url: string) => Promise<string> | string
 
-// Return a function that sets `src` to the URL to show for a node src.
-// It calls the proxy again only when the node src changes.
+// Return a function that sets `src` to the URL to show for a node src. The
+// function returns false when the view must not take the node src.
+//
+// An img keeps its old picture until a new src loads. ProseMirror can also
+// offer the view of an image to a new image inserted before it. So a view
+// takes a new src only while its src is empty. A proxy answer thus always
+// belongs to the src of the view.
 export function createSrcBinder(
   src: Ref<string>,
   proxyDomURL?: ProxyDomURL
-): (nodeSrc: string) => void {
-  let requestedSrc: string | undefined
+): (nodeSrc: string) => boolean {
+  let boundSrc: string | undefined
 
   return (nodeSrc) => {
-    if (!proxyDomURL) {
-      src.value = nodeSrc
-      return
-    }
-    if (nodeSrc === requestedSrc) return
+    if (nodeSrc === boundSrc) return true
+    if (boundSrc) return false
 
-    requestedSrc = nodeSrc
+    boundSrc = nodeSrc
+    // An empty src has nothing to load. A late answer for it can also hide
+    // the src that the view takes next.
+    if (!proxyDomURL || !nodeSrc) {
+      src.value = nodeSrc
+      return true
+    }
+
     const proxiedURL = proxyDomURL(nodeSrc)
     if (typeof proxiedURL === 'string') {
       src.value = proxiedURL
-      return
+      return true
     }
 
-    // A Promise can settle after the node src changes again. Drop that
-    // stale answer.
     proxiedURL
       .then((url) => {
-        if (requestedSrc === nodeSrc) src.value = url
+        src.value = url
       })
       .catch((error) => {
         console.error(error)
-        // Do not keep the URL of an older src on screen.
-        if (requestedSrc === nodeSrc) src.value = nodeSrc
+        src.value = nodeSrc
       })
+    return true
   }
 }

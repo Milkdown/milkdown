@@ -55,10 +55,10 @@ export const inlineImageView = $view(
       })
       const bindSrc = createSrcBinder(src, config.proxyDomURL)
       const bindAttrs = (node: Node) => {
-        bindSrc(node.attrs.src)
         alt.value = node.attrs.alt
         title.value = node.attrs.title
       }
+      bindSrc(initialNode.attrs.src)
       bindAttrs(initialNode)
       app.mount(dom)
 
@@ -66,9 +66,7 @@ export const inlineImageView = $view(
         dom,
         update: (updatedNode) => {
           if (updatedNode.type !== initialNode.type) return false
-          // The img keeps the old picture until the new src loads. ProseMirror
-          // also offers this view to a new image inserted before it.
-          if (updatedNode.attrs.src !== initialNode.attrs.src) return false
+          if (!bindSrc(updatedNode.attrs.src)) return false
 
           bindAttrs(updatedNode)
           return true

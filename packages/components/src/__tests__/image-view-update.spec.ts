@@ -18,8 +18,10 @@ const cases = [
   {
     name: 'image block',
     markdown: '![](a.png)\n',
+    emptyMarkdown: '![]()\n',
     pos: 0,
     otherAttr: 'caption',
+    host: '.milkdown-image-block',
     selector: '.milkdown-image-block img',
     component: imageBlockComponent,
     insertAbove: (view: EditorView) => {
@@ -34,9 +36,11 @@ const cases = [
   {
     name: 'inline image',
     markdown: 'Text ![](a.png)\n',
+    emptyMarkdown: 'Text ![]()\n',
     // "Text " starts at 1 inside the paragraph, so the image is at 6.
     pos: 6,
     otherAttr: 'alt',
+    host: '.milkdown-image-inline',
     selector: '.milkdown-image-inline img',
     component: imageInlineComponent,
     insertAbove: (view: EditorView) => {
@@ -52,11 +56,20 @@ const cases = [
 
 describe.each(cases)(
   '$name',
-  ({ markdown, pos, otherAttr, selector, component, insertAbove }) => {
-    async function createEditor() {
+  ({
+    markdown,
+    emptyMarkdown,
+    pos,
+    otherAttr,
+    host,
+    selector,
+    component,
+    insertAbove,
+  }) => {
+    async function createEditor(doc = markdown) {
       const editor = Editor.make()
         .config((ctx) => {
-          ctx.set(defaultValueCtx, markdown)
+          ctx.set(defaultValueCtx, doc)
         })
         .use(commonmark)
         .use(component)
@@ -97,6 +110,17 @@ describe.each(cases)(
       const [newImage] = images(view)
       expect(newImage?.getAttribute('src')).toBe('b.png')
       expect(newImage).not.toBe(oldImage)
+    })
+
+    it('takes the first src of an empty image in place', async () => {
+      const view = await createEditor(emptyMarkdown)
+      const oldHost = view.dom.querySelector(host)
+
+      view.dispatch(view.state.tr.setNodeAttribute(pos, 'src', 'b.png'))
+      await nextTick()
+
+      expect(view.dom.querySelector(host)).toBe(oldHost)
+      expect(images(view)[0]?.getAttribute('src')).toBe('b.png')
     })
 
     it('keeps the img when another attr changes', async () => {
