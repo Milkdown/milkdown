@@ -119,35 +119,56 @@ export class CodeMirrorBlock implements NodeView {
 
   private initializeCodeMirror() {
     if (this.initialized) return
-    this.initialized = true
 
-    this.cm = new CodeMirror({
-      doc: this.node.textContent,
-      root: this.view.root,
-      extensions: [
-        this.readOnlyConf.of(EditorState.readOnly.of(!this.view.editable)),
-        drawSelection(),
-        cmKeymap.of(this.codeMirrorKeymap()),
-        this.languageConf.of([]),
-        // Block a user edit when the editor is not editable. An update
-        // synced from ProseMirror always passes.
-        EditorState.changeFilter.of(() => this.view.editable || this.updating),
-        this.extensionsConf.of(this.extensions),
-        CodeMirror.updateListener.of(this.forwardUpdate),
-      ],
-    })
+    let cm: CodeMirror | undefined
+    let app: App | undefined
+    try {
+      cm = new CodeMirror({
+        doc: this.node.textContent,
+        root: this.view.root,
+        extensions: [
+          this.readOnlyConf.of(EditorState.readOnly.of(!this.view.editable)),
+          drawSelection(),
+          cmKeymap.of(this.codeMirrorKeymap()),
+          this.languageConf.of([]),
+          // Block a user edit when the editor is not editable. An update
+          // synced from ProseMirror always passes.
+          EditorState.changeFilter.of(
+            () => this.view.editable || this.updating
+          ),
+          this.extensionsConf.of(this.extensions),
+          CodeMirror.updateListener.of(this.forwardUpdate),
+        ],
+      })
 
-    const placeholder = this.dom.querySelector(
-      '.milkdown-code-block-placeholder'
-    )
-    if (placeholder) {
-      this.dom.removeChild(placeholder)
+      const placeholder = this.dom.querySelector(
+        '.milkdown-code-block-placeholder'
+      )
+      if (placeholder) {
+        this.dom.removeChild(placeholder)
+      }
+
+      app = this.createApp()
+      app.mount(this.dom)
+
+      // Mark initialized only after CodeMirror and Vue mount succeed.
+      this.cm = cm
+      this.app = app
+      this.initialized = true
+
+      this.updateLanguage()
+    } catch (error) {
+      app?.unmount()
+      cm?.destroy()
+      this.initialized = false
+      if (!this.dom.querySelector('.milkdown-code-block-placeholder')) {
+        while (this.dom.firstChild) {
+          this.dom.removeChild(this.dom.firstChild)
+        }
+        this.renderPlaceholder()
+      }
+      throw error
     }
-
-    this.app = this.createApp()
-    this.app.mount(this.dom)
-
-    this.updateLanguage()
   }
 
   private teardownCodeMirror() {
@@ -402,6 +423,7 @@ export class CodeMirrorBlock implements NodeView {
     if (this.initialized) {
       this.app.unmount()
       this.cm.destroy()
+      this.initialized = false
     }
     this.disposeSelectedWatcher()
   }
