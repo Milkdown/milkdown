@@ -110,11 +110,18 @@ export class LatexInlineTooltip implements PluginView {
 
       this.#innerView.value = innerView
       this.#updateValue.value = () => {
+        const value = innerView.state.doc.textContent.trim()
         const { tr } = view.state
-        tr.setNodeAttribute(textFrom, 'value', innerView.state.doc.textContent)
+        if (value) {
+          tr.setNodeAttribute(textFrom, 'value', value)
+        } else {
+          tr.delete(textFrom, textFrom + 1)
+        }
         view.dispatch(tr)
         requestAnimationFrame(() => {
-          view.focus()
+          if (!view.isDestroyed && view.dom.isConnected) {
+            view.focus()
+          }
         })
       }
       return true

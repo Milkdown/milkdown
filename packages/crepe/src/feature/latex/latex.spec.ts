@@ -1,4 +1,5 @@
 import {
+  commandsCtx,
   Editor,
   defaultValueCtx,
   editorViewCtx,
@@ -8,9 +9,11 @@ import {
   serializerCtx,
 } from '@milkdown/kit/core'
 import { commonmark } from '@milkdown/kit/preset/commonmark'
+import { NodeSelection, TextSelection } from '@milkdown/kit/prose/state'
 import { afterEach, describe, expect, test } from 'vitest'
 
 import { Crepe } from '../../core'
+import { toggleLatexCommandName } from './constants'
 import { mathInlineSchema } from './inline-latex'
 import { mathInlineRegex } from './input-rule'
 import {
@@ -143,6 +146,113 @@ describe('inline math in crepe', () => {
     expect(reopened.getMarkdown()).toBe(markdown)
     await reopened.destroy()
   })
+
+  test('trims outer whitespace from inline math tooltip edits on confirm', async () => {
+    const crepe = new Crepe({ defaultValue: '$x$' })
+    await crepe.create()
+    const view = crepe.editor.ctx.get(editorViewCtx)
+    view.dispatch(
+      view.state.tr.setSelection(NodeSelection.create(view.state.doc, 1))
+    )
+    await new Promise((resolve) => setTimeout(resolve, 0))
+
+    const tooltip = document.body.querySelector('.milkdown-latex-inline-edit')
+    const input = tooltip?.querySelector('.ProseMirror') as HTMLElement | null
+    const confirm = tooltip?.querySelector('button')
+    expect(input).not.toBeNull()
+    expect(confirm).not.toBeNull()
+
+    input!.textContent = '  x  '
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    confirm!.dispatchEvent(new Event('pointerdown', { bubbles: true }))
+
+    const markdown = crepe.getMarkdown()
+    expect(markdown).toBe('$x$\n')
+    await new Promise((resolve) => setTimeout(resolve, 25))
+    await crepe.destroy()
+
+    const reopened = new Crepe({ defaultValue: markdown })
+    await reopened.create()
+    const doc = reopened.editor.ctx.get(editorViewCtx).state.doc
+    expect(hasMath(doc)).toBe(true)
+    expect(reopened.getMarkdown()).toBe('$x$\n')
+    await reopened.destroy()
+  })
+
+  test('deletes inline math node when tooltip confirms empty whitespace', async () => {
+    const crepe = new Crepe({ defaultValue: '$x$' })
+    await crepe.create()
+    const view = crepe.editor.ctx.get(editorViewCtx)
+    view.dispatch(
+      view.state.tr.setSelection(NodeSelection.create(view.state.doc, 1))
+    )
+    await new Promise((resolve) => setTimeout(resolve, 0))
+
+    const tooltip = document.body.querySelector('.milkdown-latex-inline-edit')
+    const input = tooltip?.querySelector('.ProseMirror') as HTMLElement | null
+    const confirm = tooltip?.querySelector('button')
+    input!.textContent = '   '
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    confirm!.dispatchEvent(new Event('pointerdown', { bubbles: true }))
+
+    expect(hasMath(crepe.editor.ctx.get(editorViewCtx).state.doc)).toBe(false)
+    expect(crepe.getMarkdown()).toBe('')
+    await new Promise((resolve) => setTimeout(resolve, 25))
+    await crepe.destroy()
+  })
+
+  test('toggling inline latex trims outer whitespace outside the math node', async () => {
+    const crepe = new Crepe({ defaultValue: 'a x b' })
+    await crepe.create()
+    const view = crepe.editor.ctx.get(editorViewCtx)
+    // Select "x " inside "a x b".
+    view.dispatch(
+      view.state.tr.setSelection(TextSelection.create(view.state.doc, 3, 5))
+    )
+    crepe.editor.ctx.get(commandsCtx).call(toggleLatexCommandName)
+
+    const markdown = crepe.getMarkdown()
+    expect(markdown).toBe('a $x$ b\n')
+    await new Promise((resolve) => setTimeout(resolve, 25))
+    await crepe.destroy()
+
+    const reopened = new Crepe({ defaultValue: markdown })
+    await reopened.create()
+    expect(hasMath(reopened.editor.ctx.get(editorViewCtx).state.doc)).toBe(true)
+    expect(reopened.getMarkdown()).toBe('a $x$ b\n')
+    await reopened.destroy()
+  })
+
+  test('toggling inline latex rejects whitespace-only selection', async () => {
+    const crepe = new Crepe({ defaultValue: 'a   b' })
+    await crepe.create()
+    const view = crepe.editor.ctx.get(editorViewCtx)
+    view.dispatch(
+      view.state.tr.setSelection(TextSelection.create(view.state.doc, 2, 5))
+    )
+    expect(crepe.editor.ctx.get(commandsCtx).call(toggleLatexCommandName)).toBe(
+      false
+    )
+    expect(hasMath(crepe.editor.ctx.get(editorViewCtx).state.doc)).toBe(false)
+    await crepe.destroy()
+  })
+
+  test.each(['x ', ' x', ' x '])(
+    'trims outer whitespace when serializing attribute value "%s"',
+    async (value) => {
+      const editor = await createEditor('')
+      const schema = editor.ctx.get(schemaCtx)
+      const doc = schema.node('doc', null, [
+        schema.node('paragraph', null, [
+          mathInlineSchema.type(editor.ctx).create({ value }),
+        ]),
+      ])
+
+      const saved = editor.ctx.get(serializerCtx)(doc)
+      expect(saved).toBe('$x$\n')
+      expect(hasMath(editor.ctx.get(parserCtx)(saved))).toBe(true)
+    }
+  )
 })
 
 describe('inline math input rule', () => {

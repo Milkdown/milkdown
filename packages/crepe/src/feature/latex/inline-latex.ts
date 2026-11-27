@@ -51,7 +51,9 @@ export const mathInlineSchema = $nodeSchema(mathInlineId, () => ({
   toMarkdown: {
     match: (node) => node.type.name === mathInlineId,
     runner: (state, node) => {
-      state.addNode('inlineMath', undefined, node.attrs.value)
+      const value = String(node.attrs.value ?? '').trim()
+      if (!value) return
+      state.addNode('inlineMath', undefined, value)
     },
   },
 }))
