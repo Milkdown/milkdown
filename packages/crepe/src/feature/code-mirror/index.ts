@@ -1,7 +1,7 @@
 import type { Extension } from '@codemirror/state'
 
 import { defaultKeymap, indentWithTab } from '@codemirror/commands'
-import { keymap } from '@codemirror/view'
+import { EditorView, keymap } from '@codemirror/view'
 import {
   codeBlockComponent,
   codeBlockConfig,
@@ -33,6 +33,26 @@ export type CodeMirrorFeatureConfig = Partial<CodeMirrorConfig>
 
 const CodeMirrorThemeCtx = createSlice([] as Extension, 'CodeMirrorThemeCtx')
 
+// Crepe colors for the parts that the CodeMirror theme leaves unset.
+// They extend CodeMirror's base theme, so any configured theme overrides them.
+// A stylesheet that overrides the base theme would also override the
+// configured theme.
+// `&light` matches when the theme isn't dark, including when there is no theme.
+// A dark theme falls back to CodeMirror's own dark colors instead.
+const surfaceTheme = EditorView.baseTheme({
+  '&light': {
+    backgroundColor: 'var(--crepe-color-surface)',
+  },
+  '&light .cm-gutters': {
+    backgroundColor: 'var(--crepe-color-surface)',
+    border: 'none',
+  },
+  '&light .cm-panels': {
+    backgroundColor: 'var(--crepe-color-surface)',
+    color: 'var(--crepe-color-on-surface)',
+  },
+})
+
 /// Switch the CodeMirror theme of every code block after the editor is
 /// created, e.g. when the page switches between light and dark mode.
 /// Pass `[]` to drop the theme. It does nothing when the CodeMirror
@@ -63,6 +83,8 @@ export const codeMirror: DefineFeature<CodeMirrorFeatureConfig> = (
         basicSetup,
         theme,
         ...(config.extensions ?? []),
+        // Last, so themes that also use the lowest precedence still win.
+        surfaceTheme,
       ]
 
       ctx.inject(CodeMirrorThemeCtx, theme)
