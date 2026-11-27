@@ -6,6 +6,7 @@ import DOMPurify from 'dompurify'
 import { createApp, ref, watchEffect } from 'vue'
 
 import { withMeta } from '../../__internal__/meta'
+import { createSrcBinder } from '../../__internal__/src-binder'
 import { isDefaultRatio } from '../alt'
 import { imageBlockConfig } from '../config'
 import { imageBlockSchema } from '../schema'
@@ -65,22 +66,9 @@ export const imageBlockView = $view(
           dom.classList.remove('selected')
         }
       })
-      const proxyDomURL = config.proxyDomURL
+      const bindSrc = createSrcBinder(src, config.proxyDomURL)
       const bindAttrs = (node: Node) => {
-        if (!proxyDomURL) {
-          src.value = node.attrs.src
-        } else {
-          const proxiedURL = proxyDomURL(node.attrs.src)
-          if (typeof proxiedURL === 'string') {
-            src.value = proxiedURL
-          } else {
-            proxiedURL
-              .then((url) => {
-                src.value = url
-              })
-              .catch(console.error)
-          }
-        }
+        bindSrc(node.attrs.src)
         ratio.value = node.attrs.ratio
         alt.value = node.attrs.alt
         caption.value = node.attrs.caption

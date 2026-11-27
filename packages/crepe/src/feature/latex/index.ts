@@ -15,6 +15,7 @@ import { inlineLatexTooltip } from './inline-tooltip/tooltip'
 import { LatexInlineTooltip } from './inline-tooltip/view'
 import { mathBlockInputRule, mathInlineInputRule } from './input-rule'
 import {
+  inlineMathStringifyConfig,
   remarkInlineMathGuardPlugin,
   remarkMathBlockPlugin,
   remarkMathPlugin,
@@ -30,6 +31,7 @@ export type LatexFeatureConfig = Partial<LatexConfig>
 export const latex: DefineFeature<LatexFeatureConfig> = (editor, config) => {
   editor
     .config(crepeFeatureConfig(CrepeFeature.Latex))
+    .config(inlineMathStringifyConfig)
     .config((ctx) => {
       const flags = useCrepeFeatures(ctx).get()
       const isCodeMirrorEnabled = flags.includes(CrepeFeature.CodeMirror)

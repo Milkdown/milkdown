@@ -412,6 +412,44 @@ describe('serializer-state', () => {
     })
   })
 
+  it('opens the longer of two new marks outside', () => {
+    const state = new SerializerState(schema)
+
+    // In `***a* b**` both marks open on the first text node. Bold runs
+    // into the second node, so it has to be the outer mark even though
+    // the mark set lists italic first, or the end of italic would close
+    // and reopen it.
+    state.openNode('doc')
+    state.openNode('paragraph')
+    state.next(
+      fragment(text('a', [italicMark, boldMark]), text(' b', [boldMark]))
+    )
+    state.closeNode()
+
+    expect(state.top()).toMatchObject({
+      type: 'doc',
+      children: [
+        {
+          type: 'paragraph',
+          children: [
+            {
+              type: 'bold',
+              isMark: true,
+              children: [
+                {
+                  type: 'italic',
+                  isMark: true,
+                  children: [{ type: 'text', value: 'a' }],
+                },
+                { type: 'text', value: ' b' },
+              ],
+            },
+          ],
+        },
+      ],
+    })
+  })
+
   it('closes value-based marks after the node that carries them', () => {
     const state = new SerializerState(schema)
 

@@ -72,7 +72,7 @@ export class TableNodeView implements NodeView {
     const view = this.view
     if (!view.editable) return false
 
-    const { state, dispatch } = view
+    const { state } = view
     const pos = view.posAtCoords({ left: event.clientX, top: event.clientY })
 
     if (!pos) return false
@@ -95,20 +95,31 @@ export class TableNodeView implements NodeView {
       if (currentNode?.node === node.node) return false
     }
 
-    const { from } = node
+    const { from, to } = node
 
     const selection = NodeSelection.create(state.doc, from + 1)
     if (state.selection.eq(selection)) return false
 
-    if (state.selection instanceof CellSelection) {
-      setTimeout(() => {
-        dispatch(state.tr.setSelection(selection).scrollIntoView())
-      }, 20)
-    } else {
-      requestAnimationFrame(() => {
-        dispatch(state.tr.setSelection(selection).scrollIntoView())
-      })
+    // The dispatch is deferred so it lands after the caret the browser places
+    // for this click, which sits inside the clicked cell. Any other change
+    // since the click is newer, so keep it. A changed document also makes
+    // `selection` stale, so skip it too.
+    const select = () => {
+      const current = view.state
+      if (current.doc !== state.doc) return
+
+      const { selection: currentSelection } = current
+      const placedByClick =
+        currentSelection instanceof TextSelection &&
+        currentSelection.from > from &&
+        currentSelection.to < to
+      if (!currentSelection.eq(state.selection) && !placedByClick) return
+
+      view.dispatch(current.tr.setSelection(selection).scrollIntoView())
     }
+
+    if (state.selection instanceof CellSelection) setTimeout(select, 20)
+    else requestAnimationFrame(select)
     return true
   }
 

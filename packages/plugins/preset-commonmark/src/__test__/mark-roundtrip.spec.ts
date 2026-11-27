@@ -22,6 +22,11 @@ describe('nested mark round-trip (#2403)', () => {
     '**a `code` b**',
     '[a **b** c](https://example.com)',
     '*a **b*** and `code`',
+    // The outer mark opens on the same node as the inner one and must
+    // still be serialized outside of it.
+    '***a* b**',
+    '[*a* b](https://example.com)',
+    '[**a** b](https://example.com)',
   ]
 
   cases.forEach((markdown) => {

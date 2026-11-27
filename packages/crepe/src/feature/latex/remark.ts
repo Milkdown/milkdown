@@ -1,5 +1,7 @@
+import type { Ctx } from '@milkdown/kit/ctx'
 import type { Node } from '@milkdown/kit/transformer'
 
+import { remarkStringifyOptionsCtx } from '@milkdown/kit/core'
 import { $remark } from '@milkdown/kit/utils'
 import remarkMath from 'remark-math'
 import { visit } from 'unist-util-visit'
@@ -76,3 +78,31 @@ export const remarkInlineMathGuardPlugin = $remark(
   'remarkInlineMathGuard',
   () => () => visitInlineMath
 )
+
+/// Write a digit that directly follows inline math as a character reference.
+/// The guard reads `$x$2` as text, so math followed by a digit is saved as
+/// `$x$&#x32;`. It loads back as the same math and the same digit.
+export function inlineMathStringifyConfig(ctx: Ctx) {
+  ctx.update(remarkStringifyOptionsCtx, (prev) => {
+    const text = prev.handlers?.text
+    return {
+      ...prev,
+      handlers: {
+        ...prev.handlers,
+        text: (node, parent, state, info) => {
+          const value = text
+            ? text(node, parent, state, info)
+            : state.safe(node.value, info)
+          if (!/^\d/.test(value)) return value
+
+          const siblings = parent?.children ?? []
+          const before = siblings[siblings.indexOf(node) - 1]
+          if (before?.type !== 'inlineMath') return value
+
+          const reference = `&#x${value.charCodeAt(0).toString(16)};`
+          return reference + value.slice(1)
+        },
+      },
+    }
+  })
+}
