@@ -2,6 +2,7 @@ import { expectDomTypeError } from '@milkdown/exception'
 import { $nodeSchema } from '@milkdown/utils'
 
 import { withMeta } from '../__internal__/meta'
+import { parseImageBlockAlt, serializeImageBlockAlt } from './alt'
 
 export const IMAGE_DATA_TYPE = 'image-block'
 
@@ -17,6 +18,7 @@ export const imageBlockSchema = $nodeSchema('image-block', () => {
     priority: 100,
     attrs: {
       src: { default: '', validate: 'string' },
+      alt: { default: null, validate: 'string|null' },
       caption: { default: '', validate: 'string' },
       ratio: { default: 1, validate: 'number' },
     },
@@ -28,6 +30,7 @@ export const imageBlockSchema = $nodeSchema('image-block', () => {
 
           return {
             src: dom.getAttribute('src') || '',
+            alt: dom.getAttribute('alt'),
             caption: dom.getAttribute('caption') || '',
             ratio: Number(dom.getAttribute('ratio') ?? 1),
           }
@@ -42,11 +45,13 @@ export const imageBlockSchema = $nodeSchema('image-block', () => {
         // mdast gives null for a title that the markdown omits, and caption is
         // a validated string attribute.
         const caption = (node.title as string | null) ?? ''
-        let ratio = Number((node.alt as string) || 1)
-        if (Number.isNaN(ratio) || ratio === 0) ratio = 1
+        const { alt, ratio } = parseImageBlockAlt(
+          (node.alt as string | null) ?? ''
+        )
 
         state.addNode(type, {
           src,
+          alt,
           caption,
           ratio,
         })
@@ -59,7 +64,10 @@ export const imageBlockSchema = $nodeSchema('image-block', () => {
         state.addNode('image', undefined, undefined, {
           title: node.attrs.caption,
           url: node.attrs.src,
-          alt: `${Number.parseFloat(node.attrs.ratio).toFixed(2)}`,
+          alt: serializeImageBlockAlt({
+            alt: node.attrs.alt,
+            ratio: Number.parseFloat(node.attrs.ratio),
+          }),
         })
         state.closeNode()
       },

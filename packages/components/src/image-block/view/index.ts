@@ -7,6 +7,7 @@ import { createApp, ref, watchEffect } from 'vue'
 
 import { withMeta } from '../../__internal__/meta'
 import { createSrcBinder } from '../../__internal__/src-binder'
+import { isDefaultRatio } from '../alt'
 import { imageBlockConfig } from '../config'
 import { imageBlockSchema } from '../schema'
 import { MilkdownImageBlock } from './components/image-block'
@@ -16,6 +17,7 @@ export const imageBlockView = $view(
   (ctx): NodeViewConstructor => {
     return (initialNode, view, getPos) => {
       const src = ref(initialNode.attrs.src)
+      const alt = ref(initialNode.attrs.alt)
       const caption = ref(initialNode.attrs.caption)
       const ratio = ref(initialNode.attrs.ratio)
       const selected = ref(false)
@@ -24,17 +26,29 @@ export const imageBlockView = $view(
         if (!view.editable) return
         const pos = getPos()
         if (pos == null) return
-        view.dispatch(
-          view.state.tr.setNodeAttribute(
-            pos,
-            attr,
-            attr === 'src' ? DOMPurify.sanitize(value as string) : value
-          )
+        const node = view.state.doc.nodeAt(pos)
+        // Releasing the resize handle without a drag sets the ratio that the
+        // node already has, which is not a resize.
+        if (attr === 'ratio' && node?.attrs.ratio === value) return
+        const tr = view.state.tr.setNodeAttribute(
+          pos,
+          attr,
+          attr === 'src' ? DOMPurify.sanitize(value as string) : value
         )
+        // An empty alt has no text to keep. Dropping it on a resize saves the
+        // image in the ratio-only form, which older versions can read.
+        if (
+          attr === 'ratio' &&
+          node?.attrs.alt === '' &&
+          !isDefaultRatio(value as number)
+        )
+          tr.setNodeAttribute(pos, 'alt', null)
+        view.dispatch(tr)
       }
       const config = ctx.get(imageBlockConfig.key)
       const app = createApp(MilkdownImageBlock, {
         src,
+        alt,
         caption,
         ratio,
         selected,
@@ -56,6 +70,7 @@ export const imageBlockView = $view(
       const bindAttrs = (node: Node) => {
         bindSrc(node.attrs.src)
         ratio.value = node.attrs.ratio
+        alt.value = node.attrs.alt
         caption.value = node.attrs.caption
 
         readonly.value = !view.editable
