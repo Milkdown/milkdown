@@ -14,6 +14,7 @@ const createMockMark = (name: string, priority?: number) =>
 const boldMark = createMockMark('bold')
 const italicMark = createMockMark('italic')
 const inlineCodeMark = createMockMark('inlineCode', 100)
+const mentionMark = createMockMark('mention')
 
 const schema = {
   nodes: {
@@ -46,6 +47,15 @@ const schema = {
           runner: (state: SerializerState, node: { value: string }) => {
             state.addNode('text', undefined, node.value)
           },
+        },
+      },
+    },
+    // A node that writes nothing, like inline math with an empty value.
+    blank: {
+      spec: {
+        toMarkdown: {
+          match: (node: { type: string }) => node.type === 'blank',
+          runner: () => {},
         },
       },
     },
@@ -86,11 +96,26 @@ const schema = {
         },
       },
     },
+    // A mark that writes its node as a leaf, with no value and no children.
+    mention: {
+      spec: {
+        toMarkdown: {
+          match: (mark: { name: string }) => mark.name === 'mention',
+          runner: (state: SerializerState, mark: Mark) => {
+            state.withMark(mark, 'mention', undefined, { id: 'milkdown' })
+            return true
+          },
+        },
+      },
+    },
   },
 } as unknown as Schema
 
 const text = (value: string, marks: Mark[] = []) =>
   ({ type: 'text', value, marks }) as unknown as Node
+
+const blank = (marks: Mark[] = []) =>
+  ({ type: 'blank', marks }) as unknown as Node
 
 const fragment = (...nodes: Node[]) =>
   ({
@@ -520,5 +545,90 @@ describe('serializer-state', () => {
         },
       ],
     })
+  })
+
+  it('does not write a mark whose node wrote nothing', () => {
+    const state = new SerializerState(schema)
+
+    // `****` is not an empty bold. It reads back as a thematic break or as
+    // plain asterisks.
+    state.openNode('doc')
+    state.openNode('paragraph')
+    state.next(fragment(text('a'), blank([boldMark, italicMark]), text('b')))
+    state.closeNode()
+
+    expect(state.top()?.children).toEqual([
+      {
+        type: 'paragraph',
+        children: [
+          { type: 'text', value: 'a' },
+          { type: 'text', value: 'b' },
+        ],
+      },
+    ])
+  })
+
+  it('does not write a mark that holds only spaces', () => {
+    const state = new SerializerState(schema)
+
+    state.openNode('doc')
+    state.openNode('paragraph')
+    state.next(fragment(text('a'), text(' ', [boldMark]), text('b')))
+    state.closeNode()
+
+    expect(state.top()?.children).toEqual([
+      {
+        type: 'paragraph',
+        children: [
+          { type: 'text', value: 'a' },
+          { type: 'text', value: ' ' },
+          { type: 'text', value: 'b' },
+        ],
+      },
+    ])
+  })
+
+  it('keeps a mark that another node fills', () => {
+    const state = new SerializerState(schema)
+
+    state.openNode('doc')
+    state.openNode('paragraph')
+    state.next(fragment(blank([boldMark]), text('b', [boldMark])))
+    state.closeNode()
+
+    expect(state.top()?.children).toEqual([
+      {
+        type: 'paragraph',
+        children: [
+          {
+            type: 'bold',
+            isMark: true,
+            children: [{ type: 'text', value: 'b' }],
+          },
+        ],
+      },
+    ])
+  })
+
+  it('keeps a mark whose runner wrote the node without a value', () => {
+    const state = new SerializerState(schema)
+
+    state.openNode('doc')
+    state.openNode('paragraph')
+    state.next(fragment(text('@milkdown', [boldMark, mentionMark])))
+    state.closeNode()
+
+    expect(state.top()?.children).toEqual([
+      {
+        type: 'paragraph',
+        children: [
+          {
+            type: 'bold',
+            isMark: true,
+            children: [{ type: 'mention', isMark: true, id: 'milkdown' }],
+          },
+        ],
+      },
+    ])
   })
 })
