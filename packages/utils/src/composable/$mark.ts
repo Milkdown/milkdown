@@ -15,8 +15,7 @@ export type $Mark = MilkdownPlugin & {
 }
 
 /// Create a mark plugin. It takes a mark id and a factory function. The factory
-/// should return a function that returns a
-/// [mark schema](/transformer#interface-markschema).
+/// returns a [mark schema](/transformer#interface-markschema).
 ///
 /// Additional property:
 /// - `id`: The id of the mark.
