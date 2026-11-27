@@ -92,3 +92,28 @@ test('latex inline followed by a digit stays math after a reload', async ({
   await expect(inlineLatex).toBeVisible()
   expect(await getMarkdown(page)).toEqual(markdown)
 })
+
+test('latex inline edited to end with a space stays math after a reload', async ({
+  page,
+}) => {
+  await focusEditor(page)
+  await page.keyboard.type('$x$')
+
+  const inlineLatex = page.locator('span[data-type="math_inline"]')
+  const inlineLatexInput = page.locator('.milkdown-latex-inline-edit')
+  await expect(inlineLatex).toBeVisible()
+
+  await page.keyboard.press('ArrowLeft')
+  await expect(inlineLatexInput).toBeVisible()
+  await inlineLatexInput.click()
+  await waitNextFrame(page)
+  await page.keyboard.type(' ')
+  await page.keyboard.press('Enter')
+
+  const markdown = await getMarkdown(page)
+  expect(markdown.trim()).toEqual('$x$')
+
+  await setMarkdown(page, markdown)
+  await expect(inlineLatex).toBeVisible()
+  expect(await getMarkdown(page)).toEqual(markdown)
+})

@@ -117,6 +117,74 @@ describe('inline math serializing', () => {
 
     expect(editor.ctx.get(serializerCtx)(doc)).toBe('1 $x$ 2 and \\$5\n')
   })
+
+  // The guard reads `$x $` and `$ x$` as text. Spaces at the ends of math
+  // must not be saved (#2534).
+  test.each([
+    ['x ', '$x$'],
+    [' x', '$x$'],
+    [' x ', '$x$'],
+    ['\tx\t', '$x$'],
+    [' a + b ', '$a + b$'],
+  ])('saves math "%s" as "%s"', async (value, markdown) => {
+    const editor = await createEditor('')
+    const schema = editor.ctx.get(schemaCtx)
+    const math = mathInlineSchema.type(editor.ctx)
+    const paragraph = (value: string) =>
+      schema.node('paragraph', null, [
+        schema.text('a '),
+        math.create({ value }),
+        schema.text(' b'),
+      ])
+
+    const saved = editor.ctx.get(serializerCtx)(
+      schema.node('doc', null, [paragraph(value)])
+    )
+    expect(saved).toBe(`a ${markdown} b\n`)
+    expect(
+      editor.ctx
+        .get(parserCtx)(saved)
+        .eq(schema.node('doc', null, [paragraph(value.trim())]))
+    ).toBe(true)
+  })
+
+  // `$$` at the start of a line opens a math block that takes the rest of
+  // the document, and `$  $` reads back as text.
+  test.each(['', '  '])('does not save empty math "%s"', async (value) => {
+    const editor = await createEditor('')
+    const schema = editor.ctx.get(schemaCtx)
+    const doc = schema.node('doc', null, [
+      schema.node('paragraph', null, [
+        mathInlineSchema.type(editor.ctx).create({ value }),
+      ]),
+      schema.node('paragraph', null, [schema.text('hello')]),
+    ])
+
+    const saved = editor.ctx.get(serializerCtx)(doc)
+    expect(saved).not.toContain('$')
+    expect(
+      editor.ctx
+        .get(parserCtx)(saved)
+        .eq(
+          schema.node('doc', null, [
+            schema.node('paragraph', null, [schema.text('hello')]),
+          ])
+        )
+    ).toBe(true)
+  })
+
+  // Dropping the space of `\ ` would leave `x\`, which is not valid TeX.
+  test('keeps a trailing control space', async () => {
+    const editor = await createEditor('')
+    const schema = editor.ctx.get(schemaCtx)
+    const doc = schema.node('doc', null, [
+      schema.node('paragraph', null, [
+        mathInlineSchema.type(editor.ctx).create({ value: 'x\\  ' }),
+      ]),
+    ])
+
+    expect(editor.ctx.get(serializerCtx)(doc)).toBe('$x\\ $\n')
+  })
 })
 
 describe('inline math in crepe', () => {

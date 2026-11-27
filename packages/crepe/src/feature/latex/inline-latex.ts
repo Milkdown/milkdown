@@ -51,7 +51,14 @@ export const mathInlineSchema = $nodeSchema(mathInlineId, () => ({
   toMarkdown: {
     match: (node) => node.type.name === mathInlineId,
     runner: (state, node) => {
-      state.addNode('inlineMath', undefined, node.attrs.value)
+      // The guard reads `$x $` and `$ x$` as text. Spaces at the ends mean
+      // nothing in math mode, so drop them, except the space of a control
+      // space `\ `. Math with nothing left is not written at all.
+      const value = (node.attrs.value as string).replace(
+        /^\s+|(?<!\\)\s+$/g,
+        ''
+      )
+      if (value) state.addNode('inlineMath', undefined, value)
     },
   },
 }))
