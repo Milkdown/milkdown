@@ -36,7 +36,7 @@ async function withEditor<T>(
   }
 }
 
-const textAlts = ['A red barn', '', '2024', '1.5', '0.00']
+const textAlts = ['A red barn', '', '2024', '1e+21']
 
 function resizeImage(editor: Editor) {
   editor.action((ctx) => {
@@ -64,7 +64,8 @@ describe('image block alt text', () => {
   it.each(textAlts)(
     'preserves %j when opened and saved without edits',
     async (alt) => {
-      for (const title of ['', ' "A caption"']) {
+      for (const caption of ['', 'A caption']) {
+        const title = caption ? ` "${caption}"` : ''
         const markdown = `![${alt}](a.png${title})\n`
         await withEditor(markdown, imageBlockComponent, (editor) => {
           expect(editor.action(getMarkdown())).toBe(markdown)
@@ -75,7 +76,9 @@ describe('image block alt text', () => {
             expect(node?.attrs.alt).toBe(alt)
             expect(node?.attrs.ratio).toBe(1)
             expect(() => view.state.doc.check()).not.toThrow()
-            expect(view.dom.querySelector('img')?.getAttribute('alt')).toBe(alt)
+            expect(view.dom.querySelector('img')?.getAttribute('alt')).toBe(
+              alt || caption
+            )
           })
         })
       }
@@ -123,25 +126,58 @@ describe('image block alt text', () => {
     }
   )
 
-  it('writes a resized image with an empty alt in the ratio-only form', async () => {
-    const saved = await withEditor(
+  it('drops an empty alt on resize and writes the ratio-only form', async () => {
+    const { saved, resized } = await withEditor(
       '![](a.png "A caption")\n',
       imageBlockComponent,
       (editor) => {
         resizeImage(editor)
-        return editor.action(getMarkdown())
+        return editor.action((ctx) => ({
+          saved: getMarkdown()(ctx),
+          resized: ctx.get(editorViewCtx).state.doc,
+        }))
       }
     )
     expect(saved).toBe('![0.75](a.png "A caption")\n')
+    expect(resized.firstChild?.attrs.alt).toBeNull()
+    // The resized document is the one that its own Markdown reads back to.
+    await withEditor(saved, imageBlockComponent, (editor) => {
+      editor.action((ctx) => {
+        const doc = ctx.get(editorViewCtx).state.doc
+        expect(doc.toJSON()).toEqual(resized.toJSON())
+      })
+    })
   })
+
+  it.each([
+    ['0.5', 0.5, '0.50'],
+    ['1.0', 1, '1.00'],
+    ['1.5', 1.5, '1.50'],
+    ['2.0', 2, '2.00'],
+    ['0.00', 1, '1.00'],
+  ])(
+    'reads the handwritten ratio %j as %j and writes it as %j',
+    async (alt, ratio, written) => {
+      await withEditor(`![${alt}](a.png)\n`, imageBlockComponent, (editor) => {
+        editor.action((ctx) => {
+          const node = ctx.get(editorViewCtx).state.doc.firstChild
+          expect(node?.attrs.alt).toBeNull()
+          expect(node?.attrs.ratio).toBe(ratio)
+        })
+        expect(editor.action(getMarkdown())).toBe(`![${written}](a.png)\n`)
+      })
+    }
+  )
 
   it.each([
     ['A red barn|0.75', 'A red barn', 0.75],
     ['A | B|0.50', 'A | B', 0.5],
     ['2024|1.50', '2024', 1.5],
     ['Score|0.50|0.75', 'Score|0.50', 0.75],
+    ['|0.75', '', 0.75],
   ])('reads %j as alt text and a ratio', async (value, alt, ratio) => {
-    for (const title of ['', ' "A caption"']) {
+    for (const caption of ['', 'A caption']) {
+      const title = caption ? ` "${caption}"` : ''
       const markdown = `![${value}](a.png${title})\n`
       await withEditor(markdown, imageBlockComponent, (editor) => {
         expect(editor.action(getMarkdown())).toBe(markdown)
@@ -150,7 +186,9 @@ describe('image block alt text', () => {
           const node = view.state.doc.firstChild
           expect(node?.attrs.alt).toBe(alt)
           expect(node?.attrs.ratio).toBe(ratio)
-          expect(view.dom.querySelector('img')?.getAttribute('alt')).toBe(alt)
+          expect(view.dom.querySelector('img')?.getAttribute('alt')).toBe(
+            alt || caption
+          )
         })
       })
     }
@@ -159,11 +197,16 @@ describe('image block alt text', () => {
   it.each([
     'Infinity',
     '-1.00',
+    '1e+21',
+    '2',
+    '.5',
+    '1.',
     'x|',
     'x|0.5',
     'x|0.00',
     'x|-1.00',
     'x|Infinity',
+    'x|1e+21',
     'x|0.75 ',
   ])('reads %j as alt text at the default ratio', async (alt) => {
     const markdown = `![${alt}](a.png)\n`
@@ -193,6 +236,8 @@ describe('image block alt text', () => {
 
   it.each([
     ['0.75', 1, '0.75|1.00'],
+    ['0.5', 1, '0.5|1.00'],
+    ['', 0.75, '|0.75'],
     ['Score|0.50', 1, 'Score|0.50|1.00'],
     ['Score|0.50', 0.75, 'Score|0.50|0.75'],
   ])(
@@ -307,9 +352,11 @@ describe('image block alt text', () => {
 describe('image block alt encoding', () => {
   const alts = [
     null,
+    '',
     'A red barn',
     '2024',
     '1.5',
+    '0.00',
     '0.75',
     '1.00',
     'A | B',
@@ -327,18 +374,20 @@ describe('image block alt encoding', () => {
     }
   })
 
-  it('reads back an empty alt as no alt once resized', () => {
-    expect(serializeImageBlockAlt({ alt: '', ratio: 1 })).toBe('')
-    expect(parseImageBlockAlt('')).toEqual({ alt: '', ratio: 1 })
-    expect(serializeImageBlockAlt({ alt: '', ratio: 0.75 })).toBe('0.75')
-    expect(parseImageBlockAlt('0.75')).toEqual({ alt: null, ratio: 0.75 })
-  })
-
-  it('writes alt text alone when the ratio cannot be read back', () => {
-    for (const ratio of [0, -1, Number.NaN, Number.POSITIVE_INFINITY, 0.001])
+  it('writes the default ratio when the ratio cannot be read back', () => {
+    for (const ratio of [
+      0,
+      -1,
+      Number.NaN,
+      Number.POSITIVE_INFINITY,
+      0.001,
+      1e21,
+    ]) {
+      expect(serializeImageBlockAlt({ alt: null, ratio })).toBe('1.00')
       expect(serializeImageBlockAlt({ alt: 'A red barn', ratio })).toBe(
         'A red barn'
       )
+    }
   })
 })
 

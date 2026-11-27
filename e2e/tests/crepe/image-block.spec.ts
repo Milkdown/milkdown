@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test'
 
-import { getMarkdown } from '../misc'
+import { getMarkdown, setMarkdown } from '../misc'
 
 // A 1000x800 red PNG is impractical as a data URL, so the route
 // intercepts the image request and returns a generated PNG.
@@ -106,9 +106,7 @@ test.describe('image block alt text', () => {
     await routeMockImage(page, MOCK_IMAGE_URL, 400, 400)
     await page.goto('/image-block/')
 
-    await page.evaluate((url: string) => {
-      window.__setMarkdown__(`![A red barn](${url})`)
-    }, MOCK_IMAGE_URL)
+    await setMarkdown(page, `![A red barn](${MOCK_IMAGE_URL})`)
 
     const img = page.locator(IMAGE_SELECTOR)
     await expect(img).toHaveCSS('height', '400px', { timeout: 5000 })

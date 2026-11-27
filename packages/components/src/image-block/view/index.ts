@@ -24,13 +24,16 @@ export const imageBlockView = $view(
         if (!view.editable) return
         const pos = getPos()
         if (pos == null) return
-        view.dispatch(
-          view.state.tr.setNodeAttribute(
-            pos,
-            attr,
-            attr === 'src' ? DOMPurify.sanitize(value as string) : value
-          )
+        const tr = view.state.tr.setNodeAttribute(
+          pos,
+          attr,
+          attr === 'src' ? DOMPurify.sanitize(value as string) : value
         )
+        // An empty alt has no text to keep. Dropping it on a resize saves the
+        // image in the ratio-only form, which older versions can read.
+        if (attr === 'ratio' && view.state.doc.nodeAt(pos)?.attrs.alt === '')
+          tr.setNodeAttribute(pos, 'alt', null)
+        view.dispatch(tr)
       }
       const config = ctx.get(imageBlockConfig.key)
       const app = createApp(MilkdownImageBlock, {

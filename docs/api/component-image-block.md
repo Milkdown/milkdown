@@ -39,7 +39,7 @@ An image that stands alone in its paragraph becomes an image block. Its title is
 | `![A red barn\|0.75](a.png)`     | `A red barn` | 0.75  |
 | `![0.75](a.png)`                 | none         | 0.75  |
 
-A ratio is read only with two decimals, such as `0.75`, so any other alt, including a number like `2024`, stays alt text.
+An alt that is a decimal number, such as `0.75` or `0.5`, is a ratio with no alt text. After alt text, a ratio is read only with two decimals, as in `|0.75`. Any other alt, including a whole number like `2024`, stays alt text.
 
 ---
 

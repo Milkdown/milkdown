@@ -160,7 +160,7 @@ export const ImageViewer = defineComponent<MilkdownImageBlockProps>({
               data-type={IMAGE_DATA_TYPE}
               onLoad={onImageLoad}
               src={src.value}
-              alt={alt.value ?? caption.value}
+              alt={alt.value || caption.value}
               onError={(e) =>
                 Promise.resolve(config.onImageLoadError?.(e)).catch(() => {})
               }
