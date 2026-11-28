@@ -126,24 +126,18 @@ export class TableNodeView implements NodeView {
   stopEvent(e: Event) {
     if (e.type === 'drop' || e.type.startsWith('drag')) return true
 
-    if (e.type === 'mousedown' || e.type === 'pointerdown') {
-      // prosemirror-view cancels the default action of a mousedown it handles,
-      // which would keep the row and column drag handles from starting a drag.
-      if (
-        e.target instanceof Element &&
-        e.target.closest('button, [draggable="true"]')
-      )
-        return true
+    if (e.type !== 'mousedown' && e.type !== 'pointerdown') return false
 
-      const target = e.target
-      if (
-        target instanceof HTMLElement &&
-        (target.closest('th') || target.closest('td'))
-      ) {
-        const event = e as PointerEvent
-        return this.#handleClick(event)
-      }
-    }
+    const target = e.target
+    if (!(target instanceof Element)) return false
+
+    // The handles and buttons around the table are not content.
+    // prosemirror-view cancels the default action of a mousedown it handles,
+    // which would keep the row and column drag handles from starting a drag.
+    if (target.closest('button') || !this.contentDOM.contains(target))
+      return true
+
+    if (target.closest('th, td')) return this.#handleClick(e as PointerEvent)
 
     return false
   }

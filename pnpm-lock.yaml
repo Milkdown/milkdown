@@ -1116,7 +1116,7 @@ importers:
         specifier: ^1.2.3
         version: 1.2.3
       prosemirror-model:
-        specifier: ^1.25.12
+        specifier: ^1.25.4
         version: 1.25.13
       prosemirror-schema-list:
         specifier: ^1.5.1
@@ -1131,7 +1131,7 @@ importers:
         specifier: ^1.10.5
         version: 1.12.0
       prosemirror-view:
-        specifier: ^1.44.0
+        specifier: ^1.41.3
         version: 1.44.0
 
   packages/transformer:
