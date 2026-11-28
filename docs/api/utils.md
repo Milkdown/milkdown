@@ -46,6 +46,7 @@
 
 @getHTML
 @getMarkdown
+@setMarkdownSource
 @outline
 
 @markdownToSlice

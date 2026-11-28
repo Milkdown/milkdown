@@ -50,6 +50,7 @@ interface CrepeConfig {
   featureConfigs?: CrepeFeatureConfig // Configure individual features
   root?: Node | string | null // Root element for the editor
   defaultValue?: DefaultValue // Initial content
+  preserveSource?: boolean // Keep the markdown the editor was loaded from
 }
 ```
 
@@ -66,6 +67,13 @@ interface CrepeBuilderConfig {
 
   /// The default value for the editor.
   defaultValue?: DefaultValue
+
+  /// Keep the markdown that the editor was loaded from.
+  /// With this option on, `getMarkdown` and the `markdownUpdated` listener
+  /// give that markdown back for as long as the content is the same,
+  /// instead of the normalized markdown that the serializer writes.
+  /// It is off by default.
+  preserveSource?: boolean
 }
 ```
 

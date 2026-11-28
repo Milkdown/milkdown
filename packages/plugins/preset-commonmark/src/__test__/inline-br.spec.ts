@@ -2,7 +2,12 @@ import { editorViewCtx, parserCtx } from '@milkdown/core'
 import { getMarkdown } from '@milkdown/utils'
 import { describe, expect, it } from 'vitest'
 
-import { blockContainerTypes, remarkPreserveEmptyLinePlugin, schema } from '..'
+import {
+  blockContainerTypes,
+  commonmark,
+  remarkPreserveEmptyLinePlugin,
+  schema,
+} from '..'
 import { roundTrip, withEditor } from './test-utils'
 
 // footnoteDefinition is a GFM type deliberately shipped in this preset's
@@ -261,5 +266,31 @@ describe('standalone composition without remarkHtmlTransformer', () => {
   it('folds a trailing lone <br> like the composed preset', async () => {
     const output = await roundTripStandalone('foo\n\n<br>\n')
     expect(output).toBe('foo\n')
+  })
+})
+
+// The recipe in the doc comment of remarkPreserveEmptyLinePlugin.
+describe('preset without remarkPreserveEmptyLinePlugin', () => {
+  const plugins = commonmark.filter(
+    (plugin) => !remarkPreserveEmptyLinePlugin.includes(plugin)
+  )
+
+  it('writes no placeholder for an empty paragraph', async () => {
+    await withEditor(
+      'para one\n\npara two\n',
+      (editor) => {
+        const view = editor.ctx.get(editorViewCtx)
+        const { paragraph } = view.state.schema.nodes
+        const end = view.state.doc.firstChild!.nodeSize
+        view.dispatch(view.state.tr.insert(end, paragraph!.create()))
+
+        expect(view.state.doc.childCount).toBe(3)
+        const output = editor.action(getMarkdown())
+        expect(output).toBe('para one\n\n\n\npara two\n')
+        // Blank lines are not a paragraph, so it is gone after a reload.
+        expect(editor.ctx.get(parserCtx)(output).childCount).toBe(2)
+      },
+      plugins
+    )
   })
 })

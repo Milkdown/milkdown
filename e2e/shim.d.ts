@@ -9,7 +9,7 @@ import type { Crepe } from '@milkdown/crepe'
 import type { setCodeMirrorTheme } from '@milkdown/crepe/feature/code-mirror'
 import type { Telemetry } from '@milkdown/ctx'
 import type { EditorView } from '@milkdown/prose/view'
-import type { insert } from '@milkdown/utils'
+import type { insert, replaceAll } from '@milkdown/utils'
 
 declare global {
   var __milkdown__: Editor
@@ -41,6 +41,7 @@ declare global {
 
   var __macros__: {
     insert: typeof insert
+    replaceAll: typeof replaceAll
   }
 
   var __CodeMirrorBlock__: typeof CodeMirrorBlock

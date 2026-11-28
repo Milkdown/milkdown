@@ -9,11 +9,16 @@ import { keymap as createKeymap } from '@milkdown/prose/keymap'
 import { DOMParser, Node } from '@milkdown/prose/model'
 import { EditorState, Plugin, PluginKey } from '@milkdown/prose/state'
 
-import { withMeta } from '../__internal__'
+import { parsedSourcesCtx, withMeta } from '../__internal__'
 import { editorStateCtx, inputRulesCtx, prosePluginsCtx } from './atoms'
 import { CommandsReady } from './commands'
 import { keymapCtx, KeymapReady } from './keymap'
-import { ParserReady, parserCtx } from './parser'
+import {
+  createMarkdownSourcePlugin,
+  preserveSourceCtx,
+  sourceParserCtx,
+} from './markdown-source'
+import { ParserReady } from './parser'
 import { schemaCtx } from './schema'
 import { SerializerReady } from './serializer'
 
@@ -85,16 +90,23 @@ export const editorState: MilkdownPlugin = (ctx) => {
     await ctx.waitTimers(editorStateTimerCtx)
 
     const schema = ctx.get(schemaCtx)
-    const parser = ctx.get(parserCtx)
     const rules = ctx.get(inputRulesCtx)
     const optionsOverride = ctx.get(editorStateOptionsCtx)
     const prosePlugins = ctx.get(prosePluginsCtx)
     const defaultValue = ctx.get(defaultValueCtx)
-    const doc = getDoc(defaultValue, parser, schema)
+    // Markdown goes through the source parser, so the editor knows the
+    // source of the document even when a plugin replaced the parser.
+    const sourceParser = ctx.get(sourceParserCtx)
+    const doc = getDoc(defaultValue, (text) => sourceParser(text).doc, schema)
     const km = ctx.get(keymapCtx)
     const disposeBaseKeymap = km.addBaseKeymap()
 
     const plugins = [
+      // The source plugin goes first, so every other plugin can read the
+      // markdown source in its own `init`.
+      ...(ctx.get(preserveSourceCtx)
+        ? [createMarkdownSourcePlugin(ctx.get(parsedSourcesCtx))]
+        : []),
       ...prosePlugins,
       new Plugin({
         key,

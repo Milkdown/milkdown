@@ -1,11 +1,13 @@
 import type { Ctx } from '@milkdown/ctx'
 
 import {
+  type MarkdownSourceMeta,
   editorStateOptionsCtx,
   editorViewCtx,
-  parserCtx,
+  markdownSourceKey,
   prosePluginsCtx,
   schemaCtx,
+  sourceParserCtx,
 } from '@milkdown/core'
 import { Slice } from '@milkdown/prose/model'
 import { EditorState } from '@milkdown/prose/state'
@@ -15,18 +17,19 @@ import { EditorState } from '@milkdown/prose/state'
 export function replaceAll(markdown: string, flush = false) {
   return (ctx: Ctx): void => {
     const view = ctx.get(editorViewCtx)
-    const parser = ctx.get(parserCtx)
-    const doc = parser(markdown)
+    // The source parser also tells the editor which markdown the new
+    // document stands for. A new editor state finds that out on its own.
+    // The transaction below has to say it.
+    const { doc, source } = ctx.get(sourceParserCtx)(markdown)
     if (!doc) return
 
     if (!flush) {
       const { state } = view
+      const meta: MarkdownSourceMeta = { source }
       return view.dispatch(
-        state.tr.replace(
-          0,
-          state.doc.content.size,
-          new Slice(doc.content, 0, 0)
-        )
+        state.tr
+          .replace(0, state.doc.content.size, new Slice(doc.content, 0, 0))
+          .setMeta(markdownSourceKey, meta)
       )
     }
 
