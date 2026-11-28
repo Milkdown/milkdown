@@ -11,12 +11,12 @@ import {
   ParserReady,
   preserveSourceCtx,
   serializerCtx,
+  sourceParserCtx,
 } from '@milkdown/core'
 import { createTimer } from '@milkdown/ctx'
 import { commonmark } from '@milkdown/preset-commonmark'
 import { Slice } from '@milkdown/prose/model'
 import { EditorState } from '@milkdown/prose/state'
-import { getParsedSource } from '@milkdown/transformer'
 import { getMarkdown, replaceAll, setMarkdownSource } from '@milkdown/utils'
 import { describe, expect, it } from 'vitest'
 
@@ -152,7 +152,9 @@ describe('preserveSourceCtx', () => {
         const { state } = viewOf(editor)
         // The heading got its id, so this is no longer the parsed document.
         expect(state.doc.firstChild?.attrs.id).toBe('title')
-        expect(getParsedSource(state.doc)).toBeUndefined()
+        expect(markdownSourceKey.getState(state)?.current?.doc).not.toBe(
+          state.doc
+        )
         expect(editor.action(getMarkdown())).toBe(markdown)
       })
     })
@@ -334,25 +336,96 @@ describe('preserveSourceCtx', () => {
     )
   })
 
-  it('records no source for something that is not a string', async () => {
+  it('has no source for something that is not a string', async () => {
     await withEditor(setext, (editor) => {
-      const doc = editor.ctx.get(parserCtx)(undefined as never)
-      expect(getParsedSource(doc)).toBeUndefined()
+      const sourceParser = editor.ctx.get(sourceParserCtx)
+      expect(sourceParser(undefined as never).source).toBeNull()
 
       editor.action(replaceAll(undefined as never))
       expect(editor.action(getMarkdown())).toBe('')
     })
   })
 
-  it('records the source of every document the parser makes', async () => {
-    await withEditor(
-      '',
-      (editor) => {
-        const doc = editor.ctx.get(parserCtx)('- a\n- b')
-        expect(getParsedSource(doc)).toEqual({ source: '- a\n- b', doc })
-      },
-      false
-    )
+  describe('the source parser', () => {
+    it('gives the document of the parser and its source', async () => {
+      await withEditor('', (editor) => {
+        const { doc, source } = editor.ctx.get(sourceParserCtx)('- a\n- b')
+
+        expect(doc.eq(editor.ctx.get(parserCtx)('- a\n- b'))).toBe(true)
+        expect(source).toEqual({ source: '- a\n- b', doc })
+      })
+    })
+
+    it('gives no source when source preservation is off', async () => {
+      await withEditor(
+        '',
+        (editor) => {
+          const { doc, source } = editor.ctx.get(sourceParserCtx)('- a\n- b')
+
+          expect(doc.childCount).toBe(1)
+          expect(source).toBeNull()
+        },
+        false
+      )
+    })
+  })
+
+  // Several editors on one page are common. Each one keeps its own
+  // sources, and none of them sees what another one loaded.
+  describe('more than one editor', () => {
+    const other = '|a|b|\n|-|-|\n|1|2|'
+
+    it('keeps the sources of each editor apart', async () => {
+      await withEditor(setext, (first) =>
+        withEditor(other, (second) => {
+          expect(first.action(getMarkdown())).toBe(setext)
+          expect(second.action(getMarkdown())).toBe(other)
+
+          type(first, '!')
+          expect(first.action(getMarkdown())).not.toBe(setext)
+          expect(second.action(getMarkdown())).toBe(other)
+
+          second.action(replaceAll(setext))
+          expect(second.action(getMarkdown())).toBe(setext)
+          expect(first.action(getMarkdown())).not.toBe(setext)
+        })
+      )
+    })
+
+    it('does not turn the option on for the editor next to it', async () => {
+      await withEditor(setext, (on) =>
+        withEditor(
+          setext,
+          (off) => {
+            expect(on.action(getMarkdown())).toBe(setext)
+            expect(off.action(getMarkdown())).toBe('# Title\n')
+            expect(markdownSourceKey.getState(viewOf(off).state)).toBe(
+              undefined
+            )
+          },
+          false
+        )
+      )
+    })
+
+    it('finds the source of its own document when another editor parsed the same text', async () => {
+      await withEditor(setext, (first) =>
+        withEditor('', (second) => {
+          // The same text, parsed by the other editor.
+          const { source } = first.ctx.get(sourceParserCtx)(other)
+          const { doc } = second.ctx.get(sourceParserCtx)(other)
+
+          expect(source?.doc).not.toBe(doc)
+          const view = viewOf(second)
+          view.updateState(
+            EditorState.create({ doc, plugins: view.state.plugins })
+          )
+          expect(markdownSourceKey.getState(view.state)?.current?.doc).toBe(doc)
+          expect(second.action(getMarkdown())).toBe(other)
+          expect(first.action(getMarkdown())).toBe(setext)
+        })
+      )
+    })
   })
 
   it('finds the source of a state that the user created', async () => {

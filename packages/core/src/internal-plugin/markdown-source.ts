@@ -1,8 +1,9 @@
+import type { Node } from '@milkdown/prose/model'
 import type { MarkdownSource } from '@milkdown/transformer'
 
 import { createSlice } from '@milkdown/ctx'
+import { ctxCallOutOfScope } from '@milkdown/exception'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
-import { getParsedSource } from '@milkdown/transformer'
 
 /// A slice which turns on source preservation. It is `false` by default.
 ///
@@ -36,7 +37,8 @@ export interface MarkdownSourceState {
 /// the editor forget every source.
 ///
 /// ```typescript
-/// tr.setMeta(markdownSourceKey, { source: getParsedSource(doc) ?? null })
+/// const { doc, source } = ctx.get(sourceParserCtx)(markdown)
+/// tr.setMeta(markdownSourceKey, { source })
 /// ```
 export interface MarkdownSourceMeta {
   source: MarkdownSource | null
@@ -52,16 +54,56 @@ export const markdownSourceKey = new PluginKey<MarkdownSourceState>(
   'MILKDOWN_MARKDOWN_SOURCE'
 )
 
+/// What the source parser gives for a markdown text.
+export interface ParsedMarkdown {
+  /// The document, the same one that the parser in `parserCtx` gives.
+  doc: Node
+  /// The markdown source of the document. It is `null` when source
+  /// preservation is off, and for an input that is not a string.
+  source: MarkdownSource | null
+}
+
+/// The source parser type. It parses markdown the way the parser in
+/// `parserCtx` does, and it also tells the markdown source of the result.
+export type SourceParser = (markdown: string) => ParsedMarkdown
+
+const outOfScope = (() => {
+  throw ctxCallOutOfScope()
+}) as SourceParser
+
+/// A slice which contains the source parser. Use it instead of the parser
+/// in `parserCtx` to load markdown into the editor in a way of your own,
+/// when the editor should keep that markdown.
+///
+/// The sources belong to one editor. Another editor on the same page has
+/// a source parser and sources of its own.
+///
+/// ```typescript
+/// const { doc, source } = ctx.get(sourceParserCtx)(markdown)
+/// view.dispatch(
+///   view.state.tr
+///     .replace(0, view.state.doc.content.size, new Slice(doc.content, 0, 0))
+///     .setMeta(markdownSourceKey, { source })
+/// )
+/// ```
+export const sourceParserCtx = createSlice<SourceParser, 'sourceParser'>(
+  outOfScope,
+  'sourceParser'
+)
+
 const none: MarkdownSourceState = { current: null, previous: null }
 
 /// @internal
-/// The plugin only holds state. It never changes the document.
-export function createMarkdownSourcePlugin() {
+/// The plugin only holds state. It never changes the document. `sources`
+/// has the markdown of the documents that this editor parsed.
+export function createMarkdownSourcePlugin(
+  sources: WeakMap<Node, MarkdownSource>
+) {
   return new Plugin<MarkdownSourceState>({
     key: markdownSourceKey,
     state: {
       init: (_, instance) => {
-        const current = getParsedSource(instance.doc)
+        const current = sources.get(instance.doc)
         return current ? { current, previous: null } : none
       },
       apply: (tr, value) => {

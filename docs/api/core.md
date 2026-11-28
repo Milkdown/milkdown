@@ -97,6 +97,10 @@ The core module for milkdown.
 @MarkdownSourceState
 @MarkdownSourceMeta
 
+@sourceParserCtx
+@SourceParser
+@ParsedMarkdown
+
 ## Commands
 
 @commands

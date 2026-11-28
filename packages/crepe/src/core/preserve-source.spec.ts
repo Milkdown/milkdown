@@ -143,4 +143,24 @@ describe('preserveSource', () => {
       }
     )
   })
+  it('keeps the sources of two editors on one page apart', async () => {
+    const other = '- a\n- b\n\n|x|y|\n|-|-|\n|1|2|'
+
+    await withCrepe({ defaultValue: markdown, preserveSource: true }, (first) =>
+      withCrepe({ defaultValue: other, preserveSource: true }, (second) =>
+        withCrepe({ defaultValue: other }, (off) => {
+          expect(first.getMarkdown()).toBe(markdown)
+          expect(second.getMarkdown()).toBe(other)
+          expect(off.getMarkdown()).not.toBe(other)
+
+          second.editor.action((ctx) => {
+            const view = ctx.get(editorViewCtx)
+            view.dispatch(view.state.tr.insertText('!', 3))
+          })
+          expect(second.getMarkdown()).not.toBe(other)
+          expect(first.getMarkdown()).toBe(markdown)
+        })
+      )
+    )
+  })
 })

@@ -21,7 +21,6 @@ import type {
 } from '../utility'
 import type { Parser } from './types'
 
-import { recordParsedSource } from '../source'
 import { Stack } from '../utility'
 import { ParserStackElement } from './stack-element'
 
@@ -43,11 +42,7 @@ export class ParserState extends Stack<Node, ParserStackElement> {
     const state = new this(schema)
     return (text) => {
       state.run(remark, text)
-      const doc = state.toDoc()
-      // Code without types can pass something that is not a string, and
-      // remark reads it as a file. Such a document has no markdown text.
-      if (typeof text === 'string') recordParsedSource(doc, text)
-      return doc
+      return state.toDoc()
     }
   }
 

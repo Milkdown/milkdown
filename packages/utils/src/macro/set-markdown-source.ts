@@ -4,9 +4,8 @@ import {
   type MarkdownSourceMeta,
   editorViewCtx,
   markdownSourceKey,
-  parserCtx,
+  sourceParserCtx,
 } from '@milkdown/core'
-import { ensureParsedSource } from '@milkdown/transformer'
 
 /// Tell the editor which markdown its document stands for, without
 /// changing the document. `getMarkdown` then gives that markdown back for
@@ -24,11 +23,10 @@ export function setMarkdownSource(markdown: string | null) {
     // Without the plugin nobody keeps a source.
     if (!markdownSourceKey.getState(view.state)) return
 
-    const source =
-      markdown == null
-        ? null
-        : ensureParsedSource(ctx.get(parserCtx)(markdown), markdown)
-    const meta: MarkdownSourceMeta = { source }
+    const meta: MarkdownSourceMeta = {
+      source:
+        markdown == null ? null : ctx.get(sourceParserCtx)(markdown).source,
+    }
 
     view.dispatch(
       view.state.tr

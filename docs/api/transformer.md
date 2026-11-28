@@ -25,8 +25,6 @@ when writing syntax plugins.
 ## Source
 
 @MarkdownSource
-@getParsedSource
-@ensureParsedSource
 
 ---
 
