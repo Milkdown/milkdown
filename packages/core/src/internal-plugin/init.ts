@@ -1,6 +1,7 @@
 import type { MilkdownPlugin } from '@milkdown/ctx'
 
 import { createTimer } from '@milkdown/ctx'
+import { remarkSegments } from '@milkdown/transformer'
 import remarkParse from 'remark-parse'
 import remarkStringify, { type Options } from 'remark-stringify'
 import { unified } from 'unified'
@@ -50,7 +51,12 @@ export function init(editor: Editor): MilkdownPlugin {
       const options = ctx.get(remarkStringifyOptionsCtx)
       ctx.set(
         remarkCtx,
-        unified().use(remarkParse).use(remarkStringify, options)
+        // `remarkSegments` goes in before the remark plugins of the
+        // presets, so a root handler of any of them wins over it.
+        unified()
+          .use(remarkParse)
+          .use(remarkStringify, options)
+          .use(remarkSegments)
       )
 
       ctx.done(InitReady)

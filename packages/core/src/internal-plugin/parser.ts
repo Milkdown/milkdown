@@ -46,18 +46,20 @@ export const parser: MilkdownPlugin = (ctx) => {
     const sources = ctx.get(parsedSourcesCtx)
 
     const parse = ParserState.create(schema, remark)
+    const state = new ParserState(schema)
     // With source preservation on, the parser remembers the text of every
-    // document it makes. Otherwise it is the plain parser, and it keeps
-    // nothing.
+    // document it makes, and where each block is in that text. Otherwise
+    // it is the plain parser, and it keeps nothing.
     ctx.set(
       parserCtx,
       preserveSource
         ? (text) => {
-            const doc = parse(text)
             // Code without types can pass something that is not a string,
             // and remark reads it as a file. That is no markdown to keep.
-            if (typeof text === 'string')
-              sources.set(doc, { source: text, doc })
+            if (typeof text !== 'string') return parse(text)
+
+            const { doc, blocks, detached } = state.run(remark, text).toResult()
+            sources.set(doc, { source: text, doc, blocks, detached })
             return doc
           }
         : parse
@@ -72,7 +74,7 @@ export const parser: MilkdownPlugin = (ctx) => {
       // A parser from a plugin may give a document that was not recorded.
       let source = sources.get(doc)
       if (!source) {
-        source = { source: markdown, doc }
+        source = { source: markdown, doc, blocks: null, detached: [] }
         sources.set(doc, source)
       }
       return { doc, source }

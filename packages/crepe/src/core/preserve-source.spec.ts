@@ -77,6 +77,26 @@ describe('preserveSource', () => {
     )
   })
 
+  it('writes only the block that changed', async () => {
+    await withCrepe(
+      { defaultValue: markdown, preserveSource: true },
+      (crepe) => {
+        crepe.editor.action((ctx) => {
+          const view = ctx.get(editorViewCtx)
+          // Type at the end of the heading, the first block.
+          const end = view.state.doc.firstChild!.nodeSize - 1
+          view.dispatch(view.state.tr.insertText('!', end))
+        })
+
+        // The image block, the math block, the table and the reference
+        // link all keep the text they had.
+        expect(crepe.getMarkdown()).toBe(
+          markdown.replace('Title\n=====', '# Title!')
+        )
+      }
+    )
+  })
+
   it('is off by default', async () => {
     await withCrepe({ defaultValue: '- a\n- b' }, (crepe) =>
       expect(crepe.getMarkdown()).toBe('* a\n* b\n')

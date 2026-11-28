@@ -41,9 +41,11 @@ export interface CrepeBuilderConfig {
 
   /// Keep the markdown that the editor was loaded from.
   /// With this option on, `getMarkdown` and the `markdownUpdated` listener
-  /// give that markdown back for as long as the content is the same,
-  /// instead of the normalized markdown that the serializer writes.
-  /// It is off by default.
+  /// give that markdown back for as long as the content is the same.
+  /// After an edit, only the blocks that changed are written again, and
+  /// every other block keeps the text it had.
+  /// It is off by default: the serializer then writes the whole document
+  /// in its normalized form.
   preserveSource?: boolean
 }
 

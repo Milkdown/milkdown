@@ -19,10 +19,24 @@ import type {
   NodeSchema,
   RemarkParser,
 } from '../utility'
-import type { Parser } from './types'
+import type { ParseResult, Parser } from './types'
 
+import { layoutOf } from '../source/layout'
 import { Stack } from '../utility'
 import { ParserStackElement } from './stack-element'
+
+const BOM = 0xfeff
+
+/// What the last `run` of a parser state read.
+interface Parsed {
+  /// The markdown text without a byte order mark.
+  text: string
+  /// 1 when the markdown text starts with a byte order mark.
+  shift: number
+  tree: MarkdownNode
+  /// How many top-level nodes each top-level node of `tree` made.
+  counts: number[] | null
+}
 
 /// A state machine for parser. Transform remark AST into prosemirror state.
 export class ParserState extends Stack<Node, ParserStackElement> {
@@ -31,6 +45,9 @@ export class ParserState extends Stack<Node, ParserStackElement> {
 
   /// @internal
   #marks: readonly Mark[] = Mark.none
+
+  /// @internal
+  #parsed: Parsed | null = null
 
   /// Create a parser from schema and remark instance.
   ///
@@ -89,7 +106,15 @@ export class ParserState extends Stack<Node, ParserStackElement> {
   /// Inject root node for prosemirror state.
   injectRoot = (node: MarkdownNode, nodeType: NodeType, attrs?: Attrs) => {
     this.openNode(nodeType, attrs)
-    this.next(node.children)
+
+    const root = this.top()
+    const counts: number[] = []
+    node.children?.forEach((child) => {
+      const before = root?.content.length ?? 0
+      this.next(child)
+      counts.push((root?.content.length ?? 0) - before)
+    })
+    if (this.#parsed?.tree === node) this.#parsed.counts = counts
 
     return this
   }
@@ -208,12 +233,59 @@ export class ParserState extends Stack<Node, ParserStackElement> {
   /// [prosemirror document](https://prosemirror.net/docs/ref/#model.Document_Structure).
   toDoc = () => this.build()
 
+  /// Build the current state into a document, and say where each top-level
+  /// node of the document is in the markdown text of the last `run`.
+  ///
+  /// ```typescript
+  /// const state = new ParserState(schema)
+  /// const { doc, ast, blocks } = state.run(remark, markdown).toResult()
+  /// const { from, to } = blocks[0]
+  /// markdown.slice(from, to) // the text of doc.child(0)
+  /// ```
+  toResult = (): ParseResult => {
+    const parsed = this.#parsed
+    this.#parsed = null
+    const doc = this.toDoc()
+    if (!parsed) return { doc, ast: null, blocks: null, detached: [] }
+
+    const { text, shift, tree, counts } = parsed
+    const layout = layoutOf(text, tree, shift)
+    // The ranges belong to the nodes of the document only when each
+    // markdown node made exactly one of them. An empty tree is fine: the
+    // document then has nothing but the node that fills it.
+    const oneToOne =
+      counts != null &&
+      counts.length === layout.blocks?.length &&
+      counts.every((count) => count === 1) &&
+      (counts.length === 0 || doc.childCount === counts.length)
+
+    return {
+      doc,
+      ast: tree,
+      blocks: oneToOne ? layout.blocks : null,
+      detached: layout.detached,
+    }
+  }
+
   /// Transform a markdown string into prosemirror state.
   run = (remark: RemarkParser, markdown: string) => {
-    const tree = remark.runSync(
-      remark.parse(markdown),
-      markdown
-    ) as MarkdownNode
+    // Code without types can pass something that is not a string. Remark
+    // reads it as a file, and there is no text to tell positions in.
+    if (typeof markdown !== 'string') {
+      this.#parsed = null
+      this.next(
+        remark.runSync(remark.parse(markdown), markdown) as MarkdownNode
+      )
+      return this
+    }
+
+    // The offsets that remark gives do not count a byte order mark, so
+    // parse the text without it. Plugins that read the text by offset get
+    // the same text.
+    const shift = markdown.charCodeAt(0) === BOM ? 1 : 0
+    const text = shift ? markdown.slice(1) : markdown
+    const tree = remark.runSync(remark.parse(text), text) as MarkdownNode
+    this.#parsed = { text, shift, tree, counts: null }
     this.next(tree)
 
     return this

@@ -25,6 +25,9 @@ function visitMathBlock(ast: Node) {
         type: 'code',
         lang: 'LaTeX',
         value,
+        // Keep the place in the markdown text, so the block can be told
+        // apart from the text around it.
+        position: node.position,
       }
       parent.children.splice(index, 1, newNode)
     }

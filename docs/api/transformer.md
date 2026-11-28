@@ -11,6 +11,7 @@ when writing syntax plugins.
 @ParserState
 
 @Parser
+@ParseResult
 @NodeParserSpec
 @MarkParserSpec
 
@@ -19,12 +20,24 @@ when writing syntax plugins.
 @SerializerState
 
 @Serializer
+@SerializedSegments
+@remarkSegments
 @NodeSerializerSpec
 @MarkSerializerSpec
 
 ## Source
 
 @MarkdownSource
+@SourceLayout
+@SourceBlock
+@DetachedSource
+
+@recordDetachedSource
+@DetachedSourceRecord
+@SourceUse
+
+@preserveSource
+@PreserveSourceOptions
 
 ---
 

@@ -28,6 +28,9 @@ function visitImage(ast: Node) {
         url,
         alt,
         title,
+        // Keep the place in the markdown text, so the block can be told
+        // apart from the text around it.
+        position: node.position,
       }
 
       parent.children.splice(index, 1, newNode)

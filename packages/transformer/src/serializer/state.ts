@@ -17,9 +17,11 @@ import type {
   RemarkParser,
   Root,
 } from '../utility'
+import type { SerializedSegments } from './segments'
 import type { Serializer } from './types'
 
 import { Stack } from '../utility'
+import { collectSegments } from './segments'
 import { SerializerStackElement } from './stack-element'
 
 const isFragment = (x: Node | Fragment): x is Fragment =>
@@ -49,6 +51,10 @@ export class SerializerState extends Stack<
 > {
   /// @internal
   #openMarks: OpenMark[] = []
+  /// @internal
+  /// The top-level nodes that `injectRoot` ran, each with the number of
+  /// markdown nodes it wrote.
+  #topLevel: { node: Node; count: number }[] = []
   /// Get the schema of state.
   readonly schema: Schema
 
@@ -63,6 +69,26 @@ export class SerializerState extends Stack<
     return (content: Node) => {
       state.run(content)
       return state.toString(remark)
+    }
+  }
+
+  /// Create a serializer that also gives the text of each top-level node of
+  /// the document. The serializer gives `null` when the remark instance
+  /// cannot split its text, for example because it has a root handler of
+  /// its own.
+  ///
+  /// ```typescript
+  /// const serialize = SerializerState.createSegmenter(schema, remark)
+  /// const { full, texts } = serialize(prosemirrorDoc)
+  /// ```
+  static createSegmenter = (schema: Schema, remark: RemarkParser) => {
+    const state = new this(schema)
+    // A node that an edit did not touch is the same object in the next
+    // document, so its key is only written once.
+    const keys = new WeakMap<Node, string>()
+    return (content: Node): SerializedSegments | null => {
+      state.run(content)
+      return state.toSegments(remark, keys)
     }
   }
 
@@ -388,6 +414,32 @@ export class SerializerState extends Stack<
     return doc
   }
 
+  /// Open the root markdown node and serialize the top-level nodes of a
+  /// document into it. The serializer of a document node should use this
+  /// instead of `openNode` and `next`: the state then knows which node
+  /// wrote which markdown node, and `toSegments` can tell them apart.
+  ///
+  /// ```typescript
+  /// runner: (state, node) => {
+  ///   state.injectRoot('root', node.content)
+  /// }
+  /// ```
+  injectRoot = (type: string, content: Fragment, props?: JSONRecord) => {
+    this.openNode(type, undefined, props)
+
+    const root = this.top()
+    content.forEach((node, _offset, index) => {
+      const before = root?.children?.length ?? 0
+      this.#runNode(node, content, index)
+      this.#topLevel.push({
+        node,
+        count: (root?.children?.length ?? 0) - before,
+      })
+    })
+
+    return this
+  }
+
   /// Give the node or node list back to the state and the state will find a
   /// proper runner (by `match` method in serializer spec) to handle it. When a
   /// node list is given, marks shared between adjacent nodes are kept open
@@ -407,9 +459,52 @@ export class SerializerState extends Stack<
   override toString = (remark: RemarkParser): string =>
     remark.stringify(this.build() as Root)
 
+  /// Use a remark parser to serialize current AST stored, and give the
+  /// text of each top-level node next to the whole text. `keys` can hold
+  /// the keys of nodes from earlier calls, so they are not written again.
+  toSegments = (
+    remark: RemarkParser,
+    keys?: WeakMap<Node, string>
+  ): SerializedSegments | null => {
+    const stringify = (root: Root) => remark.stringify(root)
+    const root = this.build() as Root
+    const segments = collectSegments(root, stringify)
+    if (!segments) return null
+
+    // A node that wrote nothing has no text. Every other node must have
+    // written exactly one markdown node to own a text. A document that was
+    // not serialized through `injectRoot` has no nodes here.
+    const writers = this.#topLevel.filter(({ count }) => count > 0)
+    const oneEach =
+      writers.length === segments.texts.length &&
+      writers.every(({ count }) => count === 1)
+    const nodes = oneEach ? writers.map(({ node }) => node) : null
+
+    // The key of a node is what the serializer writes for a document
+    // with nothing but that node.
+    const keyOf = (index: number) => {
+      const node = nodes?.[index]
+      const known = node && keys?.get(node)
+      if (known != null) return known
+
+      const alone = { type: 'root', children: [root.children[index]] } as Root
+      const key =
+        collectSegments(alone, stringify)?.texts[0] ?? segments.texts[index]!
+      if (node) keys?.set(node, key)
+      return key
+    }
+
+    return {
+      ...segments,
+      keys: segments.texts.map((_, index) => keyOf(index)),
+      nodes,
+    }
+  }
+
   /// Transform a prosemirror node tree into remark AST.
   run = (tree: Node) => {
     this.#openMarks = []
+    this.#topLevel = []
     this.next(tree)
 
     return this

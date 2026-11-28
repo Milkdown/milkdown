@@ -352,7 +352,7 @@ describe('preserveSourceCtx', () => {
         const { doc, source } = editor.ctx.get(sourceParserCtx)('- a\n- b')
 
         expect(doc.eq(editor.ctx.get(parserCtx)('- a\n- b'))).toBe(true)
-        expect(source).toEqual({ source: '- a\n- b', doc })
+        expect(source).toMatchObject({ source: '- a\n- b', doc })
       })
     })
 

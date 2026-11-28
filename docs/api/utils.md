@@ -50,6 +50,7 @@
 @outline
 
 @markdownToSlice
+@parseMarkdown
 
 @insert
 @insertPos

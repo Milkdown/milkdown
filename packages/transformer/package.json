@@ -41,6 +41,8 @@
   "dependencies": {
     "@milkdown/exception": "workspace:*",
     "@milkdown/prose": "workspace:*",
+    "mdast-util-phrasing": "^4.1.0",
+    "mdast-util-to-markdown": "^2.1.2",
     "remark": "^15.0.1",
     "unified": "^11.0.3"
   }
