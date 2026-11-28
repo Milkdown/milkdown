@@ -1,5 +1,4 @@
 import type { Ctx } from '@milkdown/ctx'
-import type { MarkdownSource } from '@milkdown/transformer'
 
 import {
   type MarkdownSourceMeta,
@@ -7,7 +6,7 @@ import {
   markdownSourceKey,
   parserCtx,
 } from '@milkdown/core'
-import { getParsedSource } from '@milkdown/transformer'
+import { ensureParsedSource } from '@milkdown/transformer'
 
 /// Tell the editor which markdown its document stands for, without
 /// changing the document. `getMarkdown` then gives that markdown back for
@@ -22,12 +21,13 @@ import { getParsedSource } from '@milkdown/transformer'
 export function setMarkdownSource(markdown: string | null) {
   return (ctx: Ctx): void => {
     const view = ctx.get(editorViewCtx)
-    let source: MarkdownSource | null = null
-    if (markdown != null) {
-      const doc = ctx.get(parserCtx)(markdown)
-      // A parser that a plugin replaced may not record what it parsed.
-      source = getParsedSource(doc) ?? { source: markdown, doc }
-    }
+    // Without the plugin nobody keeps a source.
+    if (!markdownSourceKey.getState(view.state)) return
+
+    const source =
+      markdown == null
+        ? null
+        : ensureParsedSource(ctx.get(parserCtx)(markdown), markdown)
     const meta: MarkdownSourceMeta = { source }
 
     view.dispatch(

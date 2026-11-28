@@ -11,7 +11,7 @@ import {
 } from '@milkdown/core'
 import { Slice } from '@milkdown/prose/model'
 import { EditorState } from '@milkdown/prose/state'
-import { getParsedSource } from '@milkdown/transformer'
+import { ensureParsedSource } from '@milkdown/transformer'
 
 /// Replace all content of the editor with markdown string.
 /// If flush is true, the editor state will be re-created.
@@ -22,15 +22,17 @@ export function replaceAll(markdown: string, flush = false) {
     const doc = parser(markdown)
     if (!doc) return
 
+    // A parser that a plugin replaced may not record what it parsed.
+    // Without a string there is no markdown to keep.
+    const source =
+      typeof markdown === 'string' ? ensureParsedSource(doc, markdown) : null
+
     if (!flush) {
       const { state } = view
       // The new document is not the parsed node itself, so tell the editor
       // which markdown it stands for. A new editor state finds that out on
       // its own.
-      const meta: MarkdownSourceMeta = {
-        // A parser that a plugin replaced may not record what it parsed.
-        source: getParsedSource(doc) ?? { source: markdown, doc },
-      }
+      const meta: MarkdownSourceMeta = { source }
       return view.dispatch(
         state.tr
           .replace(0, state.doc.content.size, new Slice(doc.content, 0, 0))

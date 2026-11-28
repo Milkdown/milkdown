@@ -88,11 +88,41 @@ function createDocumentSerializer(ctx: Ctx): DocumentSerializer {
     if (untouched) return untouched.source
 
     const markdown = serializer(doc)
-    const same = candidates.find(
+    const same = candidates.filter(
       (source) => normalize(serializer, source) === markdown
     )
-    return same ? same.source : markdown
+    return same.length ? closest(doc, same).source : markdown
   }
+}
+
+// Two sources can have the same content in another form, for example
+// after `replaceAll` with a reformatted text. Take the one that the
+// document has more nodes of: a block that was never touched is still the
+// node that the parser made. After an undo of `replaceAll` that is the
+// previous source.
+function closest(doc: Node, sources: MarkdownSource[]): MarkdownSource {
+  const shared = (source: MarkdownSource) => {
+    const nodes = new Set<Node>()
+    source.doc.forEach((node) => nodes.add(node))
+    let count = 0
+    doc.forEach((node) => {
+      if (nodes.has(node)) count++
+    })
+    return count
+  }
+
+  let best = sources[0]!
+  if (sources.length === 1) return best
+
+  let most = shared(best)
+  for (const source of sources.slice(1)) {
+    const count = shared(source)
+    if (count > most) {
+      best = source
+      most = count
+    }
+  }
+  return best
 }
 
 /// The serializer plugin.

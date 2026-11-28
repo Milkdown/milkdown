@@ -18,6 +18,22 @@ export function recordParsedSource(doc: Node, source: string): MarkdownSource {
   return record
 }
 
+/// Get the markdown source of a document that was just parsed from
+/// `markdown`. The parser of the editor records the source on its own.
+/// This also records it for a parser that does not, for example one that
+/// a plugin wrapped, so every way to load markdown ends up with a source.
+///
+/// ```typescript
+/// const doc = ctx.get(parserCtx)(markdown)
+/// const source = ensureParsedSource(doc, markdown)
+/// ```
+export function ensureParsedSource(
+  doc: Node,
+  markdown: string
+): MarkdownSource {
+  return sources.get(doc) ?? recordParsedSource(doc, markdown)
+}
+
 /// Get the markdown text that a document was parsed from.
 /// It returns `undefined` for a document that did not come from the parser,
 /// and for a document that was changed after it was parsed, because a

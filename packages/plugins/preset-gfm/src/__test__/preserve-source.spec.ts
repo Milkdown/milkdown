@@ -1,14 +1,18 @@
 import type { DefaultValue } from '@milkdown/core'
+import type { MilkdownPlugin } from '@milkdown/ctx'
 
 import {
   defaultValueCtx,
   Editor,
+  editorStateTimerCtx,
   editorViewCtx,
   markdownSourceKey,
   parserCtx,
+  ParserReady,
   preserveSourceCtx,
   serializerCtx,
 } from '@milkdown/core'
+import { createTimer } from '@milkdown/ctx'
 import { commonmark } from '@milkdown/preset-commonmark'
 import { Slice } from '@milkdown/prose/model'
 import { EditorState } from '@milkdown/prose/state'
@@ -72,6 +76,9 @@ const sources = [
   ['an empty document', ''],
   ['only blank lines', '\n\n'],
 ] as const
+
+// A heading that the serializer writes in another form.
+const setext = 'Title\n====='
 
 async function withEditor<T>(
   defaultValue: DefaultValue,
@@ -248,6 +255,92 @@ describe('preserveSourceCtx', () => {
         // The document still has the content of the previous source.
         expect(editor.action(getMarkdown())).toBe('- a')
       })
+    })
+  })
+
+  it('gives the old source back when the replacement only changed the form', async () => {
+    const before = '|a|b|\n|-|-|\n|1|2|'
+    const after = '| a | b |\n| - | - |\n| 1 | 2 |\n'
+
+    await withEditor(before, (editor) => {
+      const view = viewOf(editor)
+      const doc = view.state.doc
+
+      editor.action(replaceAll(after))
+      expect(editor.action(getMarkdown())).toBe(after)
+
+      // Both sources have the content of the document now. The nodes of
+      // the document are the ones of the first source again.
+      view.dispatch(
+        view.state.tr.replace(
+          0,
+          view.state.doc.content.size,
+          new Slice(doc.content, 0, 0)
+        )
+      )
+      expect(editor.action(getMarkdown())).toBe(before)
+    })
+  })
+
+  describe('a parser that does not record what it parsed', () => {
+    // The parser of a plugin that gives a document of its own.
+    const Wrapped = createTimer('WrappedParserReady')
+    const wrapParser: MilkdownPlugin = (ctx) => {
+      ctx.record(Wrapped)
+      return async () => {
+        await ctx.wait(ParserReady)
+        ctx.update(parserCtx, (parser) => (text) => {
+          const doc = parser(text)
+          return doc.type.create(doc.attrs, doc.content)
+        })
+        ctx.done(Wrapped)
+      }
+    }
+    const withWrappedParser = async (
+      markdown: string,
+      fn: (editor: Editor) => void
+    ) => {
+      const editor = Editor.make()
+        .config((ctx) => {
+          ctx.set(defaultValueCtx, markdown)
+          ctx.set(preserveSourceCtx, true)
+          ctx.update(editorStateTimerCtx, (timers) => [...timers, Wrapped])
+        })
+        .use(wrapParser)
+        .use(commonmark)
+        .use(gfm)
+      await editor.create()
+      try {
+        fn(editor)
+      } finally {
+        await editor.destroy().catch(() => {})
+      }
+    }
+
+    it('still has a source for the default value', async () => {
+      await withWrappedParser(setext, (editor) => {
+        expect(editor.action(getMarkdown())).toBe(setext)
+      })
+    })
+
+    it.each([false, true])(
+      'still has a source after replaceAll (flush: %s)',
+      async (flush) => {
+        await withWrappedParser('text', (editor) => {
+          editor.action(replaceAll(setext, flush))
+          expect(editor.action(getMarkdown())).toBe(setext)
+        })
+      }
+    )
+  })
+
+  it('records no source for something that is not a string', async () => {
+    await withEditor(setext, (editor) => {
+      const doc = editor.ctx.get(parserCtx)(undefined as never)
+      expect(getParsedSource(doc)).toBeUndefined()
+
+      editor.action(replaceAll(undefined as never))
+      expect(editor.action(getMarkdown())).toBe('')
     })
   })
 

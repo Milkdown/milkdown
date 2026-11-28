@@ -158,21 +158,26 @@ export const listener: MilkdownPlugin = (ctx) => {
     listeners.beforeMount.forEach((fn) => fn(ctx))
 
     await ctx.wait(SerializerReady)
+    // The markdown sources of an editor state. A state is only read here,
+    // after it is complete: inside `init` and `apply` the state is still
+    // being built and may have no markdown sources yet.
+    const sourcesOf = (state: EditorState | null) =>
+      state ? markdownSourceKey.getState(state) : undefined
     // Serialize a document the way `getMarkdown` does. `state` is the editor
-    // state that the document belongs to. It is only read here, after the
-    // state is complete: inside `init` and `apply` the state is still being
-    // built and has no markdown sources yet.
+    // state that the document belongs to.
     const serialize = (doc: ProseNode, state: EditorState | null) =>
-      ctx.get(documentSerializerCtx)(
-        doc,
-        state ? markdownSourceKey.getState(state) : undefined
-      )
+      ctx.get(documentSerializerCtx)(doc, sourcesOf(state))
 
     let prevDoc: ProseNode | null = null
+    // The state that has the markdown sources of `prevDoc`.
     let prevState: EditorState | null = null
     // The markdown of `prevDoc`. It is serialized when a listener first
     // needs it, not when the editor state is created.
-    let prevMarkdown: { doc: ProseNode; markdown: string } | null = null
+    let prevMarkdown: {
+      doc: ProseNode
+      sources: ReturnType<typeof sourcesOf>
+      markdown: string
+    } | null = null
     let prevSelection: Selection | null = null
     let latestTr: Transaction | null = null
     let latestState: EditorState | null = null
@@ -188,9 +193,11 @@ export const listener: MilkdownPlugin = (ctx) => {
       }
 
       if (listeners.markdownUpdated.length > 0 && prevDoc && !prevDoc.eq(doc)) {
-        if (prevMarkdown?.doc !== prevDoc)
+        const sources = sourcesOf(prevState)
+        if (prevMarkdown?.doc !== prevDoc || prevMarkdown.sources !== sources)
           prevMarkdown = {
             doc: prevDoc,
+            sources,
             markdown: serialize(prevDoc, prevState),
           }
         const markdown = serialize(doc, latestState)
@@ -198,7 +205,7 @@ export const listener: MilkdownPlugin = (ctx) => {
         listeners.markdownUpdated.forEach((fn) => {
           fn(ctx, markdown, before)
         })
-        prevMarkdown = { doc, markdown }
+        prevMarkdown = { doc, sources: sourcesOf(latestState), markdown }
       }
 
       prevDoc = doc
@@ -235,7 +242,12 @@ export const listener: MilkdownPlugin = (ctx) => {
           prevState = instance
           prevMarkdown = null
         },
-        apply: (tr, _value, _oldState, newState) => {
+        apply: (tr, _value, oldState, newState) => {
+          // A transaction that is not reported can still change the
+          // markdown sources. Keep the newest state for the report that
+          // is on its way.
+          if (latestTr) latestState = newState
+
           const currentSelection = tr.selection
           if (
             (!prevSelection && currentSelection) ||
@@ -253,6 +265,9 @@ export const listener: MilkdownPlugin = (ctx) => {
           )
             return
 
+          // The state before the first change has the sources that the
+          // previous markdown was written with.
+          if (!latestTr) prevState = oldState
           latestTr = tr
           latestState = newState
           debouncedHandler()

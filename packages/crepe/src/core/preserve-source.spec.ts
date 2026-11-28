@@ -1,4 +1,5 @@
 import { editorViewCtx } from '@milkdown/kit/core'
+import { setMarkdownSource } from '@milkdown/kit/utils'
 import { describe, expect, it, vi } from 'vitest'
 
 import { Crepe } from './crepe'
@@ -99,6 +100,39 @@ describe('preserveSource', () => {
         expect(calls[0]?.[1]).toBe(markdown)
         expect(calls[0]?.[0]).toBe(crepe.getMarkdown())
         expect(calls[0]?.[0]).not.toBe(markdown)
+      },
+      (crepe) => {
+        crepe.on((listener) => {
+          listener.markdownUpdated((_ctx, next, prev) => {
+            calls.push([next, prev])
+          })
+        })
+      }
+    )
+  })
+  it('reports the previous markdown with a source that was set later', async () => {
+    const json = await withCrepe({ defaultValue: markdown }, (crepe) =>
+      crepe.editor.action((ctx) => ctx.get(editorViewCtx).state.doc.toJSON())
+    )
+    const calls: [markdown: string, prevMarkdown: string][] = []
+
+    await withCrepe(
+      { defaultValue: { type: 'json', value: json }, preserveSource: true },
+      async (crepe) => {
+        // A document from JSON has no source. This transaction gives it
+        // one and changes nothing else.
+        crepe.editor.action(setMarkdownSource(markdown))
+        expect(crepe.getMarkdown()).toBe(markdown)
+
+        crepe.editor.action((ctx) => {
+          const view = ctx.get(editorViewCtx)
+          view.dispatch(view.state.tr.insertText('!', 2))
+        })
+        await new Promise((resolve) => setTimeout(resolve, 300))
+
+        expect(calls).toHaveLength(1)
+        expect(calls[0]?.[1]).toBe(markdown)
+        expect(calls[0]?.[0]).toBe(crepe.getMarkdown())
       },
       (crepe) => {
         crepe.on((listener) => {

@@ -8,6 +8,7 @@ import { customInputRules as createInputRules } from '@milkdown/prose'
 import { keymap as createKeymap } from '@milkdown/prose/keymap'
 import { DOMParser, Node } from '@milkdown/prose/model'
 import { EditorState, Plugin, PluginKey } from '@milkdown/prose/state'
+import { ensureParsedSource } from '@milkdown/transformer'
 
 import { withMeta } from '../__internal__'
 import { editorStateCtx, inputRulesCtx, prosePluginsCtx } from './atoms'
@@ -96,6 +97,8 @@ export const editorState: MilkdownPlugin = (ctx) => {
     const prosePlugins = ctx.get(prosePluginsCtx)
     const defaultValue = ctx.get(defaultValueCtx)
     const doc = getDoc(defaultValue, parser, schema)
+    // A parser that a plugin replaced may not record what it parsed.
+    if (typeof defaultValue === 'string') ensureParsedSource(doc, defaultValue)
     const km = ctx.get(keymapCtx)
     const disposeBaseKeymap = km.addBaseKeymap()
 

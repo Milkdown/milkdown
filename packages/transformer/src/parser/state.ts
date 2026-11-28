@@ -44,7 +44,9 @@ export class ParserState extends Stack<Node, ParserStackElement> {
     return (text) => {
       state.run(remark, text)
       const doc = state.toDoc()
-      recordParsedSource(doc, text)
+      // Code without types can pass something that is not a string, and
+      // remark reads it as a file. Such a document has no markdown text.
+      if (typeof text === 'string') recordParsedSource(doc, text)
       return doc
     }
   }
