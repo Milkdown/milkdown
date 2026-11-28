@@ -12,6 +12,7 @@ import { type Command, TextSelection } from '@milkdown/prose/state'
 import { $command, $nodeAttr, $nodeSchema, $useKeymap } from '@milkdown/utils'
 
 import { withMeta } from '../__internal__'
+import { remarkPreserveEmptyLinePlugin } from '../plugin/remark-preserve-empty-line'
 
 /// HTML attributes for list item node.
 export const listItemAttr = $nodeAttr('listItem')
@@ -81,7 +82,20 @@ export const listItemSchema = $nodeSchema('list_item', (ctx) => ({
       state.openNode('listItem', undefined, {
         spread: node.attrs.spread,
       })
-      state.next(node.content)
+      const first = node.firstChild
+      const second = node.maybeChild(1)
+      // The schema fills an empty paragraph before a leading block. In a
+      // tight item, the `<br />` placeholder that `paragraphSchema` writes
+      // for it while `remarkPreserveEmptyLinePlugin` is in use starts an
+      // HTML block that swallows that block.
+      const skipFirst =
+        ctx.isInjected(remarkPreserveEmptyLinePlugin.options.key) &&
+        !node.attrs.spread &&
+        first?.type.name === 'paragraph' &&
+        first.content.size === 0 &&
+        second != null &&
+        second.type.name !== 'paragraph'
+      state.next(skipFirst ? node.content.cut(first.nodeSize) : node.content)
       state.closeNode()
     },
   },
