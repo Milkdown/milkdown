@@ -63,3 +63,9 @@ Object.defineProperty(Range.prototype, 'getBoundingClientRect', {
 Object.defineProperty(Element.prototype, 'scrollIntoView', {
   value: function () {},
 })
+
+// Mock Selection.modify, which prosemirror-view calls to put the caret on the
+// right side of a line wrap after a mouse selection
+Object.defineProperty(Selection.prototype, 'modify', {
+  value: function () {},
+})

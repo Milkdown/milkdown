@@ -78,7 +78,7 @@ beforeEach(() => {
   vi.spyOn(document, 'elementFromPoint').mockImplementation(() => view.dom)
   under = SECOND
   view.posAtCoords = () =>
-    under === null ? null : { pos: under + 1, inside: under }
+    under === null ? null : { pos: under + 1, inside: under, affinity: 0 }
 })
 
 afterEach(() => {

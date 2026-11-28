@@ -45,7 +45,8 @@ describe('inline code boundary (#2447)', () => {
     const view = editor.ctx.get(editorViewCtx)
 
     await user.type(view.dom, '`code`')
-    await user.type(view.dom, 'tail')
+    // `user.type` clicks first, and the click would move the caret.
+    await user.keyboard('tail')
 
     expect(textWithMark(editor, 'inlineCode')).toEqual(['code'])
     expect(editor.action(getMarkdown())).toBe('`code`tail\n')
@@ -58,7 +59,8 @@ describe('inline code boundary (#2447)', () => {
 
     await user.type(view.dom, '`code`')
     moveCaret(editor)
-    await user.type(view.dom, 'tail')
+    // `user.type` clicks first, and the click would move the caret again.
+    await user.keyboard('tail')
 
     expect(textWithMark(editor, 'inlineCode')).toEqual(['code'])
     expect(editor.action(getMarkdown())).toBe('`code`tail\n')

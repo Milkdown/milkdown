@@ -46,7 +46,8 @@ describe('mark input rules around inline code', () => {
     expect(textWithMark(editor, 'inlineCode')).toEqual(['*_mm'])
     expect(textWithMark(editor, 'emphasis')).toEqual([])
 
-    await user.type(view.dom, '_nn`')
+    // `user.type` clicks first, and the click would move the caret.
+    await user.keyboard('_nn`')
 
     expect(textWithMark(editor, 'inlineCode')).toEqual(['*_mm', '*_nn'])
     expect(textWithMark(editor, 'emphasis')).toEqual([])
@@ -102,7 +103,8 @@ describe('mark input rules around inline code', () => {
 
       await user.type(view.dom, typed)
       moveCaret(editor)
-      await user.type(view.dom, closingDelimiter)
+      // `user.type` clicks first, and the click would move the caret again.
+      await user.keyboard(closingDelimiter)
 
       expect(textWithMark(editor, 'inlineCode')).toEqual(['code'])
       expect(editor.action(getMarkdown())).toBe(`${typed}${closingDelimiter}\n`)

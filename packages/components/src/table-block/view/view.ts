@@ -127,7 +127,13 @@ export class TableNodeView implements NodeView {
     if (e.type === 'drop' || e.type.startsWith('drag')) return true
 
     if (e.type === 'mousedown' || e.type === 'pointerdown') {
-      if (e.target instanceof Element && e.target.closest('button')) return true
+      // prosemirror-view cancels the default action of a mousedown it handles,
+      // which would keep the row and column drag handles from starting a drag.
+      if (
+        e.target instanceof Element &&
+        e.target.closest('button, [draggable="true"]')
+      )
+        return true
 
       const target = e.target
       if (

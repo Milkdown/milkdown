@@ -62,7 +62,8 @@ describe('strikethrough input rule around inline code', () => {
 
     await user.type(view.dom, '~~`code`')
     moveCaret(editor)
-    await user.type(view.dom, '~~')
+    // `user.type` clicks first, and the click would move the caret again.
+    await user.keyboard('~~')
 
     expect(editor.action(getMarkdown())).toBe('~~`code`~~\n')
   })

@@ -74,19 +74,22 @@ function findText(view: EditorView, text: string) {
 // `text`. jsdom has no layout, so `posAtCoords` is pointed there by hand.
 function clickCell(view: EditorView, text: string) {
   const pos = findText(view, text)
-  view.posAtCoords = () => ({ pos, inside: pos })
-
-  const dom = view.dom.querySelector('.milkdown-table-block') as HTMLElement & {
-    pmViewDesc?: { spec?: TableNodeView }
-  }
-  const nodeView = dom.pmViewDesc?.spec
-  expect(nodeView).toBeDefined()
+  view.posAtCoords = () => ({ pos, inside: pos, affinity: 0 })
 
   const event = new MouseEvent('pointerdown', { bubbles: true })
   Object.defineProperty(event, 'target', {
     value: view.dom.querySelector('td'),
   })
-  expect(nodeView!.stopEvent(event)).toBe(true)
+  expect(getTableNodeView(view).stopEvent(event)).toBe(true)
+}
+
+function getTableNodeView(view: EditorView) {
+  const dom = view.dom.querySelector('.milkdown-table-block') as HTMLElement & {
+    pmViewDesc?: { spec?: TableNodeView }
+  }
+  const nodeView = dom.pmViewDesc?.spec
+  expect(nodeView).toBeDefined()
+  return nodeView!
 }
 
 function setCaret(view: EditorView, pos: number) {
@@ -101,6 +104,23 @@ function expectCellSelected(view: EditorView, text: string) {
   expect(selection).toBeInstanceOf(NodeSelection)
   expect(selection.from).toBe(findText(view, text) - 1)
 }
+
+describe('table block drag handles', () => {
+  it.each(['col-drag-handle', 'row-drag-handle'])(
+    'keeps prosemirror from handling a mousedown on the %s',
+    async (role) => {
+      const view = await createEditor()
+      const handle = view.dom.querySelector(`[data-role="${role}"]`)
+      expect(handle).toBeInstanceOf(HTMLElement)
+
+      // prosemirror-view prevents the default action of a mousedown it
+      // handles, which cancels the native drag the handle starts.
+      const event = new MouseEvent('mousedown', { bubbles: true })
+      Object.defineProperty(event, 'target', { value: handle })
+      expect(getTableNodeView(view).stopEvent(event)).toBe(true)
+    }
+  )
+})
 
 describe('table block cell click', () => {
   it('selects the clicked cell when nothing changed meanwhile', async () => {
