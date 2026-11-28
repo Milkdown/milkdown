@@ -25,7 +25,7 @@ test('bullet list', async ({ page }) => {
   await page.keyboard.type('- Sub list item 1')
   await expect(editor.locator('ul ul li')).toHaveText('Sub list item 1')
   markdown = await getMarkdown(page)
-  expect(markdown).toBe('* List item 1\n* List item 2\n\n  * Sub list item 1\n')
+  expect(markdown).toBe('* List item 1\n* List item 2\n\n  - Sub list item 1\n')
 
   await page.keyboard.press('Enter')
   await page.keyboard.type('Sub list item 2')
@@ -34,7 +34,7 @@ test('bullet list', async ({ page }) => {
   )
   markdown = await getMarkdown(page)
   expect(markdown).toBe(
-    '* List item 1\n* List item 2\n\n  * Sub list item 1\n  * Sub list item 2\n'
+    '* List item 1\n* List item 2\n\n  - Sub list item 1\n  - Sub list item 2\n'
   )
 
   await page.keyboard.press('Enter')
@@ -45,6 +45,6 @@ test('bullet list', async ({ page }) => {
   )
   markdown = await getMarkdown(page)
   expect(markdown).toBe(
-    '* List item 1\n* List item 2\n\n  * Sub list item 1\n  * Sub list item 2\n* List item 3\n'
+    '* List item 1\n* List item 2\n\n  - Sub list item 1\n  - Sub list item 2\n* List item 3\n'
   )
 })

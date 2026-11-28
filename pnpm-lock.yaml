@@ -1034,6 +1034,9 @@ importers:
       '@milkdown/utils':
         specifier: workspace:*
         version: link:../../utils
+      mdast-util-to-markdown:
+        specifier: ^2.1.2
+        version: 2.2.0
       remark-inline-links:
         specifier: ^7.0.0
         version: 7.0.0

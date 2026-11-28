@@ -10,7 +10,7 @@ import {
   $useKeymap,
 } from '@milkdown/utils'
 
-import { withMeta } from '../__internal__'
+import { isBulletMarker, withMeta } from '../__internal__'
 
 /// HTML attributes for bullet list node.
 export const bulletListAttr = $nodeAttr('bulletList')
@@ -21,6 +21,12 @@ withMeta(bulletListAttr, {
 })
 
 /// Schema for bullet list node.
+///
+/// The `marker` attribute is the character that starts each item in
+/// markdown: `-`, `*` or `+`. A list keeps the marker it was parsed or
+/// typed with. A list with no marker, for example one that a command made,
+/// is written with the `bullet` option of `remarkStringifyOptionsCtx`.
+/// `listMarkerHandlerPlugin` is what writes the marker.
 export const bulletListSchema = $nodeSchema('bullet_list', (ctx) => {
   return {
     content: 'listItem+',
@@ -30,6 +36,10 @@ export const bulletListSchema = $nodeSchema('bullet_list', (ctx) => {
         default: false,
         validate: 'boolean',
       },
+      marker: {
+        default: null,
+        validate: 'string|null',
+      },
     },
     parseDOM: [
       {
@@ -37,8 +47,10 @@ export const bulletListSchema = $nodeSchema('bullet_list', (ctx) => {
         getAttrs: (dom) => {
           if (!(dom instanceof HTMLElement)) throw expectDomTypeError(dom)
 
+          const { marker } = dom.dataset
           return {
             spread: dom.dataset.spread === 'true',
+            marker: isBulletMarker(marker) ? marker : null,
           }
         },
       },
@@ -49,6 +61,7 @@ export const bulletListSchema = $nodeSchema('bullet_list', (ctx) => {
         {
           ...ctx.get(bulletListAttr.key)(node),
           'data-spread': node.attrs.spread,
+          ...(node.attrs.marker ? { 'data-marker': node.attrs.marker } : {}),
         },
         0,
       ]
@@ -57,7 +70,8 @@ export const bulletListSchema = $nodeSchema('bullet_list', (ctx) => {
       match: ({ type, ordered }) => type === 'list' && !ordered,
       runner: (state, node, type) => {
         const spread = node.spread ?? false
-        state.openNode(type, { spread }).next(node.children).closeNode()
+        const marker = isBulletMarker(node.marker) ? node.marker : null
+        state.openNode(type, { spread, marker }).next(node.children).closeNode()
       },
     },
     toMarkdown: {
@@ -67,6 +81,7 @@ export const bulletListSchema = $nodeSchema('bullet_list', (ctx) => {
           .openNode('list', undefined, {
             ordered: false,
             spread: node.attrs.spread,
+            marker: node.attrs.marker,
           })
           .next(node.content)
           .closeNode()
@@ -86,8 +101,11 @@ withMeta(bulletListSchema.ctx, {
 })
 
 /// Input rule for wrapping a block in bullet list node.
+/// The list keeps the marker that was typed: `-`, `+` or `*`.
 export const wrapInBulletListInputRule = $inputRule((ctx) =>
-  wrappingInputRule(/^\s*([-+*])\s$/, bulletListSchema.type(ctx))
+  wrappingInputRule(/^\s*([-+*])\s$/, bulletListSchema.type(ctx), (match) => ({
+    marker: match[1],
+  }))
 )
 
 withMeta(wrapInBulletListInputRule, {

@@ -17,39 +17,39 @@ describe('insertPos block mode', () => {
 
   it('inserts at the start of the document', async () => {
     expect(await run(source, '**NEW**', 0)).toBe(
-      '**NEW**\n\nfirst\n\n* item\n\nlast\n'
+      '**NEW**\n\nfirst\n\n- item\n\nlast\n'
     )
   })
 
   it('inserts after a top-level textblock when pos is inside it', async () => {
     expect(await run(source, '**NEW**', 3)).toBe(
-      'first\n\n**NEW**\n\n* item\n\nlast\n'
+      'first\n\n**NEW**\n\n- item\n\nlast\n'
     )
     expect(await run(source, '**NEW**', 20)).toBe(
-      'first\n\n* item\n\nlast\n\n**NEW**\n'
+      'first\n\n- item\n\nlast\n\n**NEW**\n'
     )
   })
 
   it('inserts between top-level blocks at the given position', async () => {
     expect(await run(source, '**NEW**', 7)).toBe(
-      'first\n\n**NEW**\n\n* item\n\nlast\n'
+      'first\n\n**NEW**\n\n- item\n\nlast\n'
     )
   })
 
   it('inserts outside a container that can not hold the content', async () => {
     // At the start of the bullet list, before its first item.
     expect(await run(source, '**NEW**', 8)).toBe(
-      'first\n\n**NEW**\n\n* item\n\nlast\n'
+      'first\n\n**NEW**\n\n- item\n\nlast\n'
     )
     // At the end of the bullet list, after its last item.
     expect(await run(source, '**NEW**', 16)).toBe(
-      'first\n\n* item\n\n**NEW**\n\nlast\n'
+      'first\n\n- item\n\n**NEW**\n\nlast\n'
     )
   })
 
   it('inserts inside the list item holding pos', async () => {
     expect(await run(source, '**NEW**', 12)).toBe(
-      'first\n\n* item\n\n  **NEW**\n\nlast\n'
+      'first\n\n- item\n\n  **NEW**\n\nlast\n'
     )
   })
 
@@ -66,10 +66,10 @@ describe('insertPos block mode', () => {
 
   it('keeps the structure of the inserted blocks', async () => {
     expect(await run(source, '> quote', 0)).toBe(
-      '> quote\n\nfirst\n\n* item\n\nlast\n'
+      '> quote\n\nfirst\n\n- item\n\nlast\n'
     )
     expect(await run(source, '1. one\n2. two', 7)).toBe(
-      'first\n\n1. one\n2. two\n\n* item\n\nlast\n'
+      'first\n\n1. one\n2. two\n\n- item\n\nlast\n'
     )
   })
 
@@ -91,7 +91,7 @@ describe('insertPos block mode', () => {
   })
 
   it('does nothing for empty markdown', async () => {
-    expect(await run(source, '', 3)).toBe('first\n\n* item\n\nlast\n')
+    expect(await run(source, '', 3)).toBe('first\n\n- item\n\nlast\n')
   })
 
   it('throws for a position outside the document', async () => {
@@ -102,7 +102,7 @@ describe('insertPos block mode', () => {
 describe('insertPos inline mode', () => {
   it('inserts the markdown as inline content at pos', async () => {
     expect(await run('first\n\n- item\n\nlast', '**NEW**', 3, true)).toBe(
-      'fi**NEW**rst\n\n* item\n\nlast\n'
+      'fi**NEW**rst\n\n- item\n\nlast\n'
     )
   })
 })

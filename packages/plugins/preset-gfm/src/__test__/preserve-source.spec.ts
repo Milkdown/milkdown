@@ -79,6 +79,7 @@ const sources = [
 
 // A heading that the serializer writes in another form.
 const setext = 'Title\n====='
+const atx = '# Title\n'
 
 async function withEditor<T>(
   defaultValue: DefaultValue,
@@ -125,24 +126,24 @@ describe('preserveSourceCtx', () => {
 
     it('stays off by default', async () => {
       await withEditor(
-        '- a\n- b',
+        setext,
         (editor) => {
           expect(markdownSourceKey.getState(viewOf(editor).state)).toBe(
             undefined
           )
-          expect(editor.action(getMarkdown())).toBe('* a\n* b\n')
+          expect(editor.action(getMarkdown())).toBe(atx)
         },
         false
       )
     })
 
     it('does not change the serializer or a ranged getMarkdown', async () => {
-      await withEditor('- a\n- b', (editor) => {
+      await withEditor(setext, (editor) => {
         const { doc } = viewOf(editor).state
-        expect(editor.ctx.get(serializerCtx)(doc)).toBe('* a\n* b\n')
+        expect(editor.ctx.get(serializerCtx)(doc)).toBe(atx)
         expect(
           editor.action(getMarkdown({ from: 0, to: doc.content.size }))
-        ).toBe('* a\n* b\n')
+        ).toBe(atx)
       })
     })
 
@@ -162,9 +163,9 @@ describe('preserveSourceCtx', () => {
 
   describe('a document that was edited', () => {
     it('gives the serialized markdown', async () => {
-      await withEditor('- a\n- b', (editor) => {
+      await withEditor(setext, (editor) => {
         type(editor, '!')
-        expect(editor.action(getMarkdown())).toBe('* a!\n* b\n')
+        expect(editor.action(getMarkdown())).toBe('# Title!\n')
       })
     })
 
@@ -216,35 +217,34 @@ describe('preserveSourceCtx', () => {
 
   describe('setMarkdownSource', () => {
     it('forgets the source', async () => {
-      await withEditor('- a\n- b', (editor) => {
+      await withEditor(setext, (editor) => {
         editor.action(setMarkdownSource(null))
-        expect(editor.action(getMarkdown())).toBe('* a\n* b\n')
+        expect(editor.action(getMarkdown())).toBe(atx)
       })
     })
 
     it('gives a source to a document that has none', async () => {
-      const markdown = '- a\n- b'
-      const json = await withEditor(markdown, (editor) =>
+      const json = await withEditor(setext, (editor) =>
         viewOf(editor).state.doc.toJSON()
       )
 
       await withEditor({ type: 'json', value: json }, (editor) => {
-        expect(editor.action(getMarkdown())).toBe('* a\n* b\n')
+        expect(editor.action(getMarkdown())).toBe(atx)
 
-        editor.action(setMarkdownSource(markdown))
-        expect(editor.action(getMarkdown())).toBe(markdown)
+        editor.action(setMarkdownSource(setext))
+        expect(editor.action(getMarkdown())).toBe(setext)
       })
     })
 
     it('does not change the document', async () => {
-      await withEditor('- a', (editor) => {
+      await withEditor(setext, (editor) => {
         editor.action(setMarkdownSource(null))
         const before = viewOf(editor).state.doc
 
         editor.action(setMarkdownSource('+ other'))
         expect(viewOf(editor).state.doc).toBe(before)
         // The document does not have the content of that source.
-        expect(editor.action(getMarkdown())).toBe('* a\n')
+        expect(editor.action(getMarkdown())).toBe(atx)
       })
     })
 

@@ -65,8 +65,13 @@ export const remarkCtx: SliceType<RemarkParser, 'remark'> = createSlice(
 /// people ask for most:
 ///
 /// - `bullet`: the marker of a bullet list, `*` by default. Set `-` to
-///   write `- item`.
+///   write `- item`. With the commonmark preset, a list that was parsed
+///   from markdown or typed with a marker keeps its own marker, so this
+///   is for the lists that have none, for example one that a command
+///   made.
 /// - `bulletOrdered`: the delimiter of an ordered list, `.` by default.
+///   With the commonmark preset, a list that was parsed from markdown
+///   keeps its own delimiter.
 /// - `rule`: the marker of a thematic break, `*` by default.
 /// - `resourceLink`: write `[https://a.b](https://a.b)` instead of the
 ///   autolink `<https://a.b>`.
