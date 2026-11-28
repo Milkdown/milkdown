@@ -15,12 +15,13 @@ import { commonmark } from '@milkdown/preset-commonmark'
 import { Fragment, Slice } from '@milkdown/prose/model'
 import { recordDetachedSource, SerializerState } from '@milkdown/transformer'
 import {
+  $node,
   $remark,
   getMarkdown,
   parseMarkdown,
   replaceAll,
 } from '@milkdown/utils'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import { gfm } from '..'
 
@@ -364,9 +365,15 @@ describe('preserveSourceCtx with an edited document', () => {
       await withEditor(
         source,
         (editor) => {
-          const { blocks, detached } = editor.action(parseMarkdown(source))
+          const { ast, blocks, detached } = editor.action(parseMarkdown(source))
           expect(blocks).toHaveLength(2)
           expect(detached).toEqual([{ from: 5, to: 8, id: 'rule-0' }])
+          // What the plugin recorded travels with the tree.
+          expect(ast?.data).toMatchObject({
+            milkdownDetachedSource: {
+              detached: [{ from: 5, to: 8, id: 'rule-0' }],
+            },
+          })
 
           typeIn(editor, 1, '!')
           expect(markdownOf(editor)).toBe('_a_\n\n---\n\n_b!_')
@@ -392,6 +399,132 @@ describe('preserveSourceCtx with an edited document', () => {
         { plugins: [removeRules(false)] }
       )
     })
+  })
+
+  // The editor adds its root handler with the lowest precedence. Whoever
+  // brings a root handler of its own keeps it, with the option on or off.
+  describe('a remark plugin with a root handler of its own', () => {
+    const ownRoot = $remark(
+      'ownRoot',
+      () =>
+        function () {
+          const data = this.data() as { toMarkdownExtensions?: unknown[] }
+          data.toMarkdownExtensions ??= []
+          data.toMarkdownExtensions.push({
+            handlers: {
+              root: (
+                node: unknown,
+                _: unknown,
+                state: {
+                  containerFlow: (node: unknown, info: unknown) => string
+                },
+                info: unknown
+              ) => `<!-- mine -->\n\n${state.containerFlow(node, info)}`,
+            },
+          })
+        }
+    )
+
+    it('still writes the root', async () => {
+      await withEditor(
+        '- a\n\n_b_',
+        (editor) => {
+          const { doc } = viewOf(editor).state
+          expect(editor.ctx.get(serializerCtx)(doc)).toMatch(/^<!-- mine -->/)
+
+          // The document was not edited, so the source comes back.
+          expect(markdownOf(editor)).toBe('- a\n\n_b_')
+
+          // The blocks cannot be told apart with that handler, so the
+          // whole document is written, by that handler.
+          typeIn(editor, 1, '!')
+          expect(markdownOf(editor)).toMatch(/^<!-- mine -->\n\n/)
+        },
+        { plugins: [ownRoot] }
+      )
+    })
+  })
+
+  describe('a document schema that does not use injectRoot', () => {
+    const plainDoc = $node('doc', () => ({
+      content: 'block+',
+      parseMarkdown: {
+        match: ({ type }) => type === 'root',
+        runner: (state, node, type) => {
+          state.injectRoot(node, type)
+        },
+      },
+      toMarkdown: {
+        match: (node) => node.type.name === 'doc',
+        runner: (state, node) => {
+          state.openNode('root')
+          state.next(node.content)
+        },
+      },
+    }))
+
+    it('writes the whole document once it changes', async () => {
+      await withEditor(
+        '- a\n\n_b_',
+        (editor) => {
+          const segments = SerializerState.createSegmenter(
+            editor.ctx.get(schemaCtx),
+            editor.ctx.get(remarkCtx)
+          )(viewOf(editor).state.doc)
+          // The texts are there, but not the nodes they belong to.
+          expect(segments?.texts).toHaveLength(2)
+          expect(segments?.nodes).toBeNull()
+
+          expect(markdownOf(editor)).toBe('- a\n\n_b_')
+          typeIn(editor, 1, '!')
+          expect(markdownOf(editor)).toBe(
+            editor.ctx.get(serializerCtx)(viewOf(editor).state.doc)
+          )
+        },
+        { plugins: [plainDoc] }
+      )
+    })
+  })
+
+  it('says once that it cannot tell the blocks apart, and writes the document', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const createSegmenter = vi
+      .spyOn(SerializerState, 'createSegmenter')
+      .mockReturnValue(() => {
+        throw new Error('remark changed')
+      })
+
+    try {
+      await withEditor('- a\n\n_b_', (editor) => {
+        expect(markdownOf(editor)).toBe('- a\n\n_b_')
+
+        typeIn(editor, 1, '!')
+        const written = editor.ctx.get(serializerCtx)(viewOf(editor).state.doc)
+        expect(markdownOf(editor)).toBe(written)
+        expect(markdownOf(editor)).toBe(written)
+        expect(warn).toHaveBeenCalledTimes(1)
+      })
+    } finally {
+      createSegmenter.mockRestore()
+      warn.mockRestore()
+    }
+  })
+
+  // Several editors on one page are common. Nothing they keep is shared.
+  it('keeps the blocks of each editor on a page apart', async () => {
+    const rest = `${table}\n\n+ x`
+
+    await withEditor(markdown, (first) =>
+      withEditor(`Other\n-----\n\n${rest}`, (second) => {
+        typeIn(first, 5, '!')
+        typeIn(second, 0, '?')
+
+        expect(markdownOf(first)).toBe(`${markdown}!`)
+        expect(markdownOf(second)).toBe(`## Other?\n\n${rest}`)
+        // The first editor is as it was.
+        expect(markdownOf(first)).toBe(`${markdown}!`)
+      })
+    )
   })
 
   describe('SerializerState.createSegmenter', () => {

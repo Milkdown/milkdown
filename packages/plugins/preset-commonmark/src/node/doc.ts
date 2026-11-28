@@ -14,7 +14,6 @@ export const docSchema = $node('doc', () => ({
   toMarkdown: {
     match: (node) => node.type.name === 'doc',
     runner: (state, node) => {
-      state.openNode('root')
       // The last empty paragraph is the typing area, not content. Skip
       // it, so it does not serialize as an empty-line placeholder. See
       // `paragraphSchema`. The skip works by index, so it also covers a
@@ -26,7 +25,7 @@ export const docSchema = $node('doc', () => ({
         last?.type.name === 'paragraph' && last.content.size === 0
           ? node.content.cut(0, node.content.size - last.nodeSize)
           : node.content
-      state.next(content)
+      state.injectRoot('root', content)
     },
   },
 }))

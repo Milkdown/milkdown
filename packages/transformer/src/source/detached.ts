@@ -18,7 +18,11 @@ export interface DetachedSourceRecord {
   uses: readonly SourceUse[]
 }
 
-const records = new WeakMap<object, DetachedSourceRecord>()
+// The record travels with the tree, in the `data` that every markdown node
+// has for this. Nothing is kept in this module.
+const DATA_KEY = 'milkdownDetachedSource'
+
+type TreeData = { [DATA_KEY]?: DetachedSourceRecord }
 
 /// For a remark plugin that removes nodes from the tree, so that their
 /// markdown text has no node in the document. Call it with the tree before
@@ -30,7 +34,7 @@ const records = new WeakMap<object, DetachedSourceRecord>()
 ///
 /// The offsets are the ones in the `position` of the nodes. Only a piece
 /// at the top level of the text counts. A piece inside a block is part of
-/// the text of that block.
+/// the text of that block. The record is kept in the `data` of the tree.
 ///
 /// ```typescript
 /// const plugin = () => (tree) => {
@@ -45,19 +49,20 @@ export function recordDetachedSource(
   tree: Node,
   record: DetachedSourceRecord
 ): void {
-  const previous = records.get(tree)
-  records.set(
-    tree,
-    previous
-      ? {
-          detached: [...previous.detached, ...record.detached],
-          uses: [...previous.uses, ...record.uses],
-        }
-      : record
-  )
+  const data = (tree.data ??= {}) as TreeData
+  const previous = data[DATA_KEY]
+  data[DATA_KEY] = {
+    detached: [...(previous?.detached ?? []), ...record.detached],
+    uses: [...(previous?.uses ?? []), ...record.uses],
+  }
 }
 
 /// @internal
 export function detachedSourceOf(tree: Node): DetachedSourceRecord {
-  return records.get(tree) ?? { detached: [], uses: [] }
+  return (
+    (tree.data as TreeData | undefined)?.[DATA_KEY] ?? {
+      detached: [],
+      uses: [],
+    }
+  )
 }

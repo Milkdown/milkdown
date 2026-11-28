@@ -1,3 +1,4 @@
 export * from './types'
-export * from './segments'
+export type { SerializedSegments } from './segments'
+export { remarkSegments } from './segments'
 export * from './state'

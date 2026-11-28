@@ -52,7 +52,7 @@ export class SerializerState extends Stack<
   /// @internal
   #openMarks: OpenMark[] = []
   /// @internal
-  /// The top-level nodes of the document, each with the number of
+  /// The top-level nodes that `injectRoot` ran, each with the number of
   /// markdown nodes it wrote.
   #topLevel: { node: Node; count: number }[] = []
   /// Get the schema of state.
@@ -414,22 +414,40 @@ export class SerializerState extends Stack<
     return doc
   }
 
+  /// Open the root markdown node and serialize the top-level nodes of a
+  /// document into it. The serializer of a document node should use this
+  /// instead of `openNode` and `next`: the state then knows which node
+  /// wrote which markdown node, and `toSegments` can tell them apart.
+  ///
+  /// ```typescript
+  /// runner: (state, node) => {
+  ///   state.injectRoot('root', node.content)
+  /// }
+  /// ```
+  injectRoot = (type: string, content: Fragment, props?: JSONRecord) => {
+    this.openNode(type, undefined, props)
+
+    const root = this.top()
+    content.forEach((node, _offset, index) => {
+      const before = root?.children?.length ?? 0
+      this.#runNode(node, content, index)
+      this.#topLevel.push({
+        node,
+        count: (root?.children?.length ?? 0) - before,
+      })
+    })
+
+    return this
+  }
+
   /// Give the node or node list back to the state and the state will find a
   /// proper runner (by `match` method in serializer spec) to handle it. When a
   /// node list is given, marks shared between adjacent nodes are kept open
   /// across them so that they are serialized as one continuous span.
   next = (nodes: Node | Fragment) => {
     if (isFragment(nodes)) {
-      // With only the root open, these are the top-level nodes.
-      const root = this.size() === 1 ? this.top() : undefined
       nodes.forEach((node, _offset, index) => {
-        const before = root?.children?.length ?? 0
         this.#runNode(node, nodes, index)
-        if (root)
-          this.#topLevel.push({
-            node,
-            count: (root.children?.length ?? 0) - before,
-          })
       })
       return this
     }
@@ -454,7 +472,8 @@ export class SerializerState extends Stack<
     if (!segments) return null
 
     // A node that wrote nothing has no text. Every other node must have
-    // written exactly one markdown node to own a text.
+    // written exactly one markdown node to own a text. A document that was
+    // not serialized through `injectRoot` has no nodes here.
     const writers = this.#topLevel.filter(({ count }) => count > 0)
     const oneEach =
       writers.length === segments.texts.length &&

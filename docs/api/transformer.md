@@ -21,6 +21,7 @@ when writing syntax plugins.
 
 @Serializer
 @SerializedSegments
+@remarkSegments
 @NodeSerializerSpec
 @MarkSerializerSpec
 

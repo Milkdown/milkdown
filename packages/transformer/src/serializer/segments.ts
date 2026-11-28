@@ -1,5 +1,6 @@
 import type { Node } from '@milkdown/prose/model'
 import type { Handle, State } from 'mdast-util-to-markdown'
+import type { Plugin } from 'unified'
 
 import { phrasing } from 'mdast-util-phrasing'
 import { defaultHandlers } from 'mdast-util-to-markdown'
@@ -37,17 +38,21 @@ interface Written {
 
 type FlowNode = Parameters<State['handle']>[0]
 
-const sinks = new WeakMap<object, Written[]>()
+// `collectSegments` puts its collector on the root node for the time of
+// one call, under this key. Nothing is kept in this module.
+const SINK = Symbol.for('milkdown.transformer.segments')
 
-/// @internal
-/// A handler for the root node of a markdown tree. The default handler
-/// still writes the root. When `collectSegments` asks for it, this one
-/// looks at each child of the root while it is written.
-export const segmentRootHandler: Handle = (node, parent, state, info) => {
-  const sink = sinks.get(node)
-  const children: FlowNode[] = node.children ?? []
+type Watched = { [SINK]?: Written[] }
+
+// A handler for the root node of a markdown tree. The default handler
+// still writes the root. When `collectSegments` asks for it, this one
+// looks at each child of the root while it is written.
+const segmentRootHandler: Handle = (node: Watched, parent, state, info) => {
+  const sink = node[SINK]
+  const children: FlowNode[] =
+    (node as { children?: FlowNode[] }).children ?? []
   if (!sink || children.some((child) => phrasing(child)))
-    return defaultHandlers.root(node, parent, state, info)
+    return defaultHandlers.root(node as never, parent, state, info)
 
   const handle = state.handle
   const watch: Handle = (child, childParent, childState, childInfo) => {
@@ -62,27 +67,43 @@ export const segmentRootHandler: Handle = (node, parent, state, info) => {
   // `state.handle`, so the replacement has to carry them.
   state.handle = Object.assign(watch, handle)
   try {
-    return defaultHandlers.root(node, parent, state, info)
+    return defaultHandlers.root(node as never, parent, state, info)
   } finally {
     state.handle = handle
   }
 }
 
+/// A remark plugin that lets the serializer tell the text of each
+/// top-level node apart, for `SerializerState.toSegments`. The editor
+/// uses it for its remark instance.
+///
+/// It adds a handler for the root as an extension, and it has to come
+/// before the other plugins, so that it has the lowest precedence. A
+/// plugin or an option that brings a root handler of its own takes over,
+/// and `toSegments` then gives `null`.
+export const remarkSegments: Plugin<[], undefined> = function () {
+  const data = this.data() as { toMarkdownExtensions?: unknown[] }
+  data.toMarkdownExtensions ??= []
+  data.toMarkdownExtensions.push({ handlers: { root: segmentRootHandler } })
+}
+
 /// @internal
 /// Serialize `root` with `stringify` and collect the text of each child.
-/// It gives `null` when the root handler is not `segmentRootHandler`, or
-/// when the texts are not where the serializer said they are.
+/// It gives `null` when the root handler is not the one of
+/// `remarkSegments`, or when the texts are not where the serializer said
+/// they are.
 export function collectSegments(
   root: Root,
   stringify: (root: Root) => string
 ): Pick<SerializedSegments, 'full' | 'texts' | 'separators'> | null {
   const written: Written[] = []
-  sinks.set(root, written)
+  const watched = root as Watched
+  watched[SINK] = written
   let full: string
   try {
     full = stringify(root)
   } finally {
-    sinks.delete(root)
+    delete watched[SINK]
   }
   if (written.length !== root.children.length) return null
 

@@ -97,11 +97,20 @@ function createDocumentSerializer(
   split: Segmenter
 ): DocumentSerializer {
   // Telling the blocks apart leans on how remark writes a root. If that
-  // ever fails, write the document the plain way instead of failing.
+  // ever fails, write the document the plain way instead of failing, and
+  // say so once.
+  let warned = false
   const segmenter: Segmenter = (doc) => {
     try {
       return split(doc)
-    } catch {
+    } catch (error) {
+      if (!warned)
+        console.warn(
+          '[milkdown] Cannot tell the blocks of the document apart. ' +
+            'The whole document is serialized instead.',
+          error
+        )
+      warned = true
       return null
     }
   }
