@@ -335,8 +335,8 @@ describe('preserveSourceCtx with an edited document', () => {
         typeIn(editor, 1, '!')
         expect(markdownOf(editor)).toBe('* a\n\n*b!*')
 
-        // The preset adds its handler for lists after the config, so the
-        // list still has its own marker and not the one from the options.
+        // The handler for lists is an extension and not one of these
+        // options, so the list still has its own marker.
         typeIn(editor, 0, '!')
         expect(markdownOf(editor)).toBe('* a!\n\n*b!*\n')
       },

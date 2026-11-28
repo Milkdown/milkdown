@@ -203,6 +203,5 @@ Editor.make()
 @remarkAddOrderInListPlugin
 @remarkLineBreak
 @remarkMarker
-@listMarkerHandlerPlugin
 @remarkPreserveEmptyLinePlugin
 @blockContainerTypes

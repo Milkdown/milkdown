@@ -6,7 +6,6 @@ import {
   hardbreakFilterNodes,
   hardbreakFilterPlugin,
   inlineNodesCursorPlugin,
-  listMarkerHandlerPlugin,
   remarkAddOrderInListPlugin,
   remarkHtmlTransformer,
   remarkInlineLinkPlugin,
@@ -31,7 +30,6 @@ export const plugins: MilkdownPlugin[] = [
   remarkLineBreak,
   remarkHtmlTransformer,
   remarkMarker,
-  listMarkerHandlerPlugin,
   remarkPreserveEmptyLinePlugin,
 
   syncHeadingIdPlugin,

@@ -26,7 +26,7 @@ withMeta(bulletListAttr, {
 /// markdown: `-`, `*` or `+`. A list keeps the marker it was parsed or
 /// typed with. A list with no marker, for example one that a command made,
 /// is written with the `bullet` option of `remarkStringifyOptionsCtx`.
-/// `listMarkerHandlerPlugin` is what writes the marker.
+/// `remarkMarker` is what reads and writes the marker.
 export const bulletListSchema = $nodeSchema('bullet_list', (ctx) => {
   return {
     content: 'listItem+',

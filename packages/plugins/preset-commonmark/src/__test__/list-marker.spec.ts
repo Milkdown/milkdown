@@ -13,11 +13,7 @@ import { $ctx, callCommand, getMarkdown } from '@milkdown/utils'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
 
-import {
-  commonmark,
-  listMarkerHandlerPlugin,
-  wrapInBulletListCommand,
-} from '..'
+import { commonmark, remarkMarker, wrapInBulletListCommand } from '..'
 import { roundTrip, withEditor } from './test-utils'
 
 const viewOf = (editor: Editor) => editor.ctx.get(editorViewCtx)
@@ -162,19 +158,29 @@ describe('list markers', () => {
     )
   })
 
-  it('is the work of listMarkerHandlerPlugin', async () => {
-    const withoutHandler = commonmark.filter(
-      (plugin) => plugin !== listMarkerHandlerPlugin
+  it('is the work of remarkMarker', async () => {
+    const withoutMarker = commonmark.filter(
+      (plugin) => !remarkMarker.includes(plugin)
     )
 
-    // The list still knows its marker. Nothing writes it.
     await withEditor(
       '- a\n\n1) b',
       (editor) => {
-        expect(viewOf(editor).state.doc.firstChild?.attrs.marker).toBe('-')
+        expect(viewOf(editor).state.doc.firstChild?.attrs.marker).toBeNull()
         expect(editor.action(getMarkdown())).toBe('* a\n\n1. b\n')
       },
-      withoutHandler
+      withoutMarker
+    )
+  })
+
+  it('gives way to a list handler from the stringify options', async () => {
+    await withEditor(
+      '- a\n\ntext',
+      (editor) => {
+        expect(editor.action(getMarkdown())).toBe('a list\n\ntext\n')
+      },
+      commonmark,
+      withOptions({ handlers: { list: () => 'a list' } })
     )
   })
 
