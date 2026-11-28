@@ -10,8 +10,21 @@ import { Plugin, PluginKey } from '@milkdown/prose/state'
 /// The serializer normalizes what it writes: `- a` becomes `* a`, a table
 /// gets padded, a reference link becomes an inline link. With this slice
 /// set to `true`, the editor remembers the markdown that the document was
-/// loaded from, and `getMarkdown` and the `markdownUpdated` listener give
-/// that markdown back for as long as the content is the same.
+/// loaded from. `getMarkdown` and the `markdownUpdated` listener then keep
+/// as much of that markdown as they can:
+///
+/// - A document that was not edited comes back as the markdown it was
+///   loaded from, byte for byte.
+/// - In a document that was edited, the serializer writes only the
+///   top-level blocks that changed. Every other block keeps the text it
+///   had, and so do the blank lines between two blocks that are both
+///   kept. Text that has no node of its own, such as a link definition,
+///   stays as long as a kept block needs it.
+///
+/// The markdown that comes out depends on the markdown that the editor
+/// was loaded from. Editors that share a document through a collaboration
+/// provider can each have another source, or none. Leave this off there,
+/// or give every editor the same source with `setMarkdownSource`.
 ///
 /// The editor reads this slice once, when it creates the editor state.
 /// Set it in `editor.config`:

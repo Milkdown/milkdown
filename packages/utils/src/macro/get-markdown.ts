@@ -12,8 +12,9 @@ import {
 /// return the markdown string of the range. If range is not provided, it will
 /// return the markdown string of the whole document.
 ///
-/// With `preserveSourceCtx` on, the whole document comes back as the
-/// markdown it was loaded from for as long as its content is the same.
+/// With `preserveSourceCtx` on, the whole document keeps the markdown it
+/// was loaded from: all of it while the content is the same, and after an
+/// edit every block that did not change.
 export function getMarkdown(range?: { from: number; to: number }) {
   return (ctx: Ctx): string => {
     const view = ctx.get(editorViewCtx)

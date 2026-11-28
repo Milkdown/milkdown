@@ -1,6 +1,7 @@
 import type { MilkdownPlugin } from '@milkdown/ctx'
 
 import { createTimer } from '@milkdown/ctx'
+import { segmentRootHandler } from '@milkdown/transformer'
 import remarkParse from 'remark-parse'
 import remarkStringify, { type Options } from 'remark-stringify'
 import { unified } from 'unified'
@@ -23,6 +24,15 @@ import { ConfigReady } from './config'
 
 /// The timer which will be resolved when the init plugin is ready.
 export const InitReady = createTimer('InitReady')
+
+// The root handler lets the serializer tell the text of each top-level
+// block apart. It is added here, after the config ran, so it stays in
+// place when a config replaces the handlers. A root handler from the
+// config wins.
+const withRootHandler = (options: Options): Options => ({
+  ...options,
+  handlers: { root: segmentRootHandler, ...options.handlers },
+})
 
 /// The init plugin. This plugin prepare slices that needed by other plugins.
 /// And create a remark instance.
@@ -50,7 +60,9 @@ export function init(editor: Editor): MilkdownPlugin {
       const options = ctx.get(remarkStringifyOptionsCtx)
       ctx.set(
         remarkCtx,
-        unified().use(remarkParse).use(remarkStringify, options)
+        unified()
+          .use(remarkParse)
+          .use(remarkStringify, withRootHandler(options))
       )
 
       ctx.done(InitReady)
