@@ -87,6 +87,16 @@ The core module for milkdown.
 
 @serializerCtx
 
+@documentSerializerCtx
+@DocumentSerializer
+
+## Markdown Source
+
+@preserveSourceCtx
+@markdownSourceKey
+@MarkdownSourceState
+@MarkdownSourceMeta
+
 ## Commands
 
 @commands

@@ -13,6 +13,10 @@ import { withMeta } from '../__internal__'
 import { editorStateCtx, inputRulesCtx, prosePluginsCtx } from './atoms'
 import { CommandsReady } from './commands'
 import { keymapCtx, KeymapReady } from './keymap'
+import {
+  createMarkdownSourcePlugin,
+  preserveSourceCtx,
+} from './markdown-source'
 import { ParserReady, parserCtx } from './parser'
 import { schemaCtx } from './schema'
 import { SerializerReady } from './serializer'
@@ -71,6 +75,7 @@ const key = new PluginKey('MILKDOWN_STATE_TRACKER')
 export const editorState: MilkdownPlugin = (ctx) => {
   ctx
     .inject(defaultValueCtx, '')
+    .inject(preserveSourceCtx, false)
     .inject(editorStateCtx, {} as EditorState)
     .inject(editorStateOptionsCtx, (x) => x)
     .inject(editorStateTimerCtx, [
@@ -95,6 +100,9 @@ export const editorState: MilkdownPlugin = (ctx) => {
     const disposeBaseKeymap = km.addBaseKeymap()
 
     const plugins = [
+      // The source plugin goes first, so every other plugin can read the
+      // markdown source in its own `init`.
+      ...(ctx.get(preserveSourceCtx) ? [createMarkdownSourcePlugin()] : []),
       ...prosePlugins,
       new Plugin({
         key,
@@ -127,6 +135,7 @@ export const editorState: MilkdownPlugin = (ctx) => {
       disposeBaseKeymap()
       ctx
         .remove(defaultValueCtx)
+        .remove(preserveSourceCtx)
         .remove(editorStateCtx)
         .remove(editorStateOptionsCtx)
         .remove(editorStateTimerCtx)

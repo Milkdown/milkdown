@@ -1,13 +1,14 @@
 import type { Ctx, MilkdownPlugin } from '@milkdown/ctx'
 import type { Node as ProseNode } from '@milkdown/prose/model'
-import type { Selection, Transaction } from '@milkdown/prose/state'
+import type { EditorState, Selection, Transaction } from '@milkdown/prose/state'
 
 import {
   EditorViewReady,
   InitReady,
   SerializerReady,
+  documentSerializerCtx,
+  markdownSourceKey,
   prosePluginsCtx,
-  serializerCtx,
 } from '@milkdown/core'
 import { createSlice } from '@milkdown/ctx'
 import { Plugin, PluginKey } from '@milkdown/prose/state'
@@ -157,12 +158,24 @@ export const listener: MilkdownPlugin = (ctx) => {
     listeners.beforeMount.forEach((fn) => fn(ctx))
 
     await ctx.wait(SerializerReady)
-    const serializer = ctx.get(serializerCtx)
+    // Serialize a document the way `getMarkdown` does. `state` is the editor
+    // state that the document belongs to. It is only read here, after the
+    // state is complete: inside `init` and `apply` the state is still being
+    // built and has no markdown sources yet.
+    const serialize = (doc: ProseNode, state: EditorState | null) =>
+      ctx.get(documentSerializerCtx)(
+        doc,
+        state ? markdownSourceKey.getState(state) : undefined
+      )
 
     let prevDoc: ProseNode | null = null
-    let prevMarkdown: string | null = null
+    let prevState: EditorState | null = null
+    // The markdown of `prevDoc`. It is serialized when a listener first
+    // needs it, not when the editor state is created.
+    let prevMarkdown: { doc: ProseNode; markdown: string } | null = null
     let prevSelection: Selection | null = null
     let latestTr: Transaction | null = null
+    let latestState: EditorState | null = null
 
     const debouncedHandler = debounce(() => {
       if (!latestTr) return
@@ -175,15 +188,23 @@ export const listener: MilkdownPlugin = (ctx) => {
       }
 
       if (listeners.markdownUpdated.length > 0 && prevDoc && !prevDoc.eq(doc)) {
-        const markdown = serializer(doc)
+        if (prevMarkdown?.doc !== prevDoc)
+          prevMarkdown = {
+            doc: prevDoc,
+            markdown: serialize(prevDoc, prevState),
+          }
+        const markdown = serialize(doc, latestState)
+        const before = prevMarkdown.markdown
         listeners.markdownUpdated.forEach((fn) => {
-          fn(ctx, markdown, prevMarkdown!)
+          fn(ctx, markdown, before)
         })
-        prevMarkdown = markdown
+        prevMarkdown = { doc, markdown }
       }
 
       prevDoc = doc
+      prevState = latestState
       latestTr = null
+      latestState = null
     }, 200)
 
     const plugin = new Plugin({
@@ -211,9 +232,10 @@ export const listener: MilkdownPlugin = (ctx) => {
       state: {
         init: (_, instance) => {
           prevDoc = instance.doc
-          prevMarkdown = serializer(instance.doc)
+          prevState = instance
+          prevMarkdown = null
         },
-        apply: (tr) => {
+        apply: (tr, _value, _oldState, newState) => {
           const currentSelection = tr.selection
           if (
             (!prevSelection && currentSelection) ||
@@ -232,6 +254,7 @@ export const listener: MilkdownPlugin = (ctx) => {
             return
 
           latestTr = tr
+          latestState = newState
           debouncedHandler()
         },
       },

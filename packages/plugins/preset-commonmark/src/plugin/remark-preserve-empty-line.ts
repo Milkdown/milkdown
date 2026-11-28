@@ -73,6 +73,17 @@ function visitEmptyLine(ast: Node, blockContainers: ReadonlySet<string>) {
 /// In the composed presets `remarkHtmlTransformer` runs first and wraps
 /// block-level HTML into paragraphs; this plugin also folds unwrapped
 /// block-level `<br>`s itself, so it stays safe without the transformer.
+///
+/// The serializer writes the placeholder only while this plugin is in
+/// use. To write no `<br />` for an empty paragraph, leave the plugin out
+/// of the preset. An empty paragraph then has no markdown form and is gone
+/// after a reload.
+///
+/// ```typescript
+/// const plugins = commonmark.filter(
+///   (plugin) => !remarkPreserveEmptyLinePlugin.includes(plugin)
+/// )
+/// ```
 export const remarkPreserveEmptyLinePlugin = $remark(
   'remark-preserve-empty-line',
   (ctx) => () => (ast: Node) =>

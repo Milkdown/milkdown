@@ -6,6 +6,7 @@ import {
   EditorStatus,
   editorViewCtx,
   editorViewOptionsCtx,
+  preserveSourceCtx,
   rootCtx,
 } from '@milkdown/kit/core'
 import { clipboard } from '@milkdown/kit/plugin/clipboard'
@@ -37,6 +38,13 @@ export interface CrepeBuilderConfig {
 
   /// The default value for the editor.
   defaultValue?: DefaultValue
+
+  /// Keep the markdown that the editor was loaded from.
+  /// With this option on, `getMarkdown` and the `markdownUpdated` listener
+  /// give that markdown back for as long as the content is the same,
+  /// instead of the normalized markdown that the serializer writes.
+  /// It is off by default.
+  preserveSource?: boolean
 }
 
 /// The crepe builder class.
@@ -53,7 +61,11 @@ export class CrepeBuilder {
 
   /// The constructor of the crepe builder.
   /// You can pass configs to the builder to configure the editor.
-  constructor({ root, defaultValue = '' }: CrepeBuilderConfig = {}) {
+  constructor({
+    root,
+    defaultValue = '',
+    preserveSource = false,
+  }: CrepeBuilderConfig = {}) {
     this.#rootElement =
       (typeof root === 'string' ? document.querySelector(root) : root) ??
       document.body
@@ -65,6 +77,7 @@ export class CrepeBuilder {
       .config((ctx) => {
         ctx.set(rootCtx, this.#rootElement)
         ctx.set(defaultValueCtx, defaultValue)
+        ctx.set(preserveSourceCtx, preserveSource)
         ctx.set(editorViewOptionsCtx, {
           editable: () => this.#editable,
         })

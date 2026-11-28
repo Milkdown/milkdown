@@ -60,6 +60,29 @@ export const remarkCtx: SliceType<RemarkParser, 'remark'> = createSlice(
 )
 
 /// A slice which stores the remark stringify options.
+///
+/// These options decide how the serializer writes markdown. The ones that
+/// people ask for most:
+///
+/// - `bullet`: the marker of a bullet list, `*` by default. Set `-` to
+///   write `- item`.
+/// - `bulletOrdered`: the delimiter of an ordered list, `.` by default.
+/// - `rule`: the marker of a thematic break, `*` by default.
+/// - `resourceLink`: write `[https://a.b](https://a.b)` instead of the
+///   autolink `<https://a.b>`.
+/// - `listItemIndent`, `fence`, `emphasis`, `strong`, `setext`,
+///   `incrementListMarker`: see
+///   [the options of mdast-util-to-markdown](https://github.com/syntax-tree/mdast-util-to-markdown#options).
+///
+/// Update the slice instead of replacing it, so the handlers that the
+/// editor needs stay in place:
+///
+/// ```typescript
+/// ctx.update(remarkStringifyOptionsCtx, (prev) => ({ ...prev, bullet: '-' }))
+/// ```
+///
+/// To keep markdown as it was written instead of normalizing it, see
+/// `preserveSourceCtx`.
 export const remarkStringifyOptionsCtx = createSlice(
   {
     handlers: remarkHandlers,

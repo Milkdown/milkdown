@@ -21,6 +21,7 @@ import type {
 } from '../utility'
 import type { Parser } from './types'
 
+import { recordParsedSource } from '../source'
 import { Stack } from '../utility'
 import { ParserStackElement } from './stack-element'
 
@@ -42,7 +43,9 @@ export class ParserState extends Stack<Node, ParserStackElement> {
     const state = new this(schema)
     return (text) => {
       state.run(remark, text)
-      return state.toDoc()
+      const doc = state.toDoc()
+      recordParsedSource(doc, text)
+      return doc
     }
   }
 

@@ -9,7 +9,7 @@ import {
 import { getSelectionSnapshot, textOffsetToPos } from '@milkdown/prose'
 import { Slice } from '@milkdown/prose/model'
 import { TextSelection } from '@milkdown/prose/state'
-import { insert } from '@milkdown/utils'
+import { insert, replaceAll } from '@milkdown/utils'
 
 export async function setup(createEditor: () => Promise<Editor>) {
   globalThis.commands = {}
@@ -55,6 +55,7 @@ export async function setup(createEditor: () => Promise<Editor>) {
   globalThis.__commandsCtx__ = commandsCtx
   globalThis.__macros__ = {
     insert,
+    replaceAll,
   }
 
   const logButton = document.querySelector<HTMLDivElement>('#log')

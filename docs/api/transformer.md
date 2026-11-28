@@ -22,6 +22,11 @@ when writing syntax plugins.
 @NodeSerializerSpec
 @MarkSerializerSpec
 
+## Source
+
+@MarkdownSource
+@getParsedSource
+
 ---
 
 ## Schema

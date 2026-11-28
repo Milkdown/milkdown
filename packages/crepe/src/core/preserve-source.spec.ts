@@ -1,0 +1,112 @@
+import { editorViewCtx } from '@milkdown/kit/core'
+import { describe, expect, it, vi } from 'vitest'
+
+import { Crepe } from './crepe'
+
+// jsdom has no IntersectionObserver. A code block waits for one before it
+// mounts its editor, so a stub that never fires keeps the block unmounted.
+vi.stubGlobal(
+  'IntersectionObserver',
+  class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+)
+
+// One block for every feature that touches the document or its markdown.
+const markdown = [
+  'Title',
+  '=====',
+  '',
+  '- a',
+  '- b',
+  '',
+  '![alt](a.webp)',
+  '',
+  '$$',
+  'x^2',
+  '$$',
+  '',
+  '|a|b|',
+  '|-|-|',
+  '|1|2|',
+  '',
+  'See [the link][ref] and $y$.',
+  '',
+  '[ref]: https://example.com',
+  '',
+  '~~~js',
+  'code',
+  '~~~',
+  '',
+  '> quote',
+  '',
+  '1) one',
+  '2) two',
+  '   - [ ] nested task',
+  '',
+  'a  ',
+  'b',
+  '',
+  '---',
+  '',
+  '<div>html</div>',
+].join('\n')
+
+async function withCrepe<T>(
+  config: ConstructorParameters<typeof Crepe>[0],
+  fn: (crepe: Crepe) => T | Promise<T>,
+  setup?: (crepe: Crepe) => void
+): Promise<T> {
+  const crepe = new Crepe(config)
+  setup?.(crepe)
+  await crepe.create()
+  try {
+    return await fn(crepe)
+  } finally {
+    await crepe.destroy()
+  }
+}
+
+describe('preserveSource', () => {
+  it('gives back the markdown of a document that was not edited', async () => {
+    await withCrepe({ defaultValue: markdown, preserveSource: true }, (crepe) =>
+      expect(crepe.getMarkdown()).toBe(markdown)
+    )
+  })
+
+  it('is off by default', async () => {
+    await withCrepe({ defaultValue: '- a\n- b' }, (crepe) =>
+      expect(crepe.getMarkdown()).toBe('* a\n* b\n')
+    )
+  })
+
+  it('reports the source as the previous markdown', async () => {
+    const calls: [markdown: string, prevMarkdown: string][] = []
+
+    await withCrepe(
+      { defaultValue: markdown, preserveSource: true },
+      async (crepe) => {
+        crepe.editor.action((ctx) => {
+          const view = ctx.get(editorViewCtx)
+          view.dispatch(view.state.tr.insertText('!', 2))
+        })
+        // The listener waits 200ms before it reports a change.
+        await new Promise((resolve) => setTimeout(resolve, 300))
+
+        expect(calls).toHaveLength(1)
+        expect(calls[0]?.[1]).toBe(markdown)
+        expect(calls[0]?.[0]).toBe(crepe.getMarkdown())
+        expect(calls[0]?.[0]).not.toBe(markdown)
+      },
+      (crepe) => {
+        crepe.on((listener) => {
+          listener.markdownUpdated((_ctx, next, prev) => {
+            calls.push([next, prev])
+          })
+        })
+      }
+    )
+  })
+})

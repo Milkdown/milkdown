@@ -1,21 +1,31 @@
 import type { Ctx } from '@milkdown/ctx'
 
-import { editorViewCtx, schemaCtx, serializerCtx } from '@milkdown/core'
+import {
+  documentSerializerCtx,
+  editorViewCtx,
+  markdownSourceKey,
+  schemaCtx,
+  serializerCtx,
+} from '@milkdown/core'
 
 /// Get content of the editor as markdown string. If range is provided, it will
 /// return the markdown string of the range. If range is not provided, it will
 /// return the markdown string of the whole document.
+///
+/// With `preserveSourceCtx` on, the whole document comes back as the
+/// markdown it was loaded from for as long as its content is the same.
 export function getMarkdown(range?: { from: number; to: number }) {
   return (ctx: Ctx): string => {
     const view = ctx.get(editorViewCtx)
-    const schema = ctx.get(schemaCtx)
-    const serializer = ctx.get(serializerCtx)
+    const state = view.state
 
     if (!range) {
-      return serializer(view.state.doc)
+      const serialize = ctx.get(documentSerializerCtx)
+      return serialize(state.doc, markdownSourceKey.getState(state))
     }
 
-    const state = view.state
+    const schema = ctx.get(schemaCtx)
+    const serializer = ctx.get(serializerCtx)
     const slice = state.doc.slice(range.from, range.to, true)
     const doc = schema.topNodeType.createAndFill(null, slice.content)
     if (!doc) {
