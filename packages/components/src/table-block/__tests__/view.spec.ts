@@ -48,10 +48,10 @@ const markdown = `
 | Bob   | 31  |
 `
 
-async function createEditor() {
+async function createEditor(value = markdown) {
   const editor = Editor.make()
     .config((ctx) => {
-      ctx.set(defaultValueCtx, markdown)
+      ctx.set(defaultValueCtx, value)
     })
     .use(commonmark)
     .use(gfm)
@@ -70,23 +70,42 @@ function findText(view: EditorView, text: string) {
   return found
 }
 
-// Sends a pointerdown to the table node view, aimed at the cell holding
-// `text`. jsdom has no layout, so `posAtCoords` is pointed there by hand.
-function clickCell(view: EditorView, text: string) {
-  const pos = findText(view, text)
-  view.posAtCoords = () => ({ pos, inside: pos })
+function findNode(view: EditorView, name: string) {
+  let found = -1
+  view.state.doc.descendants((node, pos) => {
+    if (found < 0 && node.type.name === name) found = pos
+  })
+  expect(found).toBeGreaterThanOrEqual(0)
+  return found
+}
 
+// jsdom has no layout, so `posAtCoords` is pointed at `pos` by hand.
+function pointAt(view: EditorView, pos: number) {
+  view.posAtCoords = () => ({ pos, inside: pos, affinity: 0 })
+}
+
+// Asks the table node view whether it takes a mousedown on `target`, the way
+// prosemirror-view does before handling the event itself.
+function mousedownOn(view: EditorView, target: Element | null) {
+  expect(target).toBeInstanceOf(Element)
+  const event = new MouseEvent('mousedown', { bubbles: true })
+  Object.defineProperty(event, 'target', { value: target })
+  return getTableNodeView(view).stopEvent(event)
+}
+
+// Sends a mousedown to the table node view, aimed at the cell holding `text`.
+function clickCell(view: EditorView, text: string) {
+  pointAt(view, findText(view, text))
+  expect(mousedownOn(view, view.dom.querySelector('td'))).toBe(true)
+}
+
+function getTableNodeView(view: EditorView) {
   const dom = view.dom.querySelector('.milkdown-table-block') as HTMLElement & {
     pmViewDesc?: { spec?: TableNodeView }
   }
   const nodeView = dom.pmViewDesc?.spec
   expect(nodeView).toBeDefined()
-
-  const event = new MouseEvent('pointerdown', { bubbles: true })
-  Object.defineProperty(event, 'target', {
-    value: view.dom.querySelector('td'),
-  })
-  expect(nodeView!.stopEvent(event)).toBe(true)
+  return nodeView!
 }
 
 function setCaret(view: EditorView, pos: number) {
@@ -101,6 +120,69 @@ function expectCellSelected(view: EditorView, text: string) {
   expect(selection).toBeInstanceOf(NodeSelection)
   expect(selection.from).toBe(findText(view, text) - 1)
 }
+
+describe('table block mousedown', () => {
+  it.each([
+    'col-drag-handle',
+    'row-drag-handle',
+    'x-line-drag-handle',
+    'y-line-drag-handle',
+  ])('keeps prosemirror from handling a mousedown on the %s', async (role) => {
+    const view = await createEditor()
+
+    // prosemirror-view prevents the default action of a mousedown it handles,
+    // which cancels the native drag that a drag handle starts.
+    expect(
+      mousedownOn(view, view.dom.querySelector(`[data-role="${role}"]`))
+    ).toBe(true)
+  })
+
+  // prosemirror-view marks draggable leaf nodes, and node-selected nodes with
+  // content, as `draggable`. They are content, not table handles.
+  it('leaves a mousedown on a draggable image in the caret cell to prosemirror', async () => {
+    const view = await createEditor(`
+| name  | photo       |
+| ----- | ----------- |
+| Alice | ![x](a.png) |
+`)
+    const image = findNode(view, 'image')
+    setCaret(view, image)
+    pointAt(view, image)
+
+    const img = view.dom.querySelector('td img[src="a.png"]')
+    expect(img).toHaveProperty('draggable', true)
+    expect(mousedownOn(view, img)).toBe(false)
+  })
+
+  it('leaves a second click in a selected cell to prosemirror', async () => {
+    const view = await createEditor()
+    clickCell(view, 'Alice')
+    runFrame()
+    expectCellSelected(view, 'Alice')
+
+    const paragraph = view.nodeDOM(findText(view, 'Alice') - 1) as Element
+    expect(paragraph).toHaveProperty('draggable', true)
+    expect(mousedownOn(view, paragraph)).toBe(false)
+  })
+
+  it('selects the clicked cell while the table is node-selected', async () => {
+    const view = await createEditor()
+    view.dispatch(
+      view.state.tr.setSelection(
+        NodeSelection.create(view.state.doc, findNode(view, 'table'))
+      )
+    )
+    expect(view.dom.querySelector('.milkdown-table-block')).toHaveProperty(
+      'draggable',
+      true
+    )
+
+    clickCell(view, 'Bob')
+    runFrame()
+
+    expectCellSelected(view, 'Bob')
+  })
+})
 
 describe('table block cell click', () => {
   it('selects the clicked cell when nothing changed meanwhile', async () => {

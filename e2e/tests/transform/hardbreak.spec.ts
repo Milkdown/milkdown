@@ -19,6 +19,10 @@ test('hardbreak', async ({ page }) => {
 
   await focusEditor(page)
   await selectAll(page)
+  // Within 200ms of focus, prosemirror-view takes a caret that lands at the
+  // document start for the browser resetting the selection, and restores the
+  // previous one. Wait that window out so ArrowLeft collapses the selection.
+  await page.waitForTimeout(250)
   await page.keyboard.press('ArrowLeft')
   await waitNextFrame(page)
 

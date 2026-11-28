@@ -128,6 +128,7 @@ describe('block drag', () => {
     view.posAtCoords = () => ({
       pos: SECOND_ITEM_PARAGRAPH + 1,
       inside: SECOND_ITEM_PARAGRAPH,
+      affinity: 0,
     })
 
     service.mousemoveCallback(view, { clientY: 0 } as MouseEvent)
@@ -180,6 +181,7 @@ describe('block drag', () => {
     view.posAtCoords = () => ({
       pos: FOURTH_ITEM_TEXT_END,
       inside: FOURTH_ITEM_TEXT_END - 7,
+      affinity: 0,
     })
     dispatchDragEvent(view.dom, 'drop', { clientX: 0, clientY: 0 })
 

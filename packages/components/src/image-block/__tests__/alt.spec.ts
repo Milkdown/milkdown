@@ -432,6 +432,10 @@ describe('image block alt encoding', () => {
 })
 
 describe('other image paths', () => {
+  // prosemirror-view puts a separator `<img>` in front of an inline atom that
+  // starts a textblock, so skip it to reach the image itself.
+  const imageSelector = 'img:not(.ProseMirror-separator)'
+
   it.each([...textAlts, '1.00'])(
     'preserves %j in commonmark and the inline component',
     async (alt) => {
@@ -444,7 +448,9 @@ describe('other image paths', () => {
             expect(view.state.doc.firstChild?.firstChild?.type.name).toBe(
               'image'
             )
-            expect(view.dom.querySelector('img')?.getAttribute('alt')).toBe(alt)
+            expect(
+              view.dom.querySelector(imageSelector)?.getAttribute('alt')
+            ).toBe(alt)
           })
         })
       }
@@ -461,9 +467,9 @@ describe('other image paths', () => {
         editor.action((ctx) => {
           const view = ctx.get(editorViewCtx)
           expect(view.state.doc.firstChild?.type.name).toBe('paragraph')
-          expect(view.dom.querySelector('img')?.getAttribute('alt')).toBe(
-            'A lantern'
-          )
+          expect(
+            view.dom.querySelector(imageSelector)?.getAttribute('alt')
+          ).toBe('A lantern')
         })
       }
     )
