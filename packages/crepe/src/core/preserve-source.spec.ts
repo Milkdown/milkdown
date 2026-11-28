@@ -98,8 +98,8 @@ describe('preserveSource', () => {
   })
 
   it('is off by default', async () => {
-    await withCrepe({ defaultValue: '- a\n- b' }, (crepe) =>
-      expect(crepe.getMarkdown()).toBe('* a\n* b\n')
+    await withCrepe({ defaultValue: 'Title\n=====' }, (crepe) =>
+      expect(crepe.getMarkdown()).toBe('# Title\n')
     )
   })
 

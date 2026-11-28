@@ -101,6 +101,6 @@ describe('inline br in gfm containers', () => {
 
   it('keeps an inline <br> inside a task list item', async () => {
     const output = await roundTrip('- [ ] foo<br>bar\n')
-    expect(output).toBe('* [ ] foo<br>bar\n')
+    expect(output).toBe('- [ ] foo<br>bar\n')
   })
 })

@@ -45,6 +45,7 @@
     "@milkdown/prose": "workspace:*",
     "@milkdown/transformer": "workspace:*",
     "@milkdown/utils": "workspace:*",
+    "mdast-util-to-markdown": "^2.1.2",
     "remark-inline-links": "^7.0.0",
     "unist-util-visit": "^5.0.0",
     "unist-util-visit-parents": "^6.0.1"

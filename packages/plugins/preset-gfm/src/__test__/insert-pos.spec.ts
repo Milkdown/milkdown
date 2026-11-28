@@ -35,13 +35,13 @@ describe('insertPos block mode with gfm', () => {
 
   it('keeps the structure of an inserted task list', async () => {
     expect(await run('x', '- [ ] t1\n- [ ] t2', 0)).toBe(
-      '* [ ] t1\n* [ ] t2\n\nx\n'
+      '- [ ] t1\n- [ ] t2\n\nx\n'
     )
   })
 
   it('does not split a task list when pos is in a middle item', async () => {
     expect(await run('- [ ] task\n- [x] done', 'NEW', 3)).toBe(
-      '* [ ] task\n\n  NEW\n* [x] done\n'
+      '- [ ] task\n\n  NEW\n- [x] done\n'
     )
   })
 })

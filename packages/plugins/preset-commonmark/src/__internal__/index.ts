@@ -1,4 +1,5 @@
 export { cloneLeaf } from './clone-node'
 export { EMPTY_LINE_PLACEHOLDER, isBrHtmlValue } from './empty-line-br'
+export { isBulletMarker, isOrderedDelimiter } from './list-marker'
 export { serializeText } from './serialize-text'
 export { withMeta } from './with-meta'

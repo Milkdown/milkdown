@@ -122,7 +122,7 @@ describe('preserveSourceCtx with an edited document', () => {
     await withEditor(markdown, (editor) => {
       typeIn(editor, 1, '!')
       expect(markdownOf(editor)).toBe(
-        `${title}\n\n* a!\n* b\n\n${table}\n\n${linked}\n\n${definition}\n\n${code}\n\n${last}`
+        `${title}\n\n- a!\n- b\n\n${table}\n\n${linked}\n\n${definition}\n\n${code}\n\n${last}`
       )
     })
   })
@@ -201,7 +201,8 @@ describe('preserveSourceCtx with an edited document', () => {
         '_intro_\n\n- a\n\nmiddle\n\n- b\n\n_outro_',
         (editor) => {
           removeBlock(editor, 2)
-          expect(markdownOf(editor)).toBe('_intro_\n\n* a\n\n- b\n\n_outro_')
+          // The second list gets another marker, or the two would merge.
+          expect(markdownOf(editor)).toBe('_intro_\n\n- a\n\n* b\n\n_outro_')
         }
       )
     })
@@ -302,7 +303,7 @@ describe('preserveSourceCtx with an edited document', () => {
 
         expect(markdownOf(editor)).toBe('- a\n\n_b_')
         typeIn(editor, 1, '!')
-        expect(markdownOf(editor)).toBe('* A\n\n_B!_\n')
+        expect(markdownOf(editor)).toBe('- A\n\n_B!_\n')
       })
     })
 
@@ -318,7 +319,7 @@ describe('preserveSourceCtx with an edited document', () => {
           expect(markdownOf(editor)).toBe('- a\n\n_b_')
 
           typeIn(editor, 1, '!')
-          expect(markdownOf(editor)).toBe('* a\n\n_b!_\n')
+          expect(markdownOf(editor)).toBe('- a\n\n_b!_\n')
         },
         { plugins: [noPosition] }
       )
@@ -334,8 +335,10 @@ describe('preserveSourceCtx with an edited document', () => {
         typeIn(editor, 1, '!')
         expect(markdownOf(editor)).toBe('* a\n\n*b!*')
 
+        // The handler for lists is an extension and not one of these
+        // options, so the list still has its own marker.
         typeIn(editor, 0, '!')
-        expect(markdownOf(editor)).toBe('- a!\n\n*b!*\n')
+        expect(markdownOf(editor)).toBe('* a!\n\n*b!*\n')
       },
       { config: (ctx) => ctx.set(remarkStringifyOptionsCtx, { bullet: '-' }) }
     )
@@ -632,7 +635,7 @@ describe('preserveSourceCtx with an edited document', () => {
   describe('random edits', () => {
     const sources = [
       markdown,
-      '- a\n- b\n\n* c\n\n1. d\n2. e\n\n1) f\n\ntext\n\n+ g\n',
+      '- a\n- b\n\n* c\n\n1. d\n2. e\n\n1) f\n\ntext\n===\n\n+ g\n',
       '> quote\n\n```\ncode\n```\n\n    indented\n\n<div>html</div>\n\n---\n\n***\n',
       '[a][x] and [b][y]\n\n[x]: /x\n[y]: /y\n\n![img][x]\n\ntext[^1]\n\n[^1]: note\n',
       'a  \nb\n\n# c #\n\nd\n-\n\n| t |\n|---|\n| 1 |\n\n- [ ] task\n- [x] done\n',

@@ -10,7 +10,7 @@ import {
   $useKeymap,
 } from '@milkdown/utils'
 
-import { withMeta } from '../__internal__'
+import { isOrderedDelimiter, withMeta } from '../__internal__'
 
 /// HTML attributes for ordered list node.
 export const orderedListAttr = $nodeAttr('orderedList')
@@ -21,6 +21,11 @@ withMeta(orderedListAttr, {
 })
 
 /// Schema for ordered list node.
+///
+/// The `delimiter` attribute is the character after the number of each
+/// item in markdown: `.` or `)`. A list keeps the delimiter it was parsed
+/// with. A list with no delimiter is written with the `bulletOrdered`
+/// option of `remarkStringifyOptionsCtx`.
 export const orderedListSchema = $nodeSchema('ordered_list', (ctx) => ({
   content: 'listItem+',
   group: 'block',
@@ -33,6 +38,10 @@ export const orderedListSchema = $nodeSchema('ordered_list', (ctx) => ({
       default: false,
       validate: 'boolean',
     },
+    delimiter: {
+      default: null,
+      validate: 'string|null',
+    },
   },
   parseDOM: [
     {
@@ -40,11 +49,13 @@ export const orderedListSchema = $nodeSchema('ordered_list', (ctx) => ({
       getAttrs: (dom) => {
         if (!(dom instanceof HTMLElement)) throw expectDomTypeError(dom)
 
+        const { delimiter } = dom.dataset
         return {
           spread: dom.dataset.spread === 'true',
           order: dom.hasAttribute('start')
             ? Number(dom.getAttribute('start'))
             : 1,
+          delimiter: isOrderedDelimiter(delimiter) ? delimiter : null,
         }
       },
     },
@@ -55,6 +66,9 @@ export const orderedListSchema = $nodeSchema('ordered_list', (ctx) => ({
       ...ctx.get(orderedListAttr.key)(node),
       ...(node.attrs.order === 1 ? {} : { start: node.attrs.order }),
       'data-spread': node.attrs.spread,
+      ...(node.attrs.delimiter
+        ? { 'data-delimiter': node.attrs.delimiter }
+        : {}),
     },
     0,
   ],
@@ -62,8 +76,11 @@ export const orderedListSchema = $nodeSchema('ordered_list', (ctx) => ({
     match: ({ type, ordered }) => type === 'list' && !!ordered,
     runner: (state, node, type) => {
       const spread = node.spread ?? true
+      const delimiter = isOrderedDelimiter(node.delimiter)
+        ? node.delimiter
+        : null
       state
-        .openNode(type, { spread, order: node.start ?? 1 })
+        .openNode(type, { spread, order: node.start ?? 1, delimiter })
         .next(node.children)
         .closeNode()
     },
@@ -75,6 +92,7 @@ export const orderedListSchema = $nodeSchema('ordered_list', (ctx) => ({
         ordered: true,
         start: node.attrs.order ?? 1,
         spread: node.attrs.spread,
+        delimiter: node.attrs.delimiter,
       })
       state.next(node.content)
       state.closeNode()

@@ -53,5 +53,5 @@ test('should focus on the editor after clicking on the list item', async ({
   expect(isFocused).toBe(true)
 
   const markdown = await getMarkdown(page)
-  expect(markdown.trim()).toBe('* [x] First item')
+  expect(markdown.trim()).toBe('- [x] First item')
 })
